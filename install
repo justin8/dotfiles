@@ -3,10 +3,16 @@ DOTFILES=~/dotfiles
 PACMAN="zsh git"
 AUR="vim-solarized-git dircolors-solarized-git otf-droidsansmono-powerline-git"
 
-#Update aura
-sudo pacman -U install-files/aura*
+INST_AURA=`pacman -Q aura|grep -oE '[0-9]\.[0-9.]+(\-[0-9])?'`
+PAC_AURA=`ls $DOTFILES/install-files/aura*|grep -oE '[0-9]\.[0-9.]+(\-[0-9])?'`
+if [ "$INST_AURA" != "$PAC_AURA" ]; then
+	echo "Old/missing aura detected."
+	echo "Installing/updating aura"
+	sudo pacman -U install-files/aura*
+fi
 
-rsync -a --exclude=install --exclude=install-files --exclude=.git* $DOTFILES/.* ~/
+echo "Copying dotfiles"
+#rsync -a --exclude=install --exclude=install-files --exclude=.git* $DOTFILES/.* ~/
 if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1
 then
 	for package in $PACMAN
@@ -26,12 +32,14 @@ else
 	read
 fi
 
-#Clean up and upadte oh-my-zsh
+echo "Installing/updating oh-my-zsh"
 rm -rf ~/.oh-my-zsh
 cd ~
 tar zxf $DOTFILES/install-files/oh-my-zsh.tar.gz
 cd ~/.oh-my-zsh
-git reset --hard origin/master
-git pull
+git reset --hard origin/master > /dev/null 2>&1
+git pull > /dev/null 2>&1
 rm -rf ~/.git
+
+echo "Changing shell to ZSH"
 echo $SHELL|grep -q zsh || chsh -s /bin/zsh
