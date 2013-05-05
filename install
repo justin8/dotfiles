@@ -12,7 +12,7 @@ if [ "$INST_AURA" != "$PAC_AURA" ]; then
 fi
 
 echo "Copying dotfiles"
-#rsync -a --exclude=install --exclude=install-files --exclude=.git* $DOTFILES/.* ~/
+rsync -a --exclude=install --exclude=install-files --exclude=.git* $DOTFILES/.* ~/
 if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1
 then
 	for package in $PACMAN
