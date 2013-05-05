@@ -26,11 +26,11 @@ else
 	read
 fi
 
-#clean up and upadte oh-my-zsh
-mkdir -p ~/.oh-my-zsh
-cd ~/.oh-my-zsh
-rm -rf ~/.oh-my-zsh/*
+#Clean up and upadte oh-my-zsh
+rm -rf ~/.oh-my-zsh
+cd ~
 tar zxf $DOTFILES/install-files/oh-my-zsh.tar.gz
+cd ~/.oh-my-zsh
 git reset --hard origin/master
 git pull
-chsh -s /bin/zsh
+echo $SHELL|grep zsh || chsh -s /bin/zsh
