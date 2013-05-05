@@ -33,4 +33,4 @@ tar zxf $DOTFILES/install-files/oh-my-zsh.tar.gz
 cd ~/.oh-my-zsh
 git reset --hard origin/master
 git pull
-echo $SHELL|grep zsh || chsh -s /bin/zsh
+echo $SHELL|grep -q zsh || chsh -s /bin/zsh
