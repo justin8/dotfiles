@@ -52,4 +52,4 @@ set showmatch           " Show matching brackets.
 "  source /etc/vim/vimrc.local
 "endif
 
-colorscheme solarized
+"colorscheme solarized
