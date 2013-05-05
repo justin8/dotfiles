@@ -1,0 +1,36 @@
+#!/bin/bash
+DOTFILES=~/dotfiles
+PACMAN="zsh git"
+AUR="vim-solarized-git dircolors-solarized-git otf-droidsansmono-powerline-git"
+
+#Update aura
+sudo pacman -U install-files/aura*
+
+rsync -a --exclude=install.sh --exclude=install-files $DOTFILES/.* ~/
+if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1
+then
+	for package in $PACMAN
+	do
+		pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
+	done
+
+	for package in $AUR
+	do
+		pacman -Q $package > /dev/null 2>&1 || AURINST="$AURINST $package"
+	done
+	sudo pacman -S $PACINST
+	sudo aura -A $AURINST
+else
+	echo "You are not using Arch Linux; You may have to install zsh, git, vim-solarized and droidsansmono-powerline manually"
+	echo "Once you have; press enter to continue"
+	read
+fi
+
+#clean up and upadte oh-my-zsh
+mkdir -p ~/.oh-my-zsh
+cd ~/.oh-my-zsh
+rm -rf ~/.oh-my-zsh/*
+tar zxf $DOTFILES/install-files/oh-my-zsh.tar.gz
+git reset --hard origin/master
+git pull
+chsh -s /bin/zsh
