@@ -1,0 +1,7 @@
+[user]
+	email = justin@dray.be
+	name = Justin Dray
+[core]
+	editor = vim
+[credential]
+	helper = cache --timeout 3600
