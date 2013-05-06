@@ -5,20 +5,22 @@ AUR="vim-solarized-git dircolors-solarized-git"
 MACPORT="zsh git-core"
 LINUX=false
 
-INST_AURA=`pacman -Q aura|grep -oE '[0-9]\.[0-9.]+(\-[0-9])?'`
-PAC_AURA=`ls $DOTFILES/install-files/aura*|grep -oE '[0-9]\.[0-9.]+(\-[0-9])?'`
-if [ "$INST_AURA" != "$PAC_AURA" ]; then
-	echo "Old/missing aura detected."
-	echo "Installing/updating aura"
-	sudo pacman -U install-files/aura*
-fi
-
 echo "Copying dotfiles..."
 rsync -a --exclude=install --exclude=install-files --exclude=.git $DOTFILES/.* ~/
-#Check if running Arch Linux
+# Check if running Arch Linux
 echo "Verifying required packages are installed..."
 if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 	LINUX=true
+
+	# Check that aura is installed/up-to-date
+	INST_AURA=`pacman -Q aura|grep -oE '[0-9]\.[0-9.]+(\-[0-9])?'`
+	PAC_AURA=`ls $DOTFILES/install-files/aura*|grep -oE '[0-9]\.[0-9.]+(\-[0-9])?'`
+	if [ "$INST_AURA" != "$PAC_AURA" ]; then
+		echo "Old/missing aura detected."
+		echo "Installing/updating aura"
+		sudo pacman -U install-files/aura*
+	fi
+
 	for package in $PACMAN
 	do
 		pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
@@ -31,7 +33,7 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 	[[ $PACINST == "" ]] || sudo pacman -S $PACINST
 	[[ $AURINST == "" ]] || sudo aura -A $AURINST
 	
-#Check if running OS X
+# Check if running OS X
 elif uname -a|grep -qi darwin > /dev/null 2>&1; then
 	for package in $MACPORT
 	do
