@@ -2,6 +2,8 @@
 DOTFILES=~/dotfiles
 PACMAN="zsh git"
 AUR="vim-solarized-git dircolors-solarized-git"
+MACPORT="zsh git-core"
+LINUX=false
 
 INST_AURA=`pacman -Q aura|grep -oE '[0-9]\.[0-9.]+(\-[0-9])?'`
 PAC_AURA=`ls $DOTFILES/install-files/aura*|grep -oE '[0-9]\.[0-9.]+(\-[0-9])?'`
@@ -12,11 +14,11 @@ if [ "$INST_AURA" != "$PAC_AURA" ]; then
 fi
 
 echo "Copying dotfiles..."
-rsync -a --exclude=install --exclude=install-files --exclude=.git* $DOTFILES/.* ~/
-echo "Copying fonts..."
-sudo cp $DOTFILES/install-files/fonts/OTF/* /usr/share/fonts/OTF/
-if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1
-then
+rsync -a --exclude=install --exclude=install-files --exclude=.git $DOTFILES/.* ~/
+#Check if running Arch Linux
+echo "Verifying required packages are installed..."
+if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
+	LINUX=true
 	for package in $PACMAN
 	do
 		pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
@@ -28,10 +30,25 @@ then
 	done
 	[[ $PACINST == "" ]] || sudo pacman -S $PACINST
 	[[ $AURINST == "" ]] || sudo aura -A $AURINST
+	
+#Check if running OS X
+elif uname -a|grep -qi darwin > /dev/null 2>&1; then
+	for package in $MACPORT
+	do
+		port installed|grep $package > /dev/null 2>&1 || MPINST="$MPINST $package"
+	done
+	[[ $MPINST == "" ]] || sudo port install $MPINST
+	cp $DOTFILES/install-files/mac-gitconfig ~/.gitconfig
 else
 	echo "You are not using Arch Linux; You may have to install zsh, git, vim-solarized and droidsansmono-powerline manually"
 	echo "Once you have; press enter to continue"
 	read
+fi
+
+if [ "$LINUX" == "true" ]; then
+	cp $DOTFILES/install-files/arch-gitconfig ~/.gitconfig
+	echo "Copying fonts..."
+	sudo cp $DOTFILES/install-files/fonts/OTF/* /usr/share/fonts/OTF/
 fi
 
 echo "Installing/updating oh-my-zsh..."
@@ -44,4 +61,4 @@ git pull > /dev/null 2>&1
 rm -rf ~/.git
 
 echo "Changing shell to ZSH..."
-echo $SHELL|grep -q zsh || chsh -s /bin/zsh
+echo $SHELL|grep -q zsh || chsh -s `which zsh`
