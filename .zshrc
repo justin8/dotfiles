@@ -1,11 +1,19 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
+if [ -z "$SSH_TTY" ]; then
+	IHAVEPATCHEDFONTS=1
+fi
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="agnoster"
+if [ -z $IHAVEPATCHEDFONTS ]; then
+	ZSH_THEME="lukerandall"
+else
+	ZSH_THEME="agnoster"
+fi
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
