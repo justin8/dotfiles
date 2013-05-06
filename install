@@ -33,21 +33,22 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 	[[ $PACINST == "" ]] || sudo pacman -S $PACINST
 	[[ $AURINST == "" ]] || sudo aura -A $AURINST
 
+# Check for patched fonts config in sshd
 	if `grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" /etc/ssh/sshd_config`; then
-		echo "AcceptEnv already configured correctly"
+		echo "SSHD already configured correctly"
 	else
-		echo "AcceptEnv does not appear to be set correctly"
+		echo "SSHD does not appear to be configured correctly"
 		if `grep -q "AcceptEnv" /etc/ssh/sshd_config`; then
-			echo "AcceptEnv exists but is not correct; adding IHAVEPATCHEDFONTS..."
+			echo "AcceptEnv exists in SSHD config but is not correct; adding IHAVEPATCHEDFONTS..."
 			sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' /etc/ssh/sshd_config
 		else
-			echo "AcceptEnv does not exist in sshd_config... Adding with IHAVEPATCHEDFONTS"
+			echo "AcceptEnv does not exist in SSHD config, Adding it with IHAVEPATCHEDFONTS"
 			echo "AcceptEnv IHAVEPATCHEDFONTS" | sudo tee -a /etc/ssh/sshd_config
 		fi
 		echo "Restarting SSHD..."
 		sudo systemctl restart sshd
 	fi
-	
+
 # Check if running OS X
 elif uname -a|grep -qi darwin > /dev/null 2>&1; then
 	for package in $MACPORT
