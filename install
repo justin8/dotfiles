@@ -63,12 +63,18 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 
 	if [ -e /etc/sudoers ]; then
 		echo -n "Checking sudoers config... "
-		if `$sudo grep -q "^Defaults.*env_keep.*SSH_TTY" /etc/sudoers`; then
-			echo -e "[ \e[1;32mOK\e[00m ]"
-		else
-			echo -e "[\e[1;33mFixing\e[00m]"
+		rc=0
+		if ! `$sudo grep -q "^Defaults.*env_keep.*SSH_TTY" /etc/sudoers`; then
+			rc=1
 			echo -e 'Defaults\tenv_keep += "SSH_TTY"' | $sudo tee -a /etc/sudoers > /dev/null
 		fi
+
+		if ! `$sudo grep -q "^Defaults.*env_keep.*IHAVEPATCHEDFONTS" /etc/sudoers`; then
+			rc=1
+			echo -e 'Defaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee -a /etc/sudoers > /dev/null
+		fi
+		[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
+		[[ $rc != 0 ]] && echo -e "[\e[1;33mFixing\e[00m]"
 	fi
 
 # Check if running OS X
