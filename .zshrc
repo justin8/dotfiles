@@ -2,7 +2,7 @@
 ZSH=$HOME/.oh-my-zsh
 
 if [ -z "$SSH_TTY" ]; then
-	IHAVEPATCHEDFONTS=1
+	export IHAVEPATCHEDFONTS=1
 fi
 
 # Set name of the theme to load.
