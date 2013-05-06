@@ -1,0 +1,42 @@
+[user]
+	name = Justin Dray
+	email = justin.dray@wotifgroup.com
+[core]
+	excludesfile = /Users/jdray/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+    #cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[difftool "diffmerge"]
+	cmd = diffmerge -nosplash \"$LOCAL\" \"$REMOTE\"
+	trustExitCode = true
+[mergetool "diffmerge"]
+    cmd = diffmerge -m -nosplash -r=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+[difftool]
+	prompt = false
+
+[diff]
+	tool = sourcetree
+[merge]
+    tool = sourcetree
+
+[color]
+    ui = auto
+[alias]
+    st = status
+    br = branch -av
+    co = checkout
+    ci = commit
+    ca = commit -a
+    lg = log --date=local
+    lgn = log --date=local --name-only
+    amend = commit --amend
+    unstage = reset HEAD
+    glog = log --graph --pretty=format:\"%Cred%h%Creset — %s %Cblue%an%Creset %Cgreen(%cr)%Creset\"
+
+[push]
+    default = current
+
