@@ -44,7 +44,6 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 	[[ $PACINST == "" ]] || $sudo pacman -S $PACINST
 	[[ $AURINST == "" ]] || $sudo aura -A $AURINST
 
-	# Check for patched fonts config in sshd
 	echo -n "Checking SSHD config... "
 	if `grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" /etc/ssh/sshd_config`; then
 		echo -e "[ \e[1;32mOK\e[00m ]"
@@ -62,7 +61,6 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 		[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
 	fi
 
-	# Check for SSH_TTY config in sudoers
 	if [ -e /etc/sudoers ]; then
 		echo -n "Checking sudoers config... "
 		if `$sudo grep -q "^Defaults.*env_keep.*SSH_TTY" /etc/sudoers`; then
@@ -91,6 +89,7 @@ fi
 if [ "$LINUX" == "true" ]; then
 	cp $DOTFILES/install-files/arch-gitconfig ~/.gitconfig
 	echo -n "Copying fonts... "
+	$sudo mkdir -p /usr/share/fonts/OTF
 	$sudo cp $DOTFILES/install-files/fonts/OTF/* /usr/share/fonts/OTF/
 	rc=$?
 	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
