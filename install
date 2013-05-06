@@ -43,12 +43,21 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 			sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' /etc/ssh/sshd_config
 		else
 			echo "AcceptEnv does not exist in SSHD config, Adding it with IHAVEPATCHEDFONTS"
-			echo "AcceptEnv IHAVEPATCHEDFONTS" | sudo tee -a /etc/ssh/sshd_config
+			echo "AcceptEnv IHAVEPATCHEDFONTS" | sudo tee -a /etc/ssh/sshd_config > /dev/null
 		fi
 		echo "Restarting SSHD..."
 		sudo systemctl restart sshd
 	fi
 
+# Check for SSH_TTY config in sudoers
+	if `sudo grep -q "^Defaults.*env_keep.*SSH_TTY" /etc/sudoers`; then
+		echo "Sudoers already configured"
+	else
+		echo "Sudoers doesnot appear to be configured correctly."
+		echo 'Adding Defaults env_keep += "SSH_TTY"'
+		echo -e 'Defaults\tenv_keep += "SSH_TTY"' | sudo tee -a /etc/sudoers > /dev/null
+	fi
+	
 # Check if running OS X
 elif uname -a|grep -qi darwin > /dev/null 2>&1; then
 	for package in $MACPORT
