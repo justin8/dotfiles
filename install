@@ -33,13 +33,13 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 	[[ $PACINST == "" ]] || sudo pacman -S $PACINST
 	[[ $AURINST == "" ]] || sudo aura -A $AURINST
 
-	if `grep "AcceptEnv.*IHAVEPATCHEDFONTS" /etc/ssh/sshd_config`; then
+	if `grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" /etc/ssh/sshd_config`; then
 		echo "AcceptEnv already configured correctly"
 	else
 		echo "AcceptEnv does not appear to be set correctly"
-		if `grep "AcceptEnv" /etc/ssh/sshd_config`; then
+		if `grep -q "AcceptEnv" /etc/ssh/sshd_config`; then
 			echo "AcceptEnv exists but is not correct; adding IHAVEPATCHEDFONTS..."
-			sudo sed -i '/^AcceptEnv/ s/$/IHAVEPATCHEDFONTS/' /etc/ssh/sshd_config
+			sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' /etc/ssh/sshd_config
 		else
 			echo "AcceptEnv does not exist in sshd_config... Adding with IHAVEPATCHEDFONTS"
 			echo "AcceptEnv IHAVEPATCHEDFONTS" | sudo tee -a /etc/ssh/sshd_config
