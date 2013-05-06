@@ -5,9 +5,9 @@ AUR="vim-solarized-git dircolors-solarized-git"
 MACPORT="zsh git-core"
 LINUX=false
 
-if `which sudo > /dev/null`;then
+if `which sudo > /dev/null`; then
 	sudo=sudo
-elif [[ $UID != 0 ]]
+elif [[ $UID != 0 ]]; then
 	echo "This script requires either sudo or root"
 	exit 1
 fi
