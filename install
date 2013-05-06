@@ -5,11 +5,18 @@ AUR="vim-solarized-git dircolors-solarized-git"
 MACPORT="zsh git-core"
 LINUX=false
 
+if `which sudo > /dev/null`;then
+	sudo=sudo
+elif [[ $UID != 0 ]]
+	echo "This script requires either sudo or root"
+	exit 1
+fi
+
 echo -n "Copying dotfiles... "
 rsync -a --exclude=install --exclude=install-files --exclude=.git $DOTFILES/.* ~/
 rc=$?
 [[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e00m]"
+[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
 
 # Check if running Arch Linux
 echo "Verifying required packages are installed..."
@@ -22,7 +29,7 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 	if [ "$INST_AURA" != "$PAC_AURA" ]; then
 		echo "Old/missing aura detected."
 		echo "Installing/updating aura"
-		sudo pacman -U install-files/aura*
+		$sudo pacman -U install-files/aura*
 	fi
 
 	for package in $PACMAN
@@ -34,8 +41,8 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 	do
 		pacman -Q $package > /dev/null 2>&1 || AURINST="$AURINST $package"
 	done
-	[[ $PACINST == "" ]] || sudo pacman -S $PACINST
-	[[ $AURINST == "" ]] || sudo aura -A $AURINST
+	[[ $PACINST == "" ]] || $sudo pacman -S $PACINST
+	[[ $AURINST == "" ]] || $sudo aura -A $AURINST
 
 	# Check for patched fonts config in sshd
 	echo -n "Checking SSHD config... "
@@ -44,26 +51,28 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 	else
 		echo -e "[\e[1;33mFixing\e[00m]"
 		if `grep -q "AcceptEnv" /etc/ssh/sshd_config`; then
-			sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' /etc/ssh/sshd_config
+			$sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' /etc/ssh/sshd_config
 		else
-			echo "AcceptEnv IHAVEPATCHEDFONTS" | sudo tee -a /etc/ssh/sshd_config > /dev/null
+			echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a /etc/ssh/sshd_config > /dev/null
 		fi
 		echo -n "Restarting SSHD... "
-		sudo systemctl restart sshd
+		$sudo systemctl restart sshd
 		rc=$?
 		[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-		[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e00m]"
+		[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
 	fi
 
 	# Check for SSH_TTY config in sudoers
-	echo -n "Checking sudoers config... "
-	if `sudo grep -q "^Defaults.*env_keep.*SSH_TTY" /etc/sudoers`; then
-		echo -e "[ \e[1;32mOK\e[00m ]"
-	else
-		echo -e "[\e[1;33mFixing\e[00m]"
-		echo -e 'Defaults\tenv_keep += "SSH_TTY"' | sudo tee -a /etc/sudoers > /dev/null
+	if [ -e /etc/sudoers ]; then
+		echo -n "Checking sudoers config... "
+		if `$sudo grep -q "^Defaults.*env_keep.*SSH_TTY" /etc/sudoers`; then
+			echo -e "[ \e[1;32mOK\e[00m ]"
+		else
+			echo -e "[\e[1;33mFixing\e[00m]"
+			echo -e 'Defaults\tenv_keep += "SSH_TTY"' | $sudo tee -a /etc/sudoers > /dev/null
+		fi
 	fi
-	
+
 # Check if running OS X
 elif uname -a|grep -qi darwin > /dev/null 2>&1; then
 	for package in $MACPORT
@@ -82,10 +91,10 @@ fi
 if [ "$LINUX" == "true" ]; then
 	cp $DOTFILES/install-files/arch-gitconfig ~/.gitconfig
 	echo -n "Copying fonts... "
-	sudo cp $DOTFILES/install-files/fonts/OTF/* /usr/share/fonts/OTF/
+	$sudo cp $DOTFILES/install-files/fonts/OTF/* /usr/share/fonts/OTF/
 	rc=$?
 	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-	[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e00m]"
+	[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
 fi
 
 echo -n "Installing/updating oh-my-zsh... "
@@ -97,7 +106,7 @@ git reset --hard origin/master > /dev/null 2>&1
 git pull > /dev/null 2>&1
 rc=$?
 [[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e00m]"
+[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
 
 echo "Changing shell to ZSH..."
 echo $SHELL|grep -q zsh || chsh -s `which zsh`
