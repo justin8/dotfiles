@@ -84,7 +84,6 @@ elif uname -a|grep -qi darwin > /dev/null 2>&1; then
 		brew list|grep $package > /dev/null 2>&1 || BREWINST="$BREWINST $package"
 	done
 	[[ $BREWINST == "" ]] || brew install $BREWINST
-	cp $DOTFILES/install-files/mac/.* ~ > /dev/null 2>&1
 	echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
 	echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
 else
@@ -95,7 +94,7 @@ fi
 
 if [ "$LINUX" == "true" ]; then
 	echo -n "Copying linux specific files... "
-	cp $DOTFILES/install-files/linux/.* ~ > /dev/null 2>&1
+	rsync -a $DOTFILES/install-files/linux/.* ~ > /dev/null 2>&1
 	rc=$?
 	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
 	[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
@@ -114,6 +113,8 @@ if [ "$LINUX" == "true" ]; then
 	[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
 else
 	# Presumably OS X
+	echo -n "Copying OS X specific files... "
+	rsync -a $DOTFILES/install-files/mac/.* ~ > /dev/null 2>&1
 	echo "export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/X11/bin" >> ~/.zshrc
 fi
 
