@@ -20,7 +20,7 @@ elif [[ $UID != 0 ]]; then
 fi
 
 echo -n "Copying dotfiles... "
-rsync -a --exclude=install --exclude=install-files --exclude=.git $DOTFILES/.* ~/
+rsync -a --exclude=install --exclude=install-files --exclude=.git $DOTFILES/ ~/
 check $?
 touch ~/.zshrc-addon > /dev/null
 
