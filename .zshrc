@@ -51,8 +51,9 @@ fi
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
-
+source ~/.zshrc-addon
 # Aliases
 alias vi=vim
 
 # Path
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl:$PATH
