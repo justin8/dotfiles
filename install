@@ -22,6 +22,7 @@ fi
 echo -n "Copying dotfiles... "
 rsync -a --exclude=install --exclude=install-files --exclude=.git $DOTFILES/.* ~/
 check $?
+touch ~/.zshrc-addon > /dev/null
 
 # Check if running Arch Linux
 echo "Verifying required packages are installed."
