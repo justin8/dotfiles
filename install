@@ -44,6 +44,36 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 	[[ $PACINST == "" ]] || $sudo pacman -S $PACINST
 	[[ $AURINST == "" ]] || $sudo aura -A $AURINST
 
+# Check if running OS X
+elif uname -a|grep -qi darwin > /dev/null 2>&1; then
+	for package in $MACPORT
+	do
+		port installed|grep $package > /dev/null 2>&1 || MPINST="$MPINST $package"
+	done
+	[[ $MPINST == "" ]] || sudo port install $MPINST
+	cp $DOTFILES/install-files/mac/.* ~ > /dev/null 2>&1
+	echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
+	echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
+else
+	echo "You are not using Arch Linux; You may have to install zsh and git"
+	echo "Once you have; press enter to continue"
+	read
+fi
+
+if [ "$LINUX" == "true" ]; then
+	echo -n "Copying linux specific files... "
+	cp $DOTFILES/install-files/linux/.* ~ > /dev/null 2>&1
+	rc=$?
+	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
+	[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
+
+	echo -n "Copying fonts... "
+	$sudo mkdir -p /usr/share/fonts/OTF
+	$sudo cp $DOTFILES/install-files/fonts/OTF/* /usr/share/fonts/OTF/
+	rc=$?
+	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
+	[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
+
 	echo -n "Checking SSHD config... "
 	if `grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" /etc/ssh/sshd_config`; then
 		echo -e "[ \e[1;32mOK\e[00m ]"
@@ -76,36 +106,6 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 		[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
 		[[ $rc != 0 ]] && echo -e "[\e[1;33mFixing\e[00m]"
 	fi
-
-# Check if running OS X
-elif uname -a|grep -qi darwin > /dev/null 2>&1; then
-	for package in $MACPORT
-	do
-		port installed|grep $package > /dev/null 2>&1 || MPINST="$MPINST $package"
-	done
-	[[ $MPINST == "" ]] || sudo port install $MPINST
-	cp $DOTFILES/install-files/mac/.* ~ > /dev/null 2>&1
-	echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
-	echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
-else
-	echo "You are not using Arch Linux; You may have to install zsh, git, vim-solarized and droidsansmono-powerline manually"
-	echo "Once you have; press enter to continue"
-	read
-fi
-
-if [ "$LINUX" == "true" ]; then
-	echo -n "Copying linux specific files... "
-	cp $DOTFILES/install-files/linux/.* ~ > /dev/null 2>&1
-	rc=$?
-	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-	[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
-
-	echo -n "Copying fonts... "
-	$sudo mkdir -p /usr/share/fonts/OTF
-	$sudo cp $DOTFILES/install-files/fonts/OTF/* /usr/share/fonts/OTF/
-	rc=$?
-	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-	[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
 
 	echo -n "Setting PATH... "
 	echo "export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl" >> ~/.zshrc
