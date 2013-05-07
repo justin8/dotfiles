@@ -103,15 +103,10 @@ if [ "$LINUX" == "true" ]; then
 	$sudo mkdir -p /usr/share/fonts/OTF
 	$sudo cp $DOTFILES/install-files/fonts/OTF/* /usr/share/fonts/OTF/
 	check $?
-
-	echo -n "Setting PATH... "
-	echo "export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl" >> ~/.zshrc
-	check $?
 else
 	# Presumably OS X
 	echo -n "Copying OS X specific files... "
 	rsync -a $DOTFILES/install-files/mac/.* ~ > /dev/null 2>&1
-	echo "export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/X11/bin" >> ~/.zshrc
 fi
 
 echo -n "Installing/updating oh-my-zsh... "
