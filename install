@@ -12,8 +12,9 @@ elif [[ $UID != 0 ]]; then
 	exit 1
 fi
 
+echo $DOTFILES
 echo -n "Copying dotfiles... "
-rsync -a --exclude=install --exclude=install-files --exclude=.git $DOTFILES/.* ~/
+rsync -av --exclude=install --exclude=install-files --exclude=.git $DOTFILES/.* ~/
 rc=$?
 [[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
 [[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
@@ -84,7 +85,7 @@ elif uname -a|grep -qi darwin > /dev/null 2>&1; then
 		port installed|grep $package > /dev/null 2>&1 || MPINST="$MPINST $package"
 	done
 	[[ $MPINST == "" ]] || sudo port install $MPINST
-	cp $DOTFILES/install-files/mac/.* ~
+	cp $DOTFILES/install-files/mac/.* ~ > /dev/null 2>&1
 	echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
 	echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
 else
@@ -95,7 +96,7 @@ fi
 
 if [ "$LINUX" == "true" ]; then
 	echo -n "Copying linux specific files... "
-	cp $DOTFILES/install-files/linux/.* ~
+	cp $DOTFILES/install-files/linux/.* ~ > /dev/null 2>&1
 	rc=$?
 	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
 	[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
