@@ -2,7 +2,7 @@
 DOTFILES=~/dotfiles
 PACMAN="zsh git"
 AUR="dircolors-solarized-git"
-MACPORT="zsh git-core"
+MACBREW="zsh zsh-completion git"
 LINUX="false"
 
 if `which sudo > /dev/null 2>&1`; then
@@ -79,16 +79,16 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 
 # Check if running OS X
 elif uname -a|grep -qi darwin > /dev/null 2>&1; then
-	for package in $MACPORT
+	for package in $MACBREW
 	do
-		port installed|grep $package > /dev/null 2>&1 || MPINST="$MPINST $package"
+		brew list|grep $package > /dev/null 2>&1 || BREWINST="$BREWINST $package"
 	done
-	[[ $MPINST == "" ]] || sudo port install $MPINST
+	[[ $BREWINST == "" ]] || brew install $BREWINST
 	cp $DOTFILES/install-files/mac/.* ~ > /dev/null 2>&1
 	echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
 	echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
 else
-	echo "You are not using Arch Linux; You may have to install zsh, git, vim-solarized and droidsansmono-powerline manually"
+	echo "You are not using Arch Linux; You may have to install some of the following manually: $PACMAN $AUR"
 	echo "Once you have; press enter to continue"
 	read
 fi
