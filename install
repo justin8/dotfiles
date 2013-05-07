@@ -86,6 +86,7 @@ elif uname -a|grep -qi darwin > /dev/null 2>&1; then
 	[[ $MPINST == "" ]] || sudo port install $MPINST
 	cp $DOTFILES/install-files/mac-gitconfig ~/.gitconfig
 	echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
+	echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
 else
 	echo "You are not using Arch Linux; You may have to install zsh, git, vim-solarized and droidsansmono-powerline manually"
 	echo "Once you have; press enter to continue"
