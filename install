@@ -24,7 +24,7 @@ rsync -a --exclude=install --exclude=install-files --exclude=.git $DOTFILES/.* ~
 check $?
 
 # Check if running Arch Linux
-echo "Verifying required packages are installed..."
+echo "Verifying required packages are installed."
 if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 	LINUX="true"
 
@@ -107,6 +107,7 @@ else
 	# Presumably OS X
 	echo -n "Copying OS X specific files... "
 	rsync -a $DOTFILES/install-files/mac/.* ~ > /dev/null 2>&1
+	check $?
 fi
 
 echo -n "Installing/updating oh-my-zsh... "
@@ -118,5 +119,5 @@ git reset --hard origin/master > /dev/null 2>&1
 git pull > /dev/null 2>&1
 check $?
 
-echo "Changing shell to ZSH..."
+echo "Changing shell to ZSH."
 echo $SHELL|grep -q zsh || chsh -s `which zsh`
