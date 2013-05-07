@@ -12,9 +12,8 @@ elif [[ $UID != 0 ]]; then
 	exit 1
 fi
 
-echo $DOTFILES
 echo -n "Copying dotfiles... "
-rsync -av --exclude=install --exclude=install-files --exclude=.git $DOTFILES/.* ~/
+rsync -a --exclude=install --exclude=install-files --exclude=.git $DOTFILES/.* ~/
 rc=$?
 [[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
 [[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
