@@ -5,6 +5,13 @@ AUR="dircolors-solarized-git"
 MACBREW="zsh zsh-completion git"
 LINUX="false"
 
+function check {
+	rc=$1
+	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
+	[[ $rc == 1 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
+	[[ $rc == 2 ]] && echo -e "[\e[1;33mFixing\e[00m]"
+}
+
 if `which sudo > /dev/null 2>&1`; then
 	sudo=sudo
 elif [[ $UID != 0 ]]; then
@@ -14,9 +21,7 @@ fi
 
 echo -n "Copying dotfiles... "
 rsync -a --exclude=install --exclude=install-files --exclude=.git $DOTFILES/.* ~/
-rc=$?
-[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
+check $?
 
 # Check if running Arch Linux
 echo "Verifying required packages are installed..."
@@ -56,25 +61,22 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 		fi
 		echo -n "Restarting SSHD... "
 		$sudo systemctl restart sshd
-		rc=$?
-		[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-		[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
+		check $?
 	fi
 
 	if [ -e /etc/sudoers ]; then
 		echo -n "Checking sudoers config... "
-		rc=0
+		ret=0
 		if ! `$sudo grep -q "^Defaults.*env_keep.*SSH_TTY" /etc/sudoers`; then
-			rc=1
+			ret=2
 			echo -e 'Defaults\tenv_keep += "SSH_TTY"' | $sudo tee -a /etc/sudoers > /dev/null
 		fi
 
 		if ! `$sudo grep -q "^Defaults.*env_keep.*IHAVEPATCHEDFONTS" /etc/sudoers`; then
-			rc=1
+			ret=2
 			echo -e 'Defaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee -a /etc/sudoers > /dev/null
 		fi
-		[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-		[[ $rc != 0 ]] && echo -e "[\e[1;33mFixing\e[00m]"
+		check $ret
 	fi
 
 # Check if running OS X
@@ -95,22 +97,16 @@ fi
 if [ "$LINUX" == "true" ]; then
 	echo -n "Copying linux specific files... "
 	rsync -a $DOTFILES/install-files/linux/.* ~ > /dev/null 2>&1
-	rc=$?
-	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-	[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
+	check $?
 
 	echo -n "Copying fonts... "
 	$sudo mkdir -p /usr/share/fonts/OTF
 	$sudo cp $DOTFILES/install-files/fonts/OTF/* /usr/share/fonts/OTF/
-	rc=$?
-	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-	[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
+	check $?
 
 	echo -n "Setting PATH... "
 	echo "export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl" >> ~/.zshrc
-	rc=$?
-	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-	[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
+	check $?
 else
 	# Presumably OS X
 	echo -n "Copying OS X specific files... "
@@ -125,9 +121,7 @@ tar zxf $DOTFILES/install-files/oh-my-zsh.tar.gz
 cd ~/.oh-my-zsh
 git reset --hard origin/master > /dev/null 2>&1
 git pull > /dev/null 2>&1
-rc=$?
-[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-[[ $rc != 0 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
+check $?
 
 echo "Changing shell to ZSH..."
 echo $SHELL|grep -q zsh || chsh -s `which zsh`
