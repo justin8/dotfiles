@@ -1,7 +1,7 @@
 #!/bin/bash
 DOTFILES=~/dotfiles
 PACMAN="zsh git"
-AUR="vim-solarized-git dircolors-solarized-git"
+AUR="dircolors-solarized-git"
 MACPORT="zsh git-core"
 LINUX="false"
 
