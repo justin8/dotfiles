@@ -97,7 +97,7 @@ fi
 
 if [ "$LINUX" == "true" ]; then
 	echo -n "Copying linux specific files... "
-	rsync -a $DOTFILES/install-files/linux/.* ~ > /dev/null 2>&1
+	rsync -a $DOTFILES/install-files/linux/ ~ > /dev/null 2>&1
 	check $?
 
 	echo -n "Copying fonts... "
@@ -107,7 +107,7 @@ if [ "$LINUX" == "true" ]; then
 else
 	# Presumably OS X
 	echo -n "Copying OS X specific files... "
-	rsync -a $DOTFILES/install-files/mac/.* ~ > /dev/null 2>&1
+	rsync -a $DOTFILES/install-files/mac/ ~ > /dev/null 2>&1
 	check $?
 fi
 
