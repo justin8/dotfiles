@@ -1,9 +1,9 @@
 #!/bin/bash
-DOTFILES=~/dotfiles
 PACMAN="zsh git"
 AUR="dircolors-solarized-git"
 MACBREW="zsh zsh-completion git"
 LINUX="false"
+DOTFILES=`dirname $(readlink -f "${0}}")`
 
 function check {
 	rc=$1
