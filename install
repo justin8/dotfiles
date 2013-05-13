@@ -1,9 +1,9 @@
 #!/bin/bash
-DOTFILES=~/dotfiles
 PACMAN="zsh git"
 AUR="dircolors-solarized-git"
 MACBREW="zsh zsh-completion git"
 LINUX="false"
+DOTFILES=`dirname $(readlink -f "${0}}")`
 
 function check {
 	rc=$1
@@ -18,11 +18,6 @@ elif [[ $UID != 0 ]]; then
 	echo "This script requires either sudo or root"
 	exit 1
 fi
-
-echo -n "Copying dotfiles... "
-rsync -a --exclude=install --exclude=install-files --exclude=.git $DOTFILES/ ~/
-check $?
-touch ~/.zshrc-addon > /dev/null
 
 # Check if running Arch Linux
 echo "Verifying required packages are installed."
@@ -48,7 +43,7 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 		pacman -Q $package > /dev/null 2>&1 || AURINST="$AURINST $package"
 	done
 	[[ $PACINST == "" ]] || $sudo pacman -S $PACINST
-	[[ $AURINST == "" ]] || $sudo aura -A $AURINST
+	[[ $AURINST == "" ]] || $sudo aura -A --build=/tmp $AURINST
 
 	echo -n "Checking SSHD config... "
 	if `grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" /etc/ssh/sshd_config`; then
@@ -110,6 +105,11 @@ else
 	rsync -a $DOTFILES/install-files/mac/ ~ > /dev/null 2>&1
 	check $?
 fi
+
+echo -n "Copying dotfiles... "
+rsync -a --exclude=install --exclude=install-files --exclude=.git $DOTFILES/ ~/
+check $?
+touch ~/.zshrc-addon > /dev/null
 
 echo -n "Installing/updating oh-my-zsh... "
 rm -rf ~/.oh-my-zsh
