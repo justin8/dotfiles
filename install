@@ -1,15 +1,49 @@
 #!/bin/bash
 PACMAN="zsh git"
 AUR="dircolors-solarized-git"
-MACBREW="zsh zsh-completion git"
-LINUX="false"
-DOTFILES=`dirname $(readlink -f "${0}}")`
+MACBREW="zsh zsh-completion git gnu-sed"
+DOTFILES=`cd $(dirname ${0});pwd`
+sshd_config="/etc/ssh/sshd_config"
+sudoers="/etc/sudoers"
+sed=sed
+
+# OS Detection / OS Specific variables
+if [ -f /etc/os-release ]
+then
+	RELEASE=`grep "^NAME=" /etc/os-release`
+#	DOTFILES=`dirname $(readlink -f "${0}}")`
+elif uname -a|grep -qi darwin > /dev/null 2>&1
+then
+	RELEASE="Darwin"
+	sshd_config="/etc/sshd_config"
+	sed=gsed
+#	DOTFILES=`cd $(dirname ${0});pwd`
+else
+	RELEASE="false"
+	echo "Unable to detect OS correctly, assuming some sort of Linux..."
+fi
+
+if [ "x$DOTFILES" == "x" ]
+then
+	echo "An error has occured while determining the current path. Exiting."
+	exit 1
+fi
 
 function check {
 	rc=$1
 	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
 	[[ $rc == 1 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
 	[[ $rc == 2 ]] && echo -e "[\e[1;33mFixing\e[00m]"
+}
+
+function autorestart {
+	if `which systemctl > /dev/null 2>&1`; then
+		systemctl restart $1
+	elif `which service > /dev/null 2>&1`; then
+		service $1 restart
+	fi
+	# Need to detect/restart service on OS X
+	# Need to let user know if SSHD needs restarting manually
 }
 
 if `which sudo > /dev/null 2>&1`; then
@@ -21,9 +55,8 @@ fi
 
 # Check if running Arch Linux
 echo "Verifying required packages are installed."
-if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
-	LINUX="true"
-
+if `echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1`; then
+	echo "OS appears to be Arch Linux..."
 	# Check that aura is installed/up-to-date
 	INST_AURA=`pacman -Q aura 2>&1|grep -oE '[0-9]\.[0-9.]+(\-[0-9])?'`
 	PAC_AURA=`ls $DOTFILES/install-files/aura*|grep -oE '[0-9]\.[0-9.]+(\-[0-9])?'`
@@ -45,38 +78,9 @@ if grep -vq "Arch Linux" /etc/os-release > /dev/null 2>&1; then
 	[[ $PACINST == "" ]] || $sudo pacman -S $PACINST
 	[[ $AURINST == "" ]] || $sudo aura -A --build=/tmp $AURINST
 
-	echo -n "Checking SSHD config... "
-	if `grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" /etc/ssh/sshd_config`; then
-		echo -e "[ \e[1;32mOK\e[00m ]"
-	else
-		echo -e "[\e[1;33mFixing\e[00m]"
-		if `grep -q "AcceptEnv" /etc/ssh/sshd_config`; then
-			$sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' /etc/ssh/sshd_config
-		else
-			echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a /etc/ssh/sshd_config > /dev/null
-		fi
-		echo -n "Restarting SSHD... "
-		$sudo systemctl restart sshd
-		check $?
-	fi
-
-	if [ -e /etc/sudoers ]; then
-		echo -n "Checking sudoers config... "
-		ret=0
-		if ! `$sudo grep -q "^Defaults.*env_keep.*SSH_TTY" /etc/sudoers`; then
-			ret=2
-			echo -e 'Defaults\tenv_keep += "SSH_TTY"' | $sudo tee -a /etc/sudoers > /dev/null
-		fi
-
-		if ! `$sudo grep -q "^Defaults.*env_keep.*IHAVEPATCHEDFONTS" /etc/sudoers`; then
-			ret=2
-			echo -e 'Defaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee -a /etc/sudoers > /dev/null
-		fi
-		check $ret
-	fi
-
 # Check if running OS X
-elif uname -a|grep -qi darwin > /dev/null 2>&1; then
+elif `echo $RELEASE|grep -qi darwin > /dev/null 2>&1`; then
+	echo "OS appears to be Mac OS X..."
 	for package in $MACBREW
 	do
 		brew list|grep $package > /dev/null 2>&1 || BREWINST="$BREWINST $package"
@@ -90,7 +94,11 @@ else
 	read
 fi
 
-if [ "$LINUX" == "true" ]; then
+if [ "$RELEASE" == "Darwin" ]; then
+	echo -n "Copying OS X specific files... "
+	rsync -a $DOTFILES/install-files/mac/ ~ > /dev/null 2>&1
+	check $?
+else
 	echo -n "Copying linux specific files... "
 	rsync -a $DOTFILES/install-files/linux/ ~ > /dev/null 2>&1
 	check $?
@@ -99,12 +107,38 @@ if [ "$LINUX" == "true" ]; then
 	$sudo mkdir -p /usr/share/fonts/OTF
 	$sudo cp $DOTFILES/install-files/fonts/OTF/* /usr/share/fonts/OTF/
 	check $?
+fi
+
+echo -n "Checking SSHD config... "
+if `grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config`; then
+	echo -e "[ \e[1;32mOK\e[00m ]"
 else
-	# Presumably OS X
-	echo -n "Copying OS X specific files... "
-	rsync -a $DOTFILES/install-files/mac/ ~ > /dev/null 2>&1
+	echo -e "[\e[1;33mFixing\e[00m]"
+	if `grep -q "AcceptEnv" $sshd_config`; then
+		$sudo $sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
+	else
+		echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config > /dev/null
+	fi
+	echo -n "Restarting SSHD... "
+	autorestart sshd
 	check $?
 fi
+
+if [ -e $sudoers ]; then
+	echo -n "Checking sudoers config... "
+	ret=0
+	if ! `$sudo grep -q "^Defaults.*env_keep.*SSH_TTY" $sudoers`; then
+		ret=2
+		echo -e 'Defaults\tenv_keep += "SSH_TTY"' | $sudo tee -a $sudoers > /dev/null
+	fi
+
+	if ! `$sudo grep -q "^Defaults.*env_keep.*IHAVEPATCHEDFONTS" $sudoers`; then
+		ret=2
+		echo -e 'Defaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee -a $sudoers > /dev/null
+	fi
+	check $ret
+fi
+
 
 echo -n "Copying dotfiles... "
 rsync -a --exclude=install --exclude=install-files --exclude=optional --exclude=.git $DOTFILES/ ~/
