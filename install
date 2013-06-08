@@ -38,9 +38,9 @@ function check {
 
 function autorestart {
 	if `which systemctl > /dev/null 2>&1`; then
-		systemctl restart $1
+		$sudo systemctl restart $1
 	elif `which service > /dev/null 2>&1`; then
-		service $1 restart
+		$sudo service $1 restart
 	fi
 	# Need to detect/restart service on OS X
 	# Need to let user know if SSHD needs restarting manually
