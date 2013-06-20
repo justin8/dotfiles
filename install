@@ -75,7 +75,7 @@ if `echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1`; then
 	do
 		pacman -Q $package > /dev/null 2>&1 || AURINST="$AURINST $package"
 	done
-	[[ $PACINST == "" ]] || $sudo pacman -S $PACINST
+	[[ $PACINST == "" ]] || $sudo pacman -S --noconfirm $PACINST
 	[[ $AURINST == "" ]] || $sudo aura -A --build=/tmp $AURINST
 
 # Check if running OS X
