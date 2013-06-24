@@ -141,7 +141,7 @@ fi
 
 
 echo -n "Copying dotfiles... "
-rsync -a --exclude=install --exclude=install-files --exclude=optional --exclude=.git $DOTFILES/ ~/
+rsync -a $DOTFILES/install-files/global/ ~/
 check $?
 touch ~/.zshrc-addon > /dev/null
 
