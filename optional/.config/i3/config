@@ -155,5 +155,7 @@ bindsym $mod+Prior exec mpc prev
 bindsym $mod+Next exec mpc next
 bindsym $mod+Home exec mpc toggle
 
-exec parcellite
-exec synergy
+exec --no-startup-id parcellite
+exec --no-startup-id synergy
+exec --no-startup-id nitrogen --restore
+
