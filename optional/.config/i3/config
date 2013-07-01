@@ -175,9 +175,10 @@ assign [class="VirtualBox"] "10: VMs"
 	exec --no-startup-id virtualbox
 
 	#Background Tasks:
-	exec --no-startup-id clipit
+	exec --no-startup-id clipit --daemon
 	exec --no-startup-id synergy
 	exec --no-startup-id nitrogen --restore
+	exec --no-startup-id thunar --daemon
 
 #Custom bindings
 #MPD:
