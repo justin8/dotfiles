@@ -13,12 +13,13 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
-font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+#font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
 # clear in small sizes. However, if you need a lot of unicode glyphs or
 # right-to-left text rendering, you should instead use pango for rendering and
 # chose a FreeType font, such as:
 # font pango:DejaVu Sans Mono 10
+font pango:Terminus 8
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -83,20 +84,24 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # switch to workspace
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
+bindsym $mod+1 workspace "1: Browser"
+workspace "1: Browser" output DVI-I-2
+bindsym $mod+2 workspace "2: IM"
+workspace "2: IM" output DVI-I-2
 bindsym $mod+3 workspace 3
+workspace 3 output DVI-I-1
 bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
 bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+bindsym $mod+0 workspace "10: VMs"
+workspace "10: VMs" output DVI-I-1
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+1 move container to workspace "1: Browser"
+bindsym $mod+Shift+2 move container to workspace "2: IM"
 bindsym $mod+Shift+3 move container to workspace 3
 bindsym $mod+Shift+4 move container to workspace 4
 bindsym $mod+Shift+5 move container to workspace 5
@@ -104,7 +109,7 @@ bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+0 move container to workspace "10: VMs"
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -147,15 +152,39 @@ bar {
 	font pango:DejaVu Sans Mono 8
 }
 
+#Visual
+new_window none
+new_float none
 
+#per-app config
+for_window [class="Thunar"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [class="Pidgin"] floating enable
+for_window [class="Terminator"] border 1pixel
+for_window [title="Terminator Preferences"] floating enable
+
+#Location specific settings
+assign [class="Google-chrome"] "1: Browser"
+assign [class="Pidgin"] "2: IM"
+assign [class="VirtualBox"] "10: VMs"
+
+#Startup:
+	#Foreground Tasks:
+	exec --no-startup-id google-chrome
+	exec --no-startup-id pidgin
+	exec --no-startup-id virtualbox
+
+	#Background Tasks:
+	exec --no-startup-id clipit
+	exec --no-startup-id synergy
+	exec --no-startup-id nitrogen --restore
+
+#Custom bindings
 #MPD:
-bindsym $mod+shift+Prior exec amixer -q set Master 2dB+ unmute
-bindsym $mod+shift+Next exec amixer -q set Master 2dB- unmute
-bindsym $mod+Prior exec mpc prev
-bindsym $mod+Next exec mpc next
-bindsym $mod+Home exec mpc toggle
+	bindsym $mod+shift+Prior exec amixer -q set Master 2dB+ unmute
+	bindsym $mod+shift+Next exec amixer -q set Master 2dB- unmute
+	bindsym $mod+Prior exec mpc prev
+	bindsym $mod+Next exec mpc next
+	bindsym $mod+Home exec mpc toggle
 
-exec --no-startup-id parcellite
-exec --no-startup-id synergy
-exec --no-startup-id nitrogen --restore
-
+bindsym $mod+n exec terminator -e ncmpcpp
