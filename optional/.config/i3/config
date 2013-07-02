@@ -37,7 +37,7 @@ bindsym $mod+d exec dmenu_run
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-bindsym $mod+l exec i3lock -i /usr/share/slim/themes/default/background.png -d -t
+bindsym $mod+l exec i3lock -i /home/jdray/.config/i3/i3lock.png -t
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -160,6 +160,8 @@ new_float none
 for_window [class="Thunar"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [class="Pidgin"] floating enable
+for_window [class="Gnome-calculator"] floating enable
+for_window [class="Kcalc"] floating enable
 for_window [class="Terminator"] border 1pixel
 for_window [title="Terminator Preferences"] floating enable
 
@@ -189,3 +191,7 @@ assign [class="VirtualBox"] "10: VMs"
 	bindsym $mod+Home exec mpc toggle
 
 bindsym $mod+n exec terminator -e ncmpcpp
+bindsym $mod+o exec thunar
+bindsym $mod+mod1+3 exec scrot '/home/jdray/Screenshots/%F-%s_$wx$h.png'
+#bindsym $mod+mod1+4 exec scrot -s '/home/jdray/Screenshots/%F-%s_$wx$h.png'
+
