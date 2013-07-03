@@ -1,5 +1,5 @@
 #!/bin/bash
-PACMAN="zsh git"
+PACMAN="zsh git rsync"
 AUR="dircolors-solarized-git"
 MACBREW="zsh zsh-completion git gnu-sed"
 DOTFILES=`cd $(dirname ${0});pwd`
