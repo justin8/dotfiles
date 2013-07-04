@@ -143,4 +143,4 @@ check $?
 echo "Changing shell to ZSH."
 echo $SHELL|grep -q zsh || chsh -s `which zsh`
 
-echo "If you want local terminals to use the agnoster theme; uncomment the font config line in .zshrc"
+echo "If you want local terminals to use the agnoster theme; copy and uncomment the font config section from .zshrc to .zshrc-addon"
