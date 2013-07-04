@@ -1,6 +1,8 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
+source ~/.zshrc-addon
+
 if [ -z "$SSH_TTY" ]; then
 #	export IHAVEPATCHEDFONTS=1
 fi
@@ -51,7 +53,6 @@ fi
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
-source ~/.zshrc-addon
 # Aliases
 alias vi=vim
 export EDITOR="vim"
