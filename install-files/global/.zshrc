@@ -3,9 +3,10 @@ ZSH=$HOME/.oh-my-zsh
 
 source ~/.zshrc-addon
 
-if [ -z "$SSH_TTY" ]; then
+##Font configuration. Copy this to .zshrc-addon and uncomment
+#if [ -z "$SSH_TTY" ]; then
 #	export IHAVEPATCHEDFONTS=1
-fi
+#fi
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
