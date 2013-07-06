@@ -1,0 +1,3 @@
+#!/bin/bash
+bl="/sys/class/backlight/pwm-backlight.0/brightness"
+echo $(($(cat $bl)+200)) | sudo tee $bl

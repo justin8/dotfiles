@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $# -lt 1 ]; then
+	echo "USAGE: $(basename $0) <up/down>"
+	exit 1
+fi
+
+if [[ $1 == "up" ]]; then
+	curvol=$(amixer get Speaker|grep Left|grep -oE " [0-9]+ ")
+	if [[ curvol -lt 26 ]]; then
+		amixer set Speaker 1+ unmute
+	fi
+elif [[ $1 == "down" ]]; then
+	amixer set Speaker 1- unmute
+else
+	echo "USAGE: $(basename $0) <up/down>"
+fi
