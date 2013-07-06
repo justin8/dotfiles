@@ -87,10 +87,12 @@ else
 	rsync -a $DOTFILES/install-files/linux/ ~ > /dev/null 2>&1
 	check $?
 
-	echo -n "Copying fonts... "
-	$sudo mkdir -p /usr/share/fonts/OTF
-	$sudo cp $DOTFILES/install-files/fonts/OTF/* /usr/share/fonts/OTF/
-	check $?
+	echo "Copying fonts... "
+	mkdir -p ~/.fonts/ ~/.config/fontconfig/conf.d
+	cp $DOTFILES/install-files/fonts/* ~/.fonts/
+	mv ~/.fonts/*.conf ~/.config/fontconfig/conf.d/
+	fc-cache -f ~/.fonts > /dev/null
+
 fi
 
 echo -n "Checking SSHD config... "
