@@ -60,6 +60,14 @@ if `echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1`; then
 	do
 		pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
 	done
+
+	if [[ "$1" == "chromebook" ]]
+	then
+		while read package
+		do
+			pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
+		done < $DOTFILES/install-files/chromebook-packages
+	fi
 	[[ $PACINST == "" ]] || $sudo pacman -S --noconfirm $PACINST
 
 # Check if running OS X
@@ -144,3 +152,10 @@ echo "Changing shell to ZSH."
 echo $SHELL|grep -q zsh || chsh -s `which zsh`
 
 echo "If you want local terminals to use the agnoster theme; uncomment the font config line in .zshrc"
+
+if [[ "$1" == "chromebook" ]]
+then
+	echo -n "Copying chromebook config... "
+	rsync -a $DOTFILES/install-files/global/ ~/
+	check $?
+fi
