@@ -1,9 +1,12 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
-if [ -z "$SSH_TTY" ]; then
+source ~/.zshrc-addon
+
+##Font configuration. Copy this to .zshrc-addon and uncomment
+#if [ -z "$SSH_TTY" ]; then
 #	export IHAVEPATCHEDFONTS=1
-fi
+#fi
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -51,7 +54,6 @@ fi
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
-source ~/.zshrc-addon
 # Aliases
 alias vi=vim
 export EDITOR="vim"
