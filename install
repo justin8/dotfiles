@@ -143,7 +143,7 @@ touch ~/.zshrc-addon > /dev/null
 echo -n "Installing/updating oh-my-zsh... "
 rm -rf ~/.oh-my-zsh
 cd ~
-tar zxf $DOTFILES/install-files/oh-my-zsh.tar.gz
+tar --owner=$(id -un) --group=$(id -gn) -xf $DOTFILES/install-files/oh-my-zsh.tar.gz
 cd ~/.oh-my-zsh
 git reset --hard origin/master > /dev/null 2>&1
 git pull > /dev/null 2>&1
