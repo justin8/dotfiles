@@ -66,7 +66,13 @@ if `echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1`; then
 		while read package
 		do
 			pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
-		done < $DOTFILES/install-files/chromebook-packages
+		done < $DOTFILES/install-files/per-machine/chromebook-packages
+	elif [[ "$1" == "ironwood" ]]
+	then
+		while read package
+		do
+			pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
+		done < $DOTFILES/install-files/per-machine/ironwood-packages
 	fi
 
 	[[ $PACINST == "" ]] || $sudo pacman -S --noconfirm $PACINST
@@ -157,6 +163,11 @@ echo "If you want local terminals to use the agnoster theme; copy and uncomment 
 if [[ "$1" == "chromebook" ]]
 then
 	echo -n "Copying chromebook config... "
-	rsync -a $DOTFILES/install-files/global/ ~/
+	rsync -a $DOTFILES/install-files/per-machine/chromebook/ ~/
+	check $?
+elif [[ "$1" == "ironwood" ]]
+then
+	echo -n "Copying ironwood config..."
+	rsync -a $DOTFILES/install-files/per-machine/ironwood/ ~/
 	check $?
 fi
