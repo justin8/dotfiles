@@ -3,6 +3,12 @@ i3lock
 i3status
 slim
 thunar
+thunar-archive-plugin
+thunar-media-tags-plugin
+thunar-volman
+gvfs
+gvfs-smb
+gvfs-mtp
 file-roller
 zip
 unzip
@@ -12,3 +18,5 @@ unace
 p7zip
 xfce4-power-manager
 evince
+otf-ipafont
+ttf-tw
