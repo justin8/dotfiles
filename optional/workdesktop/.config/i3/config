@@ -169,7 +169,6 @@ assign [class="VirtualBox"] "10: VMs"
 	#Background Tasks:
 	exec --no-startup-id clipit
 	exec --no-startup-id synergy
-	exec --no-startup-id nitrogen --restore
 	exec --no-startup-id thunar --daemon
 	exec --no-startup-id nm-applet
 
