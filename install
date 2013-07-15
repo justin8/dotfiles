@@ -132,9 +132,9 @@ else
 	#check $?
 
 	echo "Copying fonts... "
-	mkdir -p "~/.fonts/" "~/.config/fontconfig/conf.d"
-	cp "$DOTFILES/install-files/fonts/*" "~/.fonts/"
-	mv "~/.fonts/*.conf" "~/.config/fontconfig/conf.d/"
+	mkdir -p ~/.fonts/ ~/.config/fontconfig/conf.d
+	cp $DOTFILES/install-files/fonts/* ~/.fonts/
+	mv ~/.fonts/*.conf ~/.config/fontconfig/conf.d/
 	fc-cache -f ~/.fonts > /dev/null
 
 fi
@@ -171,20 +171,21 @@ fi
 
 
 echo -n "Copying base dotfiles... "
-rsync -a "$DOTFILES/install-files/global/" "~/"
+rsync -a $DOTFILES/install-files/global/ ~/
 check $?
 touch ~/.zshrc-addon > /dev/null
 
 if [[ ! -z "$gui" ]]
 then
 	echo -n "Copying GUI config... "
-	rsync -a "$DOTFILES/install-files/gui/" "~/"
+	rsync -a $DOTFILES/install-files/gui/ ~/
 	check $?
+fi
 
 if [[ ! -z "$machine" ]]
 then
 	echo -n "Copying $machine config... "
-	rsync -a "$DOTFILES/install-files/per-machine/$machine/" "~/"
+	rsync -a $DOTFILES/install-files/per-machine/$machine/ ~/
 	check $?
 fi
 
@@ -201,4 +202,3 @@ echo "Changing shell to ZSH."
 echo $SHELL|grep -q zsh || chsh -s `which zsh`
 
 echo "If you want local terminals to use the agnoster theme; copy and uncomment the font config section from .zshrc to .zshrc-addon"
-
