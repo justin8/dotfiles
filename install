@@ -125,6 +125,7 @@ if [ "$RELEASE" == "Darwin" ]; then
 	#echo -n "Copying OS X specific files... "
 	#rsync -a "$DOTFILES/install-files/mac/" "~/" > /dev/null 2>&1
 	#check $?
+	echo > /dev/null
 else
 	#echo -n "Copying linux specific files... "
 	#rsync -a "$DOTFILES/install-files/linux/" "~/" > /dev/null 2>&1
