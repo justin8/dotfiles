@@ -36,16 +36,16 @@ function check {
 }
 
 function autorestart {
-	if `which systemctl > /dev/null 2>&1`; then
+	if which systemctl > /dev/null 2>&1; then
 		$sudo systemctl restart $1
-	elif `which service > /dev/null 2>&1`; then
+	elif which service > /dev/null 2>&1; then
 		$sudo service $1 restart
 	fi
 	# Need to detect/restart service on OS X
 	# Need to let user know if SSHD needs restarting manually
 }
 
-if `which sudo > /dev/null 2>&1`; then
+if which sudo > /dev/null 2>&1; then
 	sudo=sudo
 elif [[ $UID != 0 ]]; then
 	echo "This script requires either sudo or root"
@@ -103,7 +103,7 @@ if `echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1`; then
 		done < "$DOTFILES/install-files/per-machine/$machine-packages"
 	fi
 
-	[[ $PACINST == "" ]] || $sudo pacman -S --noconfirm $PACINST
+	[[ $PACINST == "" ]] || $sudo pacman -Sy --noconfirm $PACINST
 
 # Check if running OS X
 elif `echo $RELEASE|grep -qi darwin > /dev/null 2>&1`; then
