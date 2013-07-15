@@ -52,27 +52,55 @@ elif [[ $UID != 0 ]]; then
 	exit 1
 fi
 
+for i in "$@"
+do
+	case $i in
+		--gui)
+			gui=true
+			;;
+		--machine=*)
+			machine=$(echo "$i" | sed 's/--machine=//')
+			;;
+	esac
+done
+
+if [[ "$machine" == "ironwood" ]] || [[ "$machine" == "chromebook" ]]
+then
+	gui=true
+fi
+
+
 # Check if running Arch Linux
 echo "Verifying required packages are installed."
 if `echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1`; then
 	echo "OS appears to be Arch Linux..."
-	for package in $PACMAN
+
+	if ! grep -q "dray.be" /etc/pacman.conf
+	then
+		echo -n "Patching /etc/pacman.conf... "
+		sed -i 's#\[core\]#\[dray.be\]\nSigLevel = Optional TrustAll\nServer = http://repo.dray.be/$arch/\n\n\[dray.be-any\]\nSigLevel = Optional TrustAll\nServer = http://repo.dray.be/any\n\n\[core\]#' /etc/pacman.conf
+		check $?
+	fi
+
+	while read package
 	do
 		pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
-	done
+	done < "$DOTFILES/install-files/global-packages-cli"
 
-	if [[ "$1" == "chromebook" ]]
+	if [[ ! -z "$gui" ]]
 	then
 		while read package
 		do
 			pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
-		done < $DOTFILES/install-files/per-machine/chromebook-packages
-	elif [[ "$1" == "ironwood" ]]
+		done < "$DOTFILES/install-files/global-packages-gui"
+	fi
+
+	if [[ ! -z "$machine" ]]
 	then
 		while read package
 		do
 			pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
-		done < $DOTFILES/install-files/per-machine/ironwood-packages
+		done < "$DOTFILES/install-files/per-machine/$machine-packages"
 	fi
 
 	[[ $PACINST == "" ]] || $sudo pacman -S --noconfirm $PACINST
@@ -160,14 +188,9 @@ echo $SHELL|grep -q zsh || chsh -s `which zsh`
 
 echo "If you want local terminals to use the agnoster theme; copy and uncomment the font config section from .zshrc to .zshrc-addon"
 
-if [[ "$1" == "chromebook" ]]
+if [[ ! -z "$machine" ]]
 then
-	echo -n "Copying chromebook config... "
-	rsync -a $DOTFILES/install-files/per-machine/chromebook/ ~/
-	check $?
-elif [[ "$1" == "ironwood" ]]
-then
-	echo -n "Copying ironwood config..."
-	rsync -a $DOTFILES/install-files/per-machine/ironwood/ ~/
+	echo -n "Copying $machine config... "
+	rsync -a $DOTFILES/install-files/per-machine/$machine/ ~/
 	check $?
 fi
