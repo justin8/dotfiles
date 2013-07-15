@@ -9,6 +9,7 @@ thunar-volman
 gvfs
 gvfs-smb
 gvfs-mtp
+faenza-icon-theme
 file-roller
 zip
 unzip
@@ -20,3 +21,4 @@ xfce4-power-manager
 evince
 otf-ipafont
 ttf-tw
+mediterraneannight-theme
