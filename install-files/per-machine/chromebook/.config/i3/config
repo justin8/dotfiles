@@ -145,7 +145,6 @@ bindsym $mod+r mode "resize"
 bar {
 #	status_command i3status
 	status_command ~/.config/i3/bin/conky-i3bar
-	#font pango:DejaVu Sans Mono 8
 	font pango: Terminus 8
 }
 
@@ -161,6 +160,8 @@ for_window [class="Terminator"] border 1pixel
 for_window [title="Terminator Preferences"] floating enable
 for_window [class="Seahorse"] floating enable
 for_window [class="Xfce4-notifyd"] floating enable
+for_window [class="Gnome-calculator"] floating enable
+for_window [class="Gnome-system-monitor"] floating enable
 
 #Location specific settings
 assign [class="Google-chrome"] "1: Browser"
@@ -169,13 +170,13 @@ assign [class="Pidgin"] "2: IM"
 
 #Startup:
 	#Foreground Tasks:
-	exec --no-startup-id chromium
 	exec --no-startup-id pidgin
 
 	#Background Tasks:
 	exec --no-startup-id clipit
 	exec --no-startup-id nitrogen --restore
 	exec --no-startup-id nm-applet
+	exec --no-startup-id xfce4-power-manager
 
 #Custom bindings
 #MPD:
@@ -187,6 +188,7 @@ assign [class="Pidgin"] "2: IM"
 
 bindsym $mod+n exec terminator -e ncmpcpp
 bindsym $mod+o exec thunar
+bindsym Control+Shift+Escape exec gnome-system-monitor
 
 #Chromebook specific
 bindsym F6 exec ~/.config/i3/bin/dim

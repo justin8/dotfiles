@@ -1,4 +1,6 @@
 /usr/lib/systemd/systemd --user &
+compton &
+nitrogen --restore &
 
 case $1 in
 cinnamon)
