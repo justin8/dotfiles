@@ -159,18 +159,22 @@ for_window [class="Nvidia-settings"] floating enable
 for_window [class="Paprefs"] floating enable
 for_window [class="Gnome-system-monitor"] floating enable
 for_window [class="Skype"] floating enable
+for_window [class="Steam"] floating enable
+for_window [class="Wine"] floating enable
 
 #Location specific settings
 assign [class="Google-chrome"] "1: Browser"
 assign [class="Pidgin"] "2: IM"
 assign [class="Skype"] "2: IM"
 assign [class="VirtualBox"] "10: VMs"
+assign [class="Steam"] 9
 
 #Startup:
 	#Foreground Tasks:
 #	exec --no-startup-id google-chrome
 	exec --no-startup-id pidgin
 	exec --no-startup-id virtualbox
+	exec --no-startup-id skype
 
 	#Background Tasks:
 	exec --no-startup-id clipit
@@ -191,7 +195,7 @@ assign [class="VirtualBox"] "10: VMs"
 
 bindsym $mod+n exec terminator -e ncmpcpp
 bindsym $mod+o exec thunar
-bindsym $mod+Shift+s exec xdg-open ~/Sync.ffs_gui
+bindsym $mod+Shift+s exec xdg-open /storage/Sync.ffs_gui
 bindsym Control+Shift+Escape exec gnome-system-monitor
 bindsym $mod+mod1+3 exec scrot '/home/jdray/Screenshots/%F-%s_$wx$h.png'
 #bindsym $mod+mod1+4 exec scrot -s '/home/jdray/Screenshots/%F-%s_$wx$h.png'
