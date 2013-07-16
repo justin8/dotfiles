@@ -64,7 +64,7 @@ do
 	esac
 done
 
-if [[ "$machine" == "ironwood" ]] || [[ "$machine" == "chromebook" ]]
+if [[ "$machine" == "ironwood" ]] || [[ "$machine" == "chromebook" ]] || [[ "$machine" == "workdesktop" ]]
 then
 	gui=true
 fi
