@@ -61,6 +61,10 @@ do
 		--machine=*)
 			machine=$(echo "$i" | sed 's/--machine=//')
 			;;
+		*)
+			echo "Unknown option $i"
+			exit 1
+			;;
 	esac
 done
 
