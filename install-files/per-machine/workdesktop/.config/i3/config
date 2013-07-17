@@ -31,7 +31,9 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+Shift+d exec dmenu_run
+bindsym $mod+d exec j4-dmenu-desktop --convert=lowercase
+
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -149,7 +151,6 @@ for_window [class="Thunar"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [class="Pidgin"] floating enable
 for_window [class="Gnome-calculator"] floating enable
-for_window [class="Kcalc"] floating enable
 for_window [class="Terminator"] border 1pixel
 for_window [title="Terminator Preferences"] floating enable
 for_window [class="Xfce4-notifyd"] floating enable
@@ -182,6 +183,7 @@ assign [class="VirtualBox"] "10: VMs"
 
 bindsym $mod+n exec terminator -e ncmpcpp
 bindsym $mod+o exec thunar
+bindsym Control+Shift+Escape exec gnome-system-monitor
 bindsym $mod+mod1+3 exec scrot '/home/jdray/Screenshots/%F-%s_$wx$h.png'
 #bindsym $mod+mod1+4 exec scrot -s '/home/jdray/Screenshots/%F-%s_$wx$h.png'
 
