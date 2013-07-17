@@ -155,6 +155,7 @@ for_window [class="Terminator"] border 1pixel
 for_window [title="Terminator Preferences"] floating enable
 for_window [class="Xfce4-notifyd"] floating enable
 for_window [class="Speedcrunch"] floating enable
+for_window [class="Vinagre"] floating enable
 
 #Location specific settings
 assign [class="Google-chrome"] "1: Browser"
