@@ -1,9 +1,3 @@
-xrandr --output DVI-I-1 --auto --primary --output DVI-D-0 --auto --left-of DVI-I-1
-/usr/lib/systemd/systemd --user &
-#pulseaudio --start & #No longer needed with /etc/pulseaudio config?
-compton &
-nitrogen --restore &
-
 case $1 in
 kde)
 	exec startkdi
