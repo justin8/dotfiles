@@ -165,6 +165,10 @@ for_window [class="Steam"] floating enable
 for_window [class="Wine"] floating enable
 for_window [class="Evince"] floating enable
 for_window [class="Shotwell"] floating enable
+for_window [class="Kalu"] floating enable
+for_window [class="Python2"] floating enable #Workaround for PlayOnLinux's shitty coding
+for_window [class="File-roller"] floating enable
+for_window [class="7zFM"] floating enable
 
 #Location specific settings
 assign [class="Google-chrome"] "1: Browser"
@@ -200,7 +204,7 @@ assign [class="Steam"] 9
 
 bindsym $mod+n exec terminator -e ncmpcpp
 bindsym $mod+o exec thunar
-bindsym $mod+Shift+s exec xdg-open /storage/Sync.ffs_gui
+bindsym $mod+Shift+s exec xdg-open /home/justin/Sync.ffs_gui
 bindsym Control+Shift+Escape exec gnome-system-monitor
 bindsym $mod+mod1+3 exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h.png'
 #bindsym $mod+mod1+4 exec scrot -s '/home/jdray/Screenshots/%F-%s_$wx$h.png'
