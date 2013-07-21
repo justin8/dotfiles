@@ -89,14 +89,14 @@ if `echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1`; then
 	while read package
 	do
 		pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
-	done < "$DOTFILES/install-files/global-packages-cli"
+	done < "$DOTFILES/install-files/global-packages"
 
 	if [[ ! -z "$gui" ]]
 	then
 		while read package
 		do
 			pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
-		done < "$DOTFILES/install-files/global-packages-gui"
+		done < "$DOTFILES/install-files/gui-packages"
 	fi
 
 	if [[ ! -z "$machine" ]]
