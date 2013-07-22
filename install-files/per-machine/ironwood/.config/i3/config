@@ -149,7 +149,6 @@ new_float 1pixel
 #per-app config
 for_window [class="Thunar"] floating enable
 for_window [window_role="pop-up"] floating enable
-for_window [class="Pidgin"] floating enable
 for_window [class="Gnome-calculator"] floating enable
 for_window [class="Terminator"] border 1pixel
 for_window [title="Terminator Preferences"] floating enable
@@ -160,7 +159,6 @@ for_window [class="Pavucontrol"] floating enable
 for_window [class="Nvidia-settings"] floating enable
 for_window [class="Paprefs"] floating enable
 for_window [class="Gnome-system-monitor"] floating enable
-for_window [class="Skype"] floating enable
 for_window [class="Steam"] floating enable
 for_window [class="Wine"] floating enable
 for_window [class="Evince"] floating enable
