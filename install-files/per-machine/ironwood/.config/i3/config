@@ -183,6 +183,7 @@ assign [class="Steam"] 9
 	exec --no-startup-id skype
 
 	#Background Tasks:
+	exec --no-startup-id /usr/lib/systemd/systemd --user
 	exec --no-startup-id clipit
 	exec --no-startup-id thunar --daemon
 	exec --no-startup-id nm-applet
@@ -190,7 +191,7 @@ assign [class="Steam"] 9
 	exec --no-startup-id pasystray
 	exec --no-startup-id compton
 	exec --no-startup-id nitrogen --restore
-	exec --no-startup-id /usr/lib/systemd/systemd --user
+	exec --no-startup-id sonata --hidden
 
 #Custom bindings
 #MPD:
