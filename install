@@ -1,7 +1,6 @@
 #!/bin/bash
-PACMAN="zsh git rsync"
 MACBREW="zsh zsh-completion git gnu-sed"
-DOTFILES=`cd $(dirname ${0});pwd`
+DOTFILES=$(cd "$(dirname "$0")";pwd)
 sshd_config="/etc/ssh/sshd_config"
 sudoers="/etc/sudoers"
 sed=sed
@@ -10,13 +9,11 @@ sed=sed
 if [ -f /etc/os-release ]
 then
 	RELEASE=`grep "^NAME=" /etc/os-release`
-#	DOTFILES=`dirname $(readlink -f "${0}}")`
 elif uname -a|grep -qi darwin > /dev/null 2>&1
 then
 	RELEASE="Darwin"
 	sshd_config="/etc/sshd_config"
 	sed=gsed
-#	DOTFILES=`cd $(dirname ${0});pwd`
 else
 	RELEASE="false"
 	echo "Unable to detect OS correctly, assuming some sort of Linux..."
@@ -76,7 +73,7 @@ fi
 
 # Check if running Arch Linux
 echo "Verifying required packages are installed."
-if `echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1`; then
+if $(echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1); then
 	echo "OS appears to be Arch Linux..."
 
 	if ! grep -q "dray.be" /etc/pacman.conf
@@ -110,7 +107,7 @@ if `echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1`; then
 	[[ $PACINST == "" ]] || $sudo pacman -Sy --noconfirm $PACINST
 
 # Check if running OS X
-elif `echo $RELEASE|grep -qi darwin > /dev/null 2>&1`; then
+elif $(echo $RELEASE|grep -qi darwin > /dev/null 2>&1); then
 	echo "OS appears to be Mac OS X..."
 	for package in $MACBREW
 	do
@@ -120,7 +117,7 @@ elif `echo $RELEASE|grep -qi darwin > /dev/null 2>&1`; then
 	echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
 	echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
 else
-	echo "You are not using Arch Linux; You may have to install some of the following manually: $PACMAN"
+	echo "You are not using Arch Linux; You may have to install some of the following manually: $(cat "$DOTFILES/install-files/*packages")"
 	echo "Once you have; press enter to continue"
 	read
 fi
@@ -131,10 +128,6 @@ if [ "$RELEASE" == "Darwin" ]; then
 	#check $?
 	echo > /dev/null
 else
-	#echo -n "Copying linux specific files... "
-	#rsync -a "$DOTFILES/install-files/linux/" "~/" > /dev/null 2>&1
-	#check $?
-
 	echo "Copying fonts... "
 	mkdir -p ~/.fonts/ ~/.config/fontconfig/conf.d
 	cp $DOTFILES/install-files/fonts/* ~/.fonts/
