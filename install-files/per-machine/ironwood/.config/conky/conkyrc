@@ -36,8 +36,7 @@ TEXT
 
 # JSON for i3bar
 
- [${if_mpd_playing}{ "full_text" : "Currently playing: ${mpd_artist} - ${mpd_title}" , "color" : "\#ffffff" },${endif}
-  { "full_text" : "Volume: ${exec pamixer --get-volume}" , "color" : "\#ffffff" },
+ [{ "full_text" : "Volume: ${exec pamixer --get-volume}" , "color" : "\#ffffff" },
   { "full_text" : "/: ${fs_free /}" , "color" : "\#ffffff" },
   { "full_text" : "/home: ${fs_free /home}" , "color" : "\#ffffff" },
   { "full_text" : "/var: ${fs_free /var}" , "color" : "\#ffffff" },
