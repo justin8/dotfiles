@@ -149,7 +149,6 @@ new_float 1pixel
 #per-app config
 for_window [class="Thunar"] floating enable
 for_window [window_role="pop-up"] floating enable
-for_window [class="Pidgin"] floating enable
 for_window [class="Gnome-calculator"] floating enable
 for_window [class="Terminator"] border 1pixel
 for_window [title="Terminator Preferences"] floating enable
@@ -173,6 +172,7 @@ assign [class="VirtualBox"] "10: VMs"
 	exec --no-startup-id synergy
 	exec --no-startup-id thunar --daemon
 	exec --no-startup-id nm-applet
+	exec --no-startup-id sonata
 
 #Custom bindings
 #MPD:
