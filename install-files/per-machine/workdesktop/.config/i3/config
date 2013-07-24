@@ -154,7 +154,15 @@ for_window [class="Terminator"] border 1pixel
 for_window [title="Terminator Preferences"] floating enable
 for_window [class="Xfce4-notifyd"] floating enable
 for_window [class="Speedcrunch"] floating enable
-for_window [class="Vinagre"] floating enable
+for_window [class="Browser_x64"] floating enable
+for_window [class="Gnome-system-monitor"] floating enable
+for_window [class="Steam"] floating enable
+for_window [class="Wine"] floating enable
+for_window [class="Evince"] floating enable
+for_window [class="Shotwell"] floating enable
+for_window [class="Kalu"] floating enable
+for_window [class="Python2"] floating enable #Workaround for PlayOnLinux's shitty coding
+for_window [class="File-roller"] floating enable
 
 #Location specific settings
 assign [class="Google-chrome"] "1: Browser"
@@ -168,10 +176,13 @@ assign [class="VirtualBox"] "10: VMs"
 	exec --no-startup-id virtualbox
 
 	#Background Tasks:
+	exec --no-startup-id /usr/lib/systemd/systemd --user
 	exec --no-startup-id clipit
 	exec --no-startup-id synergy
 	exec --no-startup-id thunar --daemon
 	exec --no-startup-id nm-applet
+	exec --no-startup-id compton
+	exec --no-startup-id nitrogen --restore
 	exec --no-startup-id sonata --hidden
 
 #Custom bindings
