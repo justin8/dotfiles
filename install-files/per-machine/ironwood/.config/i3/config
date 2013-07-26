@@ -168,6 +168,7 @@ for_window [class="Python2"] floating enable #Workaround for PlayOnLinux's shitt
 for_window [class="File-roller"] floating enable
 for_window [class="7zFM"] floating enable
 for_window [class="net-minecraft-bootstrap-Bootstrap"] floating enable
+for_window [class="net-puppygames-installer-updater-GameUpdater"] floating enable
 
 #Location specific settings
 assign [class="Google-chrome"] "1: Browser"
