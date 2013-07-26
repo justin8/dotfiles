@@ -79,7 +79,7 @@ if $(echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1); then
 	if ! grep -q "dray.be" /etc/pacman.conf
 	then
 		echo -n "Patching /etc/pacman.conf... "
-		sed -i 's#\[core\]#\[dray.be\]\nSigLevel = Optional TrustAll\nServer = http://repo.dray.be/$arch/\n\n\[dray.be-any\]\nSigLevel = Optional TrustAll\nServer = http://repo.dray.be/any\n\n\[core\]#' /etc/pacman.conf
+		$sudo sed -i 's#\[core\]#\[dray.be\]\nSigLevel = Optional TrustAll\nServer = http://repo.dray.be/$arch/\n\n\[dray.be-any\]\nSigLevel = Optional TrustAll\nServer = http://repo.dray.be/any/\n\n\[dray.be-games\]\nSigLevel = Optional TrustAll\nServer = http://repo.dray.be/games/\n\n\[core\]#' /etc/pacman.conf
 		check $?
 	fi
 
