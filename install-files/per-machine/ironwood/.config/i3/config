@@ -210,6 +210,7 @@ bindsym $mod+Shift+s exec xdg-open /home/justin/Sync.ffs_gui
 bindsym Control+Shift+Escape exec gnome-system-monitor
 bindsym $mod+mod1+3 exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h.png'
 bindsym $mod+Shift+Delete move scratchpad
-bindsym $mod+Shift+Insert scratchpad show
+bindsym $mod+Delete scratchpad show
+bindsym $mod+Insert floating enable
 #bindsym $mod+mod1+4 exec scrot -s '/home/jdray/Screenshots/%F-%s_$wx$h.png'
 
