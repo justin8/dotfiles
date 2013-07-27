@@ -169,6 +169,7 @@ for_window [class="File-roller"] floating enable
 for_window [class="7zFM"] floating enable
 for_window [class="net-minecraft-bootstrap-Bootstrap"] floating enable
 for_window [class="net-puppygames-installer-updater-GameUpdater"] floating enable
+for_window [class="KeePass2"] floating enable
 
 #Location specific settings
 assign [class="Google-chrome"] "1: Browser"
@@ -208,5 +209,7 @@ bindsym $mod+o exec thunar
 bindsym $mod+Shift+s exec xdg-open /home/justin/Sync.ffs_gui
 bindsym Control+Shift+Escape exec gnome-system-monitor
 bindsym $mod+mod1+3 exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h.png'
+bindsym $mod+Shift+Delete move scratchpad
+bindsym $mod+Shift+Insert scratchpad show
 #bindsym $mod+mod1+4 exec scrot -s '/home/jdray/Screenshots/%F-%s_$wx$h.png'
 
