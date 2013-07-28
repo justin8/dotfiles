@@ -145,7 +145,6 @@ new_float 1pixel
 #per-app config
 for_window [class="Thunar"] floating enable
 for_window [window_role="pop-up"] floating enable
-for_window [class="Pidgin"] floating enable
 for_window [class="Terminator"] border 1pixel
 for_window [title="Terminator Preferences"] floating enable
 for_window [class="Seahorse"] floating enable
@@ -164,10 +163,13 @@ assign [class="Pidgin"] "2: IM"
 	exec --no-startup-id pidgin
 
 	#Background Tasks:
+	exec --no-startup-id /usr/lib/systemd/systemd --user
 	exec --no-startup-id clipit
 	exec --no-startup-id thunar --daemon
 	exec --no-startup-id nm-applet
 	exec --no-startup-id xfce4-power-manager
+	exec --no-startup-id nitrogen --restore
+	exec --no-startup-id sonata --hidden
 
 #Custom bindings
 #MPD:
@@ -179,6 +181,9 @@ bindsym $mod+n exec terminator -e ncmpcpp
 bindsym $mod+o exec thunar
 bindsym Control+Shift+Escape exec gnome-system-monitor
 bindsym $mod+Control+3 exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h.png'
+bindsym $mod+Shift+Delete move scratchpad
+bindsym $mod+Delete scratchpad show
+bindsym $mod+Insert floating enable
 
 #Chromebook specific
 bindsym F6 exec ~/.config/i3/bin/dim
