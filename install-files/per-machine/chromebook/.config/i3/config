@@ -177,8 +177,9 @@ assign [class="Pidgin"] "2: IM"
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
 
-bindsym $mod+n exec terminator -e ncmpcpp
+bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
 bindsym $mod+o exec thunar
+bindsym $mod+Shift+s exec xdg-open /home/justin/Sync.ffs_gui
 bindsym Control+Shift+Escape exec gnome-system-monitor
 bindsym $mod+Control+3 exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h.png'
 bindsym $mod+Shift+Delete move scratchpad
