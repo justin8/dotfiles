@@ -212,5 +212,4 @@ bindsym $mod+mod1+3 exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h.pn
 bindsym $mod+Shift+Delete move scratchpad
 bindsym $mod+Delete scratchpad show
 bindsym $mod+Insert floating enable
-#bindsym $mod+mod1+4 exec scrot -s '/home/jdray/Screenshots/%F-%s_$wx$h.png'
 
