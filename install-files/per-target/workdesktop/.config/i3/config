@@ -196,6 +196,4 @@ assign [class="VirtualBox"] "10: VMs"
 bindsym $mod+n exec terminator -e ncmpcpp
 bindsym $mod+o exec thunar
 bindsym Control+Shift+Escape exec gnome-system-monitor
-bindsym $mod+mod1+3 exec scrot '/home/jdray/Screenshots/%F-%s_$wx$h.png'
-#bindsym $mod+mod1+4 exec scrot -s '/home/jdray/Screenshots/%F-%s_$wx$h.png'
-
+bindsym $mod+Control+3 exec scrot '/home/jdray/Screenshots/%F-%s_$wx$h.png'
