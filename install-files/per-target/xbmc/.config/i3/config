@@ -175,6 +175,7 @@ assign [class="Google-chrome"] "2: Browser"
 	exec --no-startup-id /usr/local/bin/xbmc-wrapper
 
 	#Background Tasks:
+	exec --no-startup-id pulseaudio -D
 	exec --no-startup-id /usr/lib/systemd/systemd --user
 	exec --no-startup-id clipit
 	exec --no-startup-id thunar --daemon
