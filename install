@@ -55,8 +55,8 @@ do
 		--gui)
 			gui=true
 			;;
-		--machine=*)
-			machine=$(echo "$i" | sed 's/--machine=//')
+		--target=*)
+			target=$(echo "$i" | sed 's/--target=//')
 			;;
 		*)
 			echo "Unknown option $i"
@@ -65,7 +65,7 @@ do
 	esac
 done
 
-if [[ "$machine" == "ironwood" ]] || [[ "$machine" == "chromebook" ]] || [[ "$machine" == "workdesktop" ]]
+if [[ "$target" == "ironwood" ]] || [[ "$target" == "chromebook" ]] || [[ "$target" == "workdesktop" ]] || [[ "$target" == "xbmc" ]]
 then
 	gui=true
 fi
@@ -96,12 +96,12 @@ if $(echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1); then
 		done < "$DOTFILES/install-files/gui-packages"
 	fi
 
-	if [[ ! -z "$machine" ]]
+	if [[ ! -z "$target" ]]
 	then
 		while read package
 		do
 			pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
-		done < "$DOTFILES/install-files/per-machine/$machine-packages"
+		done < "$DOTFILES/install-files/per-target/$target-packages"
 	fi
 
 	[[ $PACINST == "" ]] || $sudo pacman -Sy --noconfirm $PACINST
@@ -179,10 +179,10 @@ then
 	check $?
 fi
 
-if [[ ! -z "$machine" ]]
+if [[ ! -z "$target" ]]
 then
-	echo -n "Copying $machine config... "
-	rsync -a $DOTFILES/install-files/per-machine/$machine/ ~/
+	echo -n "Copying $target config... "
+	rsync -a $DOTFILES/install-files/per-target/$target/ ~/
 	check $?
 fi
 
