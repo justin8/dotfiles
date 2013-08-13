@@ -172,7 +172,7 @@ assign [class="Google-chrome"] "2: Browser"
 
 #Startup:
 	#Foreground Tasks:
-	#exec --no-startup-id /usr/local/bin/xbmc-wrapper
+	exec --no-startup-id /usr/local/bin/xbmc-wrapper
 
 	#Background Tasks:
 	exec --no-startup-id /usr/lib/systemd/systemd --user
