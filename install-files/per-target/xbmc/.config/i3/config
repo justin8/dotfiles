@@ -9,7 +9,7 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod4
+set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
@@ -80,8 +80,8 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # switch to workspace
-bindsym $mod+1 workspace "1: Browser"
-bindsym $mod+2 workspace 2
+bindsym $mod+1 workspace '1: XBMC'
+bindsym $mod+2 workspace '2: Browser'
 bindsym $mod+3 workspace 3
 bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
@@ -92,8 +92,8 @@ bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace "1: Browser"
-bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+1 move container to workspace '1: XBMC'
+bindsym $mod+Shift+2 move container to workspace '2: Browser'
 bindsym $mod+Shift+3 move container to workspace 3
 bindsym $mod+Shift+4 move container to workspace 4
 bindsym $mod+Shift+5 move container to workspace 5
@@ -167,7 +167,8 @@ for_window [class="Virt-manager"] floating enable
 for_window [class="net-ftb-gui-LaunchFrame"] floating enable
 
 #Location specific settings
-assign [class="Google-chrome"] "1: Browser"
+assign [class="xbmc.bin"] "1: XBMC"
+assign [class="Google-chrome"] "2: Browser"
 
 #Startup:
 	#Foreground Tasks:
@@ -197,6 +198,3 @@ bindsym $mod+mod1+3 exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h.pn
 bindsym $mod+Shift+Delete move scratchpad
 bindsym $mod+Delete scratchpad show
 bindsym $mod+Insert floating enable
-
-#Set default workspace
-workspace 2
