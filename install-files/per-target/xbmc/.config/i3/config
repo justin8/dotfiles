@@ -9,7 +9,7 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod1
+set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
@@ -81,7 +81,7 @@ bindsym $mod+a focus parent
 
 # switch to workspace
 bindsym $mod+1 workspace "1: Browser"
-bindsym $mod+2 workspace "2: IM"
+bindsym $mod+2 workspace 2
 bindsym $mod+3 workspace 3
 bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
@@ -93,7 +93,7 @@ bindsym $mod+0 workspace 10
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace "1: Browser"
-bindsym $mod+Shift+2 move container to workspace "2: IM"
+bindsym $mod+Shift+2 move container to workspace 2
 bindsym $mod+Shift+3 move container to workspace 3
 bindsym $mod+Shift+4 move container to workspace 4
 bindsym $mod+Shift+5 move container to workspace 5
@@ -108,7 +108,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Suspend' 'systemctl suspend;killall i3-nagbar' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -145,50 +145,58 @@ new_float 1pixel
 #per-app config
 for_window [class="Thunar"] floating enable
 for_window [window_role="pop-up"] floating enable
+for_window [class="Gnome-calculator"] floating enable
 for_window [class="Terminator"] border 1pixel
 for_window [title="Terminator Preferences"] floating enable
-for_window [class="Seahorse"] floating enable
 for_window [class="Xfce4-notifyd"] floating enable
-for_window [class="Gnome-system-monitor"] floating enable
 for_window [class="Speedcrunch"] floating enable
-for_window [class="Vinagre"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Nvidia-settings"] floating enable
+for_window [class="Paprefs"] floating enable
+for_window [class="Gnome-system-monitor"] floating enable
+for_window [class="Steam"] floating enable
+for_window [class="Wine"] floating enable
+for_window [class="Evince"] floating enable
+for_window [class="Shotwell"] floating enable
+for_window [class="File-roller"] floating enable
+for_window [class="7zFM"] floating enable
+for_window [class="net-minecraft-bootstrap-Bootstrap"] floating enable
+for_window [class="net-puppygames-installer-updater-GameUpdater"] floating enable
+for_window [class="KeePass2"] floating enable
+for_window [class="Virt-manager"] floating enable
+for_window [class="net-ftb-gui-LaunchFrame"] floating enable
 
 #Location specific settings
 assign [class="Google-chrome"] "1: Browser"
-assign [class="Chromium"] "1: Browser"
-assign [class="Pidgin"] "2: IM"
 
 #Startup:
 	#Foreground Tasks:
-	exec --no-startup-id pidgin
+	#exec --no-startup-id /usr/local/bin/xbmc-wrapper
 
 	#Background Tasks:
 	exec --no-startup-id /usr/lib/systemd/systemd --user
 	exec --no-startup-id clipit
 	exec --no-startup-id thunar --daemon
 	exec --no-startup-id nm-applet
-	exec --no-startup-id xfce4-power-manager
+	exec --no-startup-id pasystray
+	exec --no-startup-id compton
 	exec --no-startup-id nitrogen --restore
-	exec --no-startup-id sonata --hidden
 
 #Custom bindings
 #MPD:
+	bindsym $mod+shift+Prior exec pamixer --increase 5
+	bindsym $mod+shift+Next exec pamixer --decrease 5
 	bindsym $mod+Prior exec mpc prev
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
 
 bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
 bindsym $mod+o exec thunar
-bindsym $mod+Shift+s exec xdg-open /home/justin/Sync.ffs_gui
 bindsym Control+Shift+Escape exec gnome-system-monitor
-bindsym $mod+Control+3 exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h.png'
+bindsym $mod+mod1+3 exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h.png'
 bindsym $mod+Shift+Delete move scratchpad
 bindsym $mod+Delete scratchpad show
 bindsym $mod+Insert floating enable
 
-#Chromebook specific
-bindsym F6 exec ~/.config/i3/bin/dim
-bindsym F7 exec ~/.config/i3/bin/brighten
-bindsym F8 exec amixer set Speaker toggle
-bindsym F9 exec ~/.config/i3/bin/safe-volume down
-bindsym F10 exec ~/.config/i3/bin/safe-volume up
+#Set default workspace
+workspace 2
