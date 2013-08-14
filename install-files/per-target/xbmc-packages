@@ -6,6 +6,7 @@ pavucontrol
 polkit
 pulseaudio
 slim
+upower
 xbmc
 xorg-server
 xorg-xinit
