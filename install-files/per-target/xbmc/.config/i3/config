@@ -184,13 +184,12 @@ assign [class="Google-chrome"] "2: Browser"
 
 #Custom bindings
 #MPD:
-	bindsym $mod+Prior exec pamixer --increase 5
-	bindsym $mod++Next exec pamixer --decrease 5
+	bindsym $mod+i exec pamixer --increase 5
+	bindsym $mod+k exec pamixer --decrease 5
 
-bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
 bindsym $mod+o exec thunar
 bindsym Control+Shift+Escape exec gnome-system-monitor
-bindsym $mod+Control+3 exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h.png'
+bindsym $mod+Control+3 exec scrot '/home/xbmc/Pictures/Screenshots/%F-%s_$wx$h.png'
 bindsym $mod+Shift+Delete move scratchpad
 bindsym $mod+Delete scratchpad show
 bindsym $mod+Insert floating enable
