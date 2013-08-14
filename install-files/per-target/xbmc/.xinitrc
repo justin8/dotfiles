@@ -1,3 +1,4 @@
+pulseaudio -D &
 case $1 in
 kde)
 	exec startkdi
