@@ -184,11 +184,8 @@ assign [class="Google-chrome"] "2: Browser"
 
 #Custom bindings
 #MPD:
-	bindsym $mod+shift+Prior exec pamixer --increase 5
-	bindsym $mod+shift+Next exec pamixer --decrease 5
-	bindsym $mod+Prior exec mpc prev
-	bindsym $mod+Next exec mpc next
-	bindsym $mod+Home exec mpc toggle
+	bindsym $mod+Prior exec pamixer --increase 5
+	bindsym $mod++Next exec pamixer --decrease 5
 
 bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
 bindsym $mod+o exec thunar
