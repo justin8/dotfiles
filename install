@@ -81,7 +81,7 @@ if $(echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1); then
 	then
 		$sudo pacman -Sy --noconfirm dray-repo > /dev/null
 	else
-		$sudo pacman -Uq --noconfirm $DOTFILES/install-files/dray-repo-*-any.pkg.tar.xz > /dev/null
+		$sudo pacman -U --noconfirm $DOTFILES/install-files/dray-repo-*-any.pkg.tar.xz > /dev/null
 	fi
 
 	while read package
