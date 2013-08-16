@@ -112,7 +112,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Suspend' 'systemctl suspend;killall i3-nagbar' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -193,7 +193,10 @@ assign [class="VirtualBox"] "10: VMs"
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
 
-bindsym $mod+n exec terminator -e ncmpcpp
+bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
 bindsym $mod+o exec thunar
 bindsym Control+Shift+Escape exec gnome-system-monitor
 bindsym $mod+Control+3 exec scrot '/home/jdray/Screenshots/%F-%s_$wx$h.png'
+bindsym $mod+Shift+Delete move scratchpad
+bindsym $mod+Delete scratchpad show
+bindsym $mod+Insert floating enable
