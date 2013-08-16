@@ -76,11 +76,12 @@ echo "Verifying required packages are installed."
 if $(echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1); then
 	echo "OS appears to be Arch Linux..."
 
-	if ! grep -q "dray.be" /etc/pacman.conf
+	echo "Updating repo/ca-certs config..."
+	if pacman -Q dray-repo > /dev/null 2>&1
 	then
-		echo -n "Patching /etc/pacman.conf... "
-		$sudo sed -i 's#\[core\]#\[dray.be\]\nSigLevel = Optional TrustAll\nServer = http://repo.dray.be/$arch/\n\n\[dray.be-any\]\nSigLevel = Optional TrustAll\nServer = http://repo.dray.be/any/\n\n\[dray.be-games\]\nSigLevel = Optional TrustAll\nServer = http://repo.dray.be/games/\n\n\[core\]#' /etc/pacman.conf
-		check $?
+		$sudo pacman -Sy --noconfirm dray-repo > /dev/null
+	else
+		$sudo pacman -Uq --noconfirm $DOTFILES/install-files/dray-repo-*-any.pkg.tar.xz > /dev/null
 	fi
 
 	while read package
