@@ -36,7 +36,7 @@ TEXT
 
 # JSON for i3bar
 
- [{ "full_text" : "Volume: ${exec amixer get Master|grep 'Left'|grep -oE "[0-9]+%"}" , "color" : "\#ffffff" },
+[{ "full_text" : "Volume: ${exec pamixer --get-volume}" , "color" : "\#ffffff" },
   { "full_text" : "/: ${fs_free /}" , "color" : "\#ffffff" },
   { "full_text" : "/home: ${fs_free /home}" , "color" : "\#ffffff" },
   { "full_text" : "/var: ${fs_free /var}" , "color" : "\#ffffff" },
