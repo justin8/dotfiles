@@ -1,9 +1,12 @@
 #!/bin/bash
-MACBREW="zsh zsh-completion git gnu-sed"
 DOTFILES=$(cd "$(dirname "$0")";pwd)
 sshd_config="/etc/ssh/sshd_config"
 sudoers="/etc/sudoers"
+
+# Hacky shit to make OS X work
+MACBREW="zsh zsh-completion git gnu-sed gnu-tar"
 sed=sed
+tar=tar
 
 # OS Detection / OS Specific variables
 if [ -f /etc/os-release ]
@@ -14,6 +17,7 @@ then
 	RELEASE="Darwin"
 	sshd_config="/etc/sshd_config"
 	sed=gsed
+	tar=gnutar
 else
 	RELEASE="false"
 	echo "Unable to detect OS correctly, assuming some sort of Linux..."
