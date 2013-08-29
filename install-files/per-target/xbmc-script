@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cp /mnt/xbmc/files/background.jpg /var/lib/xbmc/
+chown xbmc. /var/lib/xbmc/background.jpgg
