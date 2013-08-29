@@ -189,6 +189,11 @@ then
 	echo -n "Copying $target config... "
 	rsync -a $DOTFILES/install-files/per-target/$target/ ~/
 	check $?
+	if [[ -f $DOTFILES/install-files/per-target/$target-script ]]
+	then
+		echo "Running $target script..."
+		$DOTFILES/install-files/per-target/$target-script
+	fi
 fi
 
 echo -n "Installing/updating oh-my-zsh... "
