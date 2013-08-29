@@ -7,6 +7,6 @@ polkit
 pulseaudio
 slim
 upower
-xbmc
+xbmc-git
 xorg-server
 xorg-xinit
