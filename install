@@ -191,8 +191,9 @@ then
 	check $?
 	if [[ -f $DOTFILES/install-files/per-target/$target-script ]]
 	then
-		echo "Running $target script..."
+		echo -n "Running $target script... "
 		$DOTFILES/install-files/per-target/$target-script
+		check $?
 	fi
 fi
 
