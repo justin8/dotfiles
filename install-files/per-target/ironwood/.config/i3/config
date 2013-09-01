@@ -171,6 +171,7 @@ for_window [class="net-minecraft-bootstrap-Bootstrap"] floating enable
 for_window [class="net-puppygames-installer-updater-GameUpdater"] floating enable
 for_window [class="KeePass2"] floating enable
 for_window [class="Virt-manager"] floating enable
+for_window [class="crawl-tiles"] floating enable
 
 #Location specific settings
 assign [class="Pidgin"] "2: IM"
