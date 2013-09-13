@@ -205,7 +205,7 @@ assign [class="Steam"] 9
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
 
-bindsym $mod+Shift+k exec keepass /abachi/justin/secure.kdbx
+bindsym $mod+Shift+k exec keepassx /abachi/justin/secure.kdbx
 bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
 bindsym $mod+o exec thunar
 bindsym $mod+Shift+s exec xdg-open /home/justin/Sync.ffs_gui
