@@ -195,6 +195,7 @@ assign [class="VirtualBox"] "10: VMs"
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
 
+bindsym $mod+Shift+k exec keepassx /home/jdray/wgbne2fs1-home/documents/keepass/Keys.kdb
 bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
 bindsym $mod+o exec thunar
 bindsym $mod+Shift+s exec xdg-open /home/jdray/Sync.ffs_gui
