@@ -46,6 +46,19 @@ function autorestart {
 	# Need to let user know if SSHD needs restarting manually
 }
 
+function usage {
+cat << EOF
+usage: $(basename $0) options
+
+This script will install config dotfiles for the current user and alter some minor system-level settings
+
+OPTIONS:
+-h	Show this help
+-t	Target, can be one of $(cd $DOTFILES;ls -d */|sed 's#/$##'|tr '\n' ' ')
+-g	GUI, install basic GUI settings. This is installed by most targets already
+EOF
+}
+
 if which sudo > /dev/null 2>&1; then
 	sudo=sudo
 elif [[ $UID != 0 ]]; then
@@ -53,27 +66,21 @@ elif [[ $UID != 0 ]]; then
 	exit 1
 fi
 
-for i in "$@"
+while getopts ":hg:t:" OPTION
 do
-	case $i in
-		--gui)
-			gui=true
-			;;
-		--target=*)
-			target=$(echo "$i" | sed 's/--target=//')
-			;;
-		*)
-			echo "Unknown option $i"
-			exit 1
-			;;
+	case $OPTION in
+		h) usage;exit 0;;
+		g) gui=true;;
+		t) target="$OPTARG";;
+		?) usage;exit 1;;
 	esac
 done
+shift $(( $OPTIND -1 ))
 
 if [[ "$target" == "ironwood" ]] || [[ "$target" == "chromebook" ]] || [[ "$target" == "workdesktop" ]] || [[ "$target" == "xbmc" ]]
 then
 	gui=true
 fi
-
 
 # Check if running Arch Linux
 echo "Verifying required packages are installed."
