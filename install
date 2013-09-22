@@ -66,7 +66,7 @@ elif [[ $UID != 0 ]]; then
 	exit 1
 fi
 
-while getopts ":hg:t:" OPTION
+while getopts ":hgt:" OPTION
 do
 	case $OPTION in
 		h) usage;exit 0;;
