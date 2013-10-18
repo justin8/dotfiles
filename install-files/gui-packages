@@ -3,6 +3,7 @@ conky
 evince
 faenza-icon-theme
 file-roller
+ffmpeg-full
 gnome-system-monitor
 gnome-themes-standard
 gvfs
@@ -12,8 +13,10 @@ i3-wm
 i3lock
 i3status
 j4-dmenu-desktop-git
+lame
 mediterraneannight-theme
 nitrogen
+normalize
 otf-ipafont
 scrot
 shotwell
@@ -25,4 +28,4 @@ thunar-volman
 ttf-tw
 tumbler
 xcursor-windows-8
-
+zenity
