@@ -182,6 +182,9 @@ echo -n "Copying base dotfiles... "
 rsync -a $DOTFILES/install-files/global/ ~/
 check $?
 touch ~/.zshrc-addon > /dev/null
+if ! grep -qE 'PATH.*~\.bin' .zshrc-addon
+	echo 'export PATH=~/.bin:$PATH' >> .zshrc-addon
+fi
 
 if [[ ! -z "$gui" ]]
 then
