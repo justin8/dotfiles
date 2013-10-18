@@ -214,4 +214,4 @@ bindsym $mod+Control+3 exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h
 bindsym $mod+Shift+Delete move scratchpad
 bindsym $mod+Delete scratchpad show
 bindsym $mod+Insert floating enable
-bindsym $mod+Tab exec ~/.bin/toggle-mute
+bindsym $mod+Tab exec ~/.config/i3/bin/toggle-mute
