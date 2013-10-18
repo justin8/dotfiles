@@ -1,5 +1,5 @@
 #!/bin/bash
-LOG=$HOME/.${0}.log
+LOG=$HOME/.$(basename ${0}).log
 
 echo "" > $LOG
 
