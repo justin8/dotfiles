@@ -20,6 +20,7 @@ packages=$@
 if [[ ! -z "$yaourt" ]]; then
 	for pkg in $packages
 	do
+		echo "Downloading $pkg..."
 		rm -rf $pkg
 		yaourt -G $pkg 2> /dev/null
 	done
