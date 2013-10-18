@@ -1,6 +1,6 @@
 #!/bin/bash
 PICTURESDIR=$HOME/Pictures
-LOG=$HOME/.sort-log
+LOG=$HOME/.${0}.log
 
 exec > >(zenity --text-info)
 echo "" > $LOG
