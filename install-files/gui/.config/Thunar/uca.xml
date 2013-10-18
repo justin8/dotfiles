@@ -1,0 +1,32 @@
+<?xml encoding="UTF-8" version="1.0"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Open Terminal Here</name>
+	<unique-id>1372317435372392-1</unique-id>
+	<command>exo-open --working-directory %f --launch TerminalEmulator</command>
+	<description>Example for a custom action</description>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>shotwell</icon>
+	<name>Sort Pictures</name>
+	<unique-id>1378560317518711-4</unique-id>
+	<command>/home/justin/git/abachi-scripts/other/sort-pictures %F</command>
+	<description></description>
+	<patterns>*</patterns>
+	<image-files/>
+	<video-files/>
+</action>
+<action>
+	<icon>mkvinfo</icon>
+	<name>MKVInfo</name>
+	<unique-id>1379235256823688-8</unique-id>
+	<command>/usr/bin/mkvinfo-gtk -g %f</command>
+	<description></description>
+	<patterns>*.mkv</patterns>
+	<video-files/>
+</action>
+</actions>
