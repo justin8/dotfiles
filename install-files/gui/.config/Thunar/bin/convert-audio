@@ -1,0 +1,17 @@
+#!/bin/bash
+LOG=$HOME/.${0}.log
+
+echo "" > $LOG
+
+while [ -n "$*" ]
+do
+	if [[ "${0##*.}" == mp3 ]]
+	then
+		ext=" 2.mp3"
+	fi
+	
+	ext="${ext:-.mp3}"
+
+	ffmpeg -i "$1" -vn -ac 2 -ab 256k -f mp3 "${0%.*}$ext" | zenity --progress --percentage=0 --pulsate --auto-close --auto-kill --text "Please wait while files are being converted"
+	shift
+done
