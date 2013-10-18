@@ -1,0 +1,7 @@
+#!/bin/bash
+if pamixer --get-mute --source 2 > /dev/null
+then
+	pamixer --unmute --source 2
+else
+	pamixer --mute --source 2
+fi
