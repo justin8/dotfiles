@@ -19,4 +19,4 @@ do
 	lame -r --abr 256 "$temp" "$output"
 	rm -rf "$temp"
 	shift
-done | zenity --progress --percentage=-1 --pulsate --auto-close --auto-kill --text "Please wait while files are being converted"
+done | zenity --progress --percentage=-1 --pulsate --no-cancel --auto-close --auto-kill --text "Please wait while files are being converted"
