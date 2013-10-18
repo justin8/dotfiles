@@ -14,7 +14,7 @@
 	<icon>shotwell</icon>
 	<name>Sort Pictures</name>
 	<unique-id>1378560317518711-4</unique-id>
-	<command>/home/justin/git/abachi-scripts/other/sort-pictures %F</command>
+	<command>$HOME/.config/Thunar/bin/sort-pictures %F</command>
 	<description></description>
 	<patterns>*</patterns>
 	<image-files/>
