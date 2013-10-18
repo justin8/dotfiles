@@ -13,7 +13,7 @@
 <action>
 	<icon>shotwell</icon>
 	<name>Sort Pictures</name>
-	<unique-id>1378560317518711-4</unique-id>
+	<unique-id>1382098576997122-2</unique-id>
 	<command>$HOME/.config/Thunar/bin/sort-pictures %F</command>
 	<description></description>
 	<patterns>*</patterns>
@@ -27,6 +27,16 @@
 	<command>/usr/bin/mkvinfo-gtk -g %f</command>
 	<description></description>
 	<patterns>*.mkv</patterns>
+	<video-files/>
+</action>
+<action>
+	<icon></icon>
+	<name>Convert to mp3</name>
+	<unique-id>1382098861245405-4</unique-id>
+	<command>$HOME/.config/Thunar/bin/convert-audio %F</command>
+	<description>Will convert the selected file(s) to mp3 format</description>
+	<patterns>*</patterns>
+	<audio-files/>
 	<video-files/>
 </action>
 </actions>
