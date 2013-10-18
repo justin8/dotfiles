@@ -5,13 +5,18 @@ echo "" > $LOG
 
 while [ -n "$*" ]
 do
-	if [[ "${0##*.}" == mp3 ]]
+	if [[ "${1##*.}" == mp3 ]]
 	then
 		ext=" 2.mp3"
 	fi
 	
-	ext="${ext:-.mp3}"
+	1=$(basename "$1")
+	output="${1%.*}${ext:-.mp3}"
+	temp=$(mktemp)
 
-	ffmpeg -i "$1" -vn -ac 2 -ab 256k -f mp3 "${0%.*}$ext" | zenity --progress --percentage=0 --pulsate --auto-close --auto-kill --text "Please wait while files are being converted"
+	ffmpeg -y -i "$1" -vn -ac 2 -ar 44.1k -f wav "$temp"
+	normalize "$temp"
+	lame -r --abr 256 "$temp" "$output"
+	rm -rf "$temp"
 	shift
-done
+done | zenity --progress --percentage=-1 --pulsate --auto-close --auto-kill --text "Please wait while files are being converted"
