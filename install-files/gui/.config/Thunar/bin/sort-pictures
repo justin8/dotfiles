@@ -1,6 +1,6 @@
 #!/bin/bash
 PICTURESDIR=$HOME/Pictures
-LOG=$HOME/.${0}.log
+LOG=$HOME/.$(basename ${0}).log
 
 exec > >(zenity --text-info)
 echo "" > $LOG
@@ -8,11 +8,11 @@ echo "" > $LOG
 while [ -n "$*" ]
 do
 	echo "Sorting picture: $1"
-	if echo $1 | grep -q ".jpg$"
+	if echo "$1" | grep -q ".jpg$"
 	then
-		date=$(exiftool $1|grep "Date/Time Original"|awk '{print $4}'|sed 's/:/-/g')
+		date=$(exiftool "$1"|grep "Date/Time Original"|awk '{print $4}'|sed 's/:/-/g')
 	else
-		date=$(stat $1|grep Modify|awk '{print $2}')
+		date=$(stat "$1"|grep Modify|awk '{print $2}')
 	fi
 	outputdir=$PICTURESDIR/$(echo $date|grep -Eo "^[0-9]*")/$date/
 	
