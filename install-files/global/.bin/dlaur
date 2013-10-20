@@ -13,7 +13,7 @@ then
 	exit 0
 fi
 
-[[ $(uname -m) == "armv7l" ]] && yaourt=1
+which yaourt > /dev/null && yaourt=1
 
 packages=$@
 
