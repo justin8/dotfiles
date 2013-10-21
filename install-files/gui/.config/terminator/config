@@ -12,6 +12,7 @@
     font = Menlo for Powerline 10
     background_color = "#002b36"
     scrollback_infinite = True
+    show_titlebar = False
 [layouts]
   [[default]]
     [[[child1]]]
