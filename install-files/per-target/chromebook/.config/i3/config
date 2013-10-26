@@ -143,7 +143,7 @@ new_window none
 new_float 1pixel
 
 #per-app config
-for_window [class="Thunar"] floating enable
+#for_window [class="Thunar"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [class="Terminator"] border 1pixel
 for_window [title="Terminator Preferences"] floating enable
