@@ -9,18 +9,33 @@ echo "" > $LOG
 while [ -n "$*" ]
 do
 	echo "Sorting picture: $1"
-	date=""
-	echo "$1" | grep -q ".jpg$" && date=$(exiftool "$1"|grep "Date/Time Original"|awk '{print $4}'|sed 's/:/-/g')
-	date=${date:-$(stat "$1"|grep Modify|awk '{print $2}')}
+	if [[ ! -f "$1" ]]
+	then
+		echo "Not a valid file! Skipping..."
+	else
+		date=""
+		ext=
+		case $(echo $1 | grep -oE ".[a-z0-9]{2,4}$") in
+			.jpg)
+				date=$(exiftool "$1"|grep "Date/Time Original"|awk '{print $4}'|sed 's/:/-/g')
+				;;
+			.mp4)
+				date=$(exiftool "$1"|grep "Media Create Date"|awk '{print $5}'|sed 's/:/-/g')
+				;;
+		esac
 
-	outputdir=$PICTURESDIR/$(echo $date|grep -Eo "^[0-9]*")/$date/
-	
-	echo "input: $1" >> $LOG
-	echo "date: $date" >> $LOG
-	echo "outputdir: $outputdir" >> $LOG
-	echo "" >> $LOG
+		# Fallback to date modified if it cannot be found
+		date=${date:-$(stat "$1"|grep Modify|awk '{print $2}')}
 
-	mkdir -p "$outputdir"
-	mv "$1" "$outputdir"
+		outputdir=$PICTURESDIR/$(echo $date|grep -Eo "^[0-9]*")/$date/
+
+		echo "input: $1" >> $LOG
+		echo "date: $date" >> $LOG
+		echo "outputdir: $outputdir" >> $LOG
+		echo "" >> $LOG
+
+		mkdir -p "$outputdir"
+		mv "$1" "$outputdir"
+	fi
 	shift
 done
