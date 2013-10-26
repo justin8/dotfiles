@@ -13,7 +13,7 @@ then
 	exit 0
 fi
 
-which yaourt > /dev/null && yaourt=1
+which yaourt > /dev/null 2>&1 && yaourt=1
 
 packages=$@
 
