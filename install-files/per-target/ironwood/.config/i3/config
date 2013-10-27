@@ -189,13 +189,14 @@ assign [class="Steam"] 9
 	#Background Tasks:
 	exec --no-startup-id /usr/lib/systemd/systemd --user
 	exec --no-startup-id clipit
-	exec --no-startup-id thunar --daemon
-	exec --no-startup-id nm-applet
-	exec --no-startup-id xfce4-power-manager
-	exec --no-startup-id pasystray
 	exec --no-startup-id compton
+	exec --no-startup-id kalu
 	exec --no-startup-id nitrogen --restore
+	exec --no-startup-id nm-applet
+	exec --no-startup-id pasystray
 	exec --no-startup-id sonata --hidden
+	exec --no-startup-id thunar --daemon
+	exec --no-startup-id xfce4-power-manager
 
 #Custom bindings
 #MPD:
