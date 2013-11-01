@@ -16,7 +16,7 @@ then
 	RELEASE="Darwin"
 	sshd_config="/etc/sshd_config"
 	sed=gsed
-	tar=gnutar
+	tar=gtar
 else
 	RELEASE="false"
 	echo "Unable to detect OS correctly, assuming some sort of Linux..."
