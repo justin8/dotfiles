@@ -2,6 +2,3 @@
 
 cp /mnt/xbmc/files/background.jpg /var/lib/xbmc/
 chown xbmc. /var/lib/xbmc/background.jpg
-
-systemctl enable openntpd
-systemctl start openntpd
