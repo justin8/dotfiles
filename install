@@ -208,12 +208,14 @@ then
 fi
 
 echo -n "Installing/updating oh-my-zsh... "
-rm -rf ~/.oh-my-zsh
-cd ~
-$tar --owner=$(id -un) --group=$(id -gn) -xf "$DOTFILES/install-files/oh-my-zsh.tar.gz"
-cd ~/.oh-my-zsh
-git reset --hard origin/master > /dev/null 2>&1
-git pull > /dev/null 2>&1
+if [[ -d ~/.oh-my-zsh ]]
+then
+	cd ~/.oh-my-zsh
+	git reset --hard origin/master > /dev/null 2>&1
+	git pull > /dev/null 2>&1
+else
+	git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+fi
 check $?
 
 echo "Changing shell to ZSH."
