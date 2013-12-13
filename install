@@ -172,7 +172,7 @@ if [[ -z "$nosystemchanges" ]]; then
 	if [ -e /etc/sudoers ]; then
 		if [ ! -f /etc/sudoers.d/patched-fonts ]; then
 			echo -n "Applying sudoers config... "
-				echo -e 'Defaults\tenv_keep += "SSH_TTY"\nDefaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee -a /etc/sudoers.d/patched-fonts > /dev/null
+				echo -e 'Defaults\tenv_keep += "SSH_TTY"\nDefaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee /etc/sudoers.d/patched-fonts > /dev/null
 		fi
 	fi
 fi
