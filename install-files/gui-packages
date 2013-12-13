@@ -1,5 +1,6 @@
 clipit
 conky
+eog
 evince
 faenza-icon-theme
 file-roller
@@ -18,7 +19,6 @@ nitrogen
 normalize
 otf-ipafont
 scrot
-shotwell
 terminator
 thunar
 thunar-archive-plugin
