@@ -200,7 +200,7 @@ bindsym $mod+Shift+k exec keepassx /home/jdray/wgbne2fs1-home/documents/keepass/
 bindsym $mod+Shift+Control+k exec keepassx /home/jdray/wgbne2fs1-wotfiles/30-IT_SSU/Shared/KeePass/Latest/Keys.kdb
 bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
 bindsym $mod+o exec thunar
-bindsym $mod+Shift+s exec xdg-open /home/jdray/Sync.ffs_gui
+bindsym $mod+Shift+s exec FreeFileSync /home/jdray/Sync.ffs_gui
 bindsym Control+Shift+Escape exec gnome-system-monitor
 bindsym $mod+Control+3 exec scrot '/home/jdray/Screenshots/%F-%s_$wx$h.png'
 bindsym $mod+Shift+Delete move scratchpad

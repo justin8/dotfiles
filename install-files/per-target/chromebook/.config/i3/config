@@ -181,7 +181,7 @@ assign [class="Pidgin"] "2: IM"
 bindsym $mod+Shift+k exec keepassx /abachi/justin/secure.kdbx
 bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
 bindsym $mod+o exec thunar
-bindsym $mod+Shift+s exec xdg-open /home/justin/Sync.ffs_gui
+bindsym $mod+Shift+s exec FreeFileSync /home/justin/Sync.ffs_gui
 bindsym Control+Shift+Escape exec gnome-system-monitor
 bindsym $mod+Control+3 exec scrot '/home/justin/Screenshot-%F-%s_$wx$h.png'
 bindsym $mod+Shift+Delete move scratchpad
