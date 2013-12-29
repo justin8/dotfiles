@@ -39,7 +39,7 @@ bindsym $mod+d exec j4-dmenu-desktop --dmenu='dmenu -i'
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-bindsym $mod+l exec i3lock -i /home/jdray/.config/i3/i3lock.png -t
+bindsym $mod+l exec i3lock -i /home/justin/.config/i3/i3lock.png -t
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
