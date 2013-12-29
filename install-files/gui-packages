@@ -23,7 +23,11 @@ terminator
 thunar
 thunar-archive-plugin
 thunar-media-tags-plugin
-thunar-volman
+thunar-vol
+man
+ttf-bitstream-vera
+ttf-dejavu
+ttf-liberation
 ttf-tw
 tumbler
 zenity
