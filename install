@@ -80,7 +80,7 @@ shift $(( $OPTIND -1 ))
 
 #per-target options
 case $target in
-	ironwood|chromebook|workdesktop|xbmc) gui=true;;
+	ironwood|chromebook|odroid|workdesktop) gui=true;;
 esac
 
 # Check if running Arch Linux
