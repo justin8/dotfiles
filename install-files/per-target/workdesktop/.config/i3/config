@@ -196,6 +196,7 @@ assign [class="VirtualBox"] "10: VMs"
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
 
+bindsym $mod+Shift+Home exec pavucontrol
 bindsym $mod+Shift+k exec keepassx /home/jdray/wgbne2fs1-home/documents/keepass/Keys.kdb
 bindsym $mod+Shift+Control+k exec keepassx /home/jdray/wgbne2fs1-wotfiles/30-IT_SSU/Shared/KeePass/Latest/Keys.kdb
 bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
