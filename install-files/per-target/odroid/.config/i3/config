@@ -195,6 +195,7 @@ for_window [class="CrashPlan"] floating enable
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
 
+bindsym $mod+Shift+Home exec pavucontrol
 bindsym $mod+Shift+k exec keepassx /abachi/justin/secure.kdbx
 bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
 bindsym $mod+o exec thunar
