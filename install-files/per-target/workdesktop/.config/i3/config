@@ -184,7 +184,6 @@ assign [class="VirtualBox"] "10: VMs"
 	exec --no-startup-id nm-applet
 	exec --no-startup-id pasystray
 	exec --no-startup-id sonata --hidden
-	exec --no-startup-id synergy
 	exec --no-startup-id thunar --daemon
 
 #Custom bindings
