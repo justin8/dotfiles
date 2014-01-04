@@ -24,7 +24,7 @@ if [[ -z $command ]]; then
 fi
 
 if [[ $command == "up" ]]; then
-	pamixer --increase $increment
+	pamixer --unmute --increase $increment
 elif [[ $command == "down" ]]; then
 	pamixer --decrease $increment
 fi
