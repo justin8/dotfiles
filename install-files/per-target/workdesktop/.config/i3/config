@@ -188,10 +188,9 @@ assign [class="VirtualBox"] "10: VMs"
 
 #Custom bindings
 #MPD:
-
-	bindsym $mod+Shift+Prior exec volume up
-	bindsym $mod+Shift+Next exec volume down
-	bindsym $mod+Shift+Home exec volume mute
+	bindsym $mod+Shift+Prior exec ~/.config/i3/bin/volume up
+	bindsym $mod+Shift+Next exec ~/.config/i3/bin/volume down
+	bindsym $mod+Shift+Home exec ~/.config/i3/bin/volume mute
 	bindsym $mod+Prior exec mpc prev
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
