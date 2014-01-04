@@ -2,6 +2,7 @@
 
 usage="usage: $0 -c {up|down|mute}"
 id_store="/tmp/.${USER}-volume"
+id=0
 increment=5
 display_volume=0
 command=
@@ -54,12 +55,7 @@ if [[ -z $icon_name ]]; then
 	fi
 fi
 
-notify_command="notify-send ' ' -i $icon_name -h int:value:$display_volume -h string:synchronous:volume"
 
 [[ -f ${id_store} ]] && id=$(cat ${id_store})
 
-if [[ -z "$id" ]]; then
-	eval "$notify_command -p" > "${id_store}"
-else
-	eval "$notify_command -r $id"
-fi
+notify-send ' ' -i $icon_name -h int:value:$display_volume -h string:synchronous:volume -r $id -p > "${id_store}"
