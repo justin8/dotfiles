@@ -192,5 +192,5 @@ bindsym $mod+Insert floating enable
 bindsym F6 exec ~/.config/i3/bin/dim
 bindsym F7 exec ~/.config/i3/bin/brighten
 bindsym F8 exec amixer set Speaker toggle
-bindsym F9 exec ~/.config/i3/bin/safe-volume down
-bindsym F10 exec ~/.config/i3/bin/safe-volume up
+bindsym F9 exec ~/.config/i3/bin/volume down
+bindsym F10 exec ~/.config/i3/bin/volume up
