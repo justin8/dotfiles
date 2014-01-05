@@ -2,8 +2,8 @@
 
 usage="usage: $0 -c {up|down|mute}"
 id_store="/tmp/.${USER}-volume"
-id=0
 increment=5
+id=0
 display_volume=0
 command=
 icon_name=
