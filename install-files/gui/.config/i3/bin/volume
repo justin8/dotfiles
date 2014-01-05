@@ -55,7 +55,7 @@ if [[ -z $icon_name ]]; then
 	fi
 fi
 
-
+find "${id_store}" -mmin +1 -exec rm {} \;
 [[ -f ${id_store} ]] && id=$(cat ${id_store})
 
 notify-send ' ' -i $icon_name -h int:value:$display_volume -h string:synchronous:volume -r $id -p > "${id_store}"
