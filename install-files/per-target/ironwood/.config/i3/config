@@ -202,13 +202,14 @@ assign [class="Steam"] 9
 
 #Custom bindings
 #MPD:
-	bindsym $mod+shift+Prior exec pamixer --increase 5
-	bindsym $mod+shift+Next exec pamixer --decrease 5
+	bindsym $mod+Shift+Prior exec ~/.config/i3/bin/volume up
+	bindsym $mod+Shift+Next exec ~/.config/i3/bin/volume down
+	bindsym $mod+Shift+Home exec ~/.config/i3/bin/volume mute
 	bindsym $mod+Prior exec mpc prev
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
 
-bindsym $mod+Shift+Home exec pavucontrol
+bindsym $mod+Shift+End exec pavucontrol
 bindsym $mod+Shift+k exec keepassx /abachi/justin/secure.kdbx
 bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
 bindsym $mod+o exec thunar
