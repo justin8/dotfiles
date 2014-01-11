@@ -147,9 +147,9 @@ if [ "$RELEASE" == "Darwin" ]; then
 else
 	echo "Copying fonts... "
 	mkdir -p ~/.fonts/ ~/.config/fontconfig/conf.d
-	cp $DOTFILES/install-files/fonts/* ~/.fonts/
-	mv ~/.fonts/*.conf ~/.config/fontconfig/conf.d/
-	fc-cache -f ~/.fonts > /dev/null
+	rsync "$DOTFILES/install-files/fonts/"*.otf ~/.fonts/
+	rsync "$DOTFILES/install-files/fonts/"*.conf ~/.config/fontconfig/conf.d/
+	nohup fc-cache -f ~/.fonts > /dev/null 2>&1 &
 
 fi
 
