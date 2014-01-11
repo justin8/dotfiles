@@ -200,7 +200,6 @@ assign [class="Steam"] 9
 	exec --no-startup-id thunar --daemon
 	exec --no-startup-id xfce4-power-manager
 
-#Custom bindings
 #MPD:
 	bindsym $mod+Shift+Prior exec ~/.config/i3/bin/volume up
 	bindsym $mod+Shift+Next exec ~/.config/i3/bin/volume down
@@ -208,6 +207,10 @@ assign [class="Steam"] 9
 	bindsym $mod+Prior exec mpc prev
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
+
+#Program switching
+	bindsym $mod+Tab exec quickswitch.py
+	bindsym $mod+Shift+Tab exec quickswitch.py -s
 
 bindsym $mod+Shift+End exec pavucontrol
 bindsym $mod+Shift+k exec keepassx /abachi/justin/secure.kdbx
@@ -219,4 +222,4 @@ bindsym $mod+Control+3 exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h
 bindsym $mod+Shift+Delete move scratchpad
 bindsym $mod+Delete scratchpad show
 bindsym $mod+Insert floating enable
-bindsym $mod+Tab exec ~/.config/i3/bin/toggle-mute
+#bindsym $mod+Tab exec ~/.config/i3/bin/toggle-mute

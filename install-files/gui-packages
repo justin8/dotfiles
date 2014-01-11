@@ -9,6 +9,7 @@ gnome-themes-standard
 gvfs
 gvfs-smb
 gvfs-mtp
+i3-py-git
 i3-wm
 i3lock
 i3status
@@ -18,6 +19,7 @@ mediterraneannight-theme
 nitrogen
 normalize
 otf-ipafont
+quickswitch-i3
 scrot
 terminator
 terminus-font

@@ -172,11 +172,14 @@ assign [class="Pidgin"] "2: IM"
 	exec --no-startup-id nitrogen --restore
 	exec --no-startup-id sonata --hidden
 
-#Custom bindings
 #MPD:
 	bindsym $mod+Prior exec mpc prev
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
+
+#Program switching
+	bindsym $mod+Tab exec quickswitch.py
+	bindsym $mod+Shift+Tab exec quickswitch.py -s
 
 bindsym $mod+Shift+k exec keepassx /abachi/justin/secure.kdbx
 bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
