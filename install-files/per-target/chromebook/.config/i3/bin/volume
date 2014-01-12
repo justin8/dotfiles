@@ -1,6 +1,6 @@
 #!/bin/bash
 
-usage="usage: $0 -c {up|down|mute}"
+usage="usage: $0 {up|down|mute}"
 id_store="/tmp/.${USER}-volume"
 safe_volume=26
 increment=1
@@ -26,7 +26,7 @@ fi
 
 cur_volume=$(amixer get Speaker|grep Left|grep -oE " [0-9]+ ")
 
-if [[ $command == "up" ]] && [[ $cur_volume < $safe_volume ]]; then
+if [[ $command == "up" ]] && [[ $cur_volume -lt $safe_volume ]]; then
 	amixer set Speaker $increment+ unmute
 elif [[ $command == "down" ]]; then
 	amixer set Speaker $increment- unmute
