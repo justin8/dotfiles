@@ -1,6 +1,6 @@
 #!/bin/bash
 
-usage="usage: $0 -c {up|down|mute}"
+usage="usage: $0 {up|down|mute}"
 id_store="/tmp/.${USER}-volume"
 increment=5
 id=0
