@@ -57,3 +57,11 @@ set showmatch           " Show matching brackets.
 "let g:solarized_visibility = "high"
 "let g:solarized_contrast = "high"
 "colorscheme solarized
+
+" Whitespace settings
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set textwidth=80
+set smarttab
+set expandtab
