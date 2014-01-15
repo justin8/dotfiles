@@ -81,9 +81,9 @@ bindsym $mod+a focus parent
 
 # switch to workspace
 bindsym $mod+1 workspace "1: Browser"
-workspace "1: Browser" output DVI-I-2
+workspace "1: Browser" output DVI-I-1
 bindsym $mod+2 workspace "2: IM"
-workspace "2: IM" output DVI-I-2
+workspace "2: IM" output DVI-I-1
 bindsym $mod+3 workspace 3
 workspace 3 output DVI-I-1
 bindsym $mod+4 workspace 4
@@ -93,7 +93,7 @@ bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace "10: VMs"
-workspace "10: VMs" output DVI-I-1
+workspace "10: VMs" output DVI-I-2
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace "1: Browser"
@@ -181,7 +181,7 @@ assign [class="VirtualBox"] "10: VMs"
 	exec --no-startup-id /usr/lib/systemd/systemd --user
 	exec --no-startup-id clipit
 	exec --no-startup-id compton
-        exec --no-startup-id kalu
+    exec --no-startup-id kalu
 	exec --no-startup-id nitrogen --restore
 	exec --no-startup-id nm-applet
 	exec --no-startup-id pasystray
