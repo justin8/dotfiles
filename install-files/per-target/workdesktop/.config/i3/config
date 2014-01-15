@@ -177,6 +177,7 @@ assign [class="VirtualBox"] "10: VMs"
 	exec --no-startup-id virtualbox
 
 	#Background Tasks:
+	exec --no-startup-id synergy
 	exec --no-startup-id /usr/lib/systemd/systemd --user
 	exec --no-startup-id clipit
 	exec --no-startup-id compton
