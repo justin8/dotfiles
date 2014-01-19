@@ -85,7 +85,7 @@ workspace "1: Browser" output DVI-I-1
 bindsym $mod+2 workspace "2: IM"
 workspace "2: IM" output DVI-I-1
 bindsym $mod+3 workspace 3
-workspace 3 output DVI-I-1
+workspace 3 output DVI-I-2
 bindsym $mod+4 workspace 4
 bindsym $mod+5 workspace 5
 bindsym $mod+6 workspace 6
