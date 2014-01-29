@@ -190,7 +190,7 @@ assign [class="Steam"] 9
 
 	#Background Tasks:
 	exec --no-startup-id /usr/lib/systemd/systemd --user
-	exec --no-startup-id clipit
+	exec --no-startup-id copyq
 	exec --no-startup-id compton
 	exec --no-startup-id kalu
 	exec --no-startup-id nitrogen --restore
