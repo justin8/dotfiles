@@ -183,7 +183,6 @@ assign [class="Steam"] 9
 
 #Startup:
 	#Foreground Tasks:
-#	exec --no-startup-id google-chrome
 	exec --no-startup-id pidgin
 	exec --no-startup-id virtualbox
 	exec --no-startup-id skype

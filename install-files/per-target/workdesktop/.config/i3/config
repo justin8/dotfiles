@@ -166,7 +166,7 @@ for_window [class="CrashPlan"] floating enable
 for_window [class="Pavucontrol"] floating enable
 
 #Location specific settings
-assign [class="Google-chrome"] "1: Browser"
+assign [class="Chromium"] "1: Browser"
 assign [class="Pidgin"] "2: IM"
 assign [class="VirtualBox"] "10: VMs"
 
