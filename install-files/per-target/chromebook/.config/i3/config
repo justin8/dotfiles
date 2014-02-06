@@ -155,7 +155,6 @@ for_window [class="Gnome-calculator"] floating enable
 for_window [class="Vinagre"] floating enable
 
 #Location specific settings
-assign [class="Google-chrome"] "1: Browser"
 assign [class="Chromium"] "1: Browser"
 assign [class="Pidgin"] "2: IM"
 
