@@ -192,6 +192,9 @@ then
 	echo -n "Copying GUI config... "
 	rsync -a $DOTFILES/install-files/gui/ ~/
 	check $?
+	echo -n "Running GUI script... "
+	$DOTFILES/install-files/gui-script
+	check $?
 fi
 
 if [[ ! -z "$target" ]]
