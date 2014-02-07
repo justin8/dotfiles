@@ -89,7 +89,7 @@ if $(echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1); then
 	echo "OS appears to be Arch Linux..."
 
 	if [[ -z "$nosystemchanges" ]]; then
-		echo "Updating repo/ca-certs config..."
+		echo "Updating repo config..."
 		if pacman -Q dray-repo > /dev/null 2>&1
 		then
 			$sudo pacman -Sy --noconfirm dray-repo > /dev/null
