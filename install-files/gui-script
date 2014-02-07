@@ -1,0 +1,5 @@
+#!/bin/bash
+xdg-mime default chromium.desktop x-scheme-handler/http
+xdg-mime default chromium.desktop x-scheme-handler/https
+xdg-mime default chromium.desktop text/html
+xdg-mime default Thunar.desktop inode/directory
