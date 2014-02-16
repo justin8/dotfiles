@@ -169,6 +169,7 @@ for_window [class="Python2"] floating enable #Workaround for PlayOnLinux's shitt
 for_window [class="File-roller"] floating enable
 for_window [class="7zFM"] floating enable
 for_window [class="net-minecraft-bootstrap-Bootstrap"] floating enable
+for_window [class="net-ftb-gui-LaunchFrame"] floating enable
 for_window [class="net-puppygames-installer-updater-GameUpdater"] floating enable
 for_window [class="Keepassx"] floating enable
 for_window [class="Virt-manager"] floating enable
