@@ -175,6 +175,7 @@ for_window [class="Keepassx"] floating enable
 for_window [class="Virt-manager"] floating enable
 for_window [class="crawl-tiles"] floating enable
 for_window [class="CrashPlan"] floating enable
+for_window [class="dogecoin-qt"] floating enable
 
 #Location specific settings
 assign [class="Pidgin"] "2: IM"
