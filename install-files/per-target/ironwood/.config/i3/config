@@ -200,6 +200,7 @@ assign [class="Steam"] 9
 	exec --no-startup-id sonata --hidden
 	exec --no-startup-id thunar --daemon
 	exec --no-startup-id xfce4-power-manager
+	exec --no-startup-id dogecoin-qt -min
 
 #MPD:
 	bindsym $mod+Shift+Prior exec ~/.config/i3/bin/volume up
