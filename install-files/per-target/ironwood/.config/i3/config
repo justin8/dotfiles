@@ -160,7 +160,7 @@ for_window [class="Nvidia-settings"] floating enable
 for_window [class="Paprefs"] floating enable
 for_window [class="Gnome-system-monitor"] floating enable
 for_window [class="Steam"] floating enable
-for_window [title="Updating Steam..."] floating enable
+for_window [title="Steam"] floating enable
 for_window [class="Wine"] floating enable
 for_window [class="Evince"] floating enable
 for_window [class="Shotwell"] floating enable
@@ -169,11 +169,13 @@ for_window [class="Python2"] floating enable #Workaround for PlayOnLinux's shitt
 for_window [class="File-roller"] floating enable
 for_window [class="7zFM"] floating enable
 for_window [class="net-minecraft-bootstrap-Bootstrap"] floating enable
+for_window [class="net-ftb-gui-LaunchFrame"] floating enable
 for_window [class="net-puppygames-installer-updater-GameUpdater"] floating enable
 for_window [class="Keepassx"] floating enable
 for_window [class="Virt-manager"] floating enable
 for_window [class="crawl-tiles"] floating enable
 for_window [class="CrashPlan"] floating enable
+for_window [class="dogecoin-qt"] floating enable
 
 #Location specific settings
 assign [class="Pidgin"] "2: IM"
@@ -198,6 +200,7 @@ assign [class="Steam"] 9
 	exec --no-startup-id sonata --hidden
 	exec --no-startup-id thunar --daemon
 	exec --no-startup-id xfce4-power-manager
+	exec --no-startup-id dogecoin-qt -min
 
 #MPD:
 	bindsym $mod+Shift+Prior exec ~/.config/i3/bin/volume up
