@@ -139,12 +139,12 @@ bindsym $mod+r mode "resize"
 bar {
 #	status_command i3status
 	status_command ~/.config/i3/bin/conky-i3bar
-	font pango:Terminus 8
+	font pango:Terminus 9
 }
 
 #Visual
-new_window none
-new_float 1pixel
+#new_window none
+#new_float 1pixel
 
 #per-app config
 for_window [class="Thunar"] floating enable
