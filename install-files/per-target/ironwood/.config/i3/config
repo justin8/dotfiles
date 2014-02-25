@@ -185,6 +185,8 @@ for_window [class="Virt-manager"] floating enable border normal
 for_window [class="crawl-tiles"] floating enable
 for_window [class="CrashPlan"] floating enable border normal
 for_window [class="dogecoin-qt"] floating enable border normal
+for_window [class="YADWIN"] floating enable border normal
+
 for_window [class="Chromium"] border normal
 
 #Location specific settings
@@ -213,9 +215,9 @@ assign [class="Steam"] 9
 	exec --no-startup-id dogecoin-qt -min
 
 #MPD:
-	bindsym $mod+Shift+Prior exec ~/.config/i3/bin/volume up
-	bindsym $mod+Shift+Next exec ~/.config/i3/bin/volume down
-	bindsym $mod+Shift+Home exec ~/.config/i3/bin/volume mute
+	bindsym $mod+Shift+Prior exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume up
+	bindsym $mod+Shift+Next exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume down
+	bindsym $mod+Shift+Home exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume mute
 	bindsym $mod+Prior exec mpc prev
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
