@@ -171,6 +171,9 @@ for_window [class="Kalu"] floating enable border normal
 for_window [class="Python2"] floating enable #Workaround for PlayOnLinux's shitty coding
 for_window [class="File-roller"] floating enable border normal
 for_window [class="CrashPlan"] floating enable border normal
+for_window [class="YADWIN"] floating enable border normal
+
+for_window [class="Chromium"] border normal
 
 #Location specific settings
 assign [class="Chromium"] "1: Browser"
@@ -196,9 +199,9 @@ assign [class="VirtualBox"] "10: VMs"
 	exec --no-startup-id thunar --daemon
 
 #MPD:
-	bindsym $mod+Shift+Prior exec ~/.config/i3/bin/volume up
-	bindsym $mod+Shift+Next exec ~/.config/i3/bin/volume down
-	bindsym $mod+Shift+Home exec ~/.config/i3/bin/volume mute
+	bindsym $mod+Shift+Prior exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume up
+	bindsym $mod+Shift+Next exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume down
+	bindsym $mod+Shift+Home exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume mute
 	bindsym $mod+Prior exec mpc prev
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
