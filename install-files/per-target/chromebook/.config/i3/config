@@ -139,20 +139,28 @@ bar {
 }
 
 #Visual
-new_window none
-new_float 1pixel
+new_window pixel 1
+new_float normal
+
+#Colours
+## class                 border  backgr. text    indicator
+client.focused          #4c7899 #285577 #ffffff #2e9ef4
+client.focused_inactive #333333 #5f676a #ffffff #484e50
+client.unfocused        #333333 #222222 #888888 #292d2e
+client.urgent           #2f343a #900000 #ffffff #900000
+
 
 #per-app config
-#for_window [class="Thunar"] floating enable
-for_window [window_role="pop-up"] floating enable
+for_window [class="Thunar"] floating enable border normal
+for_window [window_role="pop-up"] floating enable border normal
 for_window [class="Terminator"] border 1pixel
 for_window [title="Terminator Preferences"] floating enable
-for_window [class="Seahorse"] floating enable
-for_window [class="Xfce4-notifyd"] floating enable
-for_window [class="Gnome-system-monitor"] floating enable
-for_window [class="Speedcrunch"] floating enable
-for_window [class="Gnome-calculator"] floating enable
-for_window [class="Vinagre"] floating enable
+for_window [class="Seahorse"] floating enable border normal
+for_window [class="Xfce4-notifyd"] floating enableborder none
+for_window [class="Gnome-system-monitor"] floating enable border normal
+for_window [class="Speedcrunch"] floating enable border normal
+for_window [class="Gnome-calculator"] floating enable border normal
+for_window [class="Vinagre"] floating enable border normal
 
 #Location specific settings
 assign [class="Chromium"] "1: Browser"
@@ -172,6 +180,8 @@ assign [class="Pidgin"] "2: IM"
 	exec --no-startup-id sonata --hidden
 
 #MPD:
+    bindsym F9 exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume down
+    bindsym F10 exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume up
 	bindsym $mod+Prior exec mpc prev
 	bindsym $mod+Next exec mpc next
 	bindsym $mod+Home exec mpc toggle
@@ -194,5 +204,3 @@ bindsym $mod+Insert floating enable
 bindsym F6 exec ~/.config/i3/bin/dim
 bindsym F7 exec ~/.config/i3/bin/brighten
 bindsym F8 exec amixer set Speaker toggle
-bindsym F9 exec ~/.config/i3/bin/volume down
-bindsym F10 exec ~/.config/i3/bin/volume up
