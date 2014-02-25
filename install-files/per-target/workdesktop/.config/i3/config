@@ -143,27 +143,34 @@ bar {
 }
 
 #Visual
-#new_window none
-#new_float 1pixel
+new_window pixel 1
+new_float normal
+
+#Colours
+## class                 border  backgr. text    indicator
+client.focused          #4c7899 #285577 #ffffff #2e9ef4
+client.focused_inactive #333333 #5f676a #ffffff #484e50
+client.unfocused        #333333 #222222 #888888 #292d2e
+client.urgent           #2f343a #900000 #ffffff #900000
+
 
 #per-app config
-for_window [class="Thunar"] floating enable
-for_window [window_role="pop-up"] floating enable
-for_window [class="Gnome-calculator"] floating enable
+for_window [class="Thunar"] floating enable border normal
+for_window [window_role="pop-up"] floating enable border normal
+for_window [class="Gnome-calculator"] floating enable border normal
 for_window [class="Terminator"] border 1pixel
 for_window [title="Terminator Preferences"] floating enable
-for_window [class="Xfce4-notifyd"] floating enable
-for_window [class="Speedcrunch"] floating enable
-for_window [class="Browser_x64"] floating enable
-for_window [class="Gnome-system-monitor"] floating enable
-for_window [class="Steam"] floating enable
-for_window [class="Wine"] floating enable
-for_window [class="Evince"] floating enable
-for_window [class="Kalu"] floating enable
+for_window [class="Xfce4-notifyd"] floating enable border none
+for_window [class="Speedcrunch"] floating enable border normal
+for_window [class="Pavucontrol"] floating enable border normal
+for_window [class="Gnome-system-monitor"] floating enable border normal
+for_window [class="Steam"] floating enable border normal
+for_window [class="Wine"] floating enable border normal
+for_window [class="Evince"] floating enable border normal
+for_window [class="Kalu"] floating enable border normal
 for_window [class="Python2"] floating enable #Workaround for PlayOnLinux's shitty coding
-for_window [class="File-roller"] floating enable
-for_window [class="CrashPlan"] floating enable
-for_window [class="Pavucontrol"] floating enable
+for_window [class="File-roller"] floating enable border normal
+for_window [class="CrashPlan"] floating enable border normal
 
 #Location specific settings
 assign [class="Chromium"] "1: Browser"
