@@ -36,8 +36,8 @@ TEXT
 
 # JSON for i3bar
 
-[{ "full_text" : "${exec ~/.config/i3/bin/volume get}" , "color" : "\#6AFFD8" },
-  { "full_text" : "▣ ${loadavg 1} /${hwmon 1 temp 2}°", "color" : ${if_match ${loadavg 1}<4}"\#99D7FF"${else}"\#FF0000"${endif} },
-  { "full_text" : "M ${memperc}% / ${swapperc}%" , "color" : ${if_match ${memperc}<90}"\#FFFE6A"${else}"\#FF0000"${endif} },
-  { "full_text" : "📆 ${time %a %d %b}", "color" : "\#ffffff" },
+[{ "full_text" : "${exec ~/.config/i3/bin/volume get}" , "color" : "\#6AFFD8", "name": "volume" },
+  { "full_text" : "▣ ${loadavg 1} /${hwmon 1 temp 2}°", "color" : ${if_match ${loadavg 1}<4}"\#99D7FF"${else}"\#FF0000"${endif}, "name": "CPU" },
+  { "full_text" : "M ${memperc}% / ${swapperc}%" , "color" : ${if_match ${memperc}<90}"\#FFFE6A"${else}"\#FF0000"${endif}, "name": "memory" },
+  { "full_text" : "📆 ${time %a %d %b}", "color" : "\#ffffff", "name": "date" },
   { "full_text" : "🕑 ${time %H:%M}", "color" : "\#ffffff" }],
