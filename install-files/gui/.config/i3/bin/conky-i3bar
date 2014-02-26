@@ -12,24 +12,26 @@ echo '[],'
 # Now send blocks with information forever, forking off so that we can read inputs
 conky -dc $HOME/.config/conky/conkyrc
 
-IFS="}"
 while read;do
     IFS=" "
     STR=$(echo $REPLY | sed 's/[{}]//g;s/ "/"/g' | awk '{n=split($0,a,","); for (i=1; i<=n; i++) {m=split(a[i],b,":"); if (b[1] == "\"name\"") {NAME=b[2]} if (b[1] =="\"x\"") {X=b[2]} if (b[1] =="\"y\"") {Y=b[2]} } print NAME " " X " " Y}')
     read NAME X Y <<< "$STR"
     X=$((X-50))
-    case "${NAME}" in
-        \"date\")
-            yad --no-buttons --geometry=+$X+20 --class "YADWIN" --calendar
+    case "${NAME//\"}" in
+        date)
+            yad --no-buttons --geometry=+$((X-120))+$((Y-190)) --class "YADWIN" --calendar
             ;;
-        \"volume\")
+        volume)
             VOL=$(~/.config/i3/bin/volume get | grep -o '[0-9][0-9]*')
-            NEWVOL=$(yad --text="Volume" --scale --value $VOL --button gtk-ok:0 --geometry=x200+$X+20 --class "YADWIN" --vertical --text-align center)
+            NEWVOL=$(yad --text="Volume" --scale --value $VOL --button gtk-ok:0 --geometry=x200+$X+$((Y-215)) --class "YADWIN" --vertical --text-align center)
             if [[ $? == 0 ]]
             then
+                echo foo > /tmp/foo
                 ~/.config/conky/conkyexec ~/.config/i3/bin/volume set $NEWVOL
             fi
             ;;
+        CPU)
+            gnome-system-monitor -r
+            ;;
     esac
-    IFS="}"
 done
