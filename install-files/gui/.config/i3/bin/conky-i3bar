@@ -33,5 +33,8 @@ while read;do
         CPU)
             gnome-system-monitor -r
             ;;
+        nvidia)
+            nvidia-settings
+            ;;
     esac
 done
