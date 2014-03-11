@@ -10,6 +10,9 @@
 " properly set to work with the Vim-related packages.
 runtime! archlinux.vim
 
+" pathogen must come before filetype on
+execute pathogen#infect()
+
 " If you prefer the old-style vim functionalty, add 'runtime! vimrc_example.vim'
 " Or better yet, read /usr/share/vim/vim73/vimrc_example.vim or the vim manual
 " and configure vim to your own liking!
@@ -23,6 +26,9 @@ endif
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
 set background=dark
+
+" trim trailing whitespace for python files (pep8)
+autocmd BufWritePre *.py :%s/\s\+$//e
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
@@ -40,8 +46,9 @@ endif
 " differently from regular Vi. They are highly recommended though.
 "set showcmd            " Show (partial) command in status line.
 set showmatch           " Show matching brackets.
-"set ignorecase         " Do case insensitive matching
-"set smartcase          " Do smart case matching
+set hlsearch            " Highlight searches. <C-L> to temprorarily turn off
+set ignorecase         " Do case insensitive matching
+set smartcase          " Do smart case matching
 "set incsearch          " Incremental search
 "set autowrite          " Automatically save before commands like :next and :make
 "set hidden             " Hide buffers when they are abandoned
@@ -62,5 +69,21 @@ set showmatch           " Show matching brackets.
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
+set textwidth=80
 set smarttab
 set expandtab
+
+" Plugin customizations
+
+" Linting!
+let g:syntastic_enable_perl_checker = 1
+let g:syntastic_c_check_header = 1
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_python_checkers=['flake8']
+let g:syntastic_ruby_checkers=['rubocop']
+let g:syntastic_yaml_checkers=['yamlxs']
+let g:syntastic_zsh_checkers=['zsh']
+let g:syntastic_sh_checkers=['shellcheck']
+"let g:syntastic_haskell_checkers=['hlint']
+let g:syntastic_javascript_checkers=['jshint']
+let g:syntastic_puppet_checkers=['puppetlint']
