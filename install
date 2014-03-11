@@ -98,16 +98,14 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 
 		while read package
 		do
-			pacman -Q
-            "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
+			pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
 		done < "$DOTFILES/install-files/global-packages"
 
 		if [[ ! -z "$gui" ]]
 		then
 			while read package
 			do
-				pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST
-                $package"
+				pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
 			done < "$DOTFILES/install-files/gui-packages"
 		fi
 
@@ -115,12 +113,11 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 		then
 			while read package
 			do
-				pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST
-                $package"
+				pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
 			done < "$DOTFILES/install-files/per-target/$target-packages"
 		fi
 
-		[[ $PACINST == "" ]] || $sudo pacman -Sy --noconfirm "$PACINST"
+		[[ $PACINST == "" ]] || $sudo pacman -Sy --noconfirm $PACINST
 	fi
 # Check if running OS X
 elif echo $RELEASE|grep -qi darwin > /dev/null 2>&1; then
@@ -172,10 +169,11 @@ if [[ -z "$nosystemchanges" ]]; then
 		check $?
 	fi
 
-	if [ -e /etc/sudoers ]; then
-		if [ ! -f /etc/sudoers.d/patched-fonts ]; then
+	if [ -d /etc/sudoers.d ]; then
+		if ! sudo test -f /etc/sudoers.d/patched-fonts; then
 			echo -n "Applying sudoers config... "
 				echo -e 'Defaults\tenv_keep += "SSH_TTY"\nDefaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee /etc/sudoers.d/patched-fonts > /dev/null
+                check $?
 		fi
 	fi
 fi
