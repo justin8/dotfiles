@@ -9,6 +9,7 @@
     background_type = transparent
     background_image = None
     foreground_color = "#839496"
+    scroll_on_output = False
     show_titlebar = False
     font = Menlo for Powerline 10
     background_color = "#002b36"
