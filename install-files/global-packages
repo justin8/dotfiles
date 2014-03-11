@@ -3,7 +3,14 @@ command-not-found
 git
 p7zip
 mercurial
+nodejs-jshint
+nodejs-jsonlint
+perl-yaml
+puppet-lint
+python2-flake8
 rsync
+rubocop
+shellcheck
 unace
 unrar
 unzip

@@ -5,18 +5,16 @@ sshd_config="/etc/ssh/sshd_config"
 # Hacky shit to make OS X work
 MACBREW="zsh zsh-completion git gnu-sed gnu-tar"
 sed=sed
-tar=tar
 
 # OS Detection / OS Specific variables
 if [ -f /etc/os-release ]
 then
-	RELEASE=`grep "^NAME=" /etc/os-release`
+    RELEASE=$(grep "^NAME=" /etc/os-release)
 elif uname -a|grep -qi darwin > /dev/null 2>&1
 then
 	RELEASE="Darwin"
 	sshd_config="/etc/sshd_config"
 	sed=gsed
-	tar=gtar
 else
 	RELEASE="false"
 	echo "Unable to detect OS correctly, assuming some sort of Linux..."
@@ -37,9 +35,9 @@ function check {
 
 function autorestart {
 	if which systemctl > /dev/null 2>&1; then
-		$sudo systemctl restart $1
+		$sudo systemctl restart "$1"
 	elif which service > /dev/null 2>&1; then
-		$sudo service $1 restart
+		$sudo service "$1" restart
 	fi
 	# Need to detect/restart service on OS X
 	# Need to let user know if SSHD needs restarting manually
@@ -47,14 +45,14 @@ function autorestart {
 
 function usage {
 cat << EOF
-usage: $(basename $0) options
+usage: $(basename "$0") options
 
 This script will install config dotfiles for the current user and alter some minor system-level settings
 
 OPTIONS:
 -h	Show this help
 -n	No system changes, no packages will be installed and no system level changes will be made
--t	Target, can be one of $(cd $DOTFILES;ls -d */|sed 's#/$##'|tr '\n' ' ')
+-t	Target, can be one of $(cd "$DOTFILES";ls -d ./*/|sed 's#/$##'|tr '\n' ' ')
 -g	GUI, install basic GUI settings. This is installed by most targets already
 EOF
 }
@@ -76,7 +74,7 @@ do
 		?) usage;exit 1;;
 	esac
 done
-shift $(( $OPTIND -1 ))
+shift $(( OPTIND -1 ))
 
 #per-target options
 case $target in
@@ -85,7 +83,7 @@ esac
 
 # Check if running Arch Linux
 echo "Verifying required packages are installed."
-if $(echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1); then
+if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 	echo "OS appears to be Arch Linux..."
 
 	if [[ -z "$nosystemchanges" ]]; then
@@ -94,19 +92,22 @@ if $(echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1); then
 		then
 			$sudo pacman -Sy --noconfirm dray-repo > /dev/null
 		else
-			$sudo pacman -U --noconfirm $DOTFILES/install-files/dray-repo-*-any.pkg.tar.xz > /dev/null
+			$sudo pacman -U --noconfirm
+            "$DOTFILES/install-files/dray-repo-*-any.pkg.tar.xz" > /dev/null
 		fi
 
 		while read package
 		do
-			pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
+			pacman -Q
+            "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
 		done < "$DOTFILES/install-files/global-packages"
 
 		if [[ ! -z "$gui" ]]
 		then
 			while read package
 			do
-				pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
+				pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST
+                $package"
 			done < "$DOTFILES/install-files/gui-packages"
 		fi
 
@@ -114,21 +115,23 @@ if $(echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1); then
 		then
 			while read package
 			do
-				pacman -Q $package > /dev/null 2>&1 || PACINST="$PACINST $package"
+				pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST
+                $package"
 			done < "$DOTFILES/install-files/per-target/$target-packages"
 		fi
 
-		[[ $PACINST == "" ]] || $sudo pacman -Sy --noconfirm $PACINST
+		[[ $PACINST == "" ]] || $sudo pacman -Sy --noconfirm "$PACINST"
 	fi
 # Check if running OS X
-elif $(echo $RELEASE|grep -qi darwin > /dev/null 2>&1); then
+elif echo $RELEASE|grep -qi darwin > /dev/null 2>&1; then
 	echo "OS appears to be Mac OS X..."
 	if [[ -z "$nosystemchanges" ]]; then
 		for package in $MACBREW
 		do
-			brew list|grep $package > /dev/null 2>&1 || BREWINST="$BREWINST $package"
+			brew list|grep "$package" > /dev/null 2>&1 || BREWINST="$BREWINST
+            $package"
 		done
-		[[ $BREWINST == "" ]] || brew install $BREWINST
+		[[ $BREWINST == "" ]] || brew install "$BREWINST"
 		echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
 		echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
 	fi
@@ -155,11 +158,11 @@ fi
 
 if [[ -z "$nosystemchanges" ]]; then
 	echo -n "Checking SSHD config... "
-	if `grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config`; then
+	if grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config; then
 		echo -e "[ \e[1;32mOK\e[00m ]"
 	else
 		echo -e "[\e[1;33mFixing\e[00m]"
-		if `grep -q "AcceptEnv" $sshd_config`; then
+		if grep -q "AcceptEnv" $sshd_config; then
 			$sudo $sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
 		else
 			echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config > /dev/null
@@ -179,7 +182,10 @@ fi
 
 
 echo -n "Copying base dotfiles... "
-rsync -a $DOTFILES/install-files/global/ ~/
+rsync -a "$DOTFILES/install-files/global/" ~/
+check $?
+echo -n "Running global script... "
+"$DOTFILES/install-files/global-script"
 check $?
 touch ~/.zshrc-addon > /dev/null
 if ! grep -qE 'PATH.*~/\.bin' ~/.zshrc-addon
@@ -190,22 +196,22 @@ fi
 if [[ ! -z "$gui" ]]
 then
 	echo -n "Copying GUI config... "
-	rsync -a $DOTFILES/install-files/gui/ ~/
+	rsync -a "$DOTFILES/install-files/gui/" ~/
 	check $?
 	echo -n "Running GUI script... "
-	$DOTFILES/install-files/gui-script
+	"$DOTFILES/install-files/gui-script"
 	check $?
 fi
 
 if [[ ! -z "$target" ]]
 then
 	echo -n "Copying $target config... "
-	rsync -a $DOTFILES/install-files/per-target/$target/ ~/
+	rsync -a "$DOTFILES/install-files/per-target/$target/" ~/
 	check $?
 	if [[ -f $DOTFILES/install-files/per-target/$target-script ]]
 	then
 		echo -n "Running $target script... "
-		$DOTFILES/install-files/per-target/$target-script
+		"$DOTFILES/install-files/per-target/$target-script"
 		check $?
 	fi
 fi
@@ -222,6 +228,6 @@ fi
 check $?
 
 echo "Changing shell to ZSH."
-echo $SHELL|grep -q zsh || chsh -s `which zsh`
+echo "$SHELL"|grep -q zsh || chsh -s "$(which zsh)"
 
 echo "If you want local terminals to use the agnoster theme; copy and uncomment the font config section from .zshrc to .zshrc-addon"
