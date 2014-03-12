@@ -1,6 +1,3 @@
-[submodule "install-files/global/.vim/bundle/jedi-vim"]
-	path = install-files/global/.vim/bundle/jedi-vim
-	url = https://github.com/davidhalter/jedi-vim.git
-[submodule "install-files/global/.vim/bundle/syntastic"]
-	path = install-files/global/.vim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
+[submodule "install-files/global/.vim/bundle/vundle"]
+	path = install-files/global/.vim/bundle/vundle
+	url = https://github.com/gmarik/vundle.git
