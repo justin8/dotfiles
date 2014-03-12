@@ -43,6 +43,11 @@ function autorestart {
 	# Need to let user know if SSHD needs restarting manually
 }
 
+function update_submodules {
+    cd "$DOTFILES"
+    git submodule update --init
+}
+
 function usage {
 cat << EOF
 usage: $(basename "$0") options
@@ -178,6 +183,9 @@ if [[ -z "$nosystemchanges" ]]; then
 	fi
 fi
 
+echo -n "Updating submodules... "
+update_submodules
+check $?
 
 echo -n "Copying base dotfiles... "
 rsync -a "$DOTFILES/install-files/global/" ~/
