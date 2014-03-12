@@ -27,7 +27,7 @@ then
 fi
 
 function check {
-case in $1:
+case $1 in
     0)
         echo -e "[ \e[1;32mOK\e[00m ]"
         ;;
@@ -114,11 +114,9 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
     echo "OS appears to be Arch Linux..."
 
     if [[ -z "$nosystemchanges" ]]; then
-        echo "Updating repo config..."
-        if pacman -Q dray-repo > /dev/null 2>&1
+        echo "Configuring repo..."
+        if ! pacman -Q dray-repo > /dev/null 2>&1
         then
-            $sudo pacman -Sy --noconfirm dray-repo > /dev/null
-        else
             $sudo pacman -U --noconfirm
             "$DOTFILES/install-files/dray-repo-*-any.pkg.tar.xz" > /dev/null
         fi
@@ -144,7 +142,15 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
             done < "$DOTFILES/install-files/per-target/$target-packages"
         fi
 
-        [[ $PACINST == "" ]] || $sudo pacman -Sy --noconfirm $PACINST
+        if [[ -n $PACINST ]]; then
+            if ! $sudo pacman -Sy --noconfirm $PACINST
+            then
+                echo "An error has occurred while installing required packages!"
+                echo "Please try to install the following packages manually:"
+                echo "$PACINST"
+                exit 1
+            fi
+        fi
     fi
     # Check if running OS X
 elif echo $RELEASE|grep -qi darwin > /dev/null 2>&1; then
@@ -226,9 +232,10 @@ else
     check $?
 fi
 
-echo -n "Updating vim plugins... "
+echo -n "Configuring vim plugins... "
 vim -esu ~/.vimrc +BundleClean +BundleUpdate +qa
-check $?
+# Vim always seems to have a return of 1...
+echo -e "[ \e[1;32mOK\e[00m ]"
 
 echo -n "Running global script... "
 "$DOTFILES/install-files/global-script"
