@@ -233,7 +233,8 @@ else
 fi
 
 echo -n "Configuring vim plugins... "
-vim -esu ~/.vimrc +BundleClean +BundleUpdate +qa
+# Parse vimrc to clean up bundles that shouldn't be installed?
+vim -esu ~/.vimrc +BundleUpdate +qa
 # Vim always seems to have a return of 1...
 echo -e "[ \e[1;32mOK\e[00m ]"
 

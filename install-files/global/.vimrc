@@ -12,6 +12,10 @@ Bundle 'davidhalter/jedi-vim'
 Bundle 'scrooloose/syntastic'
 Bundle 'ervandew/supertab'
 Bundle 'majutsushi/tagbar'
+Bundle 'bling/vim-airline'
+Bundle 'chrisbra/csv.vim'
+Bundle 'mhinz/vim-signify'
+Bundle 'tpope/vim-fugitive'
 
 " This is disabled because for some reason it asks for a username/password for
 " https://github.com?
@@ -98,7 +102,12 @@ let g:syntastic_sh_checkers=['shellcheck']
 let g:syntastic_javascript_checkers=['jshint']
 let g:syntastic_puppet_checkers=['puppetlint']
 
-"Tagbar
+" Statusline
+let g:airline#extensions#branch#enabled = 1
+let g:airline_powerline_fonts = 1
+set laststatus=2
+
+" Tagbar
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_autoclose = 1
 let g:tagbar_type_puppet = {
@@ -110,3 +119,7 @@ let g:tagbar_type_puppet = {
         \'d:definition'
       \]
     \}
+
+" Tab control keys
+map <C-S-]> gt
+map <C-S-[> gT
