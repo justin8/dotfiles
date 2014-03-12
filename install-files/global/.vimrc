@@ -11,6 +11,11 @@ Bundle 'gmarik/vundle'
 Bundle 'davidhalter/jedi-vim'
 Bundle 'scrooloose/syntastic'
 Bundle 'ervandew/supertab'
+Bundle 'majutsushi/tagbar'
+
+" This is disabled because for some reason it asks for a username/password for
+" https://github.com?
+"Bundle 'nanotech/jellybeans'
 
 set nocompatible                " Use Vim defaults instead of 100% vi compatibility
 set backspace=indent,eol,start  " more powerful backspacing
@@ -65,11 +70,7 @@ set smartcase          " Do smart case matching
 "  source /etc/vim/vimrc.local
 "endif
 
-" Solarized options
-"let g:solarized_termcolors = 256
-"let g:solarized_visibility = "high"
-"let g:solarized_contrast = "high"
-"colorscheme solarized
+colorscheme jellybeans
 
 " Whitespace settings
 set tabstop=4
@@ -96,3 +97,16 @@ let g:syntastic_sh_checkers=['shellcheck']
 "let g:syntastic_haskell_checkers=['hlint']
 let g:syntastic_javascript_checkers=['jshint']
 let g:syntastic_puppet_checkers=['puppetlint']
+
+"Tagbar
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_autoclose = 1
+let g:tagbar_type_puppet = {
+    \ 'ctagstype': 'puppet',
+    \ 'kinds': [
+        \'c:class',
+        \'s:site',
+        \'n:node',
+        \'d:definition'
+      \]
+    \}
