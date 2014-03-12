@@ -48,6 +48,10 @@ function update_submodules {
     git submodule update --init > /dev/null 2>&1
 }
 
+function get_targets {
+    echo -n $(cd "$DOTFILES/install-files/per-target";ls -d ./*/|sed 's#/$##;s#^./##'|tr '\n' ' ')
+}
+
 function usage {
 cat << EOF
 usage: $(basename "$0") options
@@ -57,7 +61,7 @@ This script will install config dotfiles for the current user and alter some min
 OPTIONS:
 -h	Show this help
 -n	No system changes, no packages will be installed and no system level changes will be made
--t	Target, can be one of $(cd "$DOTFILES";ls -d ./*/|sed 's#/$##'|tr '\n' ' ')
+-t	Target, can be one of: $(get_targets)
 -g	GUI, install basic GUI settings. This is installed by most targets already
 EOF
 }
@@ -85,6 +89,17 @@ shift $(( OPTIND -1 ))
 case $target in
 	ironwood|chromebook|odroid|workdesktop) gui=true;;
 esac
+
+if [[ -n $target ]]; then
+    for i in $(get_targets)
+    do
+       [[ $target == $i ]] && found_target=true
+    done
+    if [[ -z $found_target ]]; then
+        echo "Target $target not found! Aborting."
+        exit 1
+    fi
+fi
 
 # Check if running Arch Linux
 echo "Verifying required packages are installed."
