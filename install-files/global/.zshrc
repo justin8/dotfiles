@@ -58,5 +58,8 @@ source $ZSH/oh-my-zsh.sh
 alias vi=vim
 export EDITOR="vim"
 
+# Fix to make vim work with color themes
+export TERM=xterm-256color
+
 # Path
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl:$PATH
