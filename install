@@ -12,44 +12,51 @@ then
     RELEASE=$(grep "^NAME=" /etc/os-release)
 elif uname -a|grep -qi darwin > /dev/null 2>&1
 then
-	RELEASE="Darwin"
-	sshd_config="/etc/sshd_config"
-	sed=gsed
+    RELEASE="Darwin"
+    sshd_config="/etc/sshd_config"
+    sed=gsed
 else
-	RELEASE="false"
-	echo "Unable to detect OS correctly, assuming some sort of Linux..."
+    RELEASE="false"
+    echo "Unable to detect OS correctly, assuming some sort of Linux..."
 fi
 
 if [ "x$DOTFILES" == "x" ]
 then
-	echo "An error has occured while determining the current path. Exiting."
-	exit 1
+    echo "An error has occured while determining the current path. Exiting."
+    exit 1
 fi
 
 function check {
-	rc=$1
-	[[ $rc == 0 ]] && echo -e "[ \e[1;32mOK\e[00m ]"
-	[[ $rc == 1 ]] && echo -e "[\e[1;31mFAILED\e[00m]"
-	[[ $rc == 2 ]] && echo -e "[\e[1;33mFixing\e[00m]"
+case in $1:
+    0)
+        echo -e "[ \e[1;32mOK\e[00m ]"
+        ;;
+    2)
+        echo -e "[\e[1;33mFixing\e[00m]"
+        ;;
+    *)
+        echo -e "[\e[1;31mFAILED\e[00m]"
+        ;;
+esac
 }
 
 function autorestart {
-	if which systemctl > /dev/null 2>&1; then
-		$sudo systemctl restart "$1"
-	elif which service > /dev/null 2>&1; then
-		$sudo service "$1" restart
-	fi
-	# Need to detect/restart service on OS X
-	# Need to let user know if SSHD needs restarting manually
+if which systemctl > /dev/null 2>&1; then
+    $sudo systemctl restart "$1"
+elif which service > /dev/null 2>&1; then
+    $sudo service "$1" restart
+fi
+# Need to detect/restart service on OS X
+# Need to let user know if SSHD needs restarting manually
 }
 
 function update_submodules {
-    cd "$DOTFILES"
-    git submodule update --init --recursive > /dev/null 2>&1
+cd "$DOTFILES"
+git submodule update --init --recursive > /dev/null 2>&1
 }
 
 function get_targets {
-    echo -n $(cd "$DOTFILES/install-files/per-target";ls -d ./*/|sed 's#/$##;s#^./##'|tr '\n' ' ')
+echo -n $(cd "$DOTFILES/install-files/per-target";ls -d ./*/|sed 's#/$##;s#^./##'|tr '\n' ' ')
 }
 
 function usage {
@@ -67,33 +74,33 @@ EOF
 }
 
 if which sudo > /dev/null 2>&1; then
-	sudo=sudo
+    sudo=sudo
 elif [[ $UID != 0 ]]; then
-	echo "This script requires either sudo or root"
-	exit 1
+    echo "This script requires either sudo or root"
+    exit 1
 fi
 
 while getopts ":hngt:" OPTION
 do
-	case $OPTION in
-		h) usage;exit 0;;
-		n) nosystemchanges=true;;
-		g) gui=true;;
-		t) target="$OPTARG";;
-		?) usage;exit 1;;
-	esac
+    case $OPTION in
+        h) usage;exit 0;;
+    n) nosystemchanges=true;;
+g) gui=true;;
+        t) target="$OPTARG";;
+    ?) usage;exit 1;;
+esac
 done
 shift $(( OPTIND -1 ))
 
 #per-target options
 case $target in
-	ironwood|chromebook|odroid|workdesktop) gui=true;;
+    ironwood|chromebook|odroid|workdesktop) gui=true;;
 esac
 
 if [[ -n $target ]]; then
     for i in $(get_targets)
     do
-       [[ $target == $i ]] && found_target=true
+        [[ $target == $i ]] && found_target=true
     done
     if [[ -z $found_target ]]; then
         echo "Target $target not found! Aborting."
@@ -104,98 +111,98 @@ fi
 # Check if running Arch Linux
 echo "Verifying required packages are installed."
 if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
-	echo "OS appears to be Arch Linux..."
+    echo "OS appears to be Arch Linux..."
 
-	if [[ -z "$nosystemchanges" ]]; then
-		echo "Updating repo config..."
-		if pacman -Q dray-repo > /dev/null 2>&1
-		then
-			$sudo pacman -Sy --noconfirm dray-repo > /dev/null
-		else
-			$sudo pacman -U --noconfirm
+    if [[ -z "$nosystemchanges" ]]; then
+        echo "Updating repo config..."
+        if pacman -Q dray-repo > /dev/null 2>&1
+        then
+            $sudo pacman -Sy --noconfirm dray-repo > /dev/null
+        else
+            $sudo pacman -U --noconfirm
             "$DOTFILES/install-files/dray-repo-*-any.pkg.tar.xz" > /dev/null
-		fi
+        fi
 
-		while read package
-		do
-			pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
-		done < "$DOTFILES/install-files/global-packages"
+        while read package
+        do
+            pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
+        done < "$DOTFILES/install-files/global-packages"
 
-		if [[ ! -z "$gui" ]]
-		then
-			while read package
-			do
-				pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
-			done < "$DOTFILES/install-files/gui-packages"
-		fi
+        if [[ ! -z "$gui" ]]
+        then
+            while read package
+            do
+                pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
+            done < "$DOTFILES/install-files/gui-packages"
+        fi
 
-		if [[ ! -z "$target" ]]
-		then
-			while read package
-			do
-				pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
-			done < "$DOTFILES/install-files/per-target/$target-packages"
-		fi
+        if [[ ! -z "$target" ]]
+        then
+            while read package
+            do
+                pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
+            done < "$DOTFILES/install-files/per-target/$target-packages"
+        fi
 
-		[[ $PACINST == "" ]] || $sudo pacman -Sy --noconfirm $PACINST
-	fi
-# Check if running OS X
+        [[ $PACINST == "" ]] || $sudo pacman -Sy --noconfirm $PACINST
+    fi
+    # Check if running OS X
 elif echo $RELEASE|grep -qi darwin > /dev/null 2>&1; then
-	echo "OS appears to be Mac OS X..."
-	if [[ -z "$nosystemchanges" ]]; then
-		for package in $MACBREW
-		do
-			brew list|grep "$package" > /dev/null 2>&1 || BREWINST="$BREWINST
+    echo "OS appears to be Mac OS X..."
+    if [[ -z "$nosystemchanges" ]]; then
+        for package in $MACBREW
+        do
+            brew list|grep "$package" > /dev/null 2>&1 || BREWINST="$BREWINST
             $package"
-		done
-		[[ $BREWINST == "" ]] || brew install "$BREWINST"
-		echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
-		echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
-	fi
+        done
+        [[ $BREWINST == "" ]] || brew install "$BREWINST"
+        echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
+        echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
+    fi
 else
-	echo "You are not using Arch Linux; You may have to install some of the following manually: $(cat "$DOTFILES/install-files/*packages")"
-	echo "Once you have; press enter to continue"
-	read
+    echo "You are not using Arch Linux; You may have to install some of the following manually: $(cat "$DOTFILES/install-files/*packages")"
+    echo "Once you have; press enter to continue"
+    read
 fi
 
 
 if [ "$RELEASE" == "Darwin" ]; then
-	#echo -n "Copying OS X specific files... "
-	#rsync -a "$DOTFILES/install-files/mac/" "~/" > /dev/null 2>&1
-	#check $?
-	echo > /dev/null
+    #echo -n "Copying OS X specific files... "
+    #rsync -a "$DOTFILES/install-files/mac/" "~/" > /dev/null 2>&1
+    #check $?
+    echo > /dev/null
 else
-	echo "Copying fonts... "
-	mkdir -p ~/.fonts/ ~/.config/fontconfig/conf.d
-	rsync "$DOTFILES/install-files/fonts/"*.otf ~/.fonts/
-	rsync "$DOTFILES/install-files/fonts/"*.conf ~/.config/fontconfig/conf.d/
-	nohup fc-cache -f ~/.fonts > /dev/null 2>&1 &
+    echo "Copying fonts... "
+    mkdir -p ~/.fonts/ ~/.config/fontconfig/conf.d
+    rsync "$DOTFILES/install-files/fonts/"*.otf ~/.fonts/
+    rsync "$DOTFILES/install-files/fonts/"*.conf ~/.config/fontconfig/conf.d/
+    nohup fc-cache -f ~/.fonts > /dev/null 2>&1 &
 
 fi
 
 if [[ -z "$nosystemchanges" ]]; then
-	echo -n "Checking SSHD config... "
-	if grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config; then
-		echo -e "[ \e[1;32mOK\e[00m ]"
-	else
-		echo -e "[\e[1;33mFixing\e[00m]"
-		if grep -q "AcceptEnv" $sshd_config; then
-			$sudo $sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
-		else
-			echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config > /dev/null
-		fi
-		echo -n "Restarting SSHD... "
-		autorestart sshd
-		check $?
-	fi
+    echo -n "Checking SSHD config... "
+    if grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config; then
+        echo -e "[ \e[1;32mOK\e[00m ]"
+    else
+        echo -e "[\e[1;33mFixing\e[00m]"
+        if grep -q "AcceptEnv" $sshd_config; then
+            $sudo $sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
+        else
+            echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config > /dev/null
+        fi
+        echo -n "Restarting SSHD... "
+        autorestart sshd
+        check $?
+    fi
 
-	if [ -d /etc/sudoers.d ]; then
-		if ! sudo test -f /etc/sudoers.d/patched-fonts; then
-			echo -n "Applying sudoers config... "
-				echo -e 'Defaults\tenv_keep += "SSH_TTY"\nDefaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee /etc/sudoers.d/patched-fonts > /dev/null
-                check $?
-		fi
-	fi
+    if [ -d /etc/sudoers.d ]; then
+        if ! sudo test -f /etc/sudoers.d/patched-fonts; then
+            echo -n "Applying sudoers config... "
+            echo -e 'Defaults\tenv_keep += "SSH_TTY"\nDefaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee /etc/sudoers.d/patched-fonts > /dev/null
+            check $?
+        fi
+    fi
 fi
 
 echo -n "Updating submodules... "
@@ -205,48 +212,69 @@ check $?
 echo -n "Copying base dotfiles... "
 rsync -a "$DOTFILES/install-files/global/" ~/
 check $?
+
+echo -n "Configuring vundle... "
+if [[ -d ~/.vim/bundle/vundle ]]
+then
+    cd ~/.vim/bundle/vundle
+    git reset --hard origin/master > /dev/null 2>&1
+    git pull > /dev/null 2>&1
+    check $?
+else
+    mkdir -p ~/.vim/bundle
+    git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+    check $?
+fi
+
+echo -n "Updating vim plugins... "
+vim -esu ~/.vimrc +BundleClean +BundleUpdate +qa
+check $?
+
 echo -n "Running global script... "
 "$DOTFILES/install-files/global-script"
 check $?
+
 touch ~/.zshrc-addon > /dev/null
 if ! grep -qE 'PATH.*~/\.bin' ~/.zshrc-addon
 then
-	echo 'export PATH=~/.bin:$PATH' >> ~/.zshrc-addon
+    echo 'export PATH=~/.bin:$PATH' >> ~/.zshrc-addon
 fi
 
 if [[ ! -z "$gui" ]]
 then
-	echo -n "Copying GUI config... "
-	rsync -a "$DOTFILES/install-files/gui/" ~/
-	check $?
-	echo -n "Running GUI script... "
-	"$DOTFILES/install-files/gui-script"
-	check $?
+    echo -n "Copying GUI config... "
+    rsync -a "$DOTFILES/install-files/gui/" ~/
+    check $?
+
+    echo -n "Running GUI script... "
+    "$DOTFILES/install-files/gui-script"
+    check $?
 fi
 
 if [[ ! -z "$target" ]]
 then
-	echo -n "Copying $target config... "
-	rsync -a "$DOTFILES/install-files/per-target/$target/" ~/
-	check $?
-	if [[ -f $DOTFILES/install-files/per-target/$target-script ]]
-	then
-		echo -n "Running $target script... "
-		"$DOTFILES/install-files/per-target/$target-script"
-		check $?
-	fi
+    echo -n "Copying $target config... "
+    rsync -a "$DOTFILES/install-files/per-target/$target/" ~/
+    check $?
+    if [[ -f $DOTFILES/install-files/per-target/$target-script ]]
+    then
+        echo -n "Running $target script... "
+        "$DOTFILES/install-files/per-target/$target-script"
+        check $?
+    fi
 fi
 
-echo -n "Installing/updating oh-my-zsh... "
+echo -n "Configuring oh-my-zsh... "
 if [[ -d ~/.oh-my-zsh ]]
 then
-	cd ~/.oh-my-zsh
-	git reset --hard origin/master > /dev/null 2>&1
-	git pull > /dev/null 2>&1
+    cd ~/.oh-my-zsh
+    git reset --hard origin/master > /dev/null 2>&1
+    git pull > /dev/null 2>&1
+    check $?
 else
-	git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+    git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+    check $?
 fi
-check $?
 
 echo "Changing shell to ZSH."
 echo "$SHELL"|grep -q zsh || chsh -s "$(which zsh)"
