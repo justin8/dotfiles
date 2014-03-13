@@ -5,14 +5,12 @@
   [[default]]
     scrollbar_position = hidden
     use_system_font = False
-    background_darkness = 0.87
-    background_type = transparent
+    background_darkness = 0.58
     background_image = None
-    foreground_color = "#839496"
-    scroll_on_output = False
+    foreground_color = "#dcdcdc"
     show_titlebar = False
     font = Menlo for Powerline 10
-    background_color = "#002b36"
+    background_color = "#151515"
     scrollback_infinite = True
 [layouts]
   [[default]]
