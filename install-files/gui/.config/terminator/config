@@ -5,9 +5,10 @@
   [[default]]
     scrollbar_position = hidden
     use_system_font = False
-    background_darkness = 0.58
+    background_darkness = 1.0
     background_image = None
     foreground_color = "#dcdcdc"
+    scroll_on_output = False
     show_titlebar = False
     font = Menlo for Powerline 10
     background_color = "#151515"
