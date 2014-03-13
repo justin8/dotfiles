@@ -228,7 +228,7 @@ then
     check $?
 else
     mkdir -p ~/.vim/bundle
-    git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+    git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle > /dev/null 2>&1
     check $?
 fi
 
