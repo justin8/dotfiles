@@ -172,7 +172,7 @@ assign [class="Pidgin"] "2: IM"
 
 	#Background Tasks:
 	exec --no-startup-id /usr/lib/systemd/systemd --user
-	exec --no-startup-id copyq
+	exec --no-startup-id clipit -d
 	exec --no-startup-id thunar --daemon
 	exec --no-startup-id nm-applet
 	exec --no-startup-id xfce4-power-manager
