@@ -16,6 +16,7 @@ Bundle 'bling/vim-airline'
 Bundle 'chrisbra/csv.vim'
 Bundle 'mhinz/vim-signify'
 Bundle 'tpope/vim-fugitive'
+Bundle 'scrooloose/nerdtree'
 
 " This is disabled because for some reason it asks for a username/password for
 " https://github.com?
