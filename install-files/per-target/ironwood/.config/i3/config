@@ -218,16 +218,20 @@ assign [class="Steam"] 9
 	exec --no-startup-id dogecoin-qt -min
 
 #MPD:
-	bindsym $mod+Shift+Prior exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume up
-	bindsym $mod+Shift+Next exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume down
-	bindsym $mod+Shift+Home exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume mute
-	bindsym $mod+Prior exec mpc prev
-	bindsym $mod+Next exec mpc next
-	bindsym $mod+Home exec mpc toggle
+	bindsym XF86AudioPrev exec mpc prev
+	bindsym XF86AudioNext exec mpc next
+	bindsym XF86AudioPlay exec mpc toggle
+	bindsym XF86AudioStop exec mpc stop
 
 #Program switching
 	bindsym $mod+Tab exec quickswitch.py
 	bindsym $mod+Shift+Tab exec quickswitch.py -s
+
+# Keyboard
+    bindsym XF86AudioRaiseVolume exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume up
+    bindsym XF86AudioLowerVolume exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume down
+    bindsym XF86AudioMute exec ~/.config/conky/conkyexec ~/.config/i3/bin/volume mute
+
 
 bindsym $mod+Shift+End exec pavucontrol
 bindsym $mod+Shift+k exec keepassx /abachi/justin/secure.kdbx
