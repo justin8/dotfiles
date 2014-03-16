@@ -2,8 +2,8 @@ chromium
 chromium-pepper-flash
 clipit
 conky
-eog
 evince
+f-spot
 faenza-icon-theme
 file-roller
 gnome-system-monitor
@@ -24,6 +24,7 @@ otf-ipafont
 perl-file-mimeinfo
 quickswitch-i3
 scrot
+shotwell
 terminator
 terminus-font
 thunar
