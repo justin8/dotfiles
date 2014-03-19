@@ -109,7 +109,6 @@ let g:airline_powerline_fonts = 1
 set laststatus=2
 
 " Tagbar
-nmap <F8> :TagbarToggle<CR>
 let g:tagbar_autoclose = 1
 let g:tagbar_type_puppet = {
     \ 'ctagstype': 'puppet',
@@ -122,5 +121,7 @@ let g:tagbar_type_puppet = {
     \}
 
 " Tab control keys
-map <C-S-]> gt
-map <C-S-[> gT
+nmap <F8> :NERDTreeToggle<CR>
+nmap <F9> :TagbarToggle<CR>
+nmap <leader>o :Tagbar<CR>
+
