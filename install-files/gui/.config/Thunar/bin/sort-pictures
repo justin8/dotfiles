@@ -1,10 +1,10 @@
 #!/bin/bash
-PICTURESDIR=$HOME/Pictures
-LOG=$HOME/.$(basename ${0}).log
+PICTURESDIR="$HOME/Pictures"
+LOG="$HOME/.$(basename "$(readlink -f "$0")").log"
 #set -x
 
 exec > >(zenity --text-info) 2>&1
-echo "" > $LOG
+echo "" > "$LOG"
 
 while [ -n "$*" ]
 do
@@ -15,7 +15,7 @@ do
 	else
 		date=""
 		ext=
-		case $(echo $1 | grep -oE ".[a-z0-9]{2,4}$") in
+		case $(echo "$1" | grep -oE '.[a-z0-9]{2,4}$') in
 			.jpg)
 				date=$(exiftool "$1"|grep "Date/Time Original"|awk '{print $4}'|sed 's/:/-/g')
 				;;
@@ -27,12 +27,12 @@ do
 		# Fallback to date modified if it cannot be found
 		date=${date:-$(stat "$1"|grep Modify|awk '{print $2}')}
 
-		outputdir=$PICTURESDIR/$(echo $date|grep -Eo "^[0-9]*")/$date/
+		outputdir=$PICTURESDIR/$(echo "$date"|grep -Eo "^[0-9]*")/$date/
 
-		echo "input: $1" >> $LOG
-		echo "date: $date" >> $LOG
-		echo "outputdir: $outputdir" >> $LOG
-		echo "" >> $LOG
+		echo "input: $1" >> "$LOG"
+		echo "date: $date" >> "$LOG"
+		echo "outputdir: $outputdir" >> "$LOG"
+		echo "" >> "$LOG"
 
 		mkdir -p "$outputdir"
 		mv "$1" "$outputdir"
