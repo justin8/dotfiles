@@ -237,6 +237,8 @@ bindsym $mod+Shift+End exec pavucontrol
 bindsym $mod+Shift+k exec keepassx /abachi/justin/secure.kdbx
 bindsym $mod+n exec terminator --role='pop-up' -e ncmpcpp
 bindsym $mod+o exec thunar
+bindsym $mod+Shift+Return exec terminator -e 'ssh abachi'
+bindsym $mod+Control+Return exec terminator -e 'ssh jdray@192.168.1.200'
 bindsym $mod+Shift+s exec FreeFileSync /home/justin/Sync.ffs_gui
 bindsym Control+Shift+Escape exec gnome-system-monitor
 bindsym Print exec scrot '/home/justin/Pictures/Screenshots/%F-%s_$wx$h.png'
