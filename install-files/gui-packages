@@ -11,7 +11,6 @@ gnome-themes-standard
 gvfs
 gvfs-smb
 gvfs-mtp
-i3-py-git
 i3-wm
 i3lock
 i3status
@@ -22,6 +21,7 @@ nitrogen
 normalize
 otf-ipafont
 perl-file-mimeinfo
+python-i3-git
 quickswitch-i3
 scrot
 shotwell
