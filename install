@@ -280,7 +280,7 @@ then
     git pull > /dev/null 2>&1
     check $?
 else
-    git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+    git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null 2>&1
     check $?
 fi
 
