@@ -100,7 +100,6 @@ let g:syntastic_ruby_checkers=['rubocop']
 let g:syntastic_yaml_checkers=['yamlxs']
 let g:syntastic_zsh_checkers=['zsh']
 let g:syntastic_sh_checkers=['shellcheck']
-"let g:syntastic_haskell_checkers=['hlint']
 let g:syntastic_javascript_checkers=['jshint']
 let g:syntastic_puppet_checkers=['puppetlint']
 
