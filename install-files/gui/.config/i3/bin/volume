@@ -1,5 +1,6 @@
 #!/bin/bash
 
+LOCK="/tmp/.${USER}-volume.lock"
 usage="usage: $0 {up|down|mute|get}"
 id_store="/tmp/.${USER}-volume"
 increment=5
@@ -59,7 +60,7 @@ case "$command" in
     'set')
         if [[ $2 -gt 0 && $2 -lt 100 ]]
         then
-            pamixer --unmute --set-volume $2
+            pamixer --unmute --set-volume "$2"
             exit 0
         else
             echo "Volume must be between 0 and 100"
@@ -78,7 +79,11 @@ case "$command" in
 esac
 
 get_icon
-find "${id_store}" -mmin +1 -exec rm {} \;
-[[ -f ${id_store} ]] && id=$(cat ${id_store})
+exec 200>"$LOCK"
+if flock -xw 60 200
+then
+	find "${id_store}" -mmin +1 -exec rm {} \;
+	[[ -f ${id_store} ]] && id=$(cat "${id_store}")
 
-notify-send ' ' -i $icon_name -h int:value:$display_volume -h string:synchronous:volume -r $id -p > "${id_store}"
+	notify-send ' ' -i $icon_name -h int:value:$display_volume -h string:synchronous:volume -r "$id" -p > "${id_store}"
+fi
