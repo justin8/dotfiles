@@ -3,7 +3,7 @@ DOTFILES=$(cd "$(dirname "$0")";pwd)
 sshd_config="/etc/ssh/sshd_config"
 
 # Hacky shit to make OS X work
-MACBREW="zsh zsh-completion git gnu-sed gnu-tar"
+MACBREW="zsh zsh-completion git gnu-sed gnu-tar shellcheck"
 sed=sed
 
 # OS Detection / OS Specific variables
@@ -161,7 +161,7 @@ elif echo $RELEASE|grep -qi darwin > /dev/null 2>&1; then
 			brew list|grep "$package" > /dev/null 2>&1 || BREWINST="$BREWINST
 			$package"
 		done
-		[[ $BREWINST == "" ]] || brew install "$BREWINST"
+		[[ $BREWINST == "" ]] || brew install $BREWINS
 		echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
 		echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
 	fi
