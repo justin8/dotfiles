@@ -3,7 +3,6 @@ command-not-found
 ctags
 flake8-python2
 git
-gvim
 p7zip
 mercurial
 nodejs-jshint
@@ -16,5 +15,6 @@ shellcheck
 unace
 unrar
 unzip
+vim-python2
 zip
 zsh
