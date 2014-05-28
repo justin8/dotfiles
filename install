@@ -117,8 +117,7 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 		echo "Configuring repo..."
 		if ! pacman -Q dray-repo > /dev/null 2>&1
 		then
-			$sudo pacman -U --noconfirm
-			"$DOTFILES/install-files/dray-repo-*-any.pkg.tar.xz" > /dev/null
+			$sudo pacman -U --noconfirm "$DOTFILES"/install-files/dray-repo-*-any.pkg.tar.xz > /dev/null
 		fi
 
 		while read package
