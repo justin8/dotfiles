@@ -161,6 +161,7 @@ for_window [class="Gnome-system-monitor"] floating enable border normal
 for_window [class="Speedcrunch"] floating enable border normal
 for_window [class="Gnome-calculator"] floating enable border normal
 for_window [class="Vinagre"] floating enable border normal
+for_window [class="gcr-prompter"] floating enable border normal
 
 #Location specific settings
 assign [class="Chromium"] "1: Browser"
