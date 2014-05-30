@@ -172,6 +172,7 @@ for_window [class="Python2"] floating enable #Workaround for PlayOnLinux's shitt
 for_window [class="File-roller"] floating enable border normal
 for_window [class="CrashPlan"] floating enable border normal
 for_window [class="YADWIN"] floating enable border normal
+for_window [class="gcr-prompter"] floating enable border normal
 
 for_window [class="Chromium"] border normal
 

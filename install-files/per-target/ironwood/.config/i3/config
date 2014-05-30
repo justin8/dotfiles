@@ -189,6 +189,7 @@ for_window [class="CrashPlan"] floating enable border normal
 for_window [class="dogecoin-qt"] floating enable border normal
 for_window [class="YADWIN"] floating enable border normal
 for_window [class="Dogecoin-qt"] floating enable border normal
+for_window [class="gcr-prompter"] floating enable border normal
 
 for_window [class="Chromium"] border normal
 
