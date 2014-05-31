@@ -120,6 +120,7 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 			$sudo pacman -U --noconfirm "$DOTFILES"/install-files/dray-repo-*-any.pkg.tar.xz > /dev/null
 		fi
 
+		echo -n "Installing required packages... "
 		PACINST=$(cat "$DOTFILES/install-files/global-packages")
 
 		if [[ ! -z "$gui" ]]
@@ -132,11 +133,20 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 			PACINST="$PACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
 		fi
 
-		if ! $sudo pacman -Sy --needed --noconfirm $PACINST 2> >(grep -v 'skipping')
+		out=$($sudo pacman -Sy --needed --noconfirm foo $PACINST 2>&1)
+		rc=$?
+		check $rc
+
+		if [[ $rc != 0 ]]
 		then
-			echo "An error has occurred while installing required packages!"
-			echo "Please try to install the following packages manually:"
-			echo "$PACINST"
+			cat <<-EOF
+			An error has occurred while installing required packages!
+			Please try to install the following packages manually:
+			$PACINST
+
+			Pacman output:
+			$(echo "$out" | grep -v 'skipping')
+			EOF
 			exit 1
 		fi
 	fi
