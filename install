@@ -100,7 +100,7 @@ esac
 if [[ -n $target ]]; then
 	for i in $(get_targets)
 	do
-		[[ $target == $i ]] && found_target=true
+		[[ $target == "$i" ]] && found_target=true
 	done
 	if [[ -z $found_target ]]; then
 		echo "Target $target not found! Aborting."
@@ -120,35 +120,24 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 			$sudo pacman -U --noconfirm "$DOTFILES"/install-files/dray-repo-*-any.pkg.tar.xz > /dev/null
 		fi
 
-		while read package
-		do
-			pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
-		done < "$DOTFILES/install-files/global-packages"
+		PACINST=$(cat "$DOTFILES/install-files/global-packages")
 
 		if [[ ! -z "$gui" ]]
 		then
-			while read package
-			do
-				pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
-			done < "$DOTFILES/install-files/gui-packages"
+			PACINST="$PACINST $(cat "$DOTFILES/install-files/gui-packages")"
 		fi
 
 		if [[ ! -z "$target" ]]
 		then
-			while read package
-			do
-				pacman -Q "$package" > /dev/null 2>&1 || PACINST="$PACINST $package"
-			done < "$DOTFILES/install-files/per-target/$target-packages"
+			PACINST="$PACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
 		fi
 
-		if [[ -n $PACINST ]]; then
-			if ! $sudo pacman -Sy --noconfirm $PACINST
-			then
-				echo "An error has occurred while installing required packages!"
-				echo "Please try to install the following packages manually:"
-				echo "$PACINST"
-				exit 1
-			fi
+		if ! $sudo pacman -Sy --needed --noconfirm $PACINST 2> >(grep -v 'skipping')
+		then
+			echo "An error has occurred while installing required packages!"
+			echo "Please try to install the following packages manually:"
+			echo "$PACINST"
+			exit 1
 		fi
 	fi
 	# Check if running OS X
