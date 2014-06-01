@@ -133,7 +133,7 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 			PACINST="$PACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
 		fi
 
-		out=$($sudo pacman -Sy --needed --noconfirm foo $PACINST 2>&1)
+		out=$($sudo pacman -Sy --needed --noconfirm $PACINST 2>&1)
 		rc=$?
 		check $rc
 
