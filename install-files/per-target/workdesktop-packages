@@ -1,9 +1,13 @@
 compton
+gnome
+gnome-shell-extension-openweather-git
+gnome-shell-extensions
 kalu
 keepassx
 libnotify-id
 pasystray
 pavucontrol
+purple-libnotify-plus
 sonata
 synergy
 xfce4-notifyd
