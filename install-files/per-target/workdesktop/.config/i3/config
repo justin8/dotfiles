@@ -171,7 +171,6 @@ for_window [class="Gnome-system-monitor"] floating enable border normal
 for_window [class="Steam"] floating enable border normal
 for_window [class="Wine"] floating enable border normal
 for_window [class="Evince"] floating enable border normal
-for_window [class="Kalu"] floating enable border normal
 for_window [class="Python2"] floating enable #Workaround for PlayOnLinux's shitty coding
 for_window [class="File-roller"] floating enable border normal
 for_window [class="CrashPlan"] floating enable border normal
@@ -196,7 +195,6 @@ assign [class="VirtualBox"] "10: VMs"
 	exec --no-startup-id /usr/lib/systemd/systemd --user
 	exec --no-startup-id clipit -d
 	exec --no-startup-id compton
-    exec --no-startup-id kalu
 	exec --no-startup-id nitrogen --restore
 	exec --no-startup-id nm-applet
 	exec --no-startup-id pasystray

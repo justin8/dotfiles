@@ -1,8 +1,8 @@
 compton
 gnome
+gnome-packagekit
 gnome-shell-extension-openweather-git
 gnome-shell-extensions
-kalu
 keepassx
 libnotify-id
 pasystray
