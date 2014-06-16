@@ -7,7 +7,7 @@ MACBREW="zsh zsh-completion git gnu-sed gnu-tar shellcheck"
 sed=sed
 
 # OS Detection / OS Specific variables
-if [ -f /etc/os-release ]
+if [[ -f /etc/os-release ]]
 then
 	RELEASE=$(grep "^NAME=" /etc/os-release)
 elif uname -a|grep -qi darwin > /dev/null 2>&1
@@ -20,7 +20,7 @@ else
 	echo "Unable to detect OS correctly, assuming some sort of Linux..."
 fi
 
-if [ "x$DOTFILES" == "x" ]
+if [[ -d $DOTFILES ]]
 then
 	echo "An error has occured while determining the current path. Exiting."
 	exit 1
@@ -94,7 +94,7 @@ shift $(( OPTIND -1 ))
 
 #per-target options
 case $target in
-	ironwood|chromebook|odroid|workdesktop) gui=true;;
+	ironwood|workdesktop) gui=true;;
 esac
 
 if [[ -n $target ]]; then
