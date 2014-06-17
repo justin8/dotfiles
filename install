@@ -20,7 +20,7 @@ else
 	echo "Unable to detect OS correctly, assuming some sort of Linux..."
 fi
 
-if [[ -d $DOTFILES ]]
+if [[ ! -d $DOTFILES ]]
 then
 	echo "An error has occured while determining the current path. Exiting."
 	exit 1
