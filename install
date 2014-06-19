@@ -164,7 +164,7 @@ elif echo $RELEASE|grep -qi darwin > /dev/null 2>&1; then
 		echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
 	fi
 else
-	echo "You are not using Arch Linux; You may have to install some of the following manually: $(cat "$DOTFILES/install-files/*packages")"
+	echo "You are not using Arch Linux; You may have to install some of the following manually: $(cat "$DOTFILES/install-files/"*packages)"
 	echo "Once you have; press enter to continue"
 	read
 fi
