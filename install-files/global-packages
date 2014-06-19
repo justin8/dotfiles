@@ -1,9 +1,7 @@
-arj
 command-not-found
 ctags
 flake8-python2
 git
-p7zip
 mercurial
 nodejs-jshint
 nodejs-jsonlint
@@ -12,9 +10,5 @@ puppet-lint
 rsync
 rubocop
 shellcheck
-unace
-unrar
-unzip
 vim-python2
-zip
 zsh
