@@ -1,12 +1,12 @@
 command-not-found
 ctags
-flake8-python2
 git
 mercurial
 nodejs-jshint
 nodejs-jsonlint
 perl-yaml
 puppet-lint
+python2-flake8
 rsync
 rubocop
 shellcheck
