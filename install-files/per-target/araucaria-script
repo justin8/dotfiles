@@ -1,0 +1,6 @@
+#!/bin/bash
+
+systemctl --user enable mpd
+systemctl --user start mpd
+
+dconf write /org/gnome/desktop/interface/cursor-size 36
