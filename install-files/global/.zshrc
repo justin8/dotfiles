@@ -4,7 +4,7 @@ ZSH=$HOME/.oh-my-zsh
 source ~/.zshrc-addon
 
 ##Font configuration. Copy this to .zshrc-addon and uncomment
-#if [ -z "$SSH_TTY" ]; then
+#if [[ -z $SSH_TTY ]] && [[ $TERM != linux ]]; then
 #	export IHAVEPATCHEDFONTS=1
 #fi
 
@@ -59,7 +59,10 @@ alias vi=vim
 export EDITOR="vim"
 
 # Fix to make vim work with color themes
-export TERM=xterm-256color
+if [[ $TERM != linux ]]
+then
+	export TERM=xterm-256color
+fi
 
 # Path
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl:$PATH
