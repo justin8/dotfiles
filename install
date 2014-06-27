@@ -209,6 +209,17 @@ if [[ -z "$nosystemchanges" ]]; then
 	fi
 fi
 
+echo -n "Checking SSH client config... "
+if grep -q 'SendEnv IHAVEPATCHEDFONTS' $HOME/.ssh/config
+then
+	echo -e "[ \e[1;32mOK\e[00m ]"
+else
+	orig_ssh_config=$(cat $HOME/.ssh/config)
+	echo "SendEnv IHAVEPATCHEDFONTS" > $HOME/.ssh/config
+	echo "$orig_ssh_config" >> $HOME/.ssh/config
+	echo -e "[\e[1;33mFixing\e[00m]"
+fi
+
 echo -n "Updating submodules... "
 update_submodules
 check $?
