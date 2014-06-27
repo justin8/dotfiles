@@ -4,3 +4,6 @@ systemctl --user enable mpd
 systemctl --user start mpd
 
 dconf write /org/gnome/desktop/interface/cursor-size 36
+dconf write /org/gnome/desktop/interface/text-scaling-factor 0.7
+dconf write /org/gnome/desktop/interface/scaling-factor 3
+dconf write /org/gnome/settings-daemon/plugins/cursor/active false
