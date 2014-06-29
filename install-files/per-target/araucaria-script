@@ -3,6 +3,9 @@
 systemctl --user enable mpd
 systemctl --user start mpd
 
+# Fix only font size but keep the rest of terminator config the same
+sed -i 's/Menlo for Powerline.*/Menlo for Powerline 13/' $HOME/.config/terminator/config
+
 dconf write /org/gnome/desktop/interface/cursor-size 36
 dconf write /org/gnome/desktop/interface/text-scaling-factor 0.7
 dconf write /org/gnome/desktop/interface/scaling-factor 3
