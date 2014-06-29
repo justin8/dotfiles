@@ -12,7 +12,7 @@ dconf write /org/gnome/desktop/wm/preferences/resize-with-right-button true
 # Themes
 dconf write /org/gnome/desktop/wm/preferences/theme "'Adwaita-X-dark'"
 dconf write /org/gnome/desktop/interface/gtk-theme "'Adwaita'"
-dconf write /org/gnome/desktop/interface/icon-theme "'Faenza'"
+dconf write /org/gnome/desktop/interface/icon-theme "'Faenza-Ambiance'"
 
 # Open weather
 dconf write /org/gnome/shell/extensions/openweather/unit "'celsius'"
