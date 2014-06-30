@@ -3,14 +3,12 @@
 systemctl --user enable mpd
 systemctl --user start mpd
 
-# Fix only font size but keep the rest of terminator config the same
-sed -i 's/Menlo for Powerline.*/Menlo for Powerline 13/' $HOME/.config/terminator/config
-
+# HiDPI fixes
+sed -i 's/Menlo for Powerline.*/Menlo for Powerline 13/' "$HOME/.config/terminator/config"
+echo 'Xft.dpi: 192' > "$HOME/.Xresources"
 dconf write /org/gnome/desktop/interface/cursor-size 36
-dconf write /org/gnome/desktop/interface/text-scaling-factor 0.7
+dconf write /org/gnome/desktop/interface/text-scaling-factor 0.9
 dconf write /org/gnome/desktop/interface/scaling-factor 3
+
+# Stop mouse cursor disappearing when touch screen or synergy is in use
 dconf write /org/gnome/settings-daemon/plugins/cursor/active false
-dconf write /org/gnome/desktop/interface/monospace-font-name "'Monospace 13'"
-dconf write /org/gnome/desktop/wm/preferences/titlebar-font "'Cantarell Bold 13'"
-dconf write /org/gnome/desktop/interface/font-name "'Cantarell 13'"
-dconf write /org/gnome/desktop/interface/document-font-name "'Sans 13'"
