@@ -125,3 +125,4 @@ nmap <F8> :NERDTreeToggle<CR>
 nmap <F9> :TagbarToggle<CR>
 nmap <leader>o :Tagbar<CR>
 
+set relativenumber
