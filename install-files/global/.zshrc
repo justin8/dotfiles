@@ -56,6 +56,7 @@ plugins=(git history-substring-search command-not-found)
 source $ZSH/oh-my-zsh.sh
 # Aliases
 alias vi=vim
+alias less='less -R'
 export EDITOR="vim"
 
 # Fix to make vim work with color themes
