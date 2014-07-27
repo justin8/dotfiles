@@ -220,7 +220,7 @@ then
 else
 	if [[ -f $HOME/.ssh/config ]]
 	then
-		orig_ssh_config=$(cat $HOME/.ssh/config)
+		orig_ssh_config=$(cat $HOME/.ssh/config > /dev/null 2>&1)
 	else
 		orig_ssh_config=""
 	fi
