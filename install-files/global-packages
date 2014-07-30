@@ -10,5 +10,5 @@ python2-flake8
 rsync
 rubocop
 shellcheck
-vim-python2
+vim
 zsh
