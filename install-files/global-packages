@@ -7,6 +7,7 @@ nodejs-jsonlint
 perl-yaml
 puppet-lint
 python2-flake8
+python-virtualenvwrapper
 rsync
 rubocop
 shellcheck
