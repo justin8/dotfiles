@@ -5,7 +5,7 @@ mercurial
 nodejs-jshint
 nodejs-jsonlint
 perl-yaml
-puppet-lint
+puppet
 python2-flake8
 python-virtualenvwrapper
 rsync
