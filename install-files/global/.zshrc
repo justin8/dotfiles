@@ -56,6 +56,7 @@ plugins=(git history-substring-search command-not-found)
 source $ZSH/oh-my-zsh.sh
 # Aliases
 alias vi=vim
+alias less='less -R'
 export EDITOR="vim"
 
 # Fix to make vim work with color themes
@@ -66,3 +67,4 @@ fi
 
 # Path
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl:$PATH
+source /usr/bin/virtualenvwrapper.sh

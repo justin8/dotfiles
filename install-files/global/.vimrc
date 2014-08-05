@@ -101,7 +101,7 @@ let g:syntastic_yaml_checkers=['yamlxs']
 let g:syntastic_zsh_checkers=['zsh']
 let g:syntastic_sh_checkers=['shellcheck']
 let g:syntastic_javascript_checkers=['jshint']
-let g:syntastic_puppet_checkers=['puppetlint']
+let g:syntastic_puppet_checkers=['puppet']
 
 " Statusline
 let g:airline#extensions#branch#enabled = 1
@@ -125,3 +125,4 @@ nmap <F8> :NERDTreeToggle<CR>
 nmap <F9> :TagbarToggle<CR>
 nmap <leader>o :Tagbar<CR>
 
+set relativenumber
