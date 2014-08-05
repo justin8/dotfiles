@@ -6,11 +6,11 @@ then
 	exit 1
 fi
 
-if echo $1 | grep -qE '^[0-9]+$'
+if echo "$1" | grep -qE '^[0-9]+$'
 then
     line=$1
 else
-    hostname=$1
+    hostname=${1##*@}
     ip=$(nslookup "$hostname" | grep 'Address' | grep -v '#' | awk '{print $2}')
 fi
 
@@ -19,5 +19,8 @@ then
 	sed -i "${line}d" "$HOME/.ssh/known_hosts"
 else
 	sed -i "/^${hostname}/d" "$HOME/.ssh/known_hosts"
-	sed -i "/^${ip}/d" "$HOME/.ssh/known_hosts"
+	if [[ -n $ip ]]
+	then
+		sed -i "/${ip}/d" "$HOME/.ssh/known_hosts"
+	fi
 fi
