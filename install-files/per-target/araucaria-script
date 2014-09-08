@@ -4,7 +4,6 @@ systemctl --user enable mpd
 systemctl --user start mpd
 
 # HiDPI fixes
-sed -i 's/Menlo for Powerline.*/Menlo for Powerline 13/' "$HOME/.config/terminator/config"
 echo 'Xft.dpi: 192' > "$HOME/.Xresources"
 dconf write /org/gnome/desktop/interface/cursor-size 36
 dconf write /org/gnome/desktop/interface/text-scaling-factor 0.9
