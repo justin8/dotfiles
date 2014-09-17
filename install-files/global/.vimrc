@@ -102,6 +102,7 @@ let g:syntastic_zsh_checkers=['zsh']
 let g:syntastic_sh_checkers=['shellcheck']
 let g:syntastic_javascript_checkers=['jshint']
 let g:syntastic_puppet_checkers=['puppet']
+let g:syntastic_python_flake8_args = "--max-line-length=500"
 
 " Statusline
 let g:airline#extensions#branch#enabled = 1
