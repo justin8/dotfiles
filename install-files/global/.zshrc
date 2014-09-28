@@ -57,6 +57,7 @@ source $ZSH/oh-my-zsh.sh
 # Aliases
 alias vi=vim
 alias less='less -R'
+alias rsync='rsync --info=progress2'
 export EDITOR="vim"
 
 # Fix to make vim work with color themes
