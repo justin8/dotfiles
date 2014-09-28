@@ -10,6 +10,9 @@ sed=sed
 if [[ -f /etc/os-release ]]
 then
 	RELEASE=$(grep "^NAME=" /etc/os-release)
+elif [[ -f /etc/arch-release ]]
+then
+	RELEASE='Arch Linux'
 elif uname -a|grep -qi darwin > /dev/null 2>&1
 then
 	RELEASE="Darwin"
