@@ -19,6 +19,7 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'ekalinin/Dockerfile.vim'
+Bundle 'Keithbsmiley/rspec.vim'
 
 " This is disabled because for some reason it asks for a username/password for
 " https://github.com?
