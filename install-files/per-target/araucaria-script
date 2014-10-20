@@ -5,6 +5,7 @@ systemctl --user start mpd
 
 # HiDPI fixes
 echo 'Xft.dpi: 192' > "$HOME/.Xresources"
+dconf write /org/gnome/desktop/interface/font-name "'Cantarell 20'"
 dconf write /org/gnome/desktop/interface/cursor-size 36
 dconf write /org/gnome/desktop/interface/text-scaling-factor 0.9
 dconf write /org/gnome/desktop/interface/scaling-factor 3
