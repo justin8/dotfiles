@@ -20,6 +20,10 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'ekalinin/Dockerfile.vim'
 Bundle 'Keithbsmiley/rspec.vim'
+Bundle 'Raimondi/delimitMate'
+Bundle 'Yggdroot/indentLine'
+Bundle 'airblade/vim-rooter'
+Bundle 'kien/ctrlp.vim'
 
 " This is disabled because for some reason it asks for a username/password for
 " https://github.com?
@@ -87,6 +91,7 @@ set shiftwidth=4
 " set textwidth=80
 set smarttab
 set expandtab
+set list lcs=tab:\|\ 
 
 " Plugin customizations
 
@@ -125,6 +130,7 @@ let g:tagbar_type_puppet = {
 
 " Tab control keys
 nmap <F8> :NERDTreeToggle<CR>
+nmap <s-F8> :NERDTreeFind<CR>
 nmap <F9> :TagbarToggle<CR>
 nmap <leader>o :Tagbar<CR>
 
