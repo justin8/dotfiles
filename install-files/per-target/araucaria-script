@@ -6,8 +6,11 @@ systemctl --user start mpd
 # HiDPI fixes
 echo 'Xft.dpi: 192' > "$HOME/.Xresources"
 dconf write /org/gnome/desktop/interface/font-name "'Cantarell 18'"
+dconf write /org/gnome/desktop/interface/monospace-font-name "'Monospace 14'"
+dconf write /org/gnome/desktop/interface/document-font-name "'Sans 14'"
+dconf write /org/gnome/desktop/wm/preferences/titlebar-font "'Cantarell Bold 14'"
 dconf write /org/gnome/desktop/interface/cursor-size 36
-dconf write /org/gnome/desktop/interface/text-scaling-factor 0.7
+dconf write /org/gnome/desktop/interface/text-scaling-factor 0.65
 dconf write /org/gnome/desktop/interface/scaling-factor 3
 sed -i 's/\(font =[a-zA-Z ]*\).*/\112/' ~/.config/terminator/config
 
