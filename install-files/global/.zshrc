@@ -55,7 +55,7 @@ plugins=(git history-substring-search command-not-found fabric gem virtualenvwra
 
 source $ZSH/oh-my-zsh.sh
 # Turn on fuzzy matching
-[[ -f /etc/profile.d/fzf.sh ]] && source /etc/profile.d/fzf.sh
+source ~/.fzf.zsh
 
 # Aliases
 alias vi=vim
