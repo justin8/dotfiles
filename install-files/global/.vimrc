@@ -1,31 +1,27 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+" set the runtime path to include vim-plug and initialize
+call plug#begin('~/.vim/plugged')
 
-" Bundles!
-" let Vundle manage Vundle, required
-Bundle 'gmarik/vundle'
-Bundle 'davidhalter/jedi-vim'
-Bundle 'scrooloose/syntastic'
-Bundle 'ervandew/supertab'
-Bundle 'majutsushi/tagbar'
-Bundle 'bling/vim-airline'
-Bundle 'chrisbra/csv.vim'
-Bundle 'mhinz/vim-signify'
-Bundle 'tpope/vim-fugitive'
-Bundle 'scrooloose/nerdtree'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'ekalinin/Dockerfile.vim'
-Bundle 'Keithbsmiley/rspec.vim'
-Bundle 'Raimondi/delimitMate'
-Bundle 'Yggdroot/indentLine'
-Bundle 'airblade/vim-rooter'
-Bundle 'kien/ctrlp.vim'
-Bundle 'nanotech/jellybeans.vim'
 
+" Plugins!
+Plug 'davidhalter/jedi-vim'
+Plug 'scrooloose/syntastic'
+Plug 'ervandew/supertab'
+Plug 'majutsushi/tagbar'
+Plug 'bling/vim-airline'
+Plug 'chrisbra/csv.vim'
+Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-unimpaired'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'Keithbsmiley/rspec.vim'
+Plug 'Raimondi/delimitMate'
+Plug 'Yggdroot/indentLine'
+Plug 'airblade/vim-rooter'
+Plug 'kien/ctrlp.vim'
 
 set nocompatible                " Use Vim defaults instead of 100% vi compatibility
 set backspace=indent,eol,start  " more powerful backspacing

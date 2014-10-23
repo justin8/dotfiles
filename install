@@ -237,22 +237,25 @@ echo -n "Copying base dotfiles... "
 rsync -a "$DOTFILES/install-files/global/" ~/
 check $?
 
-echo -n "Configuring vundle... "
-if [[ -d ~/.vim/bundle/vundle ]]
+echo -n "Installing/updating vim-plug "
+if [[ -f ~/.vim/autoload/plug.vim ]]
 then
-	cd ~/.vim/bundle/vundle
-	git reset --hard origin/master > /dev/null 2>&1
-	git pull > /dev/null 2>&1
-	check $?
+	vim -esu ~/.vimrc +PlugUpgrade +qa
+	# Vim always seems to have a return of 1...
+	echo -e "[ \e[1;32mOK\e[00m ]"
 else
-	mkdir -p ~/.vim/bundle
-	git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle > /dev/null 2>&1
+	mkdir -p ~/.vim/autoload
+	curl -fLo ~/.vim/autoload/plug.vim \
+		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	check $?
 fi
 
+# TODO: This can be removed in the future. Just cleaning up old vundle files.
+rm -rf ~/.vim/bundle/vundle
+
 echo -n "Configuring vim plugins... "
-# Parse vimrc to clean up bundles that shouldn't be installed?
-vim -esu ~/.vimrc +BundleUpdate +qa
+vim -esu ~/.vimrc +PlugClean! +qa
+vim -esu ~/.vimrc +PlugUpdate +qa
 # Vim always seems to have a return of 1...
 echo -e "[ \e[1;32mOK\e[00m ]"
 
