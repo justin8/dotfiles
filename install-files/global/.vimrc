@@ -6,15 +6,15 @@ call plug#begin('~/.vim/plugged')
 
 
 " Plugins!
-Plug 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim', { 'for': 'python'}
 Plug 'scrooloose/syntastic'
 Plug 'ervandew/supertab'
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'Tagbar'] }
 Plug 'bling/vim-airline'
-Plug 'chrisbra/csv.vim'
+Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-unimpaired'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'Keithbsmiley/rspec.vim'
@@ -22,6 +22,10 @@ Plug 'Raimondi/delimitMate'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-rooter'
 Plug 'kien/ctrlp.vim'
+
+
+
+call plug#end()
 
 set nocompatible                " Use Vim defaults instead of 100% vi compatibility
 set backspace=indent,eol,start  " more powerful backspacing
