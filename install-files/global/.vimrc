@@ -9,7 +9,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'davidhalter/jedi-vim', { 'for': 'python'}
 Plug 'scrooloose/syntastic'
 Plug 'ervandew/supertab'
-Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'Tagbar'] }
+Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'mhinz/vim-signify'
