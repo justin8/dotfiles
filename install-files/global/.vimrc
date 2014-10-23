@@ -24,10 +24,8 @@ Bundle 'Raimondi/delimitMate'
 Bundle 'Yggdroot/indentLine'
 Bundle 'airblade/vim-rooter'
 Bundle 'kien/ctrlp.vim'
+Bundle 'nanotech/jellybeans.vim'
 
-" This is disabled because for some reason it asks for a username/password for
-" https://github.com?
-"Bundle 'nanotech/jellybeans'
 
 set nocompatible                " Use Vim defaults instead of 100% vi compatibility
 set backspace=indent,eol,start  " more powerful backspacing
