@@ -120,7 +120,8 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 		echo "Configuring repo..."
 		if ! pacman -Q dray-repo > /dev/null 2>&1
 		then
-			$sudo pacman -U --noconfirm "$DOTFILES"/install-files/dray-repo-*-any.pkg.tar.xz > /dev/null
+			curl -o /tmp/dray-repo.pkg.tar.xz https://repo.dray.be/dray-repo-latest
+			$sudo pacman -U --noconfirm /tmp/dray-repo.pkg.tar.xz > /dev/null
 		fi
 
 		echo -n "Installing required packages... "
