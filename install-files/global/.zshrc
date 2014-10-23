@@ -54,6 +54,9 @@ DISABLE_AUTO_UPDATE="true"
 plugins=(git history-substring-search command-not-found fabric gem virtualenvwrapper)
 
 source $ZSH/oh-my-zsh.sh
+# Turn on fuzzy matching
+[[ -f /etc/profile.d/fzf.sh ]] && source /etc/profile.d/fzf.sh
+
 # Aliases
 alias vi=vim
 alias less='less -R'
