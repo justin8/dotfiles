@@ -252,7 +252,7 @@ else
 fi
 
 # TODO: This can be removed in the future. Just cleaning up old vundle files.
-rm -rf ~/.vim/bundle/vundle
+rm -rf ~/.vim/bundle
 
 echo -n "Configuring vim plugins... "
 vim -esu ~/.vimrc +PlugClean! +qa
