@@ -215,18 +215,35 @@ if [[ -z "$nosystemchanges" ]]; then
 fi
 
 echo -n "Checking SSH client config... "
-if grep -q 'SendEnv IHAVEPATCHEDFONTS' $HOME/.ssh/config > /dev/null 2>&1
+ssh_client_config=0
+if ! grep -q 'SendEnv IHAVEPATCHEDFONTS' "$HOME/.ssh/config" &> /dev/null
 then
-	echo -e "[ \e[1;32mOK\e[00m ]"
-else
+	ssh_client_config=1
 	if [[ -f $HOME/.ssh/config ]]
 	then
-		orig_ssh_config=$(cat $HOME/.ssh/config > /dev/null 2>&1)
+		orig_ssh_config=$(cat "$HOME/.ssh/config")
 	else
 		orig_ssh_config=""
 	fi
-	echo "SendEnv IHAVEPATCHEDFONTS" > $HOME/.ssh/config
-	echo "$orig_ssh_config" >> $HOME/.ssh/config
+	echo "SendEnv IHAVEPATCHEDFONTS" > "$HOME/.ssh/config"
+	echo "$orig_ssh_config" >> "$HOME/.ssh/config"
+fi
+
+if ! grep -q 'Ciphers chacha20' "$HOME/.ssh/config" &> /dev/null
+then
+	ssh_client_config=1
+	cat <<-EOF >> "$HOME/.ssh/config"
+		
+		Host *
+		    Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+		    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+	EOF
+fi
+
+if [[ $ssh_client_config -eq 0 ]]
+then
+	echo -e "[ \e[1;32mOK\e[00m ]"
+else
 	echo -e "[\e[1;33mFixing\e[00m]"
 fi
 
