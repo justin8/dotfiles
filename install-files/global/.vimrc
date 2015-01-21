@@ -1,27 +1,31 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+" set the runtime path to include vim-plug and initialize
+call plug#begin('~/.vim/plugged')
 
-" Bundles!
-" let Vundle manage Vundle, required
-Bundle 'gmarik/vundle'
-Bundle 'davidhalter/jedi-vim'
-Bundle 'scrooloose/syntastic'
-Bundle 'ervandew/supertab'
-Bundle 'majutsushi/tagbar'
-Bundle 'bling/vim-airline'
-Bundle 'chrisbra/csv.vim'
-Bundle 'mhinz/vim-signify'
-Bundle 'tpope/vim-fugitive'
-Bundle 'scrooloose/nerdtree'
-Bundle 'tpope/vim-unimpaired'
 
-" This is disabled because for some reason it asks for a username/password for
-" https://github.com?
-"Bundle 'nanotech/jellybeans'
+" Plugins!
+Plug 'davidhalter/jedi-vim', { 'for': 'python'}
+Plug 'scrooloose/syntastic'
+Plug 'ervandew/supertab'
+Plug 'majutsushi/tagbar'
+Plug 'bling/vim-airline'
+Plug 'chrisbra/csv.vim', { 'for': 'csv' }
+Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tpope/vim-unimpaired'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'Keithbsmiley/rspec.vim'
+Plug 'Raimondi/delimitMate'
+Plug 'Yggdroot/indentLine'
+Plug 'airblade/vim-rooter'
+Plug 'kien/ctrlp.vim'
+
+
+
+call plug#end()
 
 set nocompatible                " Use Vim defaults instead of 100% vi compatibility
 set backspace=indent,eol,start  " more powerful backspacing
@@ -85,6 +89,7 @@ set shiftwidth=4
 " set textwidth=80
 set smarttab
 set expandtab
+set list lcs=tab:\|\ 
 
 " Plugin customizations
 
@@ -102,6 +107,7 @@ let g:syntastic_zsh_checkers=['zsh']
 let g:syntastic_sh_checkers=['shellcheck']
 let g:syntastic_javascript_checkers=['jshint']
 let g:syntastic_puppet_checkers=['puppet']
+let g:syntastic_python_flake8_args = "--max-line-length=500"
 
 " Statusline
 let g:airline#extensions#branch#enabled = 1
@@ -122,6 +128,7 @@ let g:tagbar_type_puppet = {
 
 " Tab control keys
 nmap <F8> :NERDTreeToggle<CR>
+nmap <s-F8> :NERDTreeFind<CR>
 nmap <F9> :TagbarToggle<CR>
 nmap <leader>o :Tagbar<CR>
 

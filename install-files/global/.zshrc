@@ -51,12 +51,14 @@ DISABLE_AUTO_UPDATE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git history-substring-search command-not-found)
+plugins=(git history-substring-search command-not-found fabric gem virtualenvwrapper)
 
 source $ZSH/oh-my-zsh.sh
+
 # Aliases
 alias vi=vim
 alias less='less -R'
+alias rsync='rsync --info=progress2'
 export EDITOR="vim"
 
 # Fix to make vim work with color themes
@@ -68,3 +70,7 @@ fi
 # Path
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl:$PATH
 source /usr/bin/virtualenvwrapper.sh
+
+# Fix error about GREP_OPTIONS in latest grep versions
+alias grep="grep $GREP_OPTIONS"
+unset GREP_OPTIONS

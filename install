@@ -10,6 +10,9 @@ sed=sed
 if [[ -f /etc/os-release ]]
 then
 	RELEASE=$(grep "^NAME=" /etc/os-release)
+elif [[ -f /etc/arch-release ]]
+then
+	RELEASE='Arch Linux'
 elif uname -a|grep -qi darwin > /dev/null 2>&1
 then
 	RELEASE="Darwin"
@@ -117,7 +120,8 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 		echo "Configuring repo..."
 		if ! pacman -Q dray-repo > /dev/null 2>&1
 		then
-			$sudo pacman -U --noconfirm "$DOTFILES"/install-files/dray-repo-*-any.pkg.tar.xz > /dev/null
+			curl -o /tmp/dray-repo.pkg.tar.xz https://repo.dray.be/dray-repo-latest
+			$sudo pacman -U --noconfirm /tmp/dray-repo.pkg.tar.xz > /dev/null
 		fi
 
 		echo -n "Installing required packages... "
@@ -133,7 +137,7 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 			PACINST="$PACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
 		fi
 
-		out=$($sudo pacman -Sy --needed --noconfirm $PACINST 2>&1)
+		$sudo pacman -Sy --noprogress --needed --noconfirm $PACINST 2>&1 | grep -v skipping
 		rc=$?
 		check $rc
 
@@ -143,9 +147,6 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 			An error has occurred while installing required packages!
 			Please try to install the following packages manually:
 			$PACINST
-
-			Pacman output:
-			$(echo "$out" | grep -v 'skipping')
 			EOF
 			exit 1
 		fi
@@ -214,18 +215,35 @@ if [[ -z "$nosystemchanges" ]]; then
 fi
 
 echo -n "Checking SSH client config... "
-if grep -q 'SendEnv IHAVEPATCHEDFONTS' $HOME/.ssh/config > /dev/null 2>&1
+ssh_client_config=0
+if ! grep -q 'SendEnv IHAVEPATCHEDFONTS' "$HOME/.ssh/config" &> /dev/null
 then
-	echo -e "[ \e[1;32mOK\e[00m ]"
-else
+	ssh_client_config=1
 	if [[ -f $HOME/.ssh/config ]]
 	then
-		orig_ssh_config=$(cat $HOME/.ssh/config > /dev/null 2>&1)
+		orig_ssh_config=$(cat "$HOME/.ssh/config")
 	else
 		orig_ssh_config=""
 	fi
-	echo "SendEnv IHAVEPATCHEDFONTS" > $HOME/.ssh/config
-	echo "$orig_ssh_config" >> $HOME/.ssh/config
+	echo "SendEnv IHAVEPATCHEDFONTS" > "$HOME/.ssh/config"
+	echo "$orig_ssh_config" >> "$HOME/.ssh/config"
+fi
+
+if ! grep -q 'Ciphers chacha20' "$HOME/.ssh/config" &> /dev/null
+then
+	ssh_client_config=1
+	cat <<-EOF >> "$HOME/.ssh/config"
+		
+		Host *
+		    Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+		    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+	EOF
+fi
+
+if [[ $ssh_client_config -eq 0 ]]
+then
+	echo -e "[ \e[1;32mOK\e[00m ]"
+else
 	echo -e "[\e[1;33mFixing\e[00m]"
 fi
 
@@ -237,22 +255,25 @@ echo -n "Copying base dotfiles... "
 rsync -a "$DOTFILES/install-files/global/" ~/
 check $?
 
-echo -n "Configuring vundle... "
-if [[ -d ~/.vim/bundle/vundle ]]
+echo -n "Installing/updating vim-plug "
+if [[ -f ~/.vim/autoload/plug.vim ]]
 then
-	cd ~/.vim/bundle/vundle
-	git reset --hard origin/master > /dev/null 2>&1
-	git pull > /dev/null 2>&1
-	check $?
+	vim -esu ~/.vimrc +PlugUpgrade +qa
+	# Vim always seems to have a return of 1...
+	echo -e "[ \e[1;32mOK\e[00m ]"
 else
-	mkdir -p ~/.vim/bundle
-	git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle > /dev/null 2>&1
+	mkdir -p ~/.vim/autoload
+	curl -fLo ~/.vim/autoload/plug.vim \
+		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	check $?
 fi
 
+# TODO: This can be removed in the future. Just cleaning up old vundle files.
+rm -rf ~/.vim/bundle
+
 echo -n "Configuring vim plugins... "
-# Parse vimrc to clean up bundles that shouldn't be installed?
-vim -esu ~/.vimrc +BundleUpdate +qa
+vim -esu ~/.vimrc +PlugClean! +qa
+vim -esu ~/.vimrc +PlugUpdate +qa
 # Vim always seems to have a return of 1...
 echo -e "[ \e[1;32mOK\e[00m ]"
 
