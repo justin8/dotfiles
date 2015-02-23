@@ -71,7 +71,3 @@ fi
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl:$PATH
 export ZDOTDIR=$HOME
 source /usr/bin/virtualenvwrapper.sh
-
-# Fix error about GREP_OPTIONS in latest grep versions
-alias grep="grep $GREP_OPTIONS"
-unset GREP_OPTIONS
