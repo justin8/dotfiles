@@ -35,7 +35,7 @@ do
 		echo "" >> "$LOG"
 
 		mkdir -p "$outputdir"
-		mv "$1" "$outputdir"
+		mv "$1" "$outputdir/${1//:nopm:}"
 	fi
 	shift
 done
