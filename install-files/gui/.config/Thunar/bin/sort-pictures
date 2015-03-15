@@ -34,8 +34,9 @@ do
 		echo "outputdir: $outputdir" >> "$LOG"
 		echo "" >> "$LOG"
 
+		output=""$(basename "$1")""
 		mkdir -p "$outputdir"
-		mv "$1" "$outputdir/${1//:nopm:}"
+		mv "$1" "$outputdir/${output//:nopm:}"
 	fi
 	shift
 done
