@@ -160,7 +160,7 @@ elif echo $RELEASE|grep -qi darwin > /dev/null 2>&1; then
 			brew list|grep "$package" > /dev/null 2>&1 || BREWINST="$BREWINST
 			$package"
 		done
-		[[ $BREWINST == "" ]] || brew install $BREWINS
+		[[ $BREWINST == "" ]] || brew install $BREWINST
 		echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
 		echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
 	fi
@@ -216,7 +216,12 @@ fi
 
 echo -n "Checking SSH client config... "
 ssh_client_config=0
-if ! grep -q 'SendEnv IHAVEPATCHEDFONTS' "$HOME/.ssh/config" &> /dev/null
+if ! [[ -d "$HOME/.ssh" ]]
+then
+	mkdir "$HOME/.ssh"
+	chmod 700 "$HOME/.ssh"
+fi
+if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'SendEnv IHAVEPATCHEDFONTS' "$HOME/.ssh/config" &> /dev/null
 then
 	ssh_client_config=1
 	if [[ -f $HOME/.ssh/config ]]
@@ -229,7 +234,7 @@ then
 	echo "$orig_ssh_config" >> "$HOME/.ssh/config"
 fi
 
-if ! grep -q 'Ciphers chacha20' "$HOME/.ssh/config" &> /dev/null
+if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'Ciphers chacha20' "$HOME/.ssh/config" &> /dev/null
 then
 	ssh_client_config=1
 	cat <<-EOF >> "$HOME/.ssh/config"
