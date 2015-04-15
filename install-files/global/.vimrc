@@ -61,6 +61,8 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
+au BufRead,BufNewFile {Gemfile,Vagrantfile,Berksfile} set ft=ruby
+
 filetype plugin indent on
 
 " The following are commented out as they cause vim to behave a lot
