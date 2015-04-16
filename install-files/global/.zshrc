@@ -67,6 +67,7 @@ then
 	export TERM=xterm-256color
 fi
 
-# Path
+# Path fix for RHEL
+export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
 export ZDOTDIR=$HOME
 source $(which virtualenvwrapper.sh)
