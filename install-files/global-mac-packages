@@ -1,0 +1,24 @@
+caskroom/cask/brew-cask
+Caskroom/cask/puppet
+bash
+binutils
+ctags
+diffutils
+gawk
+git
+gnutls
+gpg
+gzip
+less
+mercurial
+python
+python3
+pyenv-virtualenvwrapper
+rsync
+screen
+shellcheck
+vim --override-system-vi
+watch
+wget
+zsh
+zsh-completion

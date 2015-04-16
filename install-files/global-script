@@ -6,3 +6,11 @@ then
 else
     rm -f ~/.bin/flake8
 fi
+
+if uname | grep -i darwin
+then
+	if ! pip list 2>/dev/null | grep virtualenvwrapper &>/dev/null
+	then
+		pip install virtualenvwrapper
+	fi
+fi

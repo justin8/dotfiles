@@ -3,8 +3,7 @@ DOTFILES=$(cd "$(dirname "$0")";pwd)
 sshd_config="/etc/ssh/sshd_config"
 
 # Hacky shit to make OS X work
-MACBREW="zsh zsh-completion git gnu-sed gnu-tar shellcheck"
-sed=sed
+DEFNAMEMACBREW="ed gnu-sed gnu-tar coreutils findutils gnu-indent gnu-which grep wdiff"
 
 # OS Detection / OS Specific variables
 if [[ -f /etc/os-release ]]
@@ -17,7 +16,6 @@ elif uname -a|grep -qi darwin > /dev/null 2>&1
 then
 	RELEASE="Darwin"
 	sshd_config="/etc/sshd_config"
-	sed=gsed
 else
 	RELEASE="false"
 	echo "Unable to detect OS correctly, assuming some sort of Linux..."
@@ -111,6 +109,23 @@ if [[ -n $target ]]; then
 	fi
 fi
 
+# Create package lists
+PACINST=$(cat "$DOTFILES/install-files/global-packages")
+MACINST=$(cat "$DOTFILES/install-files/global-mac-packages")
+
+if [[ ! -z "$gui" ]]
+then
+	PACINST="$PACINST $(cat "$DOTFILES/install-files/gui-packages")"
+	MACINST="$MACINST $(cat "$DOTFILES/install-files/gui-mac-packages")"
+fi
+
+if [[ ! -z "$target" ]]
+then
+	PACINST="$PACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
+	MACINST="$MACINST $(cat "$DOTFILES/install-files/per-target/$target-mac-packages")"
+fi
+
+
 # Check if running Arch Linux
 echo "Verifying required packages are installed."
 if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
@@ -125,18 +140,6 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 		fi
 
 		echo -n "Installing required packages... "
-		PACINST=$(cat "$DOTFILES/install-files/global-packages")
-
-		if [[ ! -z "$gui" ]]
-		then
-			PACINST="$PACINST $(cat "$DOTFILES/install-files/gui-packages")"
-		fi
-
-		if [[ ! -z "$target" ]]
-		then
-			PACINST="$PACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
-		fi
-
 		$sudo pacman -Sy --noprogress --needed --noconfirm $PACINST 2>&1 | grep -v skipping
 		rc=$?
 		check $rc
@@ -155,14 +158,22 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 elif echo $RELEASE|grep -qi darwin > /dev/null 2>&1; then
 	echo "OS appears to be Mac OS X..."
 	if [[ -z "$nosystemchanges" ]]; then
-		for package in $MACBREW
+                echo "Installing required packages... "
+		if ! brew tap | grep -q dupes
+		then
+			brew tap homebrew/dupes
+		fi
+
+		for package in $DEFNAMEMACBREW
 		do
-			brew list|grep "$package" > /dev/null 2>&1 || BREWINST="$BREWINST
-			$package"
+			brew install $package --with-default-names 2>/dev/null
 		done
-		[[ $BREWINST == "" ]] || brew install $BREWINST
-		echo "Since you are running OS X. Please ensure 'AcceptEnv' in /etc/sshd_config includes 'IHAVEPATCHEDFONTS'"
-		echo "Also check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
+
+		for package in $MACINST
+		do
+			brew install $package 2>/dev/null
+		done
+		echo "Since you are running OS X. Please check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
 	fi
 else
 	cat <<-EOF
@@ -175,19 +186,17 @@ else
 fi
 
 
-if [ "$RELEASE" == "Darwin" ]; then
-	#echo -n "Copying OS X specific files... "
-	#rsync -a "$DOTFILES/install-files/mac/" "~/" > /dev/null 2>&1
-	#check $?
-	echo > /dev/null
+if [[ $RELEASE == Darwin ]]; then
+	fontdir="$HOME/Library/Fonts/"
 else
-	echo "Copying fonts... "
-	mkdir -p ~/.fonts/ ~/.config/fontconfig/conf.d
-	rsync "$DOTFILES/install-files/fonts/"*.otf ~/.fonts/
-	rsync "$DOTFILES/install-files/fonts/"*.conf ~/.config/fontconfig/conf.d/
-	nohup fc-cache -f ~/.fonts > /dev/null 2>&1 &
-
+	fontdir="$HOME/.fonts/"
 fi
+
+echo "Copying fonts... "
+mkdir -p ~/.fonts/ ~/.config/fontconfig/conf.d
+rsync "$DOTFILES/install-files/fonts/"*.otf "$fontdir"
+[[ $RELEASE != Darwin ]] && rsync "$DOTFILES/install-files/fonts/"*.conf ~/.config/fontconfig/conf.d/
+nohup fc-cache -f ~/.fonts > /dev/null 2>&1 &
 
 if [[ -z "$nosystemchanges" ]]; then
 	echo -n "Checking SSHD config... "
@@ -196,7 +205,7 @@ if [[ -z "$nosystemchanges" ]]; then
 	else
 		echo -e "[\e[1;33mFixing\e[00m]"
 		if grep -q "AcceptEnv" $sshd_config; then
-			$sudo $sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
+			$sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
 		else
 			echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config > /dev/null
 		fi
@@ -238,7 +247,7 @@ if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'Ciphers chacha20' "$HOME/.ssh/co
 then
 	ssh_client_config=1
 	cat <<-EOF >> "$HOME/.ssh/config"
-		
+
 		Host *
 		    Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
 		    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
@@ -272,9 +281,6 @@ else
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	check $?
 fi
-
-# TODO: This can be removed in the future. Just cleaning up old vundle files.
-rm -rf ~/.vim/bundle
 
 echo -n "Configuring vim plugins... "
 vim -esu ~/.vimrc +PlugClean! +qa
@@ -329,6 +335,6 @@ else
 fi
 
 echo "Changing shell to ZSH."
-echo "$SHELL"|grep -q zsh || chsh -s "$(which zsh)"
+finger "$USER" | grep -q 'Shell.*zsh' || $sudo chsh -s "$(which zsh)" "$USER"
 
 echo "If you want local terminals to use the agnoster theme; copy and uncomment the font config section from .zshrc to .zshrc-addon"

@@ -70,4 +70,4 @@ fi
 # Path
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/core_perl:$PATH
 export ZDOTDIR=$HOME
-source /usr/bin/virtualenvwrapper.sh
+source $(which virtualenvwrapper.sh)
