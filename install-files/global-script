@@ -7,10 +7,13 @@ else
     rm -f ~/.bin/flake8
 fi
 
-if uname | grep -i darwin
+if uname | grep -qi darwin
 then
-	if ! pip list 2>/dev/null | grep virtualenvwrapper &>/dev/null
-	then
-		pip install virtualenvwrapper
-	fi
+	for package in virtualenvwrapper flake8
+	do
+		if ! pip list 2>/dev/null | grep $package &>/dev/null
+		then
+			pip install $package
+		fi
+	done
 fi
