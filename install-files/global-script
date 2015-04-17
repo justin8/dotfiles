@@ -16,4 +16,12 @@ then
 			pip install $package
 		fi
 	done
+
+	for package in jshint jsonlint
+	do
+		if ! npm list $package &>/dev/null
+		then
+			npm install $package &>/dev/null
+		fi
+	done
 fi

@@ -11,6 +11,7 @@ gpg
 gzip
 less
 mercurial
+npm
 python
 python3
 pyenv-virtualenvwrapper
