@@ -71,3 +71,5 @@ fi
 export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
 export ZDOTDIR=$HOME
 source $(which virtualenvwrapper.sh)
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
