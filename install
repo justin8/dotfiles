@@ -165,14 +165,23 @@ elif echo $RELEASE|grep -qi darwin > /dev/null 2>&1; then
 			brew tap homebrew/dupes
 		fi
 
+		brew list brew-cask &>/dev/null || brew install caskroom/cask/brew-cask
+		cur_packages=$(brew list;brew cask list)
+
 		for package in $DEFNAMEMACBREW
 		do
-			brew install $package --with-default-names &>/dev/null
+			if ! echo "$cur_packages" | grep -q -- "$package"
+			then
+				brew install "$package" --with-default-names &>/dev/null
+			fi
 		done
 
 		for package in $MACINST
 		do
-			brew install $package &>/dev/null
+			if ! echo "$cur_packages" | grep -q -- "$package"
+			then
+				brew install "$package" &>/dev/null
+			fi
 		done
 		echo "Since you are running OS X. Please check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
 	fi

@@ -1,4 +1,3 @@
-caskroom/cask/brew-cask
 Caskroom/cask/puppet
 bash
 binutils
@@ -22,4 +21,4 @@ vim --override-system-vi
 watch
 wget
 zsh
-zsh-completion
+zsh-completions
