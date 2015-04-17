@@ -2,7 +2,8 @@
 DOTFILES=$(cd "$(dirname "$0")";pwd)
 sshd_config="/etc/ssh/sshd_config"
 
-# Hacky shit to make OS X work
+# Hacky shit to make OS X work like an actual unix system
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 DEFNAMEMACBREW="ed gnu-sed gnu-tar coreutils findutils gnu-indent gnu-which grep wdiff"
 
 # OS Detection / OS Specific variables
@@ -166,12 +167,12 @@ elif echo $RELEASE|grep -qi darwin > /dev/null 2>&1; then
 
 		for package in $DEFNAMEMACBREW
 		do
-			brew install $package --with-default-names 2>/dev/null
+			brew install $package --with-default-names &>/dev/null
 		done
 
 		for package in $MACINST
 		do
-			brew install $package 2>/dev/null
+			brew install $package &>/dev/null
 		done
 		echo "Since you are running OS X. Please check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
 	fi
