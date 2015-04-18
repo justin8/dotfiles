@@ -123,7 +123,7 @@ fi
 if [[ ! -z "$target" ]]
 then
 	PACINST="$PACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
-	MACINST="$MACINST $(cat "$DOTFILES/install-files/per-target/$target-mac-packages")"
+	MACINST="$MACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
 fi
 
 
