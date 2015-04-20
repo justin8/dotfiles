@@ -9,6 +9,8 @@ fi
 
 if uname | grep -qi darwin
 then
+	defaults write com.googlecode.iterm2 AlternateMouseScroll -bool true
+
 	for package in virtualenvwrapper flake8
 	do
 		if ! pip list 2>/dev/null | grep $package &>/dev/null
