@@ -4,6 +4,7 @@ sshd_config="/etc/ssh/sshd_config"
 
 # Hacky shit to make OS X work like an actual unix system
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+enable -n echo
 DEFNAMEMACBREW="ed gnu-sed gnu-tar coreutils findutils gnu-indent gnu-which grep wdiff"
 
 # OS Detection / OS Specific variables
