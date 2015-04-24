@@ -1,5 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Name=Suspend
-Type=Application
-Exec=sudo systemctl -i suspend

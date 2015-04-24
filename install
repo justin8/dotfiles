@@ -7,6 +7,7 @@ PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 DEFNAMEMACBREW="ed gnu-sed gnu-tar coreutils findutils gnu-indent gnu-which grep wdiff"
 
 # OS Detection / OS Specific variables
+TYPE=linux
 if [[ -f /etc/os-release ]]
 then
 	RELEASE=$(grep "^NAME=" /etc/os-release)
@@ -16,6 +17,7 @@ then
 elif uname -a|grep -qi darwin > /dev/null 2>&1
 then
 	RELEASE="Darwin"
+	TYPE=mac
 	sshd_config="/etc/sshd_config"
 else
 	RELEASE="false"
@@ -111,19 +113,16 @@ if [[ -n $target ]]; then
 fi
 
 # Create package lists
-PACINST=$(cat "$DOTFILES/install-files/global-packages")
-MACINST=$(cat "$DOTFILES/install-files/global-mac-packages")
+PACINST=$(cat "$DOTFILES/install-files/global-$TYPE-packages")
 
 if [[ ! -z "$gui" ]]
 then
-	PACINST="$PACINST $(cat "$DOTFILES/install-files/gui-packages")"
-	MACINST="$MACINST $(cat "$DOTFILES/install-files/gui-mac-packages")"
+	PACINST="$PACINST $(cat "$DOTFILES/install-files/gui-$TYPE-packages")"
 fi
 
 if [[ ! -z "$target" ]]
 then
 	PACINST="$PACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
-	MACINST="$MACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
 fi
 
 
@@ -176,7 +175,7 @@ elif echo $RELEASE|grep -qi darwin > /dev/null 2>&1; then
 			fi
 		done
 
-		for package in $MACINST
+		for package in $PACINST
 		do
 			if ! echo "$cur_packages" | grep -q -- "$package"
 			then
@@ -277,6 +276,7 @@ check $?
 
 echo -n "Copying base dotfiles... "
 rsync -a "$DOTFILES/install-files/global/" ~/
+rsync -a "$DOTFILES/install-files/global-$TYPE/" ~/
 check $?
 
 echo -n "Installing/updating vim-plug "
@@ -300,6 +300,7 @@ echo -e "[ \e[1;32mOK\e[00m ]"
 
 echo -n "Running global script... "
 "$DOTFILES/install-files/global-script"
+"$DOTFILES/install-files/global-$TYPE-script"
 check $?
 
 touch ~/.zshrc-addon > /dev/null
@@ -312,10 +313,12 @@ if [[ ! -z "$gui" ]]
 then
 	echo -n "Copying GUI config... "
 	rsync -a "$DOTFILES/install-files/gui/" ~/
+	rsync -a "$DOTFILES/install-files/gui-$TYPE/" ~/
 	check $?
 
 	echo -n "Running GUI script... "
 	"$DOTFILES/install-files/gui-script"
+	"$DOTFILES/install-files/gui-$TYPE-script"
 	check $?
 fi
 
