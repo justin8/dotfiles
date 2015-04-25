@@ -1,6 +1,7 @@
 command-not-found
 ctags
 git
+jq
 mercurial
 nodejs-jshint
 nodejs-jsonlint
