@@ -134,4 +134,12 @@ nmap <s-F8> :NERDTreeFind<CR>
 nmap <F9> :TagbarToggle<CR>
 nmap <leader>o :Tagbar<CR>
 
+" Make vim work on a mac
+nmap <Esc>b <S-Left>
+nmap <Esc>f <S-Right>
+
+" Add ctrl+a/ctrl+e like in bash for 10keyless
+nmap <C-a> <Home>
+nmap <C-e> <End>
+
 set relativenumber
