@@ -1,4 +1,2 @@
 #!/bin/bash
 
-systemctl --user enable mpd
-systemctl --user start mpd

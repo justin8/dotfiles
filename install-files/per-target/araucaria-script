@@ -1,8 +1,5 @@
 #!/bin/bash
 
-systemctl --user enable mpd
-systemctl --user start mpd
-
 # HiDPI fixes
 echo 'Xft.dpi: 192' > "$HOME/.Xresources"
 dconf write /org/gnome/desktop/interface/font-name "'Cantarell 18'"
