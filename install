@@ -294,6 +294,9 @@ else
 fi
 
 echo -n "Configuring vim plugins... "
+if echo $RELEASE|grep -qi "Arch Linux" &> /dev/null && ! pacman -Q | grep -q vim &> /dev/null; then
+	pacman -S --noconfirm --noprogress --needed vim &> /dev/null
+fi
 vim -esu ~/.vimrc +PlugClean! +qa
 vim -esu ~/.vimrc +PlugUpdate +qa
 # Vim always seems to have a return of 1...

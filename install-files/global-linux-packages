@@ -12,5 +12,4 @@ python-virtualenvwrapper
 rsync
 rubocop
 shellcheck
-vim
 zsh
