@@ -1,6 +1,7 @@
 command-not-found
 ctags
 git
+jruby
 jq
 mercurial
 nodejs-jshint
@@ -10,6 +11,5 @@ puppet
 python2-flake8
 python-virtualenvwrapper
 rsync
-rubocop
 shellcheck
 zsh
