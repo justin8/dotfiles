@@ -353,6 +353,23 @@ else
 fi
 
 echo "Changing shell to ZSH."
-finger "$USER" | grep -q 'Shell.*zsh' || $sudo chsh -s "$(which zsh)" "$USER"
+setshell=0
+if echo $RELEASE|grep -qi darwin > /dev/null 2>&1
+then
+	if ! finger "$USER" | grep -q 'Shell.*zsh'
+	then
+		setshell=1
+	fi
+else
+	if ! getent passwd "$USER" | grep zsh
+	then
+		setshell=1
+	fi
+fi
+
+if [[ $setshell == 1 ]]
+then
+	$sudo chsh -s "$(which zsh)" "$USER"
+fi
 
 echo "If you want local terminals to use the agnoster theme; copy and uncomment the font config section from .zshrc to .zshrc-addon"
