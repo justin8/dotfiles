@@ -59,6 +59,10 @@ source $ZSH/oh-my-zsh.sh
 alias vi=vim
 alias less='less -R'
 alias rsync='rsync --info=progress2'
+if [[ $(uname) == Linux ]]
+then
+	alias copy='copy --reflink=auto'
+fi
 export EDITOR="vim"
 
 # Fix to make vim work with color themes
