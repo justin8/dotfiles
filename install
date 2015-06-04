@@ -284,9 +284,9 @@ check $?
 echo -n "Installing/updating vim-plug "
 if [[ -f ~/.vim/autoload/plug.vim ]]
 then
-	vim -esu ~/.vimrc +PlugUpgrade +qa
+	vim -esu ~/.vimrc +PlugUpgrade +qa || true
 	# Vim always seems to have a return of 1...
-	echo -e "[ \e[1;32mOK\e[00m ]"
+	check $?
 else
 	mkdir -p ~/.vim/autoload
 	curl -fLo ~/.vim/autoload/plug.vim \
