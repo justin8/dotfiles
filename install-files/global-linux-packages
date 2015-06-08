@@ -11,5 +11,4 @@ puppet
 python2-flake8
 python-virtualenvwrapper
 rsync
-shellcheck
 zsh
