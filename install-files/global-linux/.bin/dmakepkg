@@ -1,6 +1,13 @@
 #!/bin/bash
 
-docker run -v $(pwd):/src \
+set -e
+name=$(basename $0)_$(uuidgen)
+set +e
+
+docker run --name $name \
+	   -v $(pwd):/src \
            -v /var/cache/pacman/pkg:/var/cache/pacman/pkg \
            -v /etc/makepkg.conf:/etc/makepkg.conf \
-           justin8/makepkg
+           justin8/makepkg $@
+
+docker rm $name
