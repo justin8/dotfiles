@@ -22,6 +22,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-rooter'
 Plug 'kien/ctrlp.vim'
 Plug 'rodjek/vim-puppet'
+Plug 'vimwiki/vimwiki'
 
 
 
@@ -95,6 +96,9 @@ set list lcs=tab:\|\
 
 " Plugin customizations
 
+" Vimwiki
+let g:vimwiki_list = [{'path': '$HOME/Copy/vimwiki'}]
+
 " Reverse supertab completion order to be top-down
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
@@ -103,9 +107,8 @@ let g:syntastic_enable_perl_checker = 1
 let g:syntastic_c_check_header = 1
 let g:syntastic_cpp_check_header = 1
 let g:syntastic_python_checkers=['flake8']
-let g:syntastic_ruby_checkers=['jruby']
+let g:syntastic_ruby_checkers=['rubocop']
 let g:syntastic_yaml_checkers=['yamlxs']
-let g:syntastic_json_checkers=['jsonlint']
 let g:syntastic_zsh_checkers=['zsh']
 let g:syntastic_sh_checkers=['shellcheck']
 let g:syntastic_javascript_checkers=['jshint']
