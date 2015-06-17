@@ -253,16 +253,17 @@ then
 	echo "$orig_ssh_config" >> "$HOME/.ssh/config"
 fi
 
-if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'Ciphers chacha20' "$HOME/.ssh/config" &> /dev/null
-then
-	ssh_client_config=1
-	cat <<-EOF >> "$HOME/.ssh/config"
-
-		Host *
-		    Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
-		    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
-	EOF
-fi
+# Disabled until paramiko and openwrt can support newer ciphers
+#if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'Ciphers chacha20' "$HOME/.ssh/config" &> /dev/null
+#then
+#	ssh_client_config=1
+#	cat <<-EOF >> "$HOME/.ssh/config"
+#
+#		Host *
+#		    Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+#		    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+#	EOF
+#fi
 
 if [[ $ssh_client_config -eq 0 ]]
 then
@@ -283,9 +284,9 @@ check $?
 echo -n "Installing/updating vim-plug "
 if [[ -f ~/.vim/autoload/plug.vim ]]
 then
-	vim -esu ~/.vimrc +PlugUpgrade +qa
+	vim -esu ~/.vimrc +PlugUpgrade +qa || true
 	# Vim always seems to have a return of 1...
-	echo -e "[ \e[1;32mOK\e[00m ]"
+	check $?
 else
 	mkdir -p ~/.vim/autoload
 	curl -fLo ~/.vim/autoload/plug.vim \
@@ -352,6 +353,23 @@ else
 fi
 
 echo "Changing shell to ZSH."
-finger "$USER" | grep -q 'Shell.*zsh' || $sudo chsh -s "$(which zsh)" "$USER"
+setshell=0
+if echo $RELEASE|grep -qi darwin > /dev/null 2>&1
+then
+	if ! finger "$USER" | grep -q 'Shell.*zsh'
+	then
+		setshell=1
+	fi
+else
+	if ! getent passwd "$USER" | grep zsh
+	then
+		setshell=1
+	fi
+fi
+
+if [[ $setshell == 1 ]]
+then
+	$sudo chsh -s "$(which zsh)" "$USER"
+fi
 
 echo "If you want local terminals to use the agnoster theme; copy and uncomment the font config section from .zshrc to .zshrc-addon"

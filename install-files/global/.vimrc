@@ -18,7 +18,6 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-unimpaired'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'Keithbsmiley/rspec.vim'
-Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-rooter'
 Plug 'kien/ctrlp.vim'
 Plug 'rodjek/vim-puppet'
