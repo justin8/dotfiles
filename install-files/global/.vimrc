@@ -23,8 +23,6 @@ Plug 'kien/ctrlp.vim'
 Plug 'rodjek/vim-puppet'
 Plug 'vimwiki/vimwiki'
 
-
-
 call plug#end()
 
 set nocompatible                " Use Vim defaults instead of 100% vi compatibility
@@ -96,7 +94,18 @@ set list lcs=tab:\|\
 " Plugin customizations
 
 " Vimwiki
-let g:vimwiki_list = [{'path': '$HOME/Copy/vimwiki'}]
+let vimwiki_export_path = '/srv/http/vimwiki/'
+let g:vimwiki_list = [{ 'path': '$HOME/Copy/vimwiki',
+         \ 'path_html': vimwiki_export_path,
+         \ 'diary_index': 'index',
+         \ 'diary_rel_path': 'diary/',
+         \ 'template_path': vimwiki_export_path.'vimwiki-assets/',
+         \ 'template_default': 'default',
+         \ 'template_ext': '.html',
+         \ 'auto_export': 0,
+         \ 'nested_syntaxes': {
+         \ 'js':'javascript',
+         \ }}]
 
 " Reverse supertab completion order to be top-down
 let g:SuperTabDefaultCompletionType = "<c-n>"
