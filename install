@@ -373,3 +373,4 @@ then
 fi
 
 echo "If you want local terminals to use the agnoster theme; copy and uncomment the font config section from .zshrc to .zshrc-addon"
+
