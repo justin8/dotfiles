@@ -155,4 +155,5 @@ nmap <Esc>f <S-Right>
 nmap <C-a> <Home>
 nmap <C-e> <End>
 
+set number
 set relativenumber
