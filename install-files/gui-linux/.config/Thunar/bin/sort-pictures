@@ -2,6 +2,9 @@
 PICTURESDIR="$HOME/Pictures"
 LOG="$HOME/.$(basename "$(readlink -f "$0")").log"
 #set -x
+set -e
+which exiftool &>/dev/null
+which zenity &>/dev/null
 
 exec > >(zenity --text-info) 2>&1
 echo "" > "$LOG"
@@ -25,7 +28,7 @@ do
 		esac
 
 		# Fallback to date modified if it cannot be found
-		[[ -z $date ]] && date=${date:-$(stat "$1"|grep Modify|awk '{print $2}')}
+		[[ -z $date ]] && date=${date:-$(stat "$1"|grep Modify|awk '{print $2}')} && echo "Date not found! Falling back to modification time"
 
 		outputdir=$PICTURESDIR/${date%%-*}/$date/
 
