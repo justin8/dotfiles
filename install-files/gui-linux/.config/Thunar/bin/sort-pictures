@@ -2,33 +2,37 @@
 PICTURESDIR="$HOME/Pictures"
 LOG="$HOME/.$(basename "$(readlink -f "$0")").log"
 #set -x
-set -e
-which exiftool &>/dev/null
-which zenity &>/dev/null
 
 exec > >(zenity --text-info) 2>&1
-echo "" > "$LOG"
+echo '' > "$LOG"
 
 while [ -n "$*" ]
 do
-	echo "Sorting picture: $1"
 	if [[ ! -f "$1" ]]
 	then
-		echo "Not a valid file! Skipping..."
+		echo "$1 is not a valid file! Skipping..."
 	else
+		if echo "$1" | grep -Eq '(pp3|xmp)$'
+		then
+			echo "Ignoring pp3/xmp: $1" >> "$LOG"
+			echo '' >> "$LOG"
+			shift
+			continue
+		fi
+		echo "Sorting picture: $1"
 		date=""
 		ext=
 		case "${1##*.}" in
 			jpg|JPG)
-				date=$(exiftool "$1"|grep "Date/Time Original"|head -n1|awk '{print $4}'|sed 's/:/-/g')
+				date=$(exiftool "$1"|grep "Date/Time Original"|awk '{print $4}'|sed 's/:/-/g')
 				;;
 			mp4|MP4)
-				date=$(exiftool "$1"|grep "Media Create Date"|head -n1|awk '{print $5}'|sed 's/:/-/g')
+				date=$(exiftool "$1"|grep "Media Create Date"|awk '{print $5}'|sed 's/:/-/g')
 				;;
 		esac
 
 		# Fallback to date modified if it cannot be found
-		[[ -z $date ]] && date=${date:-$(stat "$1"|grep Modify|awk '{print $2}')} && echo "Date not found! Falling back to modification time"
+		[[ -z $date ]] && date=${date:-$(stat "$1"|grep Modify|awk '{print $2}')}
 
 		outputdir=$PICTURESDIR/${date%%-*}/$date/
 
@@ -40,6 +44,9 @@ do
 		output=""$(basename "$1")""
 		mkdir -p "$outputdir"
 		mv "$1" "$outputdir/${output//:nopm:}"
+		[[ -f ${1}.pp3 ]] && mv "${1}.pp3" "$outputdir/${output//:nopm:}"
+		[[ -f ${1}.xmp ]] && mv "${1}.xmp" "$outputdir/${output//:nopm:}"
+		echo ''
 	fi
 	shift
 done

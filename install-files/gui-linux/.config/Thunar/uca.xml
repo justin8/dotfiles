@@ -13,11 +13,13 @@
 <action>
 	<icon>shotwell</icon>
 	<name>Sort Pictures</name>
-	<unique-id>1382098576997122-2</unique-id>
+	<unique-id>1435664233374759-15</unique-id>
 	<command>$HOME/.config/Thunar/bin/sort-pictures %F</command>
 	<description></description>
-	<patterns>*</patterns>
+	<patterns>*.jpg;*.JPG;*.pp3;*.xmp;*.mp4;*.MP4;*.cr2;*.CR2</patterns>
 	<image-files/>
+	<other-files/>
+	<text-files/>
 	<video-files/>
 </action>
 <action>
