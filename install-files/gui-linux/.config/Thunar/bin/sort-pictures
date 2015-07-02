@@ -4,15 +4,22 @@ LOG="$HOME/.$(basename "$(readlink -f "$0")").log"
 #set -x
 
 exec > >(zenity --text-info) 2>&1
-echo "" > "$LOG"
+echo '' > "$LOG"
 
 while [ -n "$*" ]
 do
-	echo "Sorting picture: $1"
 	if [[ ! -f "$1" ]]
 	then
-		echo "Not a valid file! Skipping..."
+		echo "$1 is not a valid file! Skipping..."
 	else
+		if echo "$1" | grep -Eq '(pp3|xmp)$'
+		then
+			echo "Ignoring pp3/xmp: $1" >> "$LOG"
+			echo '' >> "$LOG"
+			shift
+			continue
+		fi
+		echo "Sorting picture: $1"
 		date=""
 		ext=
 		case "${1##*.}" in
@@ -37,6 +44,9 @@ do
 		output=""$(basename "$1")""
 		mkdir -p "$outputdir"
 		mv "$1" "$outputdir/${output//:nopm:}"
+		[[ -f ${1}.pp3 ]] && mv "${1}.pp3" "$outputdir/${output//:nopm:}"
+		[[ -f ${1}.xmp ]] && mv "${1}.xmp" "$outputdir/${output//:nopm:}"
+		echo ''
 	fi
 	shift
 done

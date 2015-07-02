@@ -23,8 +23,9 @@ cleanup() {
 trap cleanup SIGINT SIGTERM
 docker run --interactive \
 	   --name $name \
+	   --entrypoint=/bin/bash \
            $CACHE \
-	   $docker_image /bin/bash -c "script -c /bin/bash <(/dev/null)"
+	   $docker_image -c "script -c /bin/bash <(/dev/null)"
 # Unable to get return code because script will exit with 0 and absorb any other return codes.
 
 cleanup
