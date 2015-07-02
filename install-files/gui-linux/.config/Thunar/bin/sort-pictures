@@ -43,9 +43,9 @@ do
 
 		output=""$(basename "$1")""
 		mkdir -p "$outputdir"
-		mv "$1" "$outputdir/${output//:nopm:}"
-		[[ -f ${1}.pp3 ]] && mv "${1}.pp3" "$outputdir/${output//:nopm:}"
-		[[ -f ${1}.xmp ]] && mv "${1}.xmp" "$outputdir/${output//:nopm:}"
+		echo cp "$1" "$outputdir/${output//:nopm:}"
+		[[ -f ${1}.pp3 ]] && echo cp "${1}.pp3" "$outputdir/${output//:nopm:}.pp3"
+		[[ -f ${1}.xmp ]] && echo cp "${1}.xmp" "$outputdir/${output//:nopm:}.xmp"
 		echo ''
 	fi
 	shift
