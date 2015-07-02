@@ -78,5 +78,5 @@ source $(which virtualenvwrapper.sh)
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
-todo=$HOME/Copy/vimwiki/todo.wiki 
+todo=$HOME/Sync/vimwiki/todo.wiki 
 [[ -f $todo ]] && cat $todo | sed 's/\[\[//g' | sed 's/\]\]//g'
