@@ -95,7 +95,7 @@ set list lcs=tab:\|\
 
 " Vimwiki
 let vimwiki_export_path = '/srv/http/vimwiki/'
-let g:vimwiki_list = [{ 'path': '$HOME/Copy/vimwiki',
+let g:vimwiki_list = [{ 'path': '$HOME/Sync/vimwiki',
          \ 'path_html': vimwiki_export_path,
          \ 'diary_index': 'index',
          \ 'diary_rel_path': 'diary/',
