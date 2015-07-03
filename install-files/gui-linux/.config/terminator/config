@@ -9,7 +9,7 @@
     background_image = None
     foreground_color = "#dcdcdc"
     scroll_on_output = False
-    font = Menlo for Powerline 10
+    font = Meslo LG S for Powerline 11
     background_color = "#151515"
     scrollback_infinite = True
 [layouts]
