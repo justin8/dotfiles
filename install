@@ -195,18 +195,27 @@ else
 	read
 fi
 
-
-if [[ $RELEASE == Darwin ]]; then
-	fontdir="$HOME/Library/Fonts/"
+echo -n "Installing powerline fonts... "
+if [[ -d "$DOTFILES/.fonts" ]]
+then
+	git -C "$DOTFILES/.fonts" pull &> /dev/null
 else
-	fontdir="$HOME/.fonts/"
+	git clone https://github.com/powerline/fonts.git "$DOTFILES/.fonts" &> /dev/null
 fi
+"$DOTFILES/.fonts/install.sh" &> /dev/null
+check $?
 
-echo "Copying fonts... "
-mkdir -p ~/.fonts/ ~/.config/fontconfig/conf.d
-rsync "$DOTFILES/install-files/fonts/"*.otf "$fontdir"
-[[ $RELEASE != Darwin ]] && rsync "$DOTFILES/install-files/fonts/"*.conf ~/.config/fontconfig/conf.d/
-nohup fc-cache -f ~/.fonts > /dev/null 2>&1 &
+#if [[ $RELEASE == Darwin ]]; then
+#	fontdir="$HOME/Library/Fonts/"
+#else
+#	fontdir="$HOME/.fonts/"
+#fi
+#
+#echo "Copying fonts... "
+#mkdir -p ~/.fonts/ ~/.config/fontconfig/conf.d
+#rsync "$DOTFILES/install-files/fonts/"*.otf "$fontdir"
+#[[ $RELEASE != Darwin ]] && rsync "$DOTFILES/install-files/fonts/"*.conf ~/.config/fontconfig/conf.d/
+#nohup fc-cache -f ~/.fonts > /dev/null 2>&1 &
 
 if [[ -z "$nosystemchanges" ]]; then
 	echo -n "Checking SSHD config... "
