@@ -1,11 +1,19 @@
 #!/bin/bash
 PICTURESDIR="$HOME/Pictures"
 LOG="$HOME/.$(basename "$(readlink -f "$0")").log"
+PATH="$PATH:/usr/bin/vendor_perl"
 #set -x
 
 exec > >(zenity --text-info) 2>&1
 echo '' > "$LOG"
 
+if ! which exiftool > /dev/null
+then
+	echo "exiftool not found!"
+	exit 1
+fi
+
+# TODO: If a CR2 exists, copy all similarly named photos at once. How to handle when other images aren't synced yet? Maybe leave the ensuring of syncing to the wrapper?
 while [ -n "$*" ]
 do
 	if ! echo $1 | grep -qE '\.(xmp|pp3)$'
@@ -24,8 +32,9 @@ do
 			echo "Sorting picture: $1"
 			date=""
 			ext=
-			case "${1##*.}" in
-				jpg|JPG)
+			format="${1##*.}"
+			case "$format" in
+				jpg|JPG|cr2|CR2)
 					date=$(exiftool "$1"|grep "Date/Time Original"|awk '{print $4}'|sed 's/:/-/g')
 					;;
 				mp4|MP4)
@@ -43,7 +52,7 @@ do
 			echo "date: $date" >> "$LOG"
 			echo "date source: $source" >> "$LOG"
 			echo "outputdir: $outputdir" >> "$LOG"
-			echo "" >> "$LOG"
+			echo '' >> "$LOG"
 
 			output=""$(basename "$1")""
 			mkdir -p "$outputdir"
@@ -51,6 +60,7 @@ do
 			[[ -f ${1}.pp3 ]] && mv "${1}.pp3" "$outputdir/${output//:nopm:}.pp3"
 			[[ -f ${1}.out.pp3 ]] && mv "${1}.out.pp3" "$outputdir/${output//:nopm:}.out.pp3"
 			[[ -f ${1}.xmp ]] && mv "${1}.xmp" "$outputdir/${output//:nopm:}.xmp"
+			echo ''
 			echo ''
 		fi
 	fi
