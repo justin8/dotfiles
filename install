@@ -9,12 +9,12 @@ DEFNAMEMACBREW="ed gnu-sed gnu-tar coreutils findutils gnu-indent gnu-which grep
 
 # OS Detection / OS Specific variables
 TYPE=linux
-if [[ -f /etc/os-release ]]
+if [[ -f /etc/arch-release ]]
+then
+	RELEASE="Arch Linux"
+elif [[ -f /etc/os-release ]]
 then
 	RELEASE=$(grep "^NAME=" /etc/os-release)
-elif [[ -f /etc/arch-release ]]
-then
-	RELEASE='Arch Linux'
 elif uname -a|grep -qi darwin > /dev/null 2>&1
 then
 	RELEASE="Darwin"
@@ -127,73 +127,75 @@ then
 fi
 
 
-# Check if running Arch Linux
 echo "Verifying required packages are installed."
-if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
-	echo "OS appears to be Arch Linux..."
+case $RELEASE in
+	'Arch Linux')
+		echo "OS appears to be Arch Linux..."
 
-	if [[ -z "$nosystemchanges" ]]; then
-		echo "Configuring repo..."
-		if ! pacman -Q dray-repo > /dev/null 2>&1
-		then
-			curl -o /tmp/dray-repo.pkg.tar.xz https://repo.dray.be/dray-repo-latest
-			$sudo pacman -U --noconfirm /tmp/dray-repo.pkg.tar.xz > /dev/null
-		fi
-
-		echo -n "Installing required packages... "
-		$sudo pacman -Sy --noprogress --needed --noconfirm $PACINST 2>&1 > /dev/null | grep -v skipping
-		rc=$?
-		check $rc
-
-		if [[ $rc != 0 ]]
-		then
-			cat <<-EOF
-			An error has occurred while installing required packages!
-			Please try to install the following packages manually:
-			$PACINST
-			EOF
-			exit 1
-		fi
-	fi
-	# Check if running OS X
-elif echo $RELEASE|grep -qi darwin > /dev/null 2>&1; then
-	echo "OS appears to be Mac OS X..."
-	if [[ -z "$nosystemchanges" ]]; then
-                echo "Installing required packages... "
-		if ! brew tap | grep -q dupes
-		then
-			brew tap homebrew/dupes
-		fi
-
-		brew list brew-cask &>/dev/null || brew install caskroom/cask/brew-cask
-		cur_packages=$(brew list;brew cask list)
-
-		for package in $DEFNAMEMACBREW
-		do
-			if ! echo "$cur_packages" | grep -q -- "$package"
+		if [[ -z "$nosystemchanges" ]]; then
+			echo "Configuring repo..."
+			if ! pacman -Q dray-repo > /dev/null 2>&1
 			then
-				brew install "$package" --with-default-names &>/dev/null
+				curl -o /tmp/dray-repo.pkg.tar.xz https://repo.dray.be/dray-repo-latest
+				$sudo pacman -U --noconfirm /tmp/dray-repo.pkg.tar.xz > /dev/null
 			fi
-		done
 
-		for package in $PACINST
-		do
-			if ! echo "$cur_packages" | grep -q -- "$package"
+			echo -n "Installing required packages... "
+			$sudo pacman -Sy --noprogress --needed --noconfirm $PACINST &>/dev/null
+			rc=$?
+			check $rc
+
+			if [[ $rc != 0 ]]
 			then
-				brew install "$package" &>/dev/null
+				cat <<-EOF
+				An error has occurred while installing required packages!
+				Please try to install the following packages manually:
+				$PACINST
+				EOF
+				exit 1
 			fi
-		done
-		echo "Since you are running OS X. Please check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
-	fi
-else
-	cat <<-EOF
-	You are not using Arch Linux; You may have to install some of the following manually:
-	$(cat "$DOTFILES/install-files/"*packages)
+		fi
+		;;
+	'Darwin')
+		echo "OS appears to be Mac OS X..."
+		if [[ -z "$nosystemchanges" ]]; then
+			echo "Installing required packages... "
+			if ! brew tap | grep -q dupes
+			then
+				brew tap homebrew/dupes
+			fi
 
-	Once you have; press enter to continue
-	EOF
-	read
-fi
+			brew list brew-cask &>/dev/null || brew install caskroom/cask/brew-cask
+			cur_packages=$(brew list;brew cask list)
+
+			for package in $DEFNAMEMACBREW
+			do
+				if ! echo "$cur_packages" | grep -q -- "$package"
+				then
+					brew install "$package" --with-default-names &>/dev/null
+				fi
+			done
+
+			for package in $PACINST
+			do
+				if ! echo "$cur_packages" | grep -q -- "$package"
+				then
+					brew install "$package" &>/dev/null
+				fi
+			done
+			echo "Since you are running OS X. Please check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
+		fi
+		;;
+	*)
+		cat <<-EOF
+		You are not using Arch Linux; You may have to install some of the following manually:
+		$(cat "$DOTFILES/install-files/"*packages)
+
+		Once you have; press enter to continue
+		EOF
+		read
+		;;
+esac
 
 echo -n "Installing powerline fonts... "
 if [[ -d "$DOTFILES/.fonts" ]]
@@ -204,18 +206,6 @@ else
 fi
 "$DOTFILES/.fonts/install.sh" &> /dev/null
 check $?
-
-#if [[ $RELEASE == Darwin ]]; then
-#	fontdir="$HOME/Library/Fonts/"
-#else
-#	fontdir="$HOME/.fonts/"
-#fi
-#
-#echo "Copying fonts... "
-#mkdir -p ~/.fonts/ ~/.config/fontconfig/conf.d
-#rsync "$DOTFILES/install-files/fonts/"*.otf "$fontdir"
-#[[ $RELEASE != Darwin ]] && rsync "$DOTFILES/install-files/fonts/"*.conf ~/.config/fontconfig/conf.d/
-#nohup fc-cache -f ~/.fonts > /dev/null 2>&1 &
 
 if [[ -z "$nosystemchanges" ]]; then
 	echo -n "Checking SSHD config... "
@@ -304,8 +294,12 @@ else
 fi
 
 echo -n "Configuring vim plugins... "
-if echo $RELEASE|grep -qi "Arch Linux" &> /dev/null && ! pacman -Q | grep -q vim &> /dev/null; then
-	pacman -S --noconfirm --noprogress --needed vim &> /dev/null
+if [[ $RELEASE == 'Arch Linux' ]]
+then
+	if ! pacman -Q | grep -q vim
+	then
+		pacman -S --noconfirm --noprogress --needed vim &> /dev/null
+	fi
 fi
 vim -esu ~/.vimrc +PlugClean! +qa
 vim -esu ~/.vimrc +PlugUpdate +qa
@@ -363,14 +357,14 @@ fi
 
 echo "Changing shell to ZSH."
 setshell=0
-if echo $RELEASE|grep -qi darwin > /dev/null 2>&1
+if [[ $type == 'mac' ]]
 then
 	if ! finger "$USER" | grep -q 'Shell.*zsh'
 	then
 		setshell=1
 	fi
 else
-	if ! getent passwd "$USER" | grep zsh
+	if ! getent passwd "$USER" | grep -q zsh
 	then
 		setshell=1
 	fi
