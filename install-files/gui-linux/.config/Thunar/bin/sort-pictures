@@ -13,7 +13,6 @@ then
 	exit 1
 fi
 
-# TODO: If a CR2 exists, copy all similarly named photos at once. How to handle when other images aren't synced yet? Maybe leave the ensuring of syncing to the wrapper?
 while [ -n "$*" ]
 do
 	if ! echo $1 | grep -qE '\.(xmp|pp3)$'
