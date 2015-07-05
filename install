@@ -141,7 +141,7 @@ if echo $RELEASE|grep -qi "Arch Linux" > /dev/null 2>&1; then
 		fi
 
 		echo -n "Installing required packages... "
-		$sudo pacman -Sy --noprogress --needed --noconfirm $PACINST 2>&1 | grep -v skipping
+		$sudo pacman -Sy --noprogress --needed --noconfirm $PACINST 2>&1 > /dev/null | grep -v skipping
 		rc=$?
 		check $rc
 
