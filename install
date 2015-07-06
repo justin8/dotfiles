@@ -357,7 +357,7 @@ fi
 
 echo "Changing shell to ZSH."
 setshell=0
-if [[ $type == 'mac' ]]
+if [[ $TYPE == 'mac' ]]
 then
 	if ! finger "$USER" | grep -q 'Shell.*zsh'
 	then
