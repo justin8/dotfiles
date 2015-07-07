@@ -8,16 +8,24 @@ then
 	exit 1
 fi
 
+set -e
+name=$(basename $0)_$(uuidgen)
 set +e
 
 # TODO: Add caches for other OSes and perhaps a way to only mount in specific OSes instead of all.
 # Using -e instead of -d incase it is a symlink
 [[ -e '/var/cache/pacman/pkg' ]] && CACHE="-v /var/cache/pacman/pkg:/var/cache/pacman/pkg" || CACHE=""
 
+cleanup() {
+	docker rm $name
+}
+
 trap cleanup SIGINT SIGTERM
-docker run --rm \
-	   --interactive \
+docker run --interactive \
+	   --name $name \
 	   --entrypoint=/bin/bash \
            $CACHE \
 	   $docker_image -c "script -c /bin/bash <(/dev/null)"
 # Unable to get return code because script will exit with 0 and absorb any other return codes.
+
+cleanup
