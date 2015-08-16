@@ -78,5 +78,11 @@ source $(which virtualenvwrapper.sh)
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
+# Gnome keyring fix
+if [[ $(uname) == Linux ]]
+then
+	export SSH_AUTH_SOCK="/run/user/${EUID}/keyring/ssh"
+fi
+
 todo=$HOME/Sync/vimwiki/todo.wiki 
 [[ -f $todo ]] && cat $todo | sed 's/\[\[//g' | sed 's/\]\]//g'
