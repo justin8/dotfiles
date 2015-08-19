@@ -1,0 +1,3 @@
+#!/bin/bash
+export $(cat /proc/$(pgrep -u $(whoami) ^gnome-shell$)/environ | grep -z DBUS_SESSION_BUS_ADDRESS)
+DISPLAY=:0 GSETTINGS_BACKEND=dconf gsettings set org.gnome.desktop.background picture-uri file://"$(find ~/Sync/files/Backgrounds -type f | shuf -n1)"
