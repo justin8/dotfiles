@@ -1,0 +1,20 @@
+[Desktop Entry]
+Type=Action
+Tooltip[en_AU]=Show media info for this file
+Tooltip[en]=Show media info for this file
+Tooltip[C]=Show media info for this file
+ToolbarLabel[en_AU]=Media Info
+ToolbarLabel[en]=Media Info
+ToolbarLabel[C]=Media Info
+Name[en_AU]=Media Info
+Name[en]=Media Info
+Name[C]=Media Info
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+Name[en_AU]=Default profile
+Name[en]=Default profile
+Name[C]=Default profile
+Exec=/usr/bin/mediainfo-gui %F
+Matchcase=false
+MimeTypes=video/*;

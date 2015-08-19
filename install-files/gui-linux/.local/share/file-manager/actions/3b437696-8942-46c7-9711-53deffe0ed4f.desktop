@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Action
+ToolbarLabel[en_AU]=Sort Pictures
+ToolbarLabel[en]=Sort Pictures
+ToolbarLabel[C]=Sort Pictures
+Name[en_AU]=Sort Pictures
+Name[en]=Sort Pictures
+Name[C]=Sort Pictures
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+MimeTypes=video/*;image/*;
+ExecutionMode=DisplayOutput
+Exec=$HOME/.bin/sort-pictures %F
+Name[en_AU]=Default profile
+Name[en]=Default profile
+Name[C]=Default profile

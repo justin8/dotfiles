@@ -1,0 +1,22 @@
+#!/bin/bash
+LOG="$HOME/.$(basename "$(readlink -f "$0")").log"
+
+echo "" > "$LOG"
+
+while [ -n "$*" ]
+do
+	if [[ "${1##*.}" == mp3 ]]
+	then
+		ext=" 2.mp3"
+	fi
+	
+	1="$(basename "$1")"
+	output="${1%.*}${ext:-.mp3}"
+	temp=$(mktemp)
+
+	ffmpeg -y -i "$1" -vn -ac 2 -ar 44.1k -f wav "$temp"
+	normalize "$temp"
+	lame -r --abr 256 "$temp" "$output"
+	rm -rf "$temp"
+	shift
+done | zenity --progress --percentage=-1 --pulsate --no-cancel --auto-close --auto-kill --text "Please wait while files are being converted"

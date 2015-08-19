@@ -14,7 +14,7 @@
 	<icon>shotwell</icon>
 	<name>Sort Pictures</name>
 	<unique-id>1435664233374759-15</unique-id>
-	<command>$HOME/.config/Thunar/bin/sort-pictures %F</command>
+	<command>$HOME/.bin/sort-pictures %F</command>
 	<description></description>
 	<patterns>*.jpg;*.JPG;*.pp3;*.xmp;*.mp4;*.MP4;*.cr2;*.CR2</patterns>
 	<image-files/>
@@ -35,7 +35,7 @@
 	<icon></icon>
 	<name>Convert to mp3</name>
 	<unique-id>1382098861245405-4</unique-id>
-	<command>$HOME/.config/Thunar/bin/convert-audio %F</command>
+	<command>$HOME/.bin/convert-audio %F</command>
 	<description>Will convert the selected file(s) to mp3 format</description>
 	<patterns>*</patterns>
 	<audio-files/>
