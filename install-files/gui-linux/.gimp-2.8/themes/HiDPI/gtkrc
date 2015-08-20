@@ -1,0 +1,113 @@
+#
+# Temporary HiDPI theme for Gimp 2.9/2.10
+# Bumps up the sizes of icons and some other widgets to roughly
+# match expected size. Assumes fonts are already sized appropriately.
+#
+# This should be removed from Gimp 2.99/3.0 which will use
+# GTK+ 3's native HiDPI mode with automatic scaling.
+#
+
+# pixmap_path "<dir 1>:<dir 2>:<dir 3>:..."
+#
+# include "rc-file"
+#
+# style <name> [= <name>]
+# {
+#   <option>
+# }
+#
+# widget <widget_set> style <style_name>
+# widget_class <widget_class_set> style <style_name>
+
+
+# Don't define icons for the Default theme as they are compiled in
+#
+include "imagerc"
+
+# Do override some GTK stock icons however.
+
+style "gimp-default-style"
+{
+  stock["gtk-dialog-error"] =
+    {
+      { "images/stock-error-64.png", *, *, "gtk-dialog" }
+    }
+  stock["gtk-dialog-info"] =
+    {
+      { "images/stock-info-64.png", *, *, "gtk-dialog" }
+    }
+  stock["gtk-dialog-question"] =
+    {
+      { "images/stock-question-64.png", *, *, "gtk-dialog" }
+    }
+  stock["gtk-dialog-warning"] =
+    {
+      { "images/stock-warning-64.png", *, *, "gtk-dialog" }
+    }
+
+  GtkPaned::handle-size             = 12
+  GimpDockWindow::default-height    = 600
+  GimpDock::font-scale              = 0.8333
+  GimpMenuDock::minimal-width       = 400
+  GimpDockWindow::menu-preview-size = dialog
+  GimpToolPalette::tool-icon-size   = dialog
+  GimpToolPalette::button-relief    = none
+  GimpDockbook::tab-border          = 0
+  GimpDockbook::tab-icon-size       = dialog
+  GimpColorNotebook::tab-border     = 0
+  GimpColorNotebook::tab-icon-size  = dialog
+  GimpDeviceEditor::handle-size     = 24
+  GimpDockable::content-border      = 4
+  GimpEditor::content-spacing       = 4
+  GimpEditor::button-spacing        = 4
+  GimpEditor::button-icon-size      = large-toolbar
+  GimpDataEditor::minimal-height    = 192
+  GtkDialog::content-area-border    = 0
+  GtkDialog::button-spacing         = 12
+  GtkDialog::action-area-border     = 24
+  GimpUnitComboBox::appears-as-list = 0
+}
+
+class "GtkWidget" style "gimp-default-style"
+
+
+style "gimp-tool-dialog-style" = "gimp-default-style"
+{
+  GtkDialog::action-area-border = 12
+}
+
+class "GimpToolDialog" style "gimp-tool-dialog-style"
+
+
+style "gimp-grid-view-style" = "gimp-default-style"
+{
+  bg[NORMAL] = { 1.0, 1.0, 1.0 }
+}
+
+widget "*GimpContainerGridView*GtkViewport*" style "gimp-grid-view-style"
+
+
+style "gimp-dockable-style" = "gimp-default-style"
+{
+  GimpFrame::label-bold       = 0
+  GimpFrame::label-spacing    = 4
+  GtkWidget::focus-line_width = 2
+  GtkWidget::focus-padding    = 0
+}
+
+widget "*GimpDockable.*" style "gimp-dockable-style"
+
+
+style "gimp-display-style" = "gimp-default-style"
+{
+  GimpRuler::font-scale          = 0.8333
+  GimpUnitComboBox::label-scale  = 0.8333
+  GimpScaleComboBox::label-scale = 0.8333
+  GtkComboBox::arrow-size        = 16
+  GtkButton::inner-border        = { 0, 0, 0, 0 }
+  GtkWidget::focus-line_width    = 2
+  GtkWidget::focus-padding       = 0
+}
+
+widget "*GimpDisplayShell.*" style "gimp-display-style"
+
