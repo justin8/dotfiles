@@ -73,10 +73,18 @@ fi
 
 # Path fix for RHEL
 export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
-export ZDOTDIR=$HOME
-source $(which virtualenvwrapper.sh)
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+# Export ZDOTDIR to allow sudo and keeping the same zsh dot files (still requires changing to zsh or having root's shell set to zsh)
+export ZDOTDIR=$HOME
+
+vew=$(which virtualenvwrapper.sh)
+if [[ -n $vew ]]
+then
+	source $vew
+fi
+
+# Add RVM to PATH for scripting
+export PATH="$PATH:$HOME/.rvm/bin"
 
 # Gnome keyring fix
 if [[ $(uname) == Linux ]]
