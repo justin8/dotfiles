@@ -133,11 +133,14 @@ case $RELEASE in
 		echo "OS appears to be Arch Linux..."
 
 		if [[ -z "$nosystemchanges" ]]; then
-			echo "Configuring repo..."
-			if ! pacman -Q dray-repo > /dev/null 2>&1
+			if [[ $(uname -m) == 'x86_64' ]]
 			then
-				curl -o /tmp/dray-repo.pkg.tar.xz https://repo.dray.be/dray-repo-latest
-				$sudo pacman -U --noconfirm /tmp/dray-repo.pkg.tar.xz > /dev/null
+				echo "Configuring repo..."
+				if ! pacman -Q dray-repo > /dev/null 2>&1
+				then
+					curl -o /tmp/dray-repo.pkg.tar.xz https://repo.dray.be/dray-repo-latest
+					$sudo pacman -U --noconfirm /tmp/dray-repo.pkg.tar.xz > /dev/null
+				fi
 			fi
 
 			echo -n "Installing required packages... "
@@ -152,7 +155,12 @@ case $RELEASE in
 				Please try to install the following packages manually:
 				$PACINST
 				EOF
-				exit 1
+				if [[ $(uname -m) == 'x86_64' ]]
+				then
+					exit 1
+				else
+					echo 'Continuing anyway since some packages are unavailable outside of x86_64'
+				fi
 			fi
 		fi
 		;;
