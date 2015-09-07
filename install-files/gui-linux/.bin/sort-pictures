@@ -33,7 +33,7 @@ do
 			format="${1##*.}"
 			case "$format" in
 				jpg|JPG|cr2|CR2)
-					date=$(exiftool "$1"|grep "Date/Time Original"|awk '{print $4}'|sed 's/:/-/g')
+					date=$(exiftool "$1"|grep "Date/Time Original"|head -n1|awk '{print $4}'|sed 's/:/-/g')
 					;;
 				mp4|MP4)
 					date=$(exiftool "$1"|grep "Media Create Date"|awk '{print $5}'|sed 's/:/-/g')
