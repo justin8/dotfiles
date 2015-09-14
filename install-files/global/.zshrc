@@ -87,9 +87,10 @@ fi
 export PATH="$PATH:$HOME/.rvm/bin"
 
 # Gnome keyring fix
-if [[ $(uname) == Linux ]]
+keyring_path="/run/user/${EUID}/keyring/ssh"
+if [[ -e $keyring_path ]]
 then
-	export SSH_AUTH_SOCK="/run/user/${EUID}/keyring/ssh"
+	export SSH_AUTH_SOCK="$keyring_path"
 fi
 
 todo=$HOME/Sync/vimwiki/todo.wiki 
