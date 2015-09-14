@@ -80,7 +80,7 @@ set smartcase          " Do smart case matching
 "  source /etc/vim/vimrc.local
 "endif
 
-colorscheme jellybeans
+colorscheme Tomorrow-Night
 
 " Whitespace settings
 set tabstop=4
