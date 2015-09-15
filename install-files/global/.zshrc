@@ -78,7 +78,7 @@ export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
 export ZDOTDIR=$HOME
 
 vew=$(which virtualenvwrapper.sh)
-if [[ -n $vew ]]
+if [[ $? == 0 ]]
 then
 	source $vew
 fi
