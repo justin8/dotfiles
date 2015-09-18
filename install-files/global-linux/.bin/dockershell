@@ -16,16 +16,10 @@ set +e
 # Using -e instead of -d incase it is a symlink
 [[ -e '/var/cache/pacman/pkg' ]] && CACHE="-v /var/cache/pacman/pkg:/var/cache/pacman/pkg" || CACHE=""
 
-cleanup() {
-	docker rm $name
-}
-
-trap cleanup SIGINT SIGTERM
 docker run --interactive \
 	   --name $name \
 	   --entrypoint=/bin/bash \
+	   --rm \
            $CACHE \
 	   $docker_image -c "script -c /bin/bash <(/dev/null)"
 # Unable to get return code because script will exit with 0 and absorb any other return codes.
-
-cleanup
