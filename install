@@ -31,18 +31,23 @@ then
 	exit 1
 fi
 
+function ok {
+	echo -e "[ \e[1;32mOK\e[00m ]"
+}
+
+function failed {
+	echo -e "[\e[1;31mFAILED\e[00m]"
+}
+
 function check {
 case $1 in
-	0)
-		echo -e "[ \e[1;32mOK\e[00m ]"
-		;;
-	2)
-		echo -e "[\e[1;33mFixing\e[00m]"
-		;;
-	*)
-		echo -e "[\e[1;31mFAILED\e[00m]"
-		;;
+	0) ok ;;
+	*) failed ;;
 esac
+}
+
+function cleanup {
+	check $?
 }
 
 function autorestart {
@@ -99,7 +104,7 @@ shift $(( OPTIND -1 ))
 
 #per-target options
 case $target in
-	ironwood|workdesktop|araucaria) gui=true;;
+	ironwood) gui=true;;
 esac
 
 if [[ -n $target ]]; then
@@ -126,6 +131,7 @@ then
 	PACINST="$PACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
 fi
 
+trap cleanup EXIT SIGINT SIGTERM
 
 echo "Verifying required packages are installed."
 case $RELEASE in
@@ -135,18 +141,21 @@ case $RELEASE in
 		if [[ -z "$nosystemchanges" ]]; then
 			if [[ $(uname -m) == 'x86_64' ]]
 			then
-				echo "Configuring repo..."
+				echo -n "Configuring repo... "
 				if ! pacman -Q dray-repo > /dev/null 2>&1
 				then
 					curl -o /tmp/dray-repo.pkg.tar.xz https://repo.dray.be/dray-repo-latest
 					$sudo pacman -U --noconfirm /tmp/dray-repo.pkg.tar.xz > /dev/null
 				fi
+				ok
 			fi
 
+			set +e
 			echo -n "Installing required packages... "
 			$sudo pacman -Sy --noprogress --needed --noconfirm $PACINST &>/dev/null
 			rc=$?
 			check $rc
+			set -e
 
 			if [[ $rc != 0 ]]
 			then
@@ -213,29 +222,30 @@ else
 	git clone https://github.com/powerline/fonts.git "$DOTFILES/.fonts" &> /dev/null
 fi
 "$DOTFILES/.fonts/install.sh" &> /dev/null
-check $?
+ok
 
 if [[ -z "$nosystemchanges" ]]; then
 	echo -n "Checking SSHD config... "
 	if grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config; then
-		echo -e "[ \e[1;32mOK\e[00m ]"
+		ok
 	else
-		echo -e "[\e[1;33mFixing\e[00m]"
 		if grep -q "AcceptEnv" $sshd_config; then
 			$sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
 		else
 			echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config > /dev/null
 		fi
+		ok
+
 		echo -n "Restarting SSHD... "
 		autorestart sshd
-		check $?
+		ok
 	fi
 
 	if [ -d /etc/sudoers.d ]; then
 		if ! sudo test -f /etc/sudoers.d/patched-fonts; then
 			echo -n "Applying sudoers config... "
 			echo -e 'Defaults\tenv_keep += "SSH_TTY"\nDefaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee /etc/sudoers.d/patched-fonts > /dev/null
-			check $?
+			ok
 		fi
 	fi
 fi
@@ -249,7 +259,6 @@ then
 fi
 if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'SendEnv IHAVEPATCHEDFONTS' "$HOME/.ssh/config" &> /dev/null
 then
-	ssh_client_config=1
 	if [[ -f $HOME/.ssh/config ]]
 	then
 		orig_ssh_config=$(cat "$HOME/.ssh/config")
@@ -263,7 +272,6 @@ fi
 # Disabled until paramiko and openwrt can support newer ciphers
 #if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'Ciphers chacha20' "$HOME/.ssh/config" &> /dev/null
 #then
-#	ssh_client_config=1
 #	cat <<-EOF >> "$HOME/.ssh/config"
 #
 #		Host *
@@ -271,35 +279,28 @@ fi
 #		    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
 #	EOF
 #fi
-
-if [[ $ssh_client_config -eq 0 ]]
-then
-	echo -e "[ \e[1;32mOK\e[00m ]"
-else
-	echo -e "[\e[1;33mFixing\e[00m]"
-fi
+ok
 
 echo -n "Updating submodules... "
 update_submodules
-check $?
+ok
 
 echo -n "Copying base dotfiles... "
 rsync -a "$DOTFILES/install-files/global/" ~/
 rsync -a "$DOTFILES/install-files/global-$TYPE/" ~/
-check $?
+ok
 
 echo -n "Installing/updating vim-plug "
 if [[ -f ~/.vim/autoload/plug.vim ]]
 then
-	vim -esu ~/.vimrc +PlugUpgrade +qa || true
 	# Vim always seems to have a return of 1...
-	check $?
+	vim -esu ~/.vimrc +PlugUpgrade +qa || true
 else
 	mkdir -p ~/.vim/autoload
 	curl -sSfLo ~/.vim/autoload/plug.vim \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	check $?
 fi
+ok
 
 echo -n "Configuring vim plugins... "
 if [[ $RELEASE == 'Arch Linux' ]]
@@ -309,45 +310,48 @@ then
 		pacman -S --noconfirm --noprogress --needed vim &> /dev/null
 	fi
 fi
-vim -esu ~/.vimrc +PlugClean! +qa
-vim -esu ~/.vimrc +PlugUpdate +qa
 # Vim always seems to have a return of 1...
-echo -e "[ \e[1;32mOK\e[00m ]"
+vim -esu ~/.vimrc +PlugClean! +qa || true
+vim -esu ~/.vimrc +PlugUpdate +qa || true
+ok
 
 echo -n "Running global script... "
 "$DOTFILES/install-files/global-script"
 "$DOTFILES/install-files/global-$TYPE-script"
-check $?
+ok
 
+echo -n "Configuring zshrc-addon... "
 touch ~/.zshrc-addon > /dev/null
 if ! grep -qE 'PATH.*~/\.bin' ~/.zshrc-addon
 then
 	echo 'export PATH=~/.bin:$PATH' >> ~/.zshrc-addon
 fi
+ok
 
 if [[ ! -z "$gui" ]]
 then
 	echo -n "Copying GUI config... "
 	rsync -a "$DOTFILES/install-files/gui/" ~/
 	rsync -a "$DOTFILES/install-files/gui-$TYPE/" ~/
-	check $?
+	ok
 
 	echo -n "Running GUI script... "
 	"$DOTFILES/install-files/gui-script"
 	"$DOTFILES/install-files/gui-$TYPE-script"
-	check $?
+	ok
 fi
 
 if [[ ! -z "$target" ]]
 then
 	echo -n "Copying $target config... "
 	rsync -a "$DOTFILES/install-files/per-target/$target/" ~/
-	check $?
+	ok
+
 	if [[ -f $DOTFILES/install-files/per-target/$target-script ]]
 	then
 		echo -n "Running $target script... "
 		"$DOTFILES/install-files/per-target/$target-script"
-		check $?
+		ok
 	fi
 fi
 
@@ -357,13 +361,12 @@ then
 	cd ~/.oh-my-zsh
 	git reset --hard origin/master > /dev/null 2>&1
 	git pull > /dev/null 2>&1
-	check $?
 else
 	git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null 2>&1
-	check $?
 fi
+ok
 
-echo "Changing shell to ZSH."
+echo -n "Changing shell to ZSH... "
 setshell=0
 if [[ $TYPE == 'mac' ]]
 then
@@ -385,6 +388,7 @@ then
 		$sudo chsh -s "$(which zsh)" "$USER"
 	fi
 fi
+ok
 
 echo "If you want local terminals to use the agnoster theme; copy and uncomment the font config section from .zshrc to .zshrc-addon"
-
+trap - EXIT SIGINT SIGTERM
