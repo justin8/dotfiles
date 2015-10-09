@@ -17,5 +17,5 @@ docker run --interactive \
 	   --entrypoint=/bin/bash \
 	   --rm \
            $CACHE \
-	   $docker_image /bin/bash
+	   $docker_image
 exit $?
