@@ -58,7 +58,7 @@ function autorestart {
 
 function update_submodules {
 	cd "$DOTFILES"
-	git submodule update --init --recursive > /dev/null 2>&1
+	git submodule update --init --recursive --remote > /dev/null 2>&1
 }
 
 function install_scripts {
