@@ -9,15 +9,12 @@ DEFNAMEMACBREW="ed gnu-sed gnu-tar coreutils findutils gnu-indent gnu-which grep
 
 # OS Detection / OS Specific variables
 TYPE=linux
-if [[ -f /etc/arch-release ]]
-then
-	RELEASE="Arch Linux"
-elif [[ -f /etc/os-release ]]
-then
+if [[ -f /etc/arch-release ]]; then
+	RELEASE="archlinux"
+elif [[ -f /etc/os-release ]]; then
 	RELEASE=$(grep "^NAME=" /etc/os-release)
-elif uname -a|grep -qi darwin > /dev/null 2>&1
-then
-	RELEASE="Darwin"
+elif uname -a|grep -qi darwin > /dev/null 2>&1; then
+	RELEASE="mac"
 	TYPE=mac
 	sshd_config="/etc/sshd_config"
 else
@@ -25,8 +22,7 @@ else
 	echo "Unable to detect OS correctly, assuming some sort of Linux..."
 fi
 
-if [[ ! -d $DOTFILES ]]
-then
+if [[ ! -d $DOTFILES ]]; then
 	echo "An error has occured while determining the current path. Exiting."
 	exit 1
 fi
@@ -65,6 +61,12 @@ function update_submodules {
 	git submodule update --init --recursive > /dev/null 2>&1
 }
 
+function install_scripts {
+	while read script; do
+		ln -sf "$DOTFILES/scripts/$script" "$HOME/.bin/${script##*/}"
+	done < "$DOTFILES/install-files/$1"
+}
+
 function get_targets {
 	echo -n $(cd "$DOTFILES/install-files/per-target";ls -d ./*/|sed 's#/$##;s#^./##'|tr '\n' ' ')
 }
@@ -79,7 +81,6 @@ function usage {
 	-h	Show this help
 	-n	No system changes, no packages will be installed and no system level changes will be made
 	-t	Target, can be one of: $(get_targets)
-	-g	GUI, install basic GUI settings. This is installed by most targets already
 	EOF
 }
 
@@ -90,8 +91,7 @@ elif [[ $UID != 0 ]]; then
     exit 1
 fi
 
-while getopts ":hngt:" OPTION
-do
+while getopts ":hngt:" OPTION; do
 	case $OPTION in
 		h) usage;exit 0;;
 		n) nosystemchanges=true;;
@@ -102,14 +102,8 @@ do
 done
 shift $(( OPTIND -1 ))
 
-#per-target options
-case $target in
-	ironwood) gui=true;;
-esac
-
 if [[ -n $target ]]; then
-	for i in $(get_targets)
-	do
+	for i in $(get_targets); do
 		[[ $target == "$i" ]] && found_target=true
 	done
 	if [[ -z $found_target ]]; then
@@ -119,31 +113,26 @@ if [[ -n $target ]]; then
 fi
 
 # Create package lists
-PACINST=$(cat "$DOTFILES/install-files/global-$TYPE-packages")
+PACINST=$(cat "$DOTFILES/install-files/$RELEASE-packages")
 
-if [[ ! -z "$gui" ]]
-then
-	PACINST="$PACINST $(cat "$DOTFILES/install-files/gui-$TYPE-packages")"
-fi
-
-if [[ ! -z "$target" ]]
-then
+if [[ ! -z "$target" ]]; then
 	PACINST="$PACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
 fi
 
 trap cleanup EXIT SIGINT SIGTERM
 
-echo "Verifying required packages are installed."
-case $RELEASE in
-	'Arch Linux')
-		echo "OS appears to be Arch Linux..."
+##################################################################
+# Start of system-level changes
 
-		if [[ -z "$nosystemchanges" ]]; then
-			if [[ $(uname -m) == 'x86_64' ]]
-			then
+if [[ -z "$nosystemchanges" ]]; then
+	echo "Verifying required packages are installed."
+	case $RELEASE in
+		'archlinux')
+			echo "OS appears to be Arch Linux..."
+
+			if [[ $(uname -m) == 'x86_64' ]]; then
 				echo -n "Configuring repo... "
-				if ! pacman -Q dray-repo > /dev/null 2>&1
-				then
+				if ! pacman -Q dray-repo > /dev/null 2>&1; then
 					curl -o /tmp/dray-repo.pkg.tar.xz https://repo.dray.be/dray-repo-latest
 					$sudo pacman -U --noconfirm /tmp/dray-repo.pkg.tar.xz > /dev/null
 				fi
@@ -157,64 +146,53 @@ case $RELEASE in
 			check $rc
 			set -e
 
-			if [[ $rc != 0 ]]
-			then
+			if [[ $rc != 0 ]]; then
 				cat <<-EOF
 				An error has occurred while installing required packages!
 				Please try to install the following packages manually:
 				$PACINST
 				EOF
-				if [[ $(uname -m) == 'x86_64' ]]
-				then
+				if [[ $(uname -m) == 'x86_64' ]]; then
 					exit 1
 				else
 					echo 'Continuing anyway since some packages are unavailable outside of x86_64'
 				fi
 			fi
-		fi
-		;;
-	'Darwin')
-		echo "OS appears to be Mac OS X..."
-		if [[ -z "$nosystemchanges" ]]; then
+			;;
+		'mac')
+			echo "OS appears to be Mac OS X..."
 			echo "Installing required packages... "
-			if ! brew tap | grep -q dupes
-			then
+			if ! brew tap | grep -q dupes; then
 				brew tap homebrew/dupes
 			fi
 
 			brew list brew-cask &>/dev/null || brew install caskroom/cask/brew-cask
 			cur_packages=$(brew list;brew cask list)
 
-			for package in $DEFNAMEMACBREW
-			do
-				if ! echo "$cur_packages" | grep -q -- "$package"
-				then
+			for package in $DEFNAMEMACBREW; do
+				if ! echo "$cur_packages" | grep -q -- "$package"; then
 					brew install "$package" --with-default-names &>/dev/null
 				fi
 			done
 
-			for package in $PACINST
-			do
-				if ! echo "$cur_packages" | grep -q -- "$package"
-				then
+			for package in $PACINST; do
+				if ! echo "$cur_packages" | grep -q -- "$package"; then
 					brew install "$package" &>/dev/null
 				fi
 			done
 			echo "Since you are running OS X. Please check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
-		fi
-		;;
-	*)
-		cat <<-EOF
-		You are not using Arch Linux; You may have to install some of the following manually:
-		$(cat "$DOTFILES/install-files/"*packages)
+			;;
+		*)
+			cat <<-EOF
+			You are not using Arch Linux; You may have to install some of the following manually:
+			$(cat "$DOTFILES/install-files/"*packages)
 
-		Once you have; press enter to continue
-		EOF
-		read
-		;;
-esac
+			Once you have; press enter to continue
+			EOF
+			read
+			;;
+	esac
 
-if [[ -z "$nosystemchanges" ]]; then
 	echo -n "Checking SSHD config... "
 	if grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config; then
 		ok
@@ -240,17 +218,16 @@ if [[ -z "$nosystemchanges" ]]; then
 	fi
 fi
 
+##################################################################
+# End of system-level changes
+
 echo -n "Checking SSH client config... "
-ssh_client_config=0
-if ! [[ -d "$HOME/.ssh" ]]
-then
+if ! [[ -d "$HOME/.ssh" ]]; then
 	mkdir "$HOME/.ssh"
 	chmod 700 "$HOME/.ssh"
 fi
-if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'SendEnv IHAVEPATCHEDFONTS' "$HOME/.ssh/config" &> /dev/null
-then
-	if [[ -f $HOME/.ssh/config ]]
-	then
+if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'SendEnv IHAVEPATCHEDFONTS' "$HOME/.ssh/config" &> /dev/null; then
+	if [[ -f $HOME/.ssh/config ]]; then
 		orig_ssh_config=$(cat "$HOME/.ssh/config")
 	else
 		orig_ssh_config=""
@@ -280,13 +257,11 @@ echo -n "Installing powerline fonts... "
 ok
 
 echo -n "Copying base dotfiles... "
-rsync -a "$DOTFILES/install-files/global/" ~/
-rsync -a "$DOTFILES/install-files/global-$TYPE/" ~/
+rsync -a "$DOTFILES/install-files/files/" ~/
 ok
 
 echo -n "Installing/updating vim-plug "
-if [[ -f ~/.vim/autoload/plug.vim ]]
-then
+if [[ -f ~/.vim/autoload/plug.vim ]]; then
 	# Vim always seems to have a return of 1...
 	vim -esu ~/.vimrc +PlugUpgrade +qa || true
 else
@@ -296,11 +271,15 @@ else
 fi
 ok
 
+echo -n "Configuring scripts... "
+mkdir -p $HOME/.bin
+install_scripts scripts
+install_scripts $TYPE-scripts
+ok
+
 echo -n "Configuring vim plugins... "
-if [[ $RELEASE == 'Arch Linux' ]]
-then
-	if ! pacman -Q | grep -q vim
-	then
+if [[ $RELEASE == 'archlinux' ]]; then
+	if ! pacman -Q | grep -q vim; then
 		pacman -S --noconfirm --noprogress --needed vim &> /dev/null
 	fi
 fi
@@ -309,40 +288,19 @@ vim -esu ~/.vimrc +PlugClean! +qa || true
 vim -esu ~/.vimrc +PlugUpdate +qa || true
 ok
 
-echo -n "Running global script... "
-"$DOTFILES/install-files/global-script"
-"$DOTFILES/install-files/global-$TYPE-script"
-ok
-
 echo -n "Configuring zshrc-addon... "
 touch ~/.zshrc-addon > /dev/null
-if ! grep -qE 'PATH.*~/\.bin' ~/.zshrc-addon
-then
+if ! grep -qE 'PATH.*~/\.bin' ~/.zshrc-addon; then
 	echo 'export PATH=~/.bin:$PATH' >> ~/.zshrc-addon
 fi
 ok
 
-if [[ ! -z "$gui" ]]
-then
-	echo -n "Copying GUI config... "
-	rsync -a "$DOTFILES/install-files/gui/" ~/
-	rsync -a "$DOTFILES/install-files/gui-$TYPE/" ~/
-	ok
-
-	echo -n "Running GUI script... "
-	"$DOTFILES/install-files/gui-script"
-	"$DOTFILES/install-files/gui-$TYPE-script"
-	ok
-fi
-
-if [[ ! -z "$target" ]]
-then
+if [[ ! -z "$target" ]]; then
 	echo -n "Copying $target config... "
 	rsync -a "$DOTFILES/install-files/per-target/$target/" ~/
 	ok
 
-	if [[ -f $DOTFILES/install-files/per-target/$target-script ]]
-	then
+	if [[ -f $DOTFILES/install-files/per-target/$target-script ]]; then
 		echo -n "Running $target script... "
 		"$DOTFILES/install-files/per-target/$target-script"
 		ok
@@ -350,8 +308,7 @@ then
 fi
 
 echo -n "Configuring oh-my-zsh... "
-if [[ -d ~/.oh-my-zsh ]]
-then
+if [[ -d ~/.oh-my-zsh ]]; then
 	cd ~/.oh-my-zsh
 	git reset --hard origin/master > /dev/null 2>&1
 	git pull > /dev/null 2>&1
@@ -362,23 +319,18 @@ ok
 
 echo -n "Changing shell to ZSH... "
 setshell=0
-if [[ $TYPE == 'mac' ]]
-then
-	if ! finger "$USER" | grep -q 'Shell.*zsh'
-	then
+if [[ $TYPE == 'mac' ]]; then
+	if ! finger "$USER" | grep -q 'Shell.*zsh'; then
 		setshell=1
 	fi
 else
-	if ! getent passwd "$USER" | grep -q zsh
-	then
+	if ! getent passwd "$USER" | grep -q zsh; then
 		setshell=1
 	fi
 fi
 
-if [[ $setshell == 1 ]]
-then
-	if which zsh > /dev/null
-	then
+if [[ $setshell == 1 ]]; then
+	if which zsh > /dev/null; then
 		$sudo chsh -s "$(which zsh)" "$USER"
 	fi
 fi

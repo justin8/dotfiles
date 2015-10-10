@@ -1,8 +1,0 @@
-#!/bin/bash
-#symlink flake8-python2 to flake8 so that vimrc works across various OSes
-if [[ -x /usr/bin/flake8-python2 ]]
-then
-    ln -sf /usr/bin/flake8-python2 ~/.bin/flake8
-else
-    rm -f ~/.bin/flake8
-fi

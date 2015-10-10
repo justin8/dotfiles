@@ -2,3 +2,7 @@
 	path = powerline-fonts
 	url = https://github.com/powerline/fonts.git
 	branch = master
+[submodule "scripts"]
+	path = scripts
+	url = https://github.com/justin8/scripts.git
+	branch = master

@@ -1,0 +1,53 @@
+#!/bin/bash
+set -e
+
+usage() {
+	cat <<-EOF
+	Usage: $(basename "$0") (-p branch-name|commit-message)
+
+	Using the '-p' option will use git patch mode and the branch name specified.
+
+	Without -p, the commit message provided will be transformed in to a branch and
+	all changes will be committed to the new branch.
+
+	Both methods will push the branch to origin and return you to your original checkout
+	EOF
+}
+
+[[ -z $1 ]] && usage && exit 1
+
+unset PATCH
+while getopts ":p" OPTION
+do
+	case $OPTION in
+		p) PATCH=1 ;;
+	esac
+done
+shift $(( OPTIND - 1 ))
+
+MESSAGE=$*
+BRANCH="fix/$(echo "$MESSAGE" | sed -e 's/ /-/g' | cut -c1-15 | awk '{print tolower($0)}')"
+ORIGINAL_BRANCH=$(git branch | grep '*' | sed -E 's/\* (.*)/\1/')
+
+if [[ -n $PATCH ]]; then
+	echo "Branch: $BRANCH"
+
+	git checkout -b "$BRANCH" master
+	git commit -p
+else
+	echo "Message: $MESSAGE"
+	echo "Branch: $BRANCH"
+
+	read -p "Does this look good? [y/N] " -n 1 -r
+	echo    
+	if [[ ! $REPLY =~ ^[Yy]$ ]]
+	then
+		exit 1
+	fi
+
+	git checkout -b "$BRANCH" master
+	git commit -am "$MESSAGE"
+fi
+git push origin HEAD
+git checkout "$ORIGINAL_BRANCH"
+
