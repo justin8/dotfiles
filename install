@@ -214,16 +214,6 @@ case $RELEASE in
 		;;
 esac
 
-echo -n "Installing powerline fonts... "
-if [[ -d "$DOTFILES/.fonts" ]]
-then
-	git -C "$DOTFILES/.fonts" pull &> /dev/null
-else
-	git clone https://github.com/powerline/fonts.git "$DOTFILES/.fonts" &> /dev/null
-fi
-"$DOTFILES/.fonts/install.sh" &> /dev/null
-ok
-
 if [[ -z "$nosystemchanges" ]]; then
 	echo -n "Checking SSHD config... "
 	if grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config; then
@@ -283,6 +273,10 @@ ok
 
 echo -n "Updating submodules... "
 update_submodules
+ok
+
+echo -n "Installing powerline fonts... "
+"$DOTFILES/powerline-fonts/install.sh" &> /dev/null
 ok
 
 echo -n "Copying base dotfiles... "
