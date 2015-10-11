@@ -8,7 +8,6 @@ call plug#begin('~/.vim/plugged')
 " Plugins!
 Plug 'davidhalter/jedi-vim', { 'for': 'python'}
 Plug 'scrooloose/syntastic'
-Plug 'ervandew/supertab'
 Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
@@ -22,6 +21,7 @@ Plug 'airblade/vim-rooter'
 Plug 'kien/ctrlp.vim'
 Plug 'rodjek/vim-puppet'
 Plug 'vimwiki/vimwiki'
+Plug 'Valloric/YouCompleteMe'
 
 call plug#end()
 
@@ -107,8 +107,8 @@ let g:vimwiki_list = [{ 'path': '$HOME/Sync/vimwiki',
          \ 'js':'javascript',
          \ }}]
 
-" Reverse supertab completion order to be top-down
-let g:SuperTabDefaultCompletionType = "<c-n>"
+" YCM - disable jedi completions
+let g:jedi#completions_enabled = 0
 
 " Linting!
 let g:syntastic_enable_perl_checker = 1

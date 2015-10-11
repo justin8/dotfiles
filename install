@@ -260,7 +260,13 @@ echo -n "Copying base dotfiles... "
 rsync -a "$DOTFILES/install-files/files/" ~/
 ok
 
-echo -n "Installing/updating vim-plug "
+echo -n "Configuring scripts... "
+mkdir -p "$HOME/.bin"
+install_scripts scripts
+install_scripts $TYPE-scripts
+ok
+
+echo -n "Installing/updating vimplug... "
 if [[ -f ~/.vim/autoload/plug.vim ]]; then
 	# Vim always seems to have a return of 1...
 	vim -esu ~/.vimrc +PlugUpgrade +qa || true
@@ -271,13 +277,7 @@ else
 fi
 ok
 
-echo -n "Configuring scripts... "
-mkdir -p $HOME/.bin
-install_scripts scripts
-install_scripts $TYPE-scripts
-ok
-
-echo -n "Configuring vim plugins... "
+echo -n "Installing vim plugins... "
 if [[ $RELEASE == 'archlinux' ]]; then
 	if ! pacman -Q | grep -q vim; then
 		pacman -S --noconfirm --noprogress --needed vim &> /dev/null
@@ -287,6 +287,18 @@ fi
 vim -esu ~/.vimrc +PlugClean! +qa || true
 vim -esu ~/.vimrc +PlugUpdate +qa || true
 ok
+
+# update ycm if libraries have changed and need compilation, or it is a new install
+if yes | vim +q 2>&1 | grep -q YCM; then
+	echo -n "Building YouCompleteMe... "
+	python2 ~/.vim/plugged/YouCompleteMe/install.py \
+		--clang-completer \
+		--system-libclang \
+		--system-boost \
+		--omnisharp-completer \
+		--gocode-completer &> /dev/null
+	ok
+fi
 
 echo -n "Configuring zshrc-addon... "
 touch ~/.zshrc-addon > /dev/null
