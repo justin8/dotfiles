@@ -9,10 +9,8 @@ DEFNAMEMACBREW="ed gnu-sed gnu-tar coreutils findutils gnu-indent gnu-which grep
 
 # OS Detection / OS Specific variables
 TYPE=linux
-if [[ -f /etc/arch-release ]]; then
-	RELEASE="archlinux"
-elif [[ -f /etc/os-release ]]; then
-	RELEASE=$(grep "^NAME=" /etc/os-release)
+if [[ -f /etc/os-release ]]; then
+	RELEASE=$(grep '^NAME="' /etc/os-release | sed -E 's/NAME="([a-zA-Z]+) .*/\1/')
 elif uname -a|grep -qi darwin > /dev/null 2>&1; then
 	RELEASE="mac"
 	TYPE=mac
@@ -127,7 +125,7 @@ trap cleanup EXIT SIGINT SIGTERM
 if [[ -z "$nosystemchanges" ]]; then
 	echo "Verifying required packages are installed."
 	case $RELEASE in
-		'archlinux')
+		'Arch')
 			echo "OS appears to be Arch Linux..."
 
 			if [[ $(uname -m) == 'x86_64' ]]; then
@@ -158,6 +156,13 @@ if [[ -z "$nosystemchanges" ]]; then
 					echo 'Continuing anyway since some packages are unavailable outside of x86_64'
 				fi
 			fi
+			;;
+		'Debian')
+			echo "OS appears to be Debian..."
+
+			echo -n "Installing required packages..."
+			$sudo apt-get install -y $PACINST &>/dev/null
+			ok
 			;;
 		'mac')
 			echo "OS appears to be Mac OS X..."
@@ -278,11 +283,14 @@ fi
 ok
 
 echo -n "Installing vim plugins... "
-if [[ $RELEASE == 'archlinux' ]]; then
+if [[ $RELEASE == 'Arch' ]]; then
 	if ! pacman -Q | grep -q vim; then
+		# Only install if it isn't already there. gvim adds +X11 config to the build,
+		# but also a ton of X deps, so we don't want it on a headless machine
 		pacman -S --noconfirm --noprogress --needed vim &> /dev/null
 	fi
 fi
+# Vim only has one package on Debian.
 # Vim always seems to have a return of 1...
 vim -esu ~/.vimrc +PlugClean! +qa || true
 vim -esu ~/.vimrc +PlugUpdate +qa || true
