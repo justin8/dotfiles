@@ -301,8 +301,6 @@ if yes | vim +q 2>&1 | grep -q YCM; then
 	echo -n "Building YouCompleteMe... "
 	python2 ~/.vim/plugged/YouCompleteMe/install.py \
 		--clang-completer \
-		--system-libclang \
-		--system-boost \
 		--omnisharp-completer \
 		--gocode-completer &> /dev/null
 	ok

@@ -1,11 +1,10 @@
-clang
+mono-xbuild
 cmake
 ctags
 git
 golang
 jq
 jruby
-libboost-all-dev
 llvm
 mercurial
 mono-runtime
