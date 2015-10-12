@@ -80,6 +80,7 @@ export ZDOTDIR=$HOME
 vew=$(which virtualenvwrapper.sh)
 if [[ $? == 0 ]]
 then
+	export WORKON_HOME=$HOME/.virtualenvs
 	source $vew
 fi
 
@@ -93,5 +94,5 @@ then
 	export SSH_AUTH_SOCK="$keyring_path"
 fi
 
-todo=$HOME/Sync/vimwiki/todo.wiki 
+todo=$HOME/Sync/vimwiki/todo.wiki
 [[ -f $todo ]] && cat $todo | sed 's/\[\[//g' | sed 's/\]\]//g'
