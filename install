@@ -157,8 +157,8 @@ if [[ -z "$nosystemchanges" ]]; then
 				fi
 			fi
 			;;
-		'Debian')
-			echo "OS appears to be Debian..."
+		'Debian'|'Ubuntu')
+			echo "OS appears to be Debian/Ubuntu..."
 
 			echo -n "Installing required packages..."
 			$sudo apt-get install -y $PACINST &>/dev/null
