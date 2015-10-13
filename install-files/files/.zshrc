@@ -77,10 +77,10 @@ export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
 # Export ZDOTDIR to allow sudo and keeping the same zsh dot files (still requires changing to zsh or having root's shell set to zsh)
 export ZDOTDIR=$HOME
 
+export WORKON_HOME=$HOME/.virtualenvs
 vew=$(which virtualenvwrapper.sh)
 if [[ $? == 0 ]]
 then
-	export WORKON_HOME=$HOME/.virtualenvs
 	source $vew
 fi
 
