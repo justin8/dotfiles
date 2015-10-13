@@ -312,6 +312,12 @@ echo -n "Configuring zshrc-addon... "
 touch ~/.zshrc-addon > /dev/null
 if ! grep -qE 'PATH.*~/\.bin' ~/.zshrc-addon; then
 	echo 'export PATH=~/.bin:$PATH' >> ~/.zshrc-addon
+	cat <<-EOF > ~/.zshrc-addon
+
+	if [[ -z $SSH_TTY ]] && [[ $TERM != linux ]]; then
+	    export IHAVEPATCHEDFONTS=1
+	fi
+	EOF
 fi
 ok
 
@@ -356,5 +362,5 @@ if [[ $setshell == 1 ]]; then
 fi
 ok
 
-echo "If you want local terminals to use the agnoster theme; copy and uncomment the font config section from .zshrc to .zshrc-addon"
+echo "If you want local terminals to not use the agnoster theme, disable the font configuration in ~/.zshrc-addon"
 trap - EXIT SIGINT SIGTERM
