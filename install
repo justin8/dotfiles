@@ -189,12 +189,14 @@ if [[ -z "$nosystemchanges" ]]; then
 			;;
 		*)
 			cat <<-EOF
-			You are not using Arch Linux; You may have to install some of the following manually:
+			You are not using a supported distro; You may have to install some of the following manually:
 			$(cat "$DOTFILES/install-files/"*packages)
 
 			Once you have; press enter to continue
 			EOF
+			trap - EXIT SIGINT SIGTERM
 			read
+			trap cleanup EXIT SIGINT SIGTERM
 			;;
 	esac
 
