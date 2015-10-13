@@ -1,4 +1,3 @@
-mono-xbuild
 cmake
 ctags
 git
@@ -7,7 +6,6 @@ jq
 jruby
 llvm
 mercurial
-mono-runtime
 python-flake8
 python3
 rsync

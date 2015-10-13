@@ -8,7 +8,6 @@ jq
 jruby
 llvm
 mercurial
-mono
 nodejs-jshint
 nodejs-jsonlint
 perl-yaml
