@@ -78,11 +78,9 @@ export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
 export ZDOTDIR=$HOME
 
 export WORKON_HOME=$HOME/.virtualenvs
-vew=$(which virtualenvwrapper.sh)
-if [[ $? == 0 ]]
-then
-	source $vew
-fi
+VEW=$(which virtualenvwrapper.sh)
+[[ -z $VEW ]] && VEW='/usr/share/virtualenvwrapper/virtualenvwrapper.sh'
+source $VEW
 
 # Add RVM to PATH for scripting
 export PATH="$PATH:$HOME/.rvm/bin"
