@@ -300,11 +300,16 @@ ok
 
 # update ycm if libraries have changed and need compilation, or it is a new install
 if yes | vim +q 2>&1 | grep -q YCM; then
-	echo -n "Building YouCompleteMe... "
-	python2 ~/.vim/plugged/YouCompleteMe/install.py \
-		--clang-completer \
-		--gocode-completer &> /dev/null
+	echo -n "Downloading pre-built YCM binaries... "
+	cd ~/.vim/plugged/YouCompleteMe/third_party/ycmd/
+	curl -sSO https://public.dray.be/ycm/ycm_client_support.so
+	curl -sSO https://public.dray.be/ycm/ycm_core.so
 	ok
+
+	if yes | vim +q 2>&1 | grep -q YCM; then
+		echo "YouCompleteMe still appears to be failing. You may need to rebuild the libraries with the following command (WARNING: Uses several GB of RAM to do this):"
+		echo python2 ~/.vim/plugged/YouCompleteMe/install.py --clang-completer --gocode-completer
+	fi
 fi
 
 echo -n "Configuring zshrc-addon... "
