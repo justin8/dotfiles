@@ -42,6 +42,7 @@ esac
 
 function cleanup {
 	check $?
+	exit 1
 }
 
 function autorestart {
