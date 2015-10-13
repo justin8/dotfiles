@@ -114,7 +114,10 @@ fi
 PACINST=$(cat "$DOTFILES/install-files/$RELEASE-packages")
 
 if [[ ! -z "$target" ]]; then
-	PACINST="$PACINST $(cat "$DOTFILES/install-files/per-target/$target-packages")"
+	TARGET_PACKAGES="$DOTFILES/install-files/per-target/$target-packages"
+	if [[ -f  $TARGET_PACKAGES ]]; then
+		PACINST="$PACINST $(cat "$TARGET_PACKAGES")"
+	fi
 fi
 
 trap cleanup EXIT SIGINT SIGTERM
@@ -267,6 +270,20 @@ echo -n "Copying base dotfiles... "
 rsync -a "$DOTFILES/install-files/files/" ~/
 ok
 
+if [[ ! -z "$target" ]]; then
+	TARGET_SCRIPT="$DOTFILES/install-files/per-target/$target-script"
+	echo -n "Copying $target config... "
+	rsync -a "$DOTFILES/install-files/per-target/$target/" ~/
+	ok
+
+	if [[ -f $TARGET_SCRIPT ]]; then
+		echo -n "Running $target script... "
+		"$TARGET_SCRIPT"
+		ok
+	fi
+fi
+
+
 echo -n "Configuring scripts... "
 mkdir -p "$HOME/.bin"
 install_scripts scripts
@@ -313,24 +330,12 @@ if ! grep -qE 'PATH.*~/\.bin' ~/.zshrc-addon; then
 	echo 'export PATH=~/.bin:$PATH' >> ~/.zshrc-addon
 	cat <<-EOF > ~/.zshrc-addon
 
-	if [[ -z $SSH_TTY ]] && [[ $TERM != linux ]]; then
+	if [[ -z \$SSH_TTY ]] && [[ \$TERM != linux ]]; then
 	    export IHAVEPATCHEDFONTS=1
 	fi
 	EOF
 fi
 ok
-
-if [[ ! -z "$target" ]]; then
-	echo -n "Copying $target config... "
-	rsync -a "$DOTFILES/install-files/per-target/$target/" ~/
-	ok
-
-	if [[ -f $DOTFILES/install-files/per-target/$target-script ]]; then
-		echo -n "Running $target script... "
-		"$DOTFILES/install-files/per-target/$target-script"
-		ok
-	fi
-fi
 
 echo -n "Configuring oh-my-zsh... "
 if [[ -d ~/.oh-my-zsh ]]; then
