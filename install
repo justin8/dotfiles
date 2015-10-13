@@ -10,7 +10,7 @@ DEFNAMEMACBREW="ed gnu-sed gnu-tar coreutils findutils gnu-indent gnu-which grep
 # OS Detection / OS Specific variables
 TYPE=linux
 if [[ -f /etc/os-release ]]; then
-	RELEASE=$(grep '^NAME="' /etc/os-release | sed -E 's/NAME="([a-zA-Z]+) .*/\1/')
+	RELEASE=$(grep '^NAME="' /etc/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
 elif uname -a|grep -qi darwin > /dev/null 2>&1; then
 	RELEASE="mac"
 	TYPE=mac
