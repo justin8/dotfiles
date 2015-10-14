@@ -2,3 +2,5 @@
 
 sed -i '/Valloric\/YouCompleteMe/d' ~/.vimrc
 sed -i '/g:jedi#completions_enabled/d' ~/.vimrc
+
+echo 'export PATH=$HOME/.bin:$PATH' >> ~/.bashrc
