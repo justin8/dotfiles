@@ -109,6 +109,11 @@ if [[ -n $target ]]; then
 		echo "Target $target not found! Aborting."
 		exit 1
 	fi
+else
+	# Auto-detect when running on C9
+	if sysctl kernel.osrelease | grep -q -- '-c9'; then
+		target=c9
+	fi
 fi
 
 # Create package lists
