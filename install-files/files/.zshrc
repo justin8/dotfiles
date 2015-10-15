@@ -91,6 +91,3 @@ if [[ -e $keyring_path ]]
 then
 	export SSH_AUTH_SOCK="$keyring_path"
 fi
-
-todo=$HOME/Sync/vimwiki/todo.wiki
-[[ -f $todo ]] && cat $todo | sed 's/\[\[//g' | sed 's/\]\]//g'
