@@ -4,3 +4,5 @@ sed -i '/Valloric\/YouCompleteMe/d' ~/.vimrc
 sed -i '/g:jedi#completions_enabled/d' ~/.vimrc
 
 echo 'export PATH=$HOME/.bin:$PATH' >> ~/.bashrc
+sudo add-apt-repository ppa:git-core/ppa
+sudo apt-get install git
