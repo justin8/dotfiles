@@ -7,6 +7,7 @@ diffutils
 gawk
 git
 gnutls
+go
 gpg
 gzip
 jq
