@@ -7,5 +7,5 @@ grep -q '\.bin:' ~/.bashrc || echo 'export PATH=$HOME/.bin:$PATH' >> ~/.bashrc
 grep -q 'EDITOR=' ~/.bashrc || echo 'export EDITOR=/usr/bin/vim' >> ~/.bashrc
 
 # Update git to 2.x
-sudo add-apt-repository ppa:git-core/ppa
-sudo apt-get install git
+sudo add-apt-repository -y ppa:git-core/ppa &>/dev/null
+sudo apt-get install -y git &>/dev/null
