@@ -175,6 +175,7 @@ if [[ -z "$nosystemchanges" ]]; then
 			;;
 		'mac')
 			echo "OS appears to be Mac OS X..."
+			# TODO: Auto-install homebrew if it isn't there?
 			echo "Installing required packages... "
 			if ! brew tap | grep -q dupes; then
 				brew tap homebrew/dupes
