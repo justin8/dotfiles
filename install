@@ -2,6 +2,8 @@
 DOTFILES=$(cd "$(dirname "$0")";pwd)
 sshd_config="/etc/ssh/sshd_config"
 
+# TODO: Change to using tput for colours instead of echo -e for OS X (copy from securenotes)
+
 # Hacky shit to make OS X work like an actual unix system
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 enable -n echo

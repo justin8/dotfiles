@@ -1,6 +1,7 @@
 Caskroom/cask/puppet
 bash
 binutils
+cmake
 ctags
 diffutils
 gawk
@@ -12,9 +13,9 @@ jq
 less
 mercurial
 npm
+pyenv-virtualenvwrapper
 python
 python3
-pyenv-virtualenvwrapper
 rsync
 screen
 shellcheck
