@@ -2,6 +2,8 @@
 DOTFILES=$(cd "$(dirname "$0")";pwd)
 sshd_config="/etc/ssh/sshd_config"
 
+# TODO: Change to using tput for colours instead of echo -e for OS X (copy from securenotes)
+
 # Hacky shit to make OS X work like an actual unix system
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 enable -n echo
@@ -175,6 +177,7 @@ if [[ -z "$nosystemchanges" ]]; then
 			;;
 		'mac')
 			echo "OS appears to be Mac OS X..."
+			# TODO: Auto-install homebrew if it isn't there?
 			echo "Installing required packages... "
 			if ! brew tap | grep -q dupes; then
 				brew tap homebrew/dupes
@@ -293,6 +296,7 @@ fi
 echo -n "Configuring scripts... "
 mkdir -p "$HOME/.bin"
 install_scripts scripts
+# TODO: mac-scripts doesn't exist
 install_scripts $TYPE-scripts
 ok
 
