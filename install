@@ -294,6 +294,7 @@ fi
 echo -n "Configuring scripts... "
 mkdir -p "$HOME/.bin"
 install_scripts scripts
+# TODO: mac-scripts doesn't exist
 install_scripts $TYPE-scripts
 ok
 
