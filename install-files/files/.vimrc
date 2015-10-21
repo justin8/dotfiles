@@ -30,7 +30,7 @@ set list lcs=tab:\|\
 " }}}
 " Colours {{{
 set background=dark
-colorscheme Tomorrow-Night
+colorscheme jellybeans
 " }}}
 " UI {{{
 set nocompatible   " Use Vim defaults instead of 100% vi compatibility
