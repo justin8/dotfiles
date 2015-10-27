@@ -9,3 +9,6 @@ grep -q 'EDITOR=' ~/.bashrc || echo 'export EDITOR=/usr/bin/vim' >> ~/.bashrc
 # Update git to 2.x
 sudo add-apt-repository -y ppa:git-core/ppa &>/dev/null
 sudo apt-get install -y git &>/dev/null
+
+# Set git to auto-push to upstream
+git config --global push.default current
