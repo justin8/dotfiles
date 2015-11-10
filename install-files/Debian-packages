@@ -9,6 +9,7 @@ mercurial
 python-flake8
 python3
 rsync
+silversearcher-ag
 vim
 virtualenvwrapper
 zsh

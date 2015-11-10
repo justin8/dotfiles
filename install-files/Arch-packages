@@ -16,4 +16,5 @@ python-virtualenvwrapper
 python2
 python2-flake8
 rsync
+the_silver_searcher
 zsh
