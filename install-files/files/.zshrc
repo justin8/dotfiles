@@ -91,3 +91,6 @@ if [[ -e $keyring_path ]]
 then
 	export SSH_AUTH_SOCK="$keyring_path"
 fi
+
+export NVM_DIR="/home/justin/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
