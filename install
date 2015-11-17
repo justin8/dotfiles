@@ -181,6 +181,12 @@ if [[ -z "$nosystemchanges" ]]; then
 			;;
 		'mac')
 			echo "OS appears to be Mac OS X..."
+
+			if ! which brew &>/dev/null; then
+				echo "Installing brew... "
+				ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+				brew doctor
+			fi
 			# TODO: Auto-install homebrew if it isn't there?
 			echo "Installing required packages... "
 			if ! brew tap | grep -q dupes; then
