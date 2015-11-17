@@ -59,6 +59,10 @@ source $ZSH/oh-my-zsh.sh
 alias vi=vim
 alias less='less -R'
 alias rsync='rsync --info=progress2'
+alias grep='grep --color=auto'
+alias apacman='apacman --noedit --purgebuild --progress'
+alias pacman='apacman --noedit --purgebuild --progress'
+
 if [[ $(uname) == Linux ]]
 then
 	alias copy='copy --reflink=auto'
@@ -71,12 +75,13 @@ then
 	export TERM=xterm-256color
 fi
 
-# Path fix for RHEL
+# Path fix for RHEL/Debian
 export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
 
 # Export ZDOTDIR to allow sudo and keeping the same zsh dot files (still requires changing to zsh or having root's shell set to zsh)
 export ZDOTDIR=$HOME
 
+# Enable python virtualenvs
 export WORKON_HOME=$HOME/.virtualenvs
 VEW=$(which virtualenvwrapper.sh)
 [[ -z $VEW ]] && VEW='/usr/share/virtualenvwrapper/virtualenvwrapper.sh'
@@ -85,15 +90,16 @@ source $VEW
 # Add RVM to PATH for scripting
 export PATH="$PATH:$HOME/.rvm/bin"
 
-# Gnome keyring fix
+# Use NVM if it is installed
+export NVM_DIR="/home/justin/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Force Gnome keyring usage if it is enabled
 keyring_path="/run/user/${EUID}/keyring/ssh"
 if [[ -e $keyring_path ]]
 then
 	export SSH_AUTH_SOCK="$keyring_path"
 fi
-
-export NVM_DIR="/home/justin/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # Custom ZSH Completions
 fpath=(~/.zsh-completion $fpath)
