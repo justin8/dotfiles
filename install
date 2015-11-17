@@ -27,42 +27,43 @@ if [[ ! -d $DOTFILES ]]; then
 	exit 1
 fi
 
-function ok {
+ok() {
 	echo -e "[ \e[1;32mOK\e[00m ]"
 }
 
-function failed {
+failed() {
 	echo -e "[\e[1;31mFAILED\e[00m]"
 }
 
-function check {
+check() {
 case $1 in
 	0) ok ;;
 	*) failed ;;
 esac
 }
 
-function cleanup {
+cleanup() {
 	check $?
 	exit 1
 }
 
-function autorestart {
+systemctl() {
+	task=$1
+	service=$2
 	if which systemctl > /dev/null 2>&1; then
-	    $sudo systemctl restart "$1"
+	    $sudo systemctl $task $service
 	elif which service > /dev/null 2>&1; then
-	    $sudo service "$1" restart
+	    $sudo service $service $task
 	fi
 	# Need to detect/restart service on OS X
-	# Need to let user know if SSHD needs restarting manually
 }
 
-function update_submodules {
+update_submodules() {
 	cd "$DOTFILES"
 	git submodule update --init --recursive --remote > /dev/null 2>&1
 }
 
-function install_scripts {
+install_scripts() {
 	while read -r script; do
 		script_path="$DOTFILES/scripts/$script"
 		zsh_completion_path="$DOTFILES/scripts/zsh-completion/_$script"
@@ -73,11 +74,11 @@ function install_scripts {
 	done < "$DOTFILES/install-files/$1"
 }
 
-function get_targets {
+get_targets() {
 	echo -n $(cd "$DOTFILES/install-files/per-target";ls -d ./*/|sed 's#/$##;s#^./##'|tr '\n' ' ')
 }
 
-function usage {
+usage() {
 	cat <<-EOF
 	usage: $(basename "$0") options
 
@@ -234,7 +235,7 @@ if [[ -z "$nosystemchanges" ]]; then
 		ok
 
 		echo -n "Restarting SSHD... "
-		autorestart sshd
+		systemctl restart sshd
 		ok
 	fi
 
