@@ -69,6 +69,9 @@ then
 fi
 export EDITOR="vim"
 
+# Add ~/.bin to path
+export PATH=$HOME/.bin:$PATH
+
 # Fix to make vim work with color themes
 if [[ $TERM != linux ]]
 then
