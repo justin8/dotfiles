@@ -186,7 +186,7 @@ install_homebrew() {
 	fi
 }
 
-configure_homebrew_dupes() {
+configure_homebrew() {
 	if ! brew tap | grep -q dupes; then
 		brew tap homebrew/dupes
 	fi
