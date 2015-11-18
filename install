@@ -1,13 +1,11 @@
 #!/bin/bash
 DOTFILES=$(cd "$(dirname "$0")";pwd)
-sshd_config="/etc/ssh/sshd_config"
 
 # TODO: Change to using tput for colours instead of echo -e for OS X (copy from securenotes)
 
 # Hacky shit to make OS X work like an actual unix system
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 enable -n echo
-DEFNAMEMACBREW="ed gnu-sed gnu-tar coreutils findutils gnu-indent gnu-which grep wdiff"
 
 # OS Detection / OS Specific variables
 TYPE=linux
@@ -16,7 +14,6 @@ if [[ -f /etc/os-release ]]; then
 elif uname -a|grep -qi darwin > /dev/null 2>&1; then
 	RELEASE="mac"
 	TYPE=mac
-	sshd_config="/etc/sshd_config"
 else
 	RELEASE="false"
 	echo "Unable to detect OS correctly, assuming some sort of Linux..."
@@ -48,8 +45,8 @@ cleanup() {
 }
 
 systemctl() {
-	task=$1
-	service=$2
+	local task=$1
+	local service=$2
 	if which systemctl > /dev/null 2>&1; then
 	    $sudo systemctl $task $service
 	elif which service > /dev/null 2>&1; then
@@ -59,11 +56,50 @@ systemctl() {
 }
 
 update_submodules() {
+	echo -n "Updating submodules... "
 	cd "$DOTFILES"
 	git submodule update --init --recursive --remote > /dev/null 2>&1
+	ok
+}
+
+install_powerline_fonts() {
+	echo -n "Installing powerline fonts... "
+	"$DOTFILES/powerline-fonts/install.sh" &> /dev/null
+	ok
+}
+
+install_dotfiles() {
+	local TARGET_SCRIPT
+	echo -n "Copying base dotfiles... "
+	rsync -a "$DOTFILES/install-files/files/" ~/
+	ok
+
+	if [[ ! -z "$target" ]]; then
+		TARGET_SCRIPT="$DOTFILES/install-files/per-target/$target-script"
+		echo -n "Copying $target config... "
+		rsync -a "$DOTFILES/install-files/per-target/$target/" ~/
+		ok
+
+		if [[ -f $TARGET_SCRIPT ]]; then
+			echo -n "Running $target script... "
+			"$TARGET_SCRIPT"
+			ok
+		fi
+	fi
 }
 
 install_scripts() {
+	echo -n "Configuring scripts... "
+	mkdir -p "$HOME/.bin"
+	mkdir -p "$HOME/.zsh-completion"
+	link_scripts scripts
+	link_scripts $TYPE-scripts
+	ok
+}
+
+link_scripts() {
+	local script_path
+	local zsh_completion_path
 	while read -r script; do
 		script_path="$DOTFILES/scripts/$script"
 		zsh_completion_path="$DOTFILES/scripts/zsh-completion/_$script"
@@ -72,6 +108,290 @@ install_scripts() {
 			ln -sf "$zsh_completion_path" "$HOME/.zsh-completion/_$script"
 		fi
 	done < "$DOTFILES/install-files/$1"
+}
+
+configure_vim() {
+	install_vimplug
+	install_vim_plugins
+	install_ycm
+}
+
+install_vimplug() {
+	echo -n "Installing/updating vimplug... "
+	if [[ -f ~/.vim/autoload/plug.vim ]]; then
+		# Vim always seems to have a return of 1...
+		vim -esu ~/.vimrc +PlugUpgrade +qa || true
+	else
+		mkdir -p ~/.vim/autoload
+		curl -sSfLo ~/.vim/autoload/plug.vim \
+			https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	fi
+	ok
+}
+
+install_vim_plugins() {
+	echo -n "Installing vim plugins... "
+	# Vim always seems to have a return of 1...
+	vim -esu ~/.vimrc +PlugClean! +qa || true
+	vim -esu ~/.vimrc +PlugUpdate +qa || true
+	ok
+}
+
+install_ycm() {
+	# update ycm if libraries have changed and need compilation, or it is a new install
+	if yes | vim +q 2>&1 | grep -q YCM; then
+		echo -n "Building YouCompleteMe... "
+		python2 ~/.vim/plugged/YouCompleteMe/install.py \
+			--clang-completer \
+			--gocode-completer &> /dev/null
+		ok
+	fi
+}
+
+create_package_list() {
+	local TARGET_PACKAGES
+
+	PACINST=$(cat "$DOTFILES/install-files/$RELEASE-packages")
+	if [[ ! -z "$target" ]]; then
+		TARGET_PACKAGES="$DOTFILES/install-files/per-target/$target-packages"
+		if [[ -f  $TARGET_PACKAGES ]]; then
+			PACINST="$PACINST $(cat "$TARGET_PACKAGES")"
+		fi
+	fi
+}
+
+install_packages_meta() {
+	echo "Verifying required packages are installed."
+	case $RELEASE in
+		'Arch') install_packages_arch ;;
+		'Debian'|'Ubuntu') install_packages_debian ;;
+		'mac') install_packages_mac ;;
+		*)
+			cat <<-EOF
+			You are not using a supported distro; You may have to install some of the following manually:
+			$(cat "$DOTFILES/install-files/"*packages)
+
+			Once you have; press enter to continue
+			EOF
+			read
+			;;
+	esac
+}
+
+install_homebrew() {
+	if ! which brew &>/dev/null; then
+		echo "Installing brew... "
+		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+		brew doctor
+	fi
+}
+
+configure_homebrew_dupes() {
+	if ! brew tap | grep -q dupes; then
+		brew tap homebrew/dupes
+	fi
+	brew list brew-cask &>/dev/null || brew install caskroom/cask/brew-cask
+}
+
+install_packages_mac() {
+	local cur_packages
+	local package
+	local DEFNAMEMACBREW="ed gnu-sed gnu-tar coreutils findutils gnu-indent gnu-which grep wdiff"
+	echo "OS appears to be Mac OS X..."
+
+	echo "Installing required packages... "
+	install_homebrew
+	configure_homebrew
+
+	cur_packages=$(brew list;brew cask list)
+	for package in $DEFNAMEMACBREW; do
+		if ! echo "$cur_packages" | grep -q -- "$package"; then
+			brew install "$package" --with-default-names &>/dev/null
+		fi
+	done
+
+	for package in $PACINST; do
+		if ! echo "$cur_packages" | grep -q -- "$package"; then
+			brew install "$package" &>/dev/null
+		fi
+	done
+	echo "Since you are running OS X. Please check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
+}
+
+install_packages_debian() {
+			echo "OS appears to be Debian/Ubuntu..."
+
+			echo -n "Installing required packages..."
+			$sudo apt-get install -y $PACINST &>/dev/null
+			ok
+}
+
+configure_repo_arch() {
+	if [[ $(uname -m) == 'x86_64' ]]; then
+		echo -n "Configuring repo... "
+		if ! pacman -Q dray-repo > /dev/null 2>&1; then
+			curl -o /tmp/dray-repo.pkg.tar.xz https://repo.dray.be/dray-repo-latest
+			$sudo pacman -U --noconfirm /tmp/dray-repo.pkg.tar.xz > /dev/null
+		fi
+		ok
+	fi
+}
+
+install_packages_arch() {
+	echo "OS appears to be Arch Linux..."
+
+	configure_repo_arch
+
+	set +e
+	echo -n "Installing required packages... "
+	if ! which vim &>/dev/null; then
+		# Only install if it isn't already there. gvim adds +X11 config to the build,
+		# but also a ton of X deps, so we don't want it on a headless machine
+		pacman -S --noconfirm --noprogress --needed vim &> /dev/null
+	fi
+	$sudo pacman -Sy --noprogress --needed --noconfirm apacman &>/dev/null
+	$sudo apacman --noedit --purgebuild --progress -Sy --noprogress --needed --noconfirm $PACINST &>/dev/null
+	rc=$?
+	check $rc
+	set -e
+
+	if [[ $rc != 0 ]]; then
+		cat <<-EOF
+		An error has occurred while installing required packages!
+		Please try to install the following packages manually:
+		$PACINST
+		EOF
+		if [[ $(uname -m) == 'x86_64' ]]; then
+			exit 1
+		else
+			echo 'Continuing anyway since some packages are unavailable outside of x86_64'
+		fi
+	fi
+}
+
+configure_sshd() {
+	local sshd_config="/etc/ssh/sshd_config"
+	[[ $TYPE == 'mac' ]] && sshd_config="/etc/sshd_config"
+
+	echo -n "Checking SSHD config... "
+	if grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config; then
+		ok
+	else
+		if grep -q "AcceptEnv" $sshd_config; then
+			$sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
+		else
+			echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config > /dev/null
+		fi
+		ok
+
+		echo -n "Restarting SSHD... "
+		systemctl restart sshd
+		ok
+	fi
+}
+
+configure_sudoers() {
+	if [[ -d /etc/sudoers.d ]]; then
+		if ! sudo test -f /etc/sudoers.d/patched-fonts; then
+			echo -n "Applying sudoers config... "
+			echo -e 'Defaults\tenv_keep += "SSH_TTY"\nDefaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee /etc/sudoers.d/patched-fonts > /dev/null
+			ok
+		fi
+	fi
+}
+
+configure_ssh_client() {
+	local orig_ssh_config
+	echo -n "Checking SSH client config... "
+	if ! [[ -d "$HOME/.ssh" ]]; then
+		mkdir "$HOME/.ssh"
+		chmod 700 "$HOME/.ssh"
+	fi
+	if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'SendEnv IHAVEPATCHEDFONTS' "$HOME/.ssh/config" &> /dev/null; then
+		if [[ -f $HOME/.ssh/config ]]; then
+			orig_ssh_config=$(cat "$HOME/.ssh/config")
+		else
+			orig_ssh_config=""
+		fi
+		echo "SendEnv IHAVEPATCHEDFONTS" > "$HOME/.ssh/config"
+		echo "$orig_ssh_config" >> "$HOME/.ssh/config"
+	fi
+
+	# Disabled until paramiko and openwrt can support newer ciphers
+	#if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'Ciphers chacha20' "$HOME/.ssh/config" &> /dev/null
+	#then
+	#	cat <<-EOF >> "$HOME/.ssh/config"
+	#
+	#		Host *
+	#		    Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+	#		    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+	#	EOF
+	#fi
+	ok
+}
+
+configure_zshrc_addon() {
+	echo -n "Configuring zshrc-addon... "
+	touch ~/.zshrc-addon > /dev/null
+	if ! grep -qE 'SSH_TTY' ~/.zshrc-addon; then
+		cat <<-EOF > ~/.zshrc-addon
+
+		if [[ -z \$SSH_TTY ]] && [[ \$TERM != linux ]]; then
+			export IHAVEPATCHEDFONTS=1
+		fi
+		EOF
+	fi
+	ok
+}
+
+configure_oh_my_zsh() {
+	echo -n "Configuring oh-my-zsh... "
+	if [[ -d ~/.oh-my-zsh ]]; then
+		cd ~/.oh-my-zsh
+		git reset --hard origin/master > /dev/null 2>&1
+		git pull > /dev/null 2>&1
+	else
+		git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null 2>&1
+	fi
+	ok
+}
+
+change_shell() {
+	local setshell=0
+	echo -n "Changing shell to ZSH... "
+	if [[ $TYPE == 'mac' ]]; then
+		if ! finger "$USER" | grep -q 'Shell.*zsh'; then
+			setshell=1
+		fi
+	else
+		if ! getent passwd "$USER" | grep -q zsh; then
+			setshell=1
+		fi
+	fi
+
+	if [[ $setshell == 1 ]]; then
+		if which zsh > /dev/null; then
+			$sudo chsh -s "$(which zsh)" "$USER"
+		fi
+	fi
+	ok
+}
+
+set_targets() {
+	if [[ -n $target ]]; then
+		for i in $(get_targets); do
+			[[ $target == "$i" ]] && found_target=true
+		done
+		if [[ -z $found_target ]]; then
+			echo "Target $target not found! Aborting."
+			exit 1
+		fi
+	else
+		# Auto-detect when running on C9
+		if sysctl kernel.osrelease | grep -q -- '-c9'; then
+			target=c9
+		fi
+	fi
 }
 
 get_targets() {
@@ -108,285 +428,25 @@ while getopts ":hngt:" OPTION; do
 done
 shift $(( OPTIND -1 ))
 
-if [[ -n $target ]]; then
-	for i in $(get_targets); do
-		[[ $target == "$i" ]] && found_target=true
-	done
-	if [[ -z $found_target ]]; then
-		echo "Target $target not found! Aborting."
-		exit 1
-	fi
-else
-	# Auto-detect when running on C9
-	if sysctl kernel.osrelease | grep -q -- '-c9'; then
-		target=c9
-	fi
-fi
-
-# Create package lists
-PACINST=$(cat "$DOTFILES/install-files/$RELEASE-packages")
-
-if [[ ! -z "$target" ]]; then
-	TARGET_PACKAGES="$DOTFILES/install-files/per-target/$target-packages"
-	if [[ -f  $TARGET_PACKAGES ]]; then
-		PACINST="$PACINST $(cat "$TARGET_PACKAGES")"
-	fi
-fi
-
 trap cleanup EXIT SIGINT SIGTERM
-
-##################################################################
-# Start of system-level changes
+set_targets
+create_package_list
 
 if [[ -z "$nosystemchanges" ]]; then
-	echo "Verifying required packages are installed."
-	case $RELEASE in
-		'Arch')
-			echo "OS appears to be Arch Linux..."
-
-			if [[ $(uname -m) == 'x86_64' ]]; then
-				echo -n "Configuring repo... "
-				if ! pacman -Q dray-repo > /dev/null 2>&1; then
-					curl -o /tmp/dray-repo.pkg.tar.xz https://repo.dray.be/dray-repo-latest
-					$sudo pacman -U --noconfirm /tmp/dray-repo.pkg.tar.xz > /dev/null
-				fi
-				ok
-			fi
-
-			set +e
-			echo -n "Installing required packages... "
-			$sudo pacman -Sy --noprogress --needed --noconfirm $PACINST &>/dev/null
-			rc=$?
-			check $rc
-			set -e
-
-			if [[ $rc != 0 ]]; then
-				cat <<-EOF
-				An error has occurred while installing required packages!
-				Please try to install the following packages manually:
-				$PACINST
-				EOF
-				if [[ $(uname -m) == 'x86_64' ]]; then
-					exit 1
-				else
-					echo 'Continuing anyway since some packages are unavailable outside of x86_64'
-				fi
-			fi
-			;;
-		'Debian'|'Ubuntu')
-			echo "OS appears to be Debian/Ubuntu..."
-
-			echo -n "Installing required packages..."
-			$sudo apt-get install -y $PACINST &>/dev/null
-			ok
-			;;
-		'mac')
-			echo "OS appears to be Mac OS X..."
-
-			if ! which brew &>/dev/null; then
-				echo "Installing brew... "
-				ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-				brew doctor
-			fi
-			# TODO: Auto-install homebrew if it isn't there?
-			echo "Installing required packages... "
-			if ! brew tap | grep -q dupes; then
-				brew tap homebrew/dupes
-			fi
-
-			brew list brew-cask &>/dev/null || brew install caskroom/cask/brew-cask
-			cur_packages=$(brew list;brew cask list)
-
-			for package in $DEFNAMEMACBREW; do
-				if ! echo "$cur_packages" | grep -q -- "$package"; then
-					brew install "$package" --with-default-names &>/dev/null
-				fi
-			done
-
-			for package in $PACINST; do
-				if ! echo "$cur_packages" | grep -q -- "$package"; then
-					brew install "$package" &>/dev/null
-				fi
-			done
-			echo "Since you are running OS X. Please check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
-			;;
-		*)
-			cat <<-EOF
-			You are not using a supported distro; You may have to install some of the following manually:
-			$(cat "$DOTFILES/install-files/"*packages)
-
-			Once you have; press enter to continue
-			EOF
-			trap - EXIT SIGINT SIGTERM
-			read
-			trap cleanup EXIT SIGINT SIGTERM
-			;;
-	esac
-
-	echo -n "Checking SSHD config... "
-	if grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config; then
-		ok
-	else
-		if grep -q "AcceptEnv" $sshd_config; then
-			$sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
-		else
-			echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config > /dev/null
-		fi
-		ok
-
-		echo -n "Restarting SSHD... "
-		systemctl restart sshd
-		ok
-	fi
-
-	if [ -d /etc/sudoers.d ]; then
-		if ! sudo test -f /etc/sudoers.d/patched-fonts; then
-			echo -n "Applying sudoers config... "
-			echo -e 'Defaults\tenv_keep += "SSH_TTY"\nDefaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee /etc/sudoers.d/patched-fonts > /dev/null
-			ok
-		fi
-	fi
+	install_packages_meta
+	configure_sshd
+	configure_sudoers
 fi
 
-##################################################################
-# End of system-level changes
-
-echo -n "Checking SSH client config... "
-if ! [[ -d "$HOME/.ssh" ]]; then
-	mkdir "$HOME/.ssh"
-	chmod 700 "$HOME/.ssh"
-fi
-if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'SendEnv IHAVEPATCHEDFONTS' "$HOME/.ssh/config" &> /dev/null; then
-	if [[ -f $HOME/.ssh/config ]]; then
-		orig_ssh_config=$(cat "$HOME/.ssh/config")
-	else
-		orig_ssh_config=""
-	fi
-	echo "SendEnv IHAVEPATCHEDFONTS" > "$HOME/.ssh/config"
-	echo "$orig_ssh_config" >> "$HOME/.ssh/config"
-fi
-
-# Disabled until paramiko and openwrt can support newer ciphers
-#if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'Ciphers chacha20' "$HOME/.ssh/config" &> /dev/null
-#then
-#	cat <<-EOF >> "$HOME/.ssh/config"
-#
-#		Host *
-#		    Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
-#		    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
-#	EOF
-#fi
-ok
-
-echo -n "Updating submodules... "
+configure_ssh_client
 update_submodules
-ok
-
-echo -n "Installing powerline fonts... "
-"$DOTFILES/powerline-fonts/install.sh" &> /dev/null
-ok
-
-echo -n "Copying base dotfiles... "
-rsync -a "$DOTFILES/install-files/files/" ~/
-ok
-
-if [[ ! -z "$target" ]]; then
-	TARGET_SCRIPT="$DOTFILES/install-files/per-target/$target-script"
-	echo -n "Copying $target config... "
-	rsync -a "$DOTFILES/install-files/per-target/$target/" ~/
-	ok
-
-	if [[ -f $TARGET_SCRIPT ]]; then
-		echo -n "Running $target script... "
-		"$TARGET_SCRIPT"
-		ok
-	fi
-fi
-
-
-echo -n "Configuring scripts... "
-mkdir -p "$HOME/.bin"
-mkdir -p "$HOME/.zsh-completion"
-install_scripts scripts
-# TODO: mac-scripts doesn't exist
-install_scripts $TYPE-scripts
-ok
-
-echo -n "Installing/updating vimplug... "
-if [[ -f ~/.vim/autoload/plug.vim ]]; then
-	# Vim always seems to have a return of 1...
-	vim -esu ~/.vimrc +PlugUpgrade +qa || true
-else
-	mkdir -p ~/.vim/autoload
-	curl -sSfLo ~/.vim/autoload/plug.vim \
-		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
-ok
-
-echo -n "Installing vim plugins... "
-if [[ $RELEASE == 'Arch' ]]; then
-	if ! pacman -Q | grep -q vim; then
-		# Only install if it isn't already there. gvim adds +X11 config to the build,
-		# but also a ton of X deps, so we don't want it on a headless machine
-		pacman -S --noconfirm --noprogress --needed vim &> /dev/null
-	fi
-fi
-# Vim only has one package on Debian.
-# Vim always seems to have a return of 1...
-vim -esu ~/.vimrc +PlugClean! +qa || true
-vim -esu ~/.vimrc +PlugUpdate +qa || true
-ok
-
-# update ycm if libraries have changed and need compilation, or it is a new install
-if yes | vim +q 2>&1 | grep -q YCM; then
-	echo -n "Building YouCompleteMe... "
-	python2 ~/.vim/plugged/YouCompleteMe/install.py \
-		--clang-completer \
-		--gocode-completer &> /dev/null
-	ok
-fi
-
-echo -n "Configuring zshrc-addon... "
-touch ~/.zshrc-addon > /dev/null
-if ! grep -qE 'PATH.*~/\.bin' ~/.zshrc-addon; then
-	echo 'export PATH=~/.bin:$PATH' >> ~/.zshrc-addon
-	cat <<-EOF > ~/.zshrc-addon
-
-	if [[ -z \$SSH_TTY ]] && [[ \$TERM != linux ]]; then
-	    export IHAVEPATCHEDFONTS=1
-	fi
-	EOF
-fi
-ok
-
-echo -n "Configuring oh-my-zsh... "
-if [[ -d ~/.oh-my-zsh ]]; then
-	cd ~/.oh-my-zsh
-	git reset --hard origin/master > /dev/null 2>&1
-	git pull > /dev/null 2>&1
-else
-	git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null 2>&1
-fi
-ok
-
-echo -n "Changing shell to ZSH... "
-setshell=0
-if [[ $TYPE == 'mac' ]]; then
-	if ! finger "$USER" | grep -q 'Shell.*zsh'; then
-		setshell=1
-	fi
-else
-	if ! getent passwd "$USER" | grep -q zsh; then
-		setshell=1
-	fi
-fi
-
-if [[ $setshell == 1 ]]; then
-	if which zsh > /dev/null; then
-		$sudo chsh -s "$(which zsh)" "$USER"
-	fi
-fi
-ok
+install_powerline_fonts
+install_dotfiles
+install_scripts
+configure_vim
+configure_zshrc_addon
+configure_oh_my_zsh
+change_shell
 
 echo "If you want local terminals to not use the agnoster theme, disable the font configuration in ~/.zshrc-addon"
 trap - EXIT SIGINT SIGTERM
