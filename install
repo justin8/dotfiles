@@ -203,7 +203,7 @@ install_packages_mac() {
 	install_homebrew
 	configure_homebrew
 
-	cur_packages=$(brew list;brew cask list)
+	cur_packages=$(brew list;brew cask list 2>/dev/null)
 	for package in $DEFNAMEMACBREW; do
 		if ! echo "$cur_packages" | grep -q -- "$package"; then
 			brew install "$package" --with-default-names &>/dev/null
