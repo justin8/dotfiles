@@ -107,3 +107,6 @@ fi
 # Custom ZSH Completions
 fpath=(~/.zsh-completion $fpath)
 compinit
+
+# Use pacman completions for apacman
+compdef _pacman apacman=pacman
