@@ -86,9 +86,8 @@ export ZDOTDIR=$HOME
 
 # Enable python virtualenvs
 export WORKON_HOME=$HOME/.virtualenvs
-VEW=$(which virtualenvwrapper.sh)
-[[ -z $VEW ]] && VEW='/usr/share/virtualenvwrapper/virtualenvwrapper.sh'
-source $VEW
+VEW=$(which virtualenvwrapper.sh || echo /usr/share/virtualenvwrapper/virtualenvwrapper.sh)
+[[ -f $VEW ]] && source $VEW
 
 # Add RVM to PATH for scripting
 export PATH="$PATH:$HOME/.rvm/bin"
