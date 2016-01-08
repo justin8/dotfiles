@@ -79,7 +79,7 @@ set foldmethod=indent " default to indent folding
 set modelines=1                    " allow per-file vim configs
 set lazyredraw                     " redraw when needed. speeds up macros
 set backspace=indent,eol,start     " more powerful backspacing
-autocmd BufWritePre * :%s/\s\+$//e " auto-remove trailing whitespace
+"autocmd BufWritePre * :%s/\s\+$//e " auto-remove trailing whitespace
 " jump to last position in file
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
