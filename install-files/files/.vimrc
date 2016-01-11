@@ -125,7 +125,7 @@ let g:jedi#completions_enabled = 0 " disable jedi completion as YCM is better
 " }}}
 " VimWiki {{{
 let vimwiki_export_path = '/srv/http/vimwiki/'
-let g:vimwiki_list = [{ 'path': '$HOME/Sync/vimwiki',
+let g:vimwiki_list = [{ 'path': '$HOME/Dropbox/vimwiki',
          \ 'path_html': vimwiki_export_path,
          \ 'diary_index': 'index',
          \ 'diary_rel_path': 'diary/',
