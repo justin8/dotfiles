@@ -359,7 +359,7 @@ configure_oh_my_zsh() {
 change_shell() {
 	local setshell=0
 	local newshell=zsh
-	[[ uname -r =~ -c9 ]] && newshell=bash
+	[[ $(uname -r) =~ -c9 ]] && newshell=bash
 	echo -n "Changing shell to $newshell "
 	if [[ $TYPE == 'mac' ]]; then
 		if ! finger "$USER" | grep -q "Shell.*$newshell"; then
