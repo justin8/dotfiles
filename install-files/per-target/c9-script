@@ -15,6 +15,3 @@ sudo apt-get install -y git &>/dev/null
 
 # Set git to auto-push to upstream
 git config --global push.default current
-
-# Reset shell to bash until c9 supports other shells properly
-sudo chsh -s /bin/bash $USER
