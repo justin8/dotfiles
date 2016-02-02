@@ -360,20 +360,22 @@ configure_oh_my_zsh() {
 
 change_shell() {
 	local setshell=0
-	echo -n "Changing shell to ZSH... "
+	local newshell=zsh
+	[[ $(uname -r) =~ -c9 ]] && newshell=bash
+	echo -n "Changing shell to $newshell "
 	if [[ $TYPE == 'mac' ]]; then
-		if ! finger "$USER" | grep -q 'Shell.*zsh'; then
+		if ! finger "$USER" | grep -q "Shell.*$newshell"; then
 			setshell=1
 		fi
 	else
-		if ! getent passwd "$USER" | grep -q zsh; then
+		if ! getent passwd "$USER" | grep -q $newshell; then
 			setshell=1
 		fi
 	fi
 
 	if [[ $setshell == 1 ]]; then
-		if which zsh > /dev/null; then
-			$sudo chsh -s "$(which zsh)" "$USER"
+		if which $newshell > /dev/null; then
+			$sudo chsh -s "$(which $newshell)" "$USER"
 		fi
 	fi
 	ok
