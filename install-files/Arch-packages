@@ -19,3 +19,4 @@ python2-flake8
 rsync
 the_silver_searcher
 zsh
+zsh-completions
