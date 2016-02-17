@@ -143,14 +143,9 @@ install_ycm() {
 	# update ycm if libraries have changed and need compilation, or it is a new install
 	if yes | vim +q 2>&1 | grep -q YCM; then
 		echo -n "Building YouCompleteMe... "
-		# if arm don't do clang or go.
-		if [[ $(uname -m) =~ arm ]]; then
-			python2 ~/.vim/plugged/YouCompleteMe/install.py &>/dev/null
-		else
-			python2 ~/.vim/plugged/YouCompleteMe/install.py \
-				--clang-completer \
-				--gocode-completer &> /dev/null
-		fi
+		python2 ~/.vim/plugged/YouCompleteMe/install.py \
+			--clang-completer \
+			--gocode-completer &> /dev/null
 		ok
 	fi
 }
@@ -399,6 +394,10 @@ set_targets() {
 		# Auto-detect when running on C9
 		if sysctl kernel.osrelease | grep -q -- '-c9'; then
 			target=c9
+		fi
+
+		if [[ $(uname -m) =~ arm ]]; then
+			target=arm
 		fi
 	fi
 }
