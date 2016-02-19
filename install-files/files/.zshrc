@@ -61,7 +61,6 @@ alias less='less -R'
 alias rsync='rsync --info=progress2'
 alias grep='grep --color=auto'
 alias apacman='apacman --noedit --purgebuild --progress'
-alias pacman='apacman --noedit --purgebuild --progress'
 
 if [[ $(uname) == Linux ]]
 then
