@@ -145,6 +145,7 @@ install_ycm() {
 		echo -n "Building YouCompleteMe... "
 		python2 ~/.vim/plugged/YouCompleteMe/install.py \
 			--clang-completer \
+			--system-libclang \
 			--gocode-completer &> /dev/null
 		ok
 	fi
@@ -251,8 +252,7 @@ install_packages_arch() {
 		# but also a ton of X deps, so we don't want it on a headless machine
 		pacman -S --noconfirm --noprogress --needed vim &> /dev/null
 	fi
-	$sudo pacman -Sy --noprogress --needed --noconfirm apacman &>/dev/null
-	$sudo apacman --noedit --purgebuild --progress -Sy --noprogress --needed --noconfirm $PACINST &>/dev/null
+	$sudo pacman --noedit --purgebuild --progress -Sy --noprogress --needed --noconfirm $PACINST &>/dev/null
 	rc=$?
 	check $rc
 	set -e
