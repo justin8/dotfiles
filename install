@@ -252,7 +252,7 @@ install_packages_arch() {
 		# but also a ton of X deps, so we don't want it on a headless machine
 		pacman -S --noconfirm --noprogress --needed vim &> /dev/null
 	fi
-	$sudo pacman --noedit --purgebuild --progress -Sy --noprogress --needed --noconfirm $PACINST &>/dev/null
+	$sudo pacman -Sy --noprogress --needed --noconfirm $PACINST &>/dev/null
 	rc=$?
 	check $rc
 	set -e
