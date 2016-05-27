@@ -121,7 +121,7 @@ nmap <F9> :TagbarToggle<CR>
 " }}}
 " YouCompleteMe {{{
 let g:jedi#completions_enabled = 0 " disable jedi completion as YCM is better
-" }}}
+ " }}}
 " VimWiki {{{
 let vimwiki_export_path = '/srv/http/vimwiki/'
 let g:vimwiki_list = [{ 'path': '$HOME/Dropbox/vimwiki',
@@ -135,6 +135,9 @@ let g:vimwiki_list = [{ 'path': '$HOME/Dropbox/vimwiki',
          \ 'nested_syntaxes': {
          \ 'js':'javascript',
          \ }}]
+" }}}
+" C9 {{{
+    autocmd BufRead,BufNewFile ~/git/newclient/* set expandtab
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
