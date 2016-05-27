@@ -1,4 +1,3 @@
-apacman
 cmake
 ctags
 dmakepkg-git
@@ -10,6 +9,7 @@ llvm
 mercurial
 nodejs-jshint
 nodejs-jsonlint
+pacaur
 perl-yaml
 puppet3
 python-virtualenvwrapper
