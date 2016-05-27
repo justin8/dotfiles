@@ -1,3 +1,4 @@
+clang
 cmake
 ctags
 dmakepkg-git
@@ -14,7 +15,7 @@ perl-yaml
 puppet3
 python-virtualenvwrapper
 python2
-python2-flake8
+flake8
 rsync
 the_silver_searcher
 zsh
