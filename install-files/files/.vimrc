@@ -16,6 +16,10 @@ Plug 'kien/ctrlp.vim'
 Plug 'rodjek/vim-puppet'
 Plug 'vimwiki/vimwiki'
 Plug 'Valloric/YouCompleteMe'
+Plug 'hashivim/vim-terraform'
+Plug 'hashivim/vim-consul'
+Plug 'hashivim/vim-packer'
+Plug 'hashivim/vim-vagrant'
 call plug#end()
 " }}}
 " Whitespace {{{
