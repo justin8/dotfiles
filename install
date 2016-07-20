@@ -190,10 +190,8 @@ install_homebrew() {
 }
 
 configure_homebrew() {
-	if ! brew tap | grep -q dupes; then
-		brew tap homebrew/dupes
-	fi
-	brew list brew-cask &>/dev/null || brew install caskroom/cask/brew-cask
+	brew tap homebrew/dupes
+	brew tap caskroom/cask
 }
 
 install_packages_mac() {
