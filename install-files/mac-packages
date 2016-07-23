@@ -2,18 +2,27 @@ Caskroom/cask/puppet
 bash
 binutils
 cmake
+coreutils
 ctags
 diffutils
+ed --default-names
 gawk
 git
+gnu-indent --with-default-names
+gnu-sed --with-default-names
+gnu-tar --with-default-names
+gnu-which --with-default-names
 gnutls
 go
 gpg
+grep --with-default-names
 gzip
 jq
 less
+make
 mercurial
 npm
+openssh
 pyenv-virtualenvwrapper
 python
 python3
@@ -22,6 +31,7 @@ screen
 shellcheck
 vim --override-system-vi
 watch
+wdiff --with-gettext
 wget
 zsh
 zsh-completions

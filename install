@@ -197,7 +197,6 @@ configure_homebrew() {
 install_packages_mac() {
 	local cur_packages
 	local package
-	local DEFNAMEMACBREW="ed gnu-sed gnu-tar coreutils findutils gnu-indent gnu-which grep wdiff"
 	echo "OS appears to be Mac OS X..."
 
 	echo "Installing required packages... "
@@ -205,15 +204,9 @@ install_packages_mac() {
 	configure_homebrew
 
 	cur_packages=$(brew list;brew cask list 2>/dev/null)
-	for package in $DEFNAMEMACBREW; do
-		if ! echo "$cur_packages" | grep -q -- "$package"; then
-			brew install "$package" --with-default-names &>/dev/null
-		fi
-	done
-
-	for package in $PACINST; do
-		if ! echo "$cur_packages" | grep -q -- "$package"; then
-			brew install "$package" &>/dev/null
+	echo "$PACINST" | while read package; do
+		if ! echo "$cur_packages" | grep -q -- "${package%% *}"; then
+			brew install $package &>/dev/null
 		fi
 	done
 	echo "Since you are running OS X. Please check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
