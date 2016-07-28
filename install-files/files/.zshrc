@@ -1,7 +1,8 @@
+# Source per-machine overrides
+source ~/.zshrc-addon
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
-
-source ~/.zshrc-addon
 
 ##Font configuration. Copy this to .zshrc-addon and uncomment
 #if [[ -z $SSH_TTY ]] && [[ $TERM != linux ]]; then
