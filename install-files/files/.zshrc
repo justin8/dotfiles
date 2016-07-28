@@ -60,7 +60,6 @@ alias vi=vim
 alias less='less -R'
 alias rsync='rsync --info=progress2'
 alias grep='grep --color=auto'
-alias apacman='apacman --noedit --purgebuild --progress'
 
 if [[ $(uname) == Linux ]]
 then
@@ -105,6 +104,3 @@ fi
 # Custom ZSH Completions
 fpath=(~/.zsh-completion $fpath)
 compinit
-
-# Use pacman completions for apacman
-compdef _pacman apacman=pacman
