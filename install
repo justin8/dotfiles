@@ -154,11 +154,13 @@ install_ycm() {
 create_package_list() {
 	local TARGET_PACKAGES
 
-	PACINST=$(cat "$DOTFILES/install-files/$RELEASE-packages")
-	if [[ ! -z "$target" ]]; then
-		TARGET_PACKAGES="$DOTFILES/install-files/per-target/$target-packages"
-		if [[ -f  $TARGET_PACKAGES ]]; then
-			PACINST="$PACINST $(cat "$TARGET_PACKAGES")"
+	if [[ $RELEASE != false ]]; then
+		PACINST=$(cat "$DOTFILES/install-files/$RELEASE-packages")
+		if [[ ! -z "$target" ]]; then
+			TARGET_PACKAGES="$DOTFILES/install-files/per-target/$target-packages"
+			if [[ -f  $TARGET_PACKAGES ]]; then
+				PACINST="$PACINST $(cat "$TARGET_PACKAGES")"
+			fi
 		fi
 	fi
 }
