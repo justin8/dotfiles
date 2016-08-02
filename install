@@ -165,6 +165,18 @@ create_package_list() {
 	fi
 }
 
+run_custom_install_scripts() {
+	if [[ $RELEASE != false ]]; then
+		echo -n "Running custom scripts for $RELEASE..."
+		bash "$DOTFILES/install-files/${RELEASE}-custom-install-script"
+		ok
+	fi
+
+	echo -n "Running custom scripts... "
+	bash "$DOTFILES/install-files/custom-install-script"
+	ok
+}
+
 install_packages_meta() {
 	echo "Verifying required packages are installed."
 	case $RELEASE in
@@ -439,6 +451,7 @@ if [[ -z "$nosystemchanges" ]]; then
 	configure_sudoers
 fi
 
+run_custom_install_scripts
 configure_ssh_client
 update_submodules
 install_powerline_fonts
