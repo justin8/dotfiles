@@ -397,7 +397,7 @@ set_targets() {
 		fi
 	else
 		# Auto-detect when running on C9
-		if sysctl kernel.osrelease | grep -q -- '-c9'; then
+		if sysctl kernel.osrelease 2>&1 | grep -q -- '-c9'; then
 			target=c9
 		fi
 
