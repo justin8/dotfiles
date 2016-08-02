@@ -52,7 +52,13 @@ DISABLE_AUTO_UPDATE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git history-substring-search command-not-found fabric gem virtualenvwrapper)
+plugins=(git history-substring-search command-not-found fabric gem)
+
+# Enable python virtualenvs
+export WORKON_HOME=$HOME/.virtualenvs
+VEW=$(which virtualenvwrapper.sh || echo /usr/share/virtualenvwrapper/virtualenvwrapper.sh)
+[[ -f $VEW ]] && source $VEW && plugins+=(virtualenvwrapper)
+
 
 source $ZSH/oh-my-zsh.sh
 
@@ -82,11 +88,6 @@ export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
 
 # Export ZDOTDIR to allow sudo and keeping the same zsh dot files (still requires changing to zsh or having root's shell set to zsh)
 export ZDOTDIR=$HOME
-
-# Enable python virtualenvs
-export WORKON_HOME=$HOME/.virtualenvs
-VEW=$(which virtualenvwrapper.sh || echo /usr/share/virtualenvwrapper/virtualenvwrapper.sh)
-[[ -f $VEW ]] && source $VEW
 
 # Add RVM to PATH for scripting
 export PATH="$PATH:$HOME/.rvm/bin"
