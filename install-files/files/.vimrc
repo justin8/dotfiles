@@ -140,6 +140,9 @@ let g:vimwiki_list = [{ 'path': '$HOME/Dropbox/vimwiki',
          \ 'js':'javascript',
          \ }}]
 " }}}
+" signify {{{
+let g:signify_vcs_list = ['git'] " Ignore other VCS; improves load speed on non-VCS files being edited
+" }}}
 " C9 {{{
     autocmd BufRead,BufNewFile ~/git/newclient/* set expandtab
 " }}}
