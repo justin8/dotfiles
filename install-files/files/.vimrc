@@ -51,6 +51,7 @@ set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.i
 syntax on
 " Recognize exact file names as file types
 au BufRead,BufNewFile {Gemfile,Vagrantfile,Berksfile} set ft=ruby
+au BufRead,BufNewFile *.sls set ft=yaml
 let g:syntastic_enable_perl_checker = 1
 let g:syntastic_c_check_header = 1
 let g:syntastic_cpp_check_header = 1
