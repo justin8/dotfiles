@@ -166,9 +166,10 @@ create_package_list() {
 }
 
 run_custom_install_scripts() {
-	if [[ $RELEASE != false ]]; then
+	local script="$DOTFILES/install-files/${RELEASE}-custom-install-script"
+	if [[ $RELEASE != false ]] && [[ -x $script ]]; then
 		echo -n "Running custom scripts for $RELEASE..."
-		bash "$DOTFILES/install-files/${RELEASE}-custom-install-script"
+		bash "$script"
 		ok
 	fi
 
