@@ -56,7 +56,7 @@ plugins=(git history-substring-search command-not-found fabric gem)
 
 # Enable python virtualenvs
 export WORKON_HOME=$HOME/.virtualenvs
-VEW=$(which virtualenvwrapper.sh || echo /usr/share/virtualenvwrapper/virtualenvwrapper.sh)
+VEW=$(which virtualenvwrapper.sh &>/dev/null || echo /usr/share/virtualenvwrapper/virtualenvwrapper.sh)
 [[ -f $VEW ]] && source $VEW && plugins+=(virtualenvwrapper)
 
 
