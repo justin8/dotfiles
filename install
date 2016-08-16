@@ -206,7 +206,6 @@ install_homebrew() {
 
 configure_homebrew() {
 	brew tap homebrew/dupes
-	brew tap caskroom/cask
 }
 
 install_packages_mac() {
@@ -218,7 +217,7 @@ install_packages_mac() {
 	install_homebrew
 	configure_homebrew
 
-	cur_packages=$(brew list;brew cask list 2>/dev/null)
+	cur_packages=$(brew list 2>/dev/null)
 	echo "$PACINST" | while read package; do
 		if ! echo "$cur_packages" | grep -q -- "${package%% *}"; then
 			brew install $package &>/dev/null
