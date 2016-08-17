@@ -6,6 +6,7 @@ ctags
 diffutils
 ed --default-names
 gawk
+gcal
 git
 gnu-indent --with-default-names
 gnu-sed --with-default-names
