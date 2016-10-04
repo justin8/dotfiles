@@ -67,6 +67,7 @@ alias vi=vim
 alias less='less -R'
 alias rsync='rsync --info=progress2'
 alias grep='grep --color=auto'
+alias ta='tmux -CC attach'
 
 if [[ $(uname) == Linux ]]
 then
