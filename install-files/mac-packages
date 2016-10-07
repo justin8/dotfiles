@@ -18,6 +18,7 @@ gpg
 grep --with-default-names
 gzip
 jq
+keybase
 less
 make
 mercurial
