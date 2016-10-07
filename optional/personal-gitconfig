@@ -10,5 +10,7 @@
 	ui = auto
 [push]
 	default = current
+[merge]
+	conflictstyle = diff3
 [commit]
 	gpgsign = true
