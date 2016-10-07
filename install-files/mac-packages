@@ -29,6 +29,7 @@ python3
 rsync
 screen
 shellcheck
+tmux
 vim --override-system-vi
 watch
 wdiff --with-gettext
