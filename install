@@ -112,6 +112,17 @@ link_scripts() {
 	done < "$DOTFILES/install-files/$1"
 }
 
+configure_gitconfig() {
+	echo -n "Configuring gitconfig... "
+	git config --global user.signingkey 458CA9C74F0BC0EE
+	git config --global commit.gpgsign true
+	git config --global push.default current
+	git config --global color.ui auto
+	git config --global merge.conflictstyle diff3
+	git config --global core.editor vim
+	ok
+}
+
 configure_vim() {
 	install_vimplug
 	install_vim_plugins
@@ -457,6 +468,7 @@ update_submodules
 install_powerline_fonts
 install_dotfiles
 install_scripts
+configure_gitconfig
 configure_vim
 configure_zshrc_addon
 configure_oh_my_zsh
