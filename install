@@ -57,16 +57,14 @@ systemctl() {
 	# Need to detect/restart service on OS X
 }
 
-update_submodules() {
-	echo -n "Updating submodules... "
-	cd "$DOTFILES"
-	git submodule update --init --recursive --remote > /dev/null 2>&1
-	ok
-}
-
 install_powerline_fonts() {
 	echo -n "Installing powerline fonts... "
-	"$DOTFILES/powerline-fonts/install.sh" &> /dev/null
+	if [[ -d $DOTFILES/.powerline-fonts ]]; then
+		(cd $DOTFILES/.powerline-fonts && git pull &>/dev/null)
+	else
+		git clone https://github.com/powerline/fonts.git $DOTFILES/.powerline-fonts &>/dev/null
+	fi
+	"$DOTFILES/.powerline-fonts/install.sh" &> /dev/null
 	ok
 }
 
@@ -88,6 +86,16 @@ install_dotfiles() {
 			ok
 		fi
 	fi
+}
+
+update_scripts() {
+	echo -n "Updating scripts... "
+	if [[ -d $DOTFILES/.scripts ]]; then
+		(cd $DOTFILES/.scripts && git pull &>/dev/null)
+	else
+		git clone https://github.com/justin8/scripts.git $DOTFILES/.scripts &>/dev/null
+	fi
+	ok
 }
 
 install_scripts() {
@@ -464,9 +472,9 @@ fi
 
 run_custom_install_scripts
 configure_ssh_client
-update_submodules
 install_powerline_fonts
 install_dotfiles
+update_scripts
 install_scripts
 configure_gitconfig
 configure_vim

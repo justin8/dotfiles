@@ -35,3 +35,7 @@ Temporary Items
 Session.vim
 .netrwhist
 *~
+
+### Misc ###
+.powerline-fonts
+.scripts
