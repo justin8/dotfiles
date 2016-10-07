@@ -1,6 +1,7 @@
 [user]
 	email = justin@dray.be
 	name = Justin Dray
+	signingkey = 458CA9C74F0BC0EE
 [core]
 	editor = vim
 [credential]
@@ -9,3 +10,5 @@
 	ui = auto
 [push]
 	default = simple
+[commit]
+	gpgsign = true
