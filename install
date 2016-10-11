@@ -420,6 +420,10 @@ set_targets() {
 			target=c9
 		fi
 
+		if [[ $HOSTNAME =~ ^dev-dsk ]]; then
+			target=dev-dsk
+		fi
+
 		if [[ $(uname -m) =~ arm ]]; then
 			target=arm
 		fi
@@ -473,10 +477,10 @@ fi
 run_custom_install_scripts
 configure_ssh_client
 install_powerline_fonts
+configure_gitconfig
 install_dotfiles
 update_scripts
 install_scripts
-configure_gitconfig
 configure_vim
 configure_zshrc_addon
 configure_oh_my_zsh
