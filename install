@@ -111,7 +111,7 @@ link_scripts() {
 	local script_path
 	local zsh_completion_path
 	while read -r script; do
-		script_path="$DOTFILES/scripts/$script"
+		script_path="$DOTFILES/.scripts/$script"
 		zsh_completion_path="$DOTFILES/scripts/zsh-completion/_$script"
 		ln -sf "$script_path" "$HOME/.bin/${script##*/}"
 		if [[ -f "$zsh_completion_path" ]]; then
