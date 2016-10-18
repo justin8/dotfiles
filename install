@@ -299,20 +299,22 @@ configure_sshd() {
 	local sshd_config="/etc/ssh/sshd_config"
 	[[ $TYPE == 'mac' ]] && sshd_config="/etc/sshd_config"
 
-	echo -n "Checking SSHD config... "
-	if grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config; then
-		ok
-	else
-		if grep -q "AcceptEnv" $sshd_config; then
-			$sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
+	if [[ -e $sshd_config ]]; then
+		echo -n "Checking SSHD config... "
+		if grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config &>/dev/null; then
+			ok
 		else
-			echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config > /dev/null
-		fi
-		ok
+			if grep -q "AcceptEnv" $sshd_config; then
+				$sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
+			else
+				echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config > /dev/null
+			fi
+			ok
 
-		echo -n "Restarting SSHD... "
-		systemctl restart sshd
-		ok
+			echo -n "Restarting SSHD... "
+			systemctl restart sshd
+			ok
+		fi
 	fi
 }
 
