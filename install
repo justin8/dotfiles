@@ -297,7 +297,6 @@ install_packages_arch() {
 
 configure_sshd() {
 	local sshd_config="/etc/ssh/sshd_config"
-	[[ $TYPE == 'mac' ]] && sshd_config="/etc/sshd_config"
 
 	echo -n "Checking SSHD config... "
 	if grep -q "AcceptEnv.*IHAVEPATCHEDFONTS" $sshd_config; then
