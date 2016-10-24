@@ -20,6 +20,7 @@ Plug 'hashivim/vim-terraform'
 Plug 'hashivim/vim-consul'
 Plug 'hashivim/vim-packer'
 Plug 'hashivim/vim-vagrant'
+Plug 'cespare/vim-toml'
 call plug#end()
 " }}}
 " Whitespace {{{
