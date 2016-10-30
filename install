@@ -153,8 +153,7 @@ install_vimplug() {
 install_vim_plugins() {
 	echo -n "Installing vim plugins... "
 	# Vim always seems to have a return of 1...
-	vim -esu ~/.vimrc +PlugClean! +qa || true
-	vim -esu ~/.vimrc +PlugUpdate +qa || true
+	vim -esu ~/.vimrc +PlugClean! +PlugUpdate +qa || true
 	ok
 }
 
