@@ -107,3 +107,5 @@ fi
 # Custom ZSH Completions
 fpath=(~/.zsh-completion $fpath)
 compinit
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
