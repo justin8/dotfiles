@@ -21,7 +21,7 @@ Plug 'hashivim/vim-consul'
 Plug 'hashivim/vim-packer'
 Plug 'hashivim/vim-vagrant'
 Plug 'cespare/vim-toml'
-Plug 'junnegun/vim-emoji'
+Plug 'junegunn/vim-emoji'
 call plug#end()
 " }}}
 " Whitespace {{{
