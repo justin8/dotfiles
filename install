@@ -128,6 +128,7 @@ configure_gitconfig() {
 	git config --global color.ui auto
 	git config --global merge.conflictstyle diff3
 	git config --global core.editor vim
+	git config --global merge.ff false
 	ok
 }
 
