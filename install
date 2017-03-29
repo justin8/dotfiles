@@ -241,7 +241,7 @@ install_packages_mac() {
 			brew install $package &>/dev/null
 		fi
 	done
-	echo "Since you are running OS X. Please check that 'Defaults env_keep += \"SSH_TTY\"' and 'Defaults env_keep += \"IHAVEPATCHEDFONTS\"' are in sudoers"
+	echo "Since you are running OS X. Please check that \"Defaults env_keep += 'SSH_TTY'\" and \"Defaults env_keep += 'IHAVEPATCHEDFONTS'\" are in sudoers"
 }
 
 install_packages_debian() {
