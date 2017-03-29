@@ -382,6 +382,21 @@ configure_oh_my_zsh() {
 	ok
 }
 
+configure_oh_my_zsh_plugins() {
+	echo -n "Configuring oh-my-zsh plugins... "
+	for plugin in zsh-users/zsh-syntax-highlighting; do
+		plugindir="$HOME/.oh-my-zsh/custom/plugins/${plugin#*/}"
+		if [[ -d $plugindir ]]; then
+			cd "$plugindir"
+			git reset --hard origin/master > /dev/null 2>&1
+			git pull > /dev/null 2>&1
+		else
+			git clone https://github.com/${plugin}.git "$plugindir" > /dev/null 2>&1
+		fi
+	done
+	ok
+}
+
 change_shell() {
 	local setshell=0
 	local newshell=zsh
@@ -484,6 +499,7 @@ install_scripts
 configure_vim
 configure_zshrc_addon
 configure_oh_my_zsh
+configure_oh_my_zsh_plugins
 change_shell
 
 echo "If you want local terminals to not use the agnoster theme, disable the font configuration in ~/.zshrc-addon"

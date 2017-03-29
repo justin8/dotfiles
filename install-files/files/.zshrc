@@ -52,7 +52,7 @@ DISABLE_AUTO_UPDATE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git history-substring-search command-not-found fabric gem)
+plugins=(git history-substring-search command-not-found fabric gem zsh-syntax-highlighting)
 
 # Enable python virtualenvs
 export WORKON_HOME=$HOME/.virtualenvs
