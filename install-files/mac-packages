@@ -24,6 +24,8 @@ make
 mercurial
 npm
 openssh
+pyenv
+pyenv-virtualenv
 pyenv-virtualenvwrapper
 python
 python3
