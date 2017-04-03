@@ -75,6 +75,10 @@ then
 fi
 export EDITOR="vim"
 
+# Quick dirs
+setopt auto_cd
+cdpath=($HOME/git)
+
 # Add ~/.bin to path
 export PATH=$HOME/.bin:$PATH
 
