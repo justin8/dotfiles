@@ -5,6 +5,7 @@ coreutils
 ctags
 diffutils
 ed --default-names
+findutils --with-default-names
 gawk
 gcal
 git
