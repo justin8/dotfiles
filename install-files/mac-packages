@@ -5,6 +5,7 @@ coreutils
 ctags
 diffutils
 ed --default-names
+findutils --with-default-names
 gawk
 gcal
 git
@@ -24,6 +25,8 @@ make
 mercurial
 npm
 openssh
+pyenv
+pyenv-virtualenv
 pyenv-virtualenvwrapper
 python
 python3
