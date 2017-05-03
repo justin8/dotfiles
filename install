@@ -163,7 +163,7 @@ install_ycm() {
 		echo -n "Building YouCompleteMe... "
 		python2 ~/.vim/plugged/YouCompleteMe/install.py \
 			--clang-completer \
-			--system-libclang \
+			--tern-completer \
 			--gocode-completer &> /dev/null
 		ok
 	fi
