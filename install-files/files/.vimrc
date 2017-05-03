@@ -126,7 +126,8 @@ let g:tagbar_type_puppet = {
 nmap <F9> :TagbarToggle<CR>
 " }}}
 " YouCompleteMe {{{
-let g:jedi#completions_enabled = 0 " disable jedi completion as YCM is better
+"let g:jedi#completions_enabled = 0 " disable jedi completion as YCM is better
+let g:ycm_autoclose_preview_window_after_completion=1
  " }}}
 " signify {{{
 let g:signify_vcs_list = ['git'] " Ignore other VCS; improves load speed on non-VCS files being edited
