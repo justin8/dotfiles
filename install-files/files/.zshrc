@@ -98,7 +98,9 @@ export ZDOTDIR=$HOME
 export PATH="$PATH:$HOME/.rvm/bin"
 
 # Use NVM if it is installed
-export NVM_DIR="$(readlink -f "$HOME/.nvm")"
+READLINK=readlink
+which greadlink &>/dev/null && READLINK=greadlink
+export NVM_DIR="$($READLINK -f "$HOME/.nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # Force Gnome keyring usage if it is enabled
