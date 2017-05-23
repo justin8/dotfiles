@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 DOTFILES=$(cd "$(dirname "$0")";pwd)
 
 # TODO: Change to using tput for colours instead of echo -e for OS X (copy from securenotes)
@@ -218,12 +219,14 @@ install_homebrew() {
 	if ! which brew &>/dev/null; then
 		echo "Installing brew... "
 		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+		sudo xcodebuild -license accept
 		brew doctor
 	fi
 }
 
 configure_homebrew() {
-	brew tap homebrew/dupes
+	# Nothing to do here currently
+	echo >/dev/null
 }
 
 install_packages_mac() {
@@ -503,4 +506,3 @@ configure_oh_my_zsh_plugins
 change_shell
 
 echo "If you want local terminals to not use the agnoster theme, disable the font configuration in ~/.zshrc-addon"
-trap - EXIT SIGINT SIGTERM
