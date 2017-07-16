@@ -61,8 +61,9 @@ VEW=$(which virtualenvwrapper.sh || echo /usr/share/virtualenvwrapper/virtualenv
 
 # Enable pyenv and pyenv-virtualenvwrapper
 if which pyenv &>/dev/null; then
-	eval "$(pyenv init -)"
-	pyenv virtualenvwrapper_lazy
+	#eval "$(pyenv init -)"
+	#pyenv virtualenvwrapper_lazy
+	:
 fi
 
 
