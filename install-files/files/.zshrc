@@ -59,6 +59,12 @@ export WORKON_HOME=$HOME/.virtualenvs
 VEW=$(which virtualenvwrapper.sh || echo /usr/share/virtualenvwrapper/virtualenvwrapper.sh)
 [[ -f $VEW ]] && source $VEW && plugins+=(virtualenvwrapper)
 
+# Enable pyenv and pyenv-virtualenvwrapper
+if which pyenv &>/dev/null; then
+	eval "$(pyenv init -)"
+	pyenv virtualenvwrapper_lazy
+fi
+
 
 source $ZSH/oh-my-zsh.sh
 
