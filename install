@@ -255,21 +255,8 @@ install_packages_debian() {
 			ok
 }
 
-configure_repo_arch() {
-	if [[ $(uname -m) == 'x86_64' ]]; then
-		echo -n "Configuring repo... "
-		if ! pacman -Q dray-repo > /dev/null 2>&1; then
-			curl -o /tmp/dray-repo.pkg.tar.xz https://repo.dray.be/dray-repo-latest
-			$sudo pacman -U --noconfirm /tmp/dray-repo.pkg.tar.xz > /dev/null
-		fi
-		ok
-	fi
-}
-
 install_packages_arch() {
 	echo "OS appears to be Arch Linux..."
-
-	configure_repo_arch
 
 	set +e
 	echo -n "Installing required packages... "
