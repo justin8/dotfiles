@@ -55,15 +55,14 @@ DISABLE_AUTO_UPDATE="true"
 plugins=(git history-substring-search command-not-found fabric gem zsh-syntax-highlighting)
 
 # Enable python virtualenvs
-export WORKON_HOME=$HOME/.virtualenvs
-VEW=$(which virtualenvwrapper.sh || echo /usr/share/virtualenvwrapper/virtualenvwrapper.sh)
-[[ -f $VEW ]] && source $VEW && plugins+=(virtualenvwrapper)
-
-# Enable pyenv and pyenv-virtualenvwrapper
+	export WORKON_HOME=$HOME/.virtualenvs
 if which pyenv &>/dev/null; then
-	#eval "$(pyenv init -)"
-	#pyenv virtualenvwrapper_lazy
-	:
+	# Prefer pyenv when available
+	eval "$(pyenv init -)"
+	pyenv virtualenvwrapper_lazy
+else
+	VEW=$(which virtualenvwrapper.sh || echo /usr/share/virtualenvwrapper/virtualenvwrapper.sh)
+	[[ -f $VEW ]] && source $VEW && plugins+=(virtualenvwrapper)
 fi
 
 
