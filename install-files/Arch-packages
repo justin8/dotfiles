@@ -1,7 +1,6 @@
 clang
 cmake
 ctags
-dmakepkg-git
 git
 go
 jq
@@ -9,11 +8,7 @@ jruby
 keybase
 llvm
 mercurial
-nodejs-jshint
-nodejs-jsonlint
-pacaur
 perl-yaml
-puppet3
 python-virtualenvwrapper
 python2
 flake8
