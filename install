@@ -241,7 +241,7 @@ install_packages_mac() {
 	cur_packages=$(brew list 2>/dev/null)
 	echo "$PACINST" | while read package; do
 		if ! echo "$cur_packages" | grep -q -- "${package%% *}"; then
-			if ! brew install $package &>/dev/null; then
+			if ! brew install $package &>/dev/null || brew upgrade $package &>/dev/null; then
 				echo "Failed to install $package"
 				return 1
 			fi
