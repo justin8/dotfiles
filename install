@@ -241,7 +241,10 @@ install_packages_mac() {
 	cur_packages=$(brew list 2>/dev/null)
 	echo "$PACINST" | while read package; do
 		if ! echo "$cur_packages" | grep -q -- "${package%% *}"; then
-			brew install $package &>/dev/null
+			if ! brew install $package &>/dev/null; then
+				echo "Failed to install $package"
+				return 1
+			fi
 		fi
 	done
 	echo "Since you are running OS X. Please check that \"Defaults env_keep += 'SSH_TTY'\" and \"Defaults env_keep += 'IHAVEPATCHEDFONTS'\" are in sudoers"
