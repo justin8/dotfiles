@@ -24,9 +24,6 @@ make
 mercurial
 npm
 openssh
-pyenv
-pyenv-virtualenv
-pyenv-virtualenvwrapper
 python
 python3
 rsync

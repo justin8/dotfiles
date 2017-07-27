@@ -170,6 +170,13 @@ install_ycm() {
 	fi
 }
 
+install_pyenv() {
+	echo -n "Installing/updating pyenv... "
+	git_update "https://github.com/pyenv/pyenv.git" "$HOME/.pyenv"
+	git_update "https://github.com/yyuu/pyenv-virtualenvwrapper.git" "$HOME/.pyenv/plugins/pyenv-virtualenvwrapper"
+	ok
+}
+
 create_package_list() {
 	local TARGET_PACKAGES
 
@@ -365,14 +372,20 @@ configure_zshrc_addon() {
 
 configure_oh_my_zsh() {
 	echo -n "Configuring oh-my-zsh... "
-	if [[ -d ~/.oh-my-zsh ]]; then
-		cd ~/.oh-my-zsh
+	git_update "https://github.com/robbyrussell/oh-my-zsh.git" "$HOME/.oh-my-zsh"
+	ok
+}
+
+git_update() {
+	repo="$1"
+	dest="$2"
+	if [[ -d "$dest" ]]; then
+		cd "$dest"
 		git reset --hard origin/master > /dev/null 2>&1
 		git pull > /dev/null 2>&1
 	else
-		git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh > /dev/null 2>&1
+		git clone "$repo" "$dest" > /dev/null 2>&1
 	fi
-	ok
 }
 
 configure_oh_my_zsh_plugins() {
@@ -489,6 +502,7 @@ configure_gitconfig
 install_dotfiles
 update_scripts
 install_scripts
+install_pyenv
 configure_vim
 configure_zshrc_addon
 configure_oh_my_zsh
