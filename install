@@ -248,7 +248,7 @@ install_packages_mac() {
 	cur_packages=$(brew list 2>/dev/null)
 	echo "$PACINST" | while read package; do
 		if ! echo "$cur_packages" | grep -q -- "${package%% *}"; then
-			if ! brew install $package &>/dev/null || brew upgrade $package &>/dev/null; then
+			if ! (brew install $package &>/dev/null || brew upgrade $package &>/dev/null); then
 				echo "Failed to install $package"
 				return 1
 			fi
@@ -463,7 +463,8 @@ usage() {
 
 	OPTIONS:
 	-h	Show this help
-	-n	No system changes, no packages will be installed and no system level changes will be made
+	-s	Perform system changes, system level changes will be made (e.g. to /etc)
+	-n	No packages will be installed
 	-t	Target, can be one of: $(get_targets)
 	EOF
 }
@@ -478,7 +479,8 @@ fi
 while getopts ":hngt:" OPTION; do
 	case $OPTION in
 		h) usage;exit 0;;
-		n) nosystemchanges=true;;
+		n) nopackages=true;;
+		s) systemchanges=true;;
 		t) target="$OPTARG";;
 		?) usage;exit 1;;
 	esac
@@ -489,8 +491,11 @@ trap cleanup EXIT SIGINT SIGTERM
 set_targets
 create_package_list
 
-if [[ -z "$nosystemchanges" ]]; then
+if [[ $nopackages != true ]]; then
 	install_packages_meta
+fi
+
+if [[ $systemchanges == true ]]; then
 	configure_sshd
 	configure_sudoers
 fi
