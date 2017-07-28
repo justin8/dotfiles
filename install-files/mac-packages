@@ -22,7 +22,7 @@ jq
 less
 make
 mercurial
-npm
+node
 openssh
 python
 python3
