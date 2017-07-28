@@ -55,8 +55,9 @@ DISABLE_AUTO_UPDATE="true"
 plugins=(git history-substring-search command-not-found fabric gem zsh-syntax-highlighting)
 
 # Enable python virtualenvs
-if which pyenv &>/dev/null; then
-	# Prefer pyenv when available
+if [[ -e $HOME/.pyenv ]]; then
+	export PYENV_ROOT="$HOME/.pyenv"
+	export PATH="$PYENV_ROOT/bin:$PATH"
 	export WORKON_HOME=$HOME/.virtualenvs
 	eval "$(pyenv init -)"
 	pyenv virtualenvwrapper_lazy
