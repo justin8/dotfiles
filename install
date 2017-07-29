@@ -500,7 +500,6 @@ if [[ $systemchanges == true ]]; then
 	configure_sudoers
 fi
 
-run_custom_install_scripts
 configure_ssh_client
 install_powerline_fonts
 configure_gitconfig
@@ -513,5 +512,6 @@ configure_zshrc_addon
 configure_oh_my_zsh
 configure_oh_my_zsh_plugins
 change_shell
+run_custom_install_scripts
 
 echo "If you want local terminals to not use the agnoster theme, disable the font configuration in ~/.zshrc-addon"

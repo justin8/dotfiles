@@ -49,6 +49,9 @@ DISABLE_AUTO_UPDATE="true"
 # much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
+# Add ~/.bin to path
+export PATH=$HOME/.bin:$PATH
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -82,9 +85,6 @@ export EDITOR="vim"
 # Quick dirs
 setopt auto_cd
 cdpath=($HOME/git)
-
-# Add ~/.bin to path
-export PATH=$HOME/.bin:$PATH
 
 # Fix to make vim work with color themes
 if [[ $TERM != linux ]]
