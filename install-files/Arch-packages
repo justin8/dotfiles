@@ -1,6 +1,7 @@
 clang
 cmake
 ctags
+flake8
 git
 go
 jq
@@ -9,9 +10,10 @@ keybase
 llvm
 mercurial
 perl-yaml
+python-pip
 python-virtualenvwrapper
 python2
-flake8
+python2-pip
 rsync
 the_silver_searcher
 zsh
