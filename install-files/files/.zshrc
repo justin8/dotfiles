@@ -50,7 +50,7 @@ DISABLE_AUTO_UPDATE="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Add ~/.bin to path
-export PATH=$HOME/.bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
