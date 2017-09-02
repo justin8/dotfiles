@@ -476,7 +476,7 @@ elif [[ $UID != 0 ]]; then
     exit 1
 fi
 
-while getopts ":hngt:" OPTION; do
+while getopts ":hnst:" OPTION; do
 	case $OPTION in
 		h) usage;exit 0;;
 		n) nopackages=true;;
