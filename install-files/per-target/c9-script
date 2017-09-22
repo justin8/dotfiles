@@ -5,7 +5,7 @@ sed -i '/g:jedi#completions_enabled/d' ~/.vimrc
 
 sed -i '/editor/d' ~/.gitconfig
 
-grep -q '\.bin:' ~/.bashrc || echo 'export PATH=$HOME/.bin:$PATH' >> ~/.bashrc
+grep -q '\.local/bin:' ~/.bashrc || echo 'export PATH=$HOME/.local/bin:$PATH' >> ~/.bashrc
 grep -q 'EDITOR=' ~/.bashrc || echo 'export EDITOR=/usr/bin/vim' >> ~/.bashrc
 
 # Set git to auto-push to upstream

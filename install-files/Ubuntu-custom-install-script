@@ -1,6 +1,6 @@
 # Put virtualenvwrapper on the path for pyenv
 if [[ -e /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]; then
-    cp /usr/share/virtualenvwrapper/virtualenvwrapper_lazy.sh ~/.bin
-    cp /usr/share/virtualenvwrapper/virtualenvwrapper.sh ~/.bin
-    chmod +x ~/.bin/virtualenvwrapper*
+    cp /usr/share/virtualenvwrapper/virtualenvwrapper_lazy.sh ~/.local/bin
+    cp /usr/share/virtualenvwrapper/virtualenvwrapper.sh ~/.local/bin
+    chmod +x ~/.local/bin/virtualenvwrapper*
 fi
