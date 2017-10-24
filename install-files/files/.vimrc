@@ -1,8 +1,7 @@
 " Plugins {{{
 filetype off " required
 call plug#begin('~/.vim/plugged')
-Plug 'davidhalter/jedi-vim', { 'for': 'python'}
-Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale'
 Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
@@ -14,7 +13,7 @@ Plug 'ekalinin/Dockerfile.vim'
 Plug 'Keithbsmiley/rspec.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'rodjek/vim-puppet'
-Plug 'Valloric/YouCompleteMe'
+Plug 'maralla/completor.vim'
 Plug 'hashivim/vim-terraform'
 Plug 'hashivim/vim-consul'
 Plug 'hashivim/vim-packer'
@@ -53,18 +52,6 @@ syntax on
 " Recognize exact file names as file types
 au BufRead,BufNewFile {Gemfile,Vagrantfile,Berksfile} set ft=ruby
 au BufRead,BufNewFile *.sls set ft=yaml
-let g:syntastic_enable_perl_checker = 1
-let g:syntastic_c_check_header = 1
-let g:syntastic_cpp_check_header = 1
-let g:syntastic_python_checkers=['flake8']
-let g:syntastic_ruby_checkers=['jruby']
-let g:syntastic_yaml_checkers=['yamlxs']
-let g:syntastic_json_checkers=['jsonlint']
-let g:syntastic_zsh_checkers=['zsh']
-let g:syntastic_sh_checkers=['shellcheck']
-let g:syntastic_javascript_checkers=['jshint']
-let g:syntastic_puppet_checkers=['puppet']
-let g:syntastic_python_flake8_args = "--max-line-length=500"
 " }}}
 " Searching {{{
 set incsearch  " search as characters are entered
@@ -86,7 +73,7 @@ set lazyredraw                     " redraw when needed. speeds up macros
 set backspace=indent,eol,start     " more powerful backspacing
 "autocmd BufWritePre * :%s/\s\+$//e " auto-remove trailing whitespace
 " jump to last position in file
-if has("autocmd")
+if has('autocmd')
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
@@ -125,10 +112,6 @@ let g:tagbar_type_puppet = {
 " Tab control keys
 nmap <F9> :TagbarToggle<CR>
 " }}}
-" YouCompleteMe {{{
-"let g:jedi#completions_enabled = 0 " disable jedi completion as YCM is better
-let g:ycm_autoclose_preview_window_after_completion=1
- " }}}
 " signify {{{
 let g:signify_vcs_list = ['git'] " Ignore other VCS; improves load speed on non-VCS files being edited
 " }}}

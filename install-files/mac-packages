@@ -26,6 +26,7 @@ node
 openssh
 python
 python3
+ripgrep
 rsync
 screen
 shellcheck

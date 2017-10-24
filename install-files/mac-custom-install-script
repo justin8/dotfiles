@@ -1,3 +1,9 @@
 # iTerm2 configs
 defaults write com.googlecode.iterm2 AlternateMouseScroll -bool true
 defaults write com.googlecode.iterm2 FocusFollowsMouse -bool true
+
+# Set up system python3 to include flake
+pyenv shell system &>/dev/null
+pip3 install flake8 autopep8 pylint &>/dev/null
+pip3 install vim-vint &>/dev/null
+

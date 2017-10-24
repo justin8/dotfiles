@@ -14,7 +14,7 @@ python-pip
 python-virtualenvwrapper
 python2
 python2-pip
+ripgrep
 rsync
-the_silver_searcher
 zsh
 zsh-completions
