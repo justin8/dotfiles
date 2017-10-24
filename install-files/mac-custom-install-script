@@ -6,4 +6,5 @@ defaults write com.googlecode.iterm2 FocusFollowsMouse -bool true
 pyenv shell system &>/dev/null
 pip3 install flake8 autopep8 pylint &>/dev/null
 pip3 install vim-vint &>/dev/null
+pip3 install jedi &>/dev/null
 
