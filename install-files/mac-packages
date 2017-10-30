@@ -31,7 +31,7 @@ rsync
 screen
 shellcheck
 tmux
-vim --override-system-vi
+vim --override-system-vi --with-python3 --without-ruby
 watch
 wdiff --with-gettext
 wget
