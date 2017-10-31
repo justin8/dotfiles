@@ -1,7 +1,7 @@
 " Plugins {{{
 filetype off " required
 call plug#begin('~/.vim/plugged')
-Plug 'w0rp/ale'
+Plug 'lambdalisue/vim-pyenv',
 Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
@@ -9,8 +9,8 @@ Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-unimpaired'
-Plug 'ekalinin/Dockerfile.vim'
-Plug 'Keithbsmiley/rspec.vim'
+Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
+Plug 'Keithbsmiley/rspec.vim', { 'for': 'ruby' }
 Plug 'kien/ctrlp.vim'
 Plug 'rodjek/vim-puppet'
 Plug 'maralla/completor.vim'
@@ -20,6 +20,7 @@ Plug 'hashivim/vim-packer'
 Plug 'hashivim/vim-vagrant'
 Plug 'cespare/vim-toml'
 Plug 'junegunn/vim-emoji'
+Plug 'w0rp/ale'
 call plug#end()
 " }}}
 " Whitespace {{{
@@ -91,6 +92,9 @@ nmap <C-e> <End>
 nmap <F8> :NERDTreeToggle<CR>
 nmap <s-F8> :NERDTreeFind<CR>
 
+" }}}
+" vim-pyenv {{{
+let g:pyenv#auto_activate = 1
 " }}}
 " Airline {{{
 let g:airline#extensions#branch#enabled = 1
