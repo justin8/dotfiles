@@ -213,6 +213,7 @@ install_packages_meta() {
 		'Arch') install_packages_arch ;;
 		'Debian'|'Ubuntu') install_packages_debian ;;
 		'mac') install_packages_mac ;;
+		'Amazon') install_packages_amazon ;;
 		*)
 			cat <<-EOF
 			You are not using a supported distro; You may have to install some of the following manually:
@@ -261,11 +262,11 @@ install_packages_mac() {
 }
 
 install_packages_debian() {
-			echo "OS appears to be Debian/Ubuntu..."
+	echo "OS appears to be Debian/Ubuntu..."
 
-			echo -n "Installing required packages..."
-			$sudo apt-get install -y $PACINST &>/dev/null
-			ok
+	echo -n "Installing required packages..."
+	$sudo apt-get install -y $PACINST &>/dev/null
+	ok
 }
 
 install_packages_arch() {
@@ -295,6 +296,14 @@ install_packages_arch() {
 			echo 'Continuing anyway since some packages are unavailable outside of x86_64'
 		fi
 	fi
+}
+
+install_packages_amazon() {
+	echo "OS appears to be Amazon Linux..."
+	
+	echo -n "Installing required packages..."
+	$sudo yum install -y $PACINST &>/dev/null
+	ok
 }
 
 configure_sshd() {
