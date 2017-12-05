@@ -61,9 +61,9 @@ systemctl() {
 install_powerline_fonts() {
 	echo -n "Installing powerline fonts... "
 	if [[ -d $DOTFILES/.powerline-fonts ]]; then
-		(cd $DOTFILES/.powerline-fonts && git pull &>/dev/null)
+		(cd "$DOTFILES/.powerline-fonts" && git pull &>/dev/null)
 	else
-		git clone https://github.com/powerline/fonts.git $DOTFILES/.powerline-fonts &>/dev/null
+		git clone https://github.com/powerline/fonts.git "$DOTFILES/.powerline-fonts" &>/dev/null
 	fi
 	"$DOTFILES/.powerline-fonts/install.sh" &> /dev/null
 	ok
@@ -92,9 +92,9 @@ install_dotfiles() {
 update_scripts() {
 	echo -n "Updating scripts... "
 	if [[ -d $DOTFILES/.scripts ]]; then
-		(cd $DOTFILES/.scripts && git pull &>/dev/null)
+		(cd "$DOTFILES/.scripts" && git pull &>/dev/null)
 	else
-		git clone https://github.com/justin8/scripts.git $DOTFILES/.scripts &>/dev/null
+		git clone https://github.com/justin8/scripts.git "$DOTFILES/.scripts" &>/dev/null
 	fi
 	ok
 }
@@ -226,7 +226,7 @@ install_packages_meta() {
 
 			Once you have; press enter to continue
 			EOF
-			read
+			read -r
 			;;
 	esac
 }
@@ -255,7 +255,7 @@ install_packages_mac() {
 	configure_homebrew
 
 	cur_packages=$(brew list 2>/dev/null)
-	echo "$PACINST" | while read package; do
+	echo "$PACINST" | while read -r package; do
 		if ! echo "$cur_packages" | grep -q -- "${package%% *}"; then
 			if ! (brew install $package &>/dev/null || brew upgrade $package &>/dev/null); then
 				echo "Failed to install $package"
@@ -358,6 +358,7 @@ configure_ssh_client() {
 		fi
 		echo "SendEnv IHAVEPATCHEDFONTS" > "$HOME/.ssh/config"
 		echo "$orig_ssh_config" >> "$HOME/.ssh/config"
+		chmod 0600 "$HOME/.ssh/config"
 	fi
 
 	# Disabled until paramiko and openwrt can support newer ciphers
@@ -463,7 +464,7 @@ set_targets() {
 }
 
 get_targets() {
-	echo -n $(cd "$DOTFILES/install-files/per-target";ls -d ./*/|sed 's#/$##;s#^./##'|tr '\n' ' ')
+	echo -n $(cd "$DOTFILES/install-files/per-target"; ls -d ./*/ | sed 's#/$##;s#^./##' | tr '\n' ' ')
 }
 
 usage() {
