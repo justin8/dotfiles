@@ -123,15 +123,20 @@ link_scripts() {
 
 configure_gitconfig() {
 	echo -n "Configuring gitconfig... "
-	git config --global user.signingkey 458CA9C74F0BC0EE
-	git config --global commit.gpgsign true
 	git config --global push.default current
 	git config --global color.ui auto
 	git config --global merge.conflictstyle diff3
 	git config --global core.editor vim
+
 	# CodeCommit support
 	git config --global credential.helper '!aws codecommit credential-helper $@'
 	git config --global credential.UseHttpPath true
+
+	# GPG signing
+	if [[ $gpgsigning == true ]]; then
+		git config --global user.signingkey 458CA9C74F0BC0EE
+		git config --global commit.gpgsign true
+	fi
 	ok
 }
 
@@ -477,6 +482,7 @@ usage() {
 	-h	Show this help
 	-s	Perform system changes, system level changes will be made (e.g. to /etc)
 	-n	No packages will be installed
+	-g	Enable GPG signing in git
 	-t	Target, can be one of: $(get_targets)
 	EOF
 }
@@ -488,11 +494,12 @@ elif [[ $UID != 0 ]]; then
     exit 1
 fi
 
-while getopts ":hnst:" OPTION; do
+while getopts ":hnsgt:" OPTION; do
 	case $OPTION in
 		h) usage;exit 0;;
 		n) nopackages=true;;
 		s) systemchanges=true;;
+		g) gpgsigning=true;;
 		t) target="$OPTARG";;
 		?) usage;exit 1;;
 	esac
