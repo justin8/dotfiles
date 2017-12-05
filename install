@@ -423,7 +423,6 @@ configure_oh_my_zsh_plugins() {
 change_shell() {
 	local setshell=0
 	local newshell=zsh
-	[[ $(uname -r) =~ -c9 ]] && newshell=bash
 	echo -n "Changing shell to $newshell "
 	if [[ $TYPE == 'mac' ]]; then
 		if ! finger "$USER" | grep -q "Shell.*$newshell"; then
@@ -453,11 +452,6 @@ set_targets() {
 			exit 1
 		fi
 	else
-		# Auto-detect when running on C9
-		if sysctl kernel.osrelease 2>&1 | grep -q -- '-c9'; then
-			target=c9
-		fi
-
 		if [[ $HOSTNAME =~ ^dev-dsk ]]; then
 			target=dev-dsk
 		fi
