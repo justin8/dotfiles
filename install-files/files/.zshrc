@@ -1,5 +1,6 @@
 # Source per-machine overrides
 source ~/.zshrc-addon
+source ~/.sharedrc
 
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
@@ -49,9 +50,6 @@ DISABLE_AUTO_UPDATE="true"
 # much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# Add ~/.bin to path
-export PATH=$HOME/.local/bin:$PATH
-
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -61,62 +59,14 @@ if [[ ! -e /etc/redhat-release ]]; then
 	plugin+=(zsh-syntax-highlighting)
 fi
 
-# Enable python virtualenvs
-if [[ -e $HOME/.pyenv ]]; then
-	export PYENV_ROOT="$HOME/.pyenv"
-	export PATH="$PYENV_ROOT/bin:$PATH"
-	export WORKON_HOME=$HOME/.virtualenvs
-	eval "$(pyenv init -)"
-	pyenv virtualenvwrapper_lazy
-fi
-
-
 source $ZSH/oh-my-zsh.sh
-
-# Aliases
-alias vi=vim
-alias less='less -R'
-alias rsync='rsync --info=progress2'
-alias grep='grep --color=auto'
-alias ta='tmux -CC attach'
-
-if [[ $(uname) == Linux ]]
-then
-	alias copy='copy --reflink=auto'
-fi
-export EDITOR="vim"
 
 # Quick dirs
 setopt auto_cd
 cdpath=($HOME/git)
 
-# Fix to make vim work with color themes
-if [[ $TERM != linux ]]
-then
-	export TERM=xterm-256color
-fi
-
-# Path fix for RHEL/Debian
-export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
-
 # Export ZDOTDIR to allow sudo and keeping the same zsh dot files (still requires changing to zsh or having root's shell set to zsh)
 export ZDOTDIR=$HOME
-
-# Add RVM to PATH for scripting
-export PATH="$PATH:$HOME/.rvm/bin"
-
-# Use NVM if it is installed
-READLINK=readlink
-which greadlink &>/dev/null && READLINK=greadlink
-export NVM_DIR="$($READLINK -f "$HOME/.nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-# Force Gnome keyring usage if it is enabled
-keyring_path="/run/user/${EUID}/keyring/ssh"
-if [[ -e $keyring_path ]]
-then
-	export SSH_AUTH_SOCK="$keyring_path"
-fi
 
 # Custom ZSH Completions
 fpath=(~/.zsh-completion $fpath)

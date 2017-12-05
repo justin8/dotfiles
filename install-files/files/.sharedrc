@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Force Gnome keyring usage if it is enabled
+keyring_path="/run/user/${EUID}/keyring/ssh"
+if [[ -e $keyring_path ]]
+then
+	export SSH_AUTH_SOCK="$keyring_path"
+fi
+
+# Aliases
+alias vi=vim
+alias less='less -R'
+alias rsync='rsync --info=progress2'
+alias grep='grep --color=auto'
+alias ta='tmux -CC attach'
+
+if [[ $(uname) == Linux ]]
+then
+	alias copy='copy --reflink=auto'
+fi
+export EDITOR="vim"
+
+# Fix to make vim work with color themes
+if [[ $TERM != linux ]]
+then
+	export TERM=xterm-256color
+fi
+
+# Path fix for RHEL/Debian
+export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
+
+# Add RVM to PATH
+export PATH="$PATH:$HOME/.rvm/bin"
+
+# Use NVM if it is installed
+READLINK=readlink
+which greadlink &>/dev/null && READLINK=greadlink
+export NVM_DIR="$($READLINK -f "$HOME/.nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Enable python virtualenvs
+if [[ -e $HOME/.pyenv ]]; then
+	export PYENV_ROOT="$HOME/.pyenv"
+	export PATH="$PYENV_ROOT/bin:$PATH"
+	export WORKON_HOME=$HOME/.virtualenvs
+	eval "$(pyenv init -)"
+	pyenv virtualenvwrapper_lazy
+fi
+
+# Add ~/.bin to path
+export PATH=$HOME/.local/bin:$PATH
