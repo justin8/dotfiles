@@ -49,3 +49,5 @@ fi
 
 # Add ~/.bin to path
 export PATH=$HOME/.local/bin:$PATH
+
+[[ -e $HOME/.sharedrc-addon ]] && source $HOME/.sharedrc-addon
