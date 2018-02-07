@@ -374,9 +374,9 @@ configure_ssh_client() {
 	ok
 }
 
-configure_zshrc_addon() {
+configure_rc_addon() {
 	echo -n "Configuring zshrc-addon... "
-	touch ~/.zshrc-addon > /dev/null
+	touch ~/.{zsh,shared}rc-addon > /dev/null
 	if ! grep -qE 'SSH_TTY' ~/.zshrc-addon; then
 		cat <<-EOF > ~/.zshrc-addon
 
@@ -522,7 +522,7 @@ update_scripts
 install_scripts
 install_pyenv
 configure_vim
-configure_zshrc_addon
+configure_rc_addon
 configure_oh_my_zsh
 configure_oh_my_zsh_plugins
 change_shell
