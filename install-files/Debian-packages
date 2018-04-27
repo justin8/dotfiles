@@ -1,5 +1,6 @@
 cmake
 ctags
+curl
 git
 golang
 jq
