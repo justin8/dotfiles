@@ -89,6 +89,12 @@ install_dotfiles() {
 	fi
 }
 
+install_nvm() {
+	echo -n "Installing nvm... "
+	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash &>/dev/null
+	ok
+}
+
 update_scripts() {
 	echo -n "Updating scripts... "
 	if [[ -d $DOTFILES/.scripts ]]; then
@@ -517,6 +523,7 @@ fi
 configure_ssh_client
 install_powerline_fonts
 configure_gitconfig
+install_nvm
 install_dotfiles
 update_scripts
 install_scripts
