@@ -16,4 +16,5 @@ rsync
 silversearcher-ag
 vim
 virtualenvwrapper
+zlib1g-dev
 zsh

@@ -1,6 +1,6 @@
 # Source per-machine overrides
-source ~/.zshrc-addon
 source ~/.sharedrc
+source ~/.zshrc-addon
 
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
