@@ -147,7 +147,6 @@ configure_gitconfig() {
 configure_vim() {
 	install_vimplug
 	install_vim_plugins
-	install_ycm
 }
 
 install_vimplug() {
@@ -168,18 +167,6 @@ install_vim_plugins() {
 	# Vim always seems to have a return of 1...
 	vim -esu ~/.vimrc +PlugClean! +PlugUpdate +qa || true
 	ok
-}
-
-install_ycm() {
-	# update ycm if libraries have changed and need compilation, or it is a new install
-	if yes | vim +q 2>&1 | grep -q YCM; then
-		echo -n "Building YouCompleteMe... "
-		python2 ~/.vim/plugged/YouCompleteMe/install.py \
-			--clang-completer \
-			--tern-completer \
-			--gocode-completer &> /dev/null
-		ok
-	fi
 }
 
 install_pyenv() {
@@ -536,3 +523,4 @@ change_shell
 run_custom_install_scripts
 
 echo "If you want local terminals to not use the agnoster theme, disable the font configuration in ~/.zshrc-addon"
+trap - EXIT SIGINT SIGTERM
