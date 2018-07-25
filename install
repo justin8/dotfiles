@@ -220,7 +220,7 @@ install_packages_meta() {
 	echo "Verifying required packages are installed."
 	case $RELEASE in
 		'Arch') install_packages_arch ;;
-		'Debian'|'Ubuntu') install_packages_debian ;;
+		'Debian'|'Ubuntu'|'Raspbian') install_packages_debian ;;
 		'mac') install_packages_mac ;;
 		'Amazon') install_packages_amazon ;;
 		*)
@@ -317,6 +317,8 @@ install_packages_amazon() {
 
 configure_sshd() {
 	local sshd_config="/etc/ssh/sshd_config"
+	local ssh_daemon="sshd"
+	[[ $RELEASE == Raspbian ]] && ssh_daemon=ssh
 
 	if [[ -e $sshd_config ]]; then
 		echo -n "Checking SSHD config... "
@@ -331,7 +333,7 @@ configure_sshd() {
 			ok
 
 			echo -n "Restarting SSHD... "
-			systemctl restart sshd
+			systemctl restart $ssh_daemon
 			ok
 		fi
 	fi
