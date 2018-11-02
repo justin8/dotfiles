@@ -51,3 +51,11 @@ if [[ -e $HOME/.pyenv ]]; then
 	pyenv virtualenvwrapper_lazy
 fi
 
+# Add ~/.bin to path
+export PATH=$HOME/.local/bin:$PATH
+
+# Source nix if it is available
+NIX_PATH="$HOME/.nix-profile/etc/profile.d/nix.sh"
+if [[ -e $NIX_PATH ]]; then
+	. $NIX_PATH
+fi
