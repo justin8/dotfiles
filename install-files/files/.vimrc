@@ -72,6 +72,8 @@ set foldmethod=indent " default to indent folding
 set modelines=1                    " allow per-file vim configs
 set lazyredraw                     " redraw when needed. speeds up macros
 set backspace=indent,eol,start     " more powerful backspacing
+set swapfile
+set dir=~/.local/tmp
 "autocmd BufWritePre * :%s/\s\+$//e " auto-remove trailing whitespace
 " jump to last position in file
 if has('autocmd')

@@ -148,6 +148,7 @@ configure_gitconfig() {
 }
 
 configure_vim() {
+	mkdir -p ~/.local/tmp
 	install_vimplug
 	install_vim_plugins
 }
