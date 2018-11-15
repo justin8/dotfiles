@@ -40,15 +40,98 @@ export PATH="$PATH:$HOME/.rvm/bin"
 READLINK=readlink
 which greadlink &>/dev/null && READLINK=greadlink
 export NVM_DIR="$($READLINK -f "$HOME/.nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+nvm(){
+	echo "🚨 nvm not loaded! Loading now..."
+	unset -f nvm
+	[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+	nvm "$@"
+}
 
+node(){
+	echo "🚨 nvm not loaded! Loading now..."
+	unset -f node
+	[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+	node "$@"
+}
+
+npm(){
+	echo "🚨 nvm not loaded! Loading now..."
+	unset -f npm
+	[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+	npm "$@"
+}
 # Enable python virtualenvs
 if [[ -e $HOME/.pyenv ]]; then
 	export PYENV_ROOT="$HOME/.pyenv"
 	export PATH="$PYENV_ROOT/bin:$PATH"
 	export WORKON_HOME=$HOME/.virtualenvs
-	eval "$(pyenv init -)"
-	pyenv virtualenvwrapper_lazy
+
+	init_virtualenvwrapper() {
+		eval "$(pyenv init -)"
+		pyenv virtualenvwrapper_lazy
+	}
+
+	python() {
+		echo "🚨 pyenv not loaded! Loading now..."
+		unset -f python
+		eval "$(pyenv init -)"
+		python "$@"
+	}
+
+	python2() {
+		echo "🚨 pyenv not loaded! Loading now..."
+		unset -f python2
+		eval "$(pyenv init -)"
+		python2 "$@"
+	}
+
+	python3() {
+		echo "🚨 pyenv not loaded! Loading now..."
+		unset -f python3
+		eval "$(pyenv init -)"
+		python3 "$@"
+	}
+
+	pip() {
+		echo "🚨 pyenv not loaded! Loading now..."
+		unset -f pip
+		eval "$(pyenv init -)"
+		pip "$@"
+	}
+
+	pip2() {
+		echo "🚨 pyenv not loaded! Loading now..."
+		unset -f pip2
+		eval "$(pyenv init -)"
+		pip2 "$@"
+	}
+
+	pip3() {
+		echo "🚨 pyenv not loaded! Loading now..."
+		unset -f pip3
+		eval "$(pyenv init -)"
+		pip3 "$@"
+	}
+
+	# Wrappers for virtualenv wrapper to load on-demand only
+	mkvirtualenv() {
+		unset -f mkvirtualenv
+		init_virtualenvwrapper
+		mkvirtualenv "$@"
+	}
+
+	rmvirtualenv() {
+		unset -f rmvirtualenv
+		init_virtualenvwrapper
+		rmvirtualenv "$@"
+	}
+
+	workon() {
+		unset -f workon
+		init_virtualenvwrapper
+		workon "$@"
+	}
+
 fi
 
 # Add ~/.bin to path

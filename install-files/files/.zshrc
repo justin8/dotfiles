@@ -53,7 +53,7 @@ DISABLE_AUTO_UPDATE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git history-substring-search command-not-found fabric gem)
+plugins=(git history-substring-search fabric gem)
 
 if [[ ! -e /etc/redhat-release ]]; then
 	plugin+=(zsh-syntax-highlighting)
@@ -70,6 +70,11 @@ export ZDOTDIR=$HOME
 
 # Custom ZSH Completions
 fpath=(~/.zsh-completion $fpath)
-compinit
+autoload -Uz compinit
+if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
+  compinit
+else
+  compinit -C
+fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
