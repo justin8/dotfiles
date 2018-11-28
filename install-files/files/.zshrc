@@ -71,7 +71,15 @@ export ZDOTDIR=$HOME
 # Custom ZSH Completions
 fpath=(~/.zsh-completion $fpath)
 autoload -Uz compinit
-if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
+today=$(date '+%s')
+yesterday=$(($today - 60*60*24))
+if [[ $(uname -s) == "Darwin" ]]; then
+	zcomp_timestamp=$(stat -f '%Sm' -t '%s' ~/.zcompdump)
+else
+	zcomp_timestamp=$(stat -c '%Y' ~/.zcompdump)
+fi
+
+if [[ $zcomp_timestamp < $yesterday ]]; then
   compinit
 else
   compinit -C
