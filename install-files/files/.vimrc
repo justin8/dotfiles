@@ -40,7 +40,6 @@ colorscheme jellybeans
 set nocompatible   " Use Vim defaults instead of 100% vi compatibility
 set history=50     " keep 50 lines of command line history
 set number         " show line numbers
-set relativenumber " show relative line numbers from current
 set cursorline     " highlight current line
 set showmatch      " Show matching brackets.
 set ruler          " show the cursor position all the time
