@@ -71,6 +71,13 @@ if [[ -e $HOME/.pyenv ]]; then
 		pyenv virtualenvwrapper_lazy
 	}
 
+	ipython() {
+		echo "🚨 pyenv not loaded! Loading now..."
+		unset -f python
+		eval "$(pyenv init -)"
+		python "$@"
+	}
+
 	python() {
 		echo "🚨 pyenv not loaded! Loading now..."
 		unset -f python
