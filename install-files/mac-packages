@@ -22,6 +22,7 @@ jq
 less
 make
 mercurial
+mosh
 node
 openssh
 python

@@ -15,6 +15,7 @@ libssl-dev
 llvm
 make
 mercurial
+mosh
 python
 python-flake8
 python-pip
