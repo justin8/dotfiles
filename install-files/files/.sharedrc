@@ -2,7 +2,7 @@
 [[ -e $HOME/.sharedrc-addon ]] && source $HOME/.sharedrc-addon
 
 # Add ~/.bin to path
-export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/.local/bin:$HOME/.local/gnubin:$PATH
 
 # Force Gnome keyring usage if it is enabled
 keyring_path="/run/user/${EUID}/keyring/ssh"

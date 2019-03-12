@@ -261,7 +261,29 @@ install_packages_mac() {
 			fi
 		fi
 	done
+
+	install_packages_mac_gnu_symlinks
 	echo "Since you are running OS X. Please check that \"Defaults env_keep += 'SSH_TTY'\" and \"Defaults env_keep += 'IHAVEPATCHEDFONTS'\" are in sudoers"
+}
+
+install_packages_mac_gnu_symlinks() {
+	echo -n "Creating symlinks for GNU packages to the correct names..."
+	gnu_packages=(
+		ed
+		findutils
+		gnu-indent
+		gnu-sed
+		gnu-tar
+		gnu-which
+		grep)
+
+	gnubin="$HOME/.local/gnubin"
+	mkdir -p "$gnubin"
+	for package in "${gnu_packages[@]}"; do
+		for binary in /usr/local/opt/$package/libexec/gnubin/*; do
+			ln -sf "$binary" "$gnubin/${binary##*/}"
+		done
+	done
 }
 
 install_packages_debian() {
