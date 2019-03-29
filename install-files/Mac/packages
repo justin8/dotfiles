@@ -26,7 +26,7 @@ mosh
 node
 openssh
 python
-python3
+python@2
 ripgrep
 rsync
 screen

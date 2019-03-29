@@ -68,23 +68,9 @@ install_powerline_fonts() {
 }
 
 install_dotfiles() {
-	local TARGET_SCRIPT
 	echo -n "Copying base dotfiles... "
 	rsync -a "$DOTFILES/install-files/files/" ~/
 	ok
-
-	if [[ ! -z "$target" ]]; then
-		TARGET_SCRIPT="$DOTFILES/install-files/per-target/$target-script"
-		echo -n "Copying $target config... "
-		rsync -a "$DOTFILES/install-files/per-target/$target/" ~/
-		ok
-
-		if [[ -f $TARGET_SCRIPT ]]; then
-			echo -n "Running $target script... "
-			"$TARGET_SCRIPT"
-			ok
-		fi
-	fi
 }
 
 install_nvm() {
@@ -181,17 +167,7 @@ install_pyenv() {
 }
 
 create_package_list() {
-	local TARGET_PACKAGES
-
-	if [[ $RELEASE != false ]]; then
-		PACINST=$(cat "$DOTFILES/install-files/$RELEASE/packages")
-		if [[ ! -z "$target" ]]; then
-			TARGET_PACKAGES="$DOTFILES/install-files/per-target/$target-packages"
-			if [[ -f  $TARGET_PACKAGES ]]; then
-				PACINST="$PACINST $(cat "$TARGET_PACKAGES")"
-			fi
-		fi
-	fi
+	PACINST=$(cat "$DOTFILES/install-files/$RELEASE/packages")
 }
 
 run_custom_install_scripts() {
@@ -206,10 +182,10 @@ run_custom_install_scripts() {
 install_packages_meta() {
 	echo "Verifying required packages are installed."
 	case $RELEASE in
-		'Arch') install_packages_arch ;;
-		'Debian'|'Ubuntu'|'Raspbian') install_packages_debian ;;
-		'Mac') install_packages_mac ;;
-		'Amazon') install_packages_amazon ;;
+		'Arch') install_command=install_packages_arch ;;
+		'Debian'|'Ubuntu'|'Raspbian') install_command=install_packages_debian ;;
+		'Mac') install_command=install_packages_mac ;;
+		'Amazon') install_command=install_packages_amazon ;;
 		*)
 			cat <<-EOF
 			You are not using a supported distro; package installation has been enabled, but cannot proceed.
@@ -217,8 +193,12 @@ install_packages_meta() {
 			Press enter to continue anyway, or ctrl+c to cancel
 			EOF
 			read -r
+			return
 			;;
 	esac
+
+	create_package_list
+	$install_command
 }
 
 install_homebrew() {
@@ -458,30 +438,6 @@ change_shell() {
 	ok
 }
 
-set_targets() {
-	if [[ -n $target ]]; then
-		for i in $(get_targets); do
-			[[ $target == "$i" ]] && found_target=true
-		done
-		if [[ -z $found_target ]]; then
-			echo "Target $target not found! Aborting."
-			exit 1
-		fi
-	else
-		if [[ $HOSTNAME =~ ^dev-dsk ]]; then
-			target=dev-dsk
-		fi
-
-		if [[ $(uname -m) =~ arm ]]; then
-			target=arm
-		fi
-	fi
-}
-
-get_targets() {
-	echo -n $(cd "$DOTFILES/install-files/per-target"; ls -d ./*/ | sed 's#/$##;s#^./##' | tr '\n' ' ')
-}
-
 usage() {
 	cat <<-EOF
 	usage: $(basename "$0") options
@@ -493,7 +449,6 @@ usage() {
 	-s	Perform system changes, system level changes will be made (e.g. to /etc)
 	-n	No packages will be installed
 	-g	Enable GPG signing in git
-	-t	Target, can be one of: $(get_targets)
 	EOF
 }
 
@@ -504,21 +459,18 @@ elif [[ $UID != 0 ]]; then
     exit 1
 fi
 
-while getopts ":hnsgt:" OPTION; do
+while getopts ":hnsg" OPTION; do
 	case $OPTION in
 		h) usage;exit 0;;
 		n) nopackages=true;;
 		s) systemchanges=true;;
 		g) gpgsigning=true;;
-		t) target="$OPTARG";;
 		?) usage;exit 1;;
 	esac
 done
 shift $(( OPTIND -1 ))
 
 trap cleanup EXIT SIGINT SIGTERM
-set_targets
-create_package_list
 
 if [[ $nopackages != true ]]; then
 	install_packages_meta

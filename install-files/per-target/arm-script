@@ -1,4 +1,0 @@
-#!/bin/bash
-
-sed -i '/Valloric\/YouCompleteMe/d' ~/.vimrc
-sed -i '/g:jedi#completions_enabled/d' ~/.vimrc
