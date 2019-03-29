@@ -9,14 +9,12 @@ PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 enable -n echo
 
 # OS Detection / OS Specific variables
-TYPE=linux
 if [[ -f /etc/os-release ]]; then
 	RELEASE=$(grep '^NAME="' /etc/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
 elif [[ -f /usr/lib/os-release ]]; then
 	RELEASE=$(grep '^NAME="' /usr/lib/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
 elif uname -a|grep -qi darwin > /dev/null 2>&1; then
-	RELEASE="mac"
-	TYPE=mac
+	RELEASE="Mac"
 else
 	RELEASE="false"
 	echo "Unable to detect OS correctly, assuming some sort of Linux..."
@@ -115,7 +113,6 @@ install_scripts() {
 	mkdir -p "$HOME/.local/bin"
 	mkdir -p "$HOME/.zsh-completion"
 	link_scripts scripts
-	link_scripts $TYPE-scripts
 	ok
 }
 
@@ -187,7 +184,7 @@ create_package_list() {
 	local TARGET_PACKAGES
 
 	if [[ $RELEASE != false ]]; then
-		PACINST=$(cat "$DOTFILES/install-files/$RELEASE-packages")
+		PACINST=$(cat "$DOTFILES/install-files/$RELEASE/packages")
 		if [[ ! -z "$target" ]]; then
 			TARGET_PACKAGES="$DOTFILES/install-files/per-target/$target-packages"
 			if [[ -f  $TARGET_PACKAGES ]]; then
@@ -198,7 +195,7 @@ create_package_list() {
 }
 
 run_custom_install_scripts() {
-	local script="$DOTFILES/install-files/${RELEASE}-custom-install-script"
+	local script="$DOTFILES/install-files/${RELEASE}/install-script"
 	if [[ $RELEASE != false ]] && [[ -x $script ]]; then
 		echo -n "Running custom scripts for $RELEASE..."
 		bash "$script"
@@ -211,14 +208,13 @@ install_packages_meta() {
 	case $RELEASE in
 		'Arch') install_packages_arch ;;
 		'Debian'|'Ubuntu'|'Raspbian') install_packages_debian ;;
-		'mac') install_packages_mac ;;
+		'Mac') install_packages_mac ;;
 		'Amazon') install_packages_amazon ;;
 		*)
 			cat <<-EOF
-			You are not using a supported distro; You may have to install some of the following manually:
-			$(cat "$DOTFILES/install-files/"*packages)
+			You are not using a supported distro; package installation has been enabled, but cannot proceed.
 
-			Once you have; press enter to continue
+			Press enter to continue anyway, or ctrl+c to cancel
 			EOF
 			read -r
 			;;
@@ -280,6 +276,7 @@ install_packages_mac_gnu_symlinks() {
 			ln -sf "$binary" "$gnubin/${binary##*/}"
 		done
 	done
+	ok
 }
 
 install_packages_debian() {
@@ -443,7 +440,7 @@ change_shell() {
 	local setshell=0
 	local newshell=zsh
 	echo -n "Changing shell to $newshell "
-	if [[ $TYPE == 'mac' ]]; then
+	if [[ $RELEASE == 'Mac' ]]; then
 		if ! finger "$USER" | grep -q "Shell.*$newshell"; then
 			setshell=1
 		fi
