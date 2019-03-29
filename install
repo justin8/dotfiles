@@ -204,10 +204,6 @@ run_custom_install_scripts() {
 		bash "$script"
 		ok
 	fi
-
-	echo -n "Running custom scripts... "
-	bash "$DOTFILES/install-files/custom-install-script"
-	ok
 }
 
 install_packages_meta() {
