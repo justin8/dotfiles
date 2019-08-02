@@ -15,6 +15,9 @@ elif [[ -f /usr/lib/os-release ]]; then
 	RELEASE=$(grep '^NAME="' /usr/lib/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
 elif uname -a|grep -qi darwin > /dev/null 2>&1; then
 	RELEASE="Mac"
+elif [[ -f /etc/redhat-release ]]; then
+	# Probably old ass RHEL5 or AL2012 if it doesn't have /etc/os-release
+	RELEASE=Amazon
 else
 	RELEASE="false"
 	echo "Unable to detect OS correctly, assuming some sort of Linux..."
