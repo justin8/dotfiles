@@ -132,6 +132,13 @@ if [[ -e $HOME/.pyenv ]]; then
 		pip3 "$@"
 	}
 
+	aws() {
+		echo "🚨 pyenv not loaded! Loading now..."
+		unset -f aws
+		eval "$(pyenv init -)"
+		aws "$@"
+	}
+
 	# Wrappers for virtualenv wrapper to load on-demand only
 	mkvirtualenv() {
 		unset -f mkvirtualenv
