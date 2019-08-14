@@ -91,14 +91,15 @@ if [[ -e $HOME/.pyenv ]]; then
 	}
 
 	eval "$(
-	for i in ipython python python2 python3 pip pip2 pip3 aws ansible ansible-playbook; do
+	for i in $PYENV_ROOT/shims/*; do
+		binary="${i#*pyenv/shims/}"
 		cat <<-EOF
-		$i() {
+		$binary() {
 			if [[ \$(type pyenv) =~ "Loading now" ]] || [[ \$(type pyenv) =~ "sharedrc" ]]; then
 				eval "\$(pyenv init -)"
 			fi
-			unset -f $i
-			$i \$@
+			unset -f $binary
+			$binary \$@
 		}
 		EOF
 	done)"
