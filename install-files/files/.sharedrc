@@ -91,7 +91,7 @@ if [[ -e $HOME/.pyenv ]]; then
 	}
 
 	eval "$(
-	for i in ipython python python2 python3 pip pip2 pip3 aws; do
+	for i in ipython python python2 python3 pip pip2 pip3 aws ansible ansible-playbook; do
 		cat <<-EOF
 		$i() {
 			if [[ \$(type pyenv) =~ "Loading now" ]] || [[ \$(type pyenv) =~ "sharedrc" ]]; then
