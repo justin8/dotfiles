@@ -166,6 +166,7 @@ install_pyenv() {
 	echo -n "Installing/updating pyenv... "
 	git_update "https://github.com/pyenv/pyenv.git" "$HOME/.pyenv"
 	git_update "https://github.com/yyuu/pyenv-virtualenvwrapper.git" "$HOME/.pyenv/plugins/pyenv-virtualenvwrapper"
+	git_update "https://github.com/pyenv/pyenv-doctor.git" "$HOME/.pyenv/plugins/pyenv-doctor"
 	ok
 }
 
