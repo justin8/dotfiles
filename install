@@ -215,8 +215,7 @@ install_homebrew() {
 }
 
 configure_homebrew() {
-	# Nothing to do here currently
-	echo >/dev/null
+	brew tap aws/tap
 }
 
 install_packages_mac() {
