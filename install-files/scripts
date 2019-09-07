@@ -1,6 +1,7 @@
+assume-role
+create-chart
 gh
 jsoncurl
 quickfix
 ssh-clean
 vcat
-create-chart
