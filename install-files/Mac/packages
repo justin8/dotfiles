@@ -1,4 +1,4 @@
-aws-sam-cli
+aws/tap/aws-sam-cli
 bash
 cmake
 coreutils
