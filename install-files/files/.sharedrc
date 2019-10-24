@@ -36,6 +36,9 @@ export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
 # Add RVM to PATH
 export PATH="$PATH:$HOME/.rvm/bin"
 
+# Add Rust cargo to PATH
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # Add linuxbrew to path
 if [[ -e /home/linuxbrew/.linuxbrew ]]; then
 	eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
