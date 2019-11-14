@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
-DOTFILES=$(cd "$(dirname "$0")";pwd)
+DOTFILES=$(
+	cd "$(dirname "$0")"
+	pwd
+)
 
 # TODO: Change to using tput for colours instead of echo -e for OS X (copy from securenotes)
 
@@ -13,7 +16,7 @@ if [[ -f /etc/os-release ]]; then
 	RELEASE=$(grep '^NAME="' /etc/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
 elif [[ -f /usr/lib/os-release ]]; then
 	RELEASE=$(grep '^NAME="' /usr/lib/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
-elif uname -a|grep -qi darwin > /dev/null 2>&1; then
+elif uname -a | grep -qi darwin >/dev/null 2>&1; then
 	RELEASE="Mac"
 elif [[ -f /etc/redhat-release ]]; then
 	# Probably old ass RHEL5 or AL2012 if it doesn't have /etc/os-release
@@ -37,10 +40,10 @@ failed() {
 }
 
 check() {
-case $1 in
+	case $1 in
 	0) ok ;;
 	*) failed ;;
-esac
+	esac
 }
 
 cleanup() {
@@ -51,22 +54,32 @@ cleanup() {
 systemctl() {
 	local task=$1
 	local service=$2
-	if which systemctl > /dev/null 2>&1; then
-	    $sudo systemctl $task $service
-	elif which service > /dev/null 2>&1; then
-	    $sudo service $service $task
+	if which systemctl >/dev/null 2>&1; then
+		$sudo systemctl $task $service
+	elif which service >/dev/null 2>&1; then
+		$sudo service $service $task
 	fi
 	# Need to detect/restart service on OS X
 }
 
+install_extra_fonts() {
+	install_powerline_fonts
+	install_sf_mono_fonts
+}
+
 install_powerline_fonts() {
 	echo -n "Installing powerline fonts... "
-	if [[ -d $DOTFILES/.powerline-fonts ]]; then
-		(cd "$DOTFILES/.powerline-fonts" && git pull &>/dev/null)
-	else
-		git clone https://github.com/powerline/fonts.git "$DOTFILES/.powerline-fonts" &>/dev/null
+	git_update https://github.com/powerline/fonts.git "$DOTFILES/.powerline-fonts"
+	"$DOTFILES/.powerline-fonts/install.sh" &>/dev/null
+	ok
+}
+
+install_sf_mono_fonts() {
+	echo -n "Installing SF-Mono-Powerline fonts..."
+	git_update https://github.com/Twixes/SF-Mono-Powerline "$DOTFILES/.SF-Mono-Powerline"
+	if [[ $RELEASE == Mac ]]; then
+		rsync -r "$DOTFILES/.SF-Mono-Powerline"/*.otf "$HOME/Library/Fonts/"
 	fi
-	"$DOTFILES/.powerline-fonts/install.sh" &> /dev/null
 	ok
 }
 
@@ -89,11 +102,7 @@ install_nvm() {
 
 update_scripts() {
 	echo -n "Updating scripts... "
-	if [[ -d $DOTFILES/.scripts ]]; then
-		(cd "$DOTFILES/.scripts" && git pull &>/dev/null)
-	else
-		git clone https://github.com/justin8/scripts.git "$DOTFILES/.scripts" &>/dev/null
-	fi
+	git_update https://github.com/justin8/scripts.git "$DOTFILES/.scripts"
 	ok
 }
 
@@ -111,7 +120,7 @@ link_scripts() {
 	while read -r script; do
 		script_path="$DOTFILES/.scripts/$script"
 		ln -sf "$script_path" "$HOME/.local/bin/${script##*/}"
-	done < "$DOTFILES/install-files/$1"
+	done <"$DOTFILES/install-files/$1"
 }
 
 configure_gitconfig() {
@@ -186,19 +195,19 @@ run_custom_install_scripts() {
 install_packages_meta() {
 	echo "Verifying required packages are installed."
 	case $RELEASE in
-		'Arch') install_command=install_packages_arch ;;
-		'Debian'|'Ubuntu'|'Raspbian') install_command=install_packages_debian ;;
-		'Mac') install_command=install_packages_mac ;;
-		'Amazon') install_command=install_packages_amazon ;;
-		*)
-			cat <<-EOF
+	'Arch') install_command=install_packages_arch ;;
+	'Debian' | 'Ubuntu' | 'Raspbian') install_command=install_packages_debian ;;
+	'Mac') install_command=install_packages_mac ;;
+	'Amazon') install_command=install_packages_amazon ;;
+	*)
+		cat <<-EOF
 			You are not using a supported distro; package installation has been enabled, but cannot proceed.
-
+			
 			Press enter to continue anyway, or ctrl+c to cancel
-			EOF
-			read -r
-			return
-			;;
+		EOF
+		read -r
+		return
+		;;
 	esac
 
 	create_package_list
@@ -278,7 +287,7 @@ install_packages_arch() {
 	if ! which vim &>/dev/null; then
 		# Only install if it isn't already there. gvim adds +X11 config to the build,
 		# but also a ton of X deps, so we don't want it on a headless machine
-		pacman -S --noconfirm --noprogress --needed vim &> /dev/null
+		pacman -S --noconfirm --noprogress --needed vim &>/dev/null
 	fi
 	$sudo pacman -Sy --noprogress --needed --noconfirm $PACINST &>/dev/null
 	rc=$?
@@ -287,9 +296,9 @@ install_packages_arch() {
 
 	if [[ $rc != 0 ]]; then
 		cat <<-EOF
-		An error has occurred while installing required packages!
-		Please try to install the following packages manually:
-		$PACINST
+			An error has occurred while installing required packages!
+			Please try to install the following packages manually:
+			$PACINST
 		EOF
 		if [[ $(uname -m) == 'x86_64' ]]; then
 			exit 1
@@ -301,7 +310,7 @@ install_packages_arch() {
 
 install_packages_amazon() {
 	echo "OS appears to be Amazon Linux..."
-	
+
 	echo -n "Installing required packages..."
 	$sudo yum install -y $PACINST &>/dev/null
 	ok
@@ -320,7 +329,7 @@ configure_sshd() {
 			if grep -q "AcceptEnv" $sshd_config; then
 				$sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
 			else
-				echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config > /dev/null
+				echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config >/dev/null
 			fi
 			ok
 
@@ -335,7 +344,7 @@ configure_sudoers() {
 	if [[ -d /etc/sudoers.d ]]; then
 		if ! sudo test -f /etc/sudoers.d/patched-fonts; then
 			echo -n "Applying sudoers config... "
-			echo -e 'Defaults\tenv_keep += "SSH_TTY"\nDefaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee /etc/sudoers.d/patched-fonts > /dev/null
+			echo -e 'Defaults\tenv_keep += "SSH_TTY"\nDefaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee /etc/sudoers.d/patched-fonts >/dev/null
 			ok
 		fi
 	fi
@@ -348,14 +357,14 @@ configure_ssh_client() {
 		mkdir "$HOME/.ssh"
 		chmod 700 "$HOME/.ssh"
 	fi
-	if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'SendEnv IHAVEPATCHEDFONTS' "$HOME/.ssh/config" &> /dev/null; then
+	if ! [[ -e "$HOME/.ssh/config" ]] || ! grep -q 'SendEnv IHAVEPATCHEDFONTS' "$HOME/.ssh/config" &>/dev/null; then
 		if [[ -f $HOME/.ssh/config ]]; then
 			orig_ssh_config=$(cat "$HOME/.ssh/config")
 		else
 			orig_ssh_config=""
 		fi
-		echo "SendEnv IHAVEPATCHEDFONTS" > "$HOME/.ssh/config"
-		echo "$orig_ssh_config" >> "$HOME/.ssh/config"
+		echo "SendEnv IHAVEPATCHEDFONTS" >"$HOME/.ssh/config"
+		echo "$orig_ssh_config" >>"$HOME/.ssh/config"
 		chmod 0600 "$HOME/.ssh/config"
 	fi
 
@@ -374,13 +383,13 @@ configure_ssh_client() {
 
 configure_rc_addon() {
 	echo -n "Configuring zshrc-addon... "
-	touch ~/.{zsh,shared}rc-addon > /dev/null
+	touch ~/.{zsh,shared}rc-addon >/dev/null
 	if ! grep -qE 'SSH_TTY' ~/.zshrc-addon; then
-		cat <<-EOF > ~/.zshrc-addon
-
-		if [[ -z \$SSH_TTY ]] && [[ \$TERM != linux ]]; then
-			export IHAVEPATCHEDFONTS=1
-		fi
+		cat <<-EOF >~/.zshrc-addon
+			
+					if [[ -z \$SSH_TTY ]] && [[ \$TERM != linux ]]; then
+						export IHAVEPATCHEDFONTS=1
+					fi
 		EOF
 	fi
 	ok
@@ -389,6 +398,7 @@ configure_rc_addon() {
 configure_oh_my_zsh() {
 	echo -n "Configuring oh-my-zsh... "
 	git_update "https://github.com/robbyrussell/oh-my-zsh.git" "$HOME/.oh-my-zsh"
+	git_update "https://github.com/romkatv/powerlevel10k.git" "$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
 	ok
 }
 
@@ -397,10 +407,10 @@ git_update() {
 	dest="$2"
 	if [[ -d "$dest" ]]; then
 		cd "$dest"
-		git reset --hard origin/master > /dev/null 2>&1
-		git pull > /dev/null 2>&1
+		git reset --hard origin/master >/dev/null 2>&1
+		git pull >/dev/null 2>&1
 	else
-		git clone "$repo" "$dest" > /dev/null 2>&1
+		git clone "$repo" "$dest" >/dev/null 2>&1
 	fi
 }
 
@@ -408,13 +418,7 @@ configure_oh_my_zsh_plugins() {
 	echo -n "Configuring oh-my-zsh plugins... "
 	for plugin in zsh-users/zsh-syntax-highlighting; do
 		plugindir="$HOME/.oh-my-zsh/custom/plugins/${plugin#*/}"
-		if [[ -d $plugindir ]]; then
-			cd "$plugindir"
-			git reset --hard origin/master > /dev/null 2>&1
-			git pull > /dev/null 2>&1
-		else
-			git clone https://github.com/${plugin}.git "$plugindir" > /dev/null 2>&1
-		fi
+		git_update https://github.com/${plugin}.git "$plugindir"
 	done
 	ok
 }
@@ -434,7 +438,7 @@ change_shell() {
 	fi
 
 	if [[ $setshell == 1 ]]; then
-		if which $newshell > /dev/null; then
+		if which $newshell >/dev/null; then
 			$sudo chsh -s "$(which $newshell)" "$USER"
 		fi
 	fi
@@ -443,35 +447,41 @@ change_shell() {
 
 usage() {
 	cat <<-EOF
-	usage: $(basename "$0") options
-
-	This script will install config dotfiles for the current user and alter some minor system-level settings
-
-	OPTIONS:
-	-h	Show this help
-	-s	Perform system changes, system level changes will be made (e.g. to /etc)
-	-n	No packages will be installed
-	-g	Enable GPG signing in git
+		usage: $(basename "$0") options
+		
+		This script will install config dotfiles for the current user and alter some minor system-level settings
+		
+		OPTIONS:
+		-h	Show this help
+		-s	Perform system changes, system level changes will be made (e.g. to /etc)
+		-n	No packages will be installed
+		-g	Enable GPG signing in git
 	EOF
 }
 
-if which sudo > /dev/null 2>&1; then
-    sudo=sudo
+if which sudo >/dev/null 2>&1; then
+	sudo=sudo
 elif [[ $UID != 0 ]]; then
-    echo "This script requires either sudo or root"
-    exit 1
+	echo "This script requires either sudo or root"
+	exit 1
 fi
 
 while getopts ":hnsg" OPTION; do
 	case $OPTION in
-		h) usage;exit 0;;
-		n) nopackages=true;;
-		s) systemchanges=true;;
-		g) gpgsigning=true;;
-		?) usage;exit 1;;
+	h)
+		usage
+		exit 0
+		;;
+	n) nopackages=true ;;
+	s) systemchanges=true ;;
+	g) gpgsigning=true ;;
+	?)
+		usage
+		exit 1
+		;;
 	esac
 done
-shift $(( OPTIND -1 ))
+shift $((OPTIND - 1))
 
 trap cleanup EXIT SIGINT SIGTERM
 
@@ -485,7 +495,7 @@ if [[ $systemchanges == true ]]; then
 fi
 
 configure_ssh_client
-install_powerline_fonts
+install_extra_fonts
 configure_gitconfig
 install_nvm
 install_dotfiles
@@ -499,5 +509,5 @@ configure_oh_my_zsh_plugins
 change_shell
 run_custom_install_scripts
 
-echo "If you want local terminals to not use the agnoster theme, disable the font configuration in ~/.zshrc-addon"
+echo "If you want local terminals to not use the a powerline-enabled theme, disable the font configuration in ~/.zshrc-addon"
 trap - EXIT SIGINT SIGTERM
