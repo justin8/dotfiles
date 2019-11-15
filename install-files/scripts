@@ -2,6 +2,7 @@ assume-role
 create-chart
 gh
 jsoncurl
+proton
 quickfix
 ssh-clean
 vcat
