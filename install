@@ -9,6 +9,7 @@ DOTFILES=$(
 
 # Hacky shit to make OS X work like an actual unix system
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+SED=sed
 enable -n echo
 
 # OS Detection / OS Specific variables
@@ -18,6 +19,7 @@ elif [[ -f /usr/lib/os-release ]]; then
 	RELEASE=$(grep '^NAME="' /usr/lib/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
 elif uname -a | grep -qi darwin >/dev/null 2>&1; then
 	RELEASE="Mac"
+	SED=gsed
 elif [[ -f /etc/redhat-release ]]; then
 	# Probably old ass RHEL5 or AL2012 if it doesn't have /etc/os-release
 	RELEASE=Amazon
@@ -327,7 +329,7 @@ configure_sshd() {
 			ok
 		else
 			if grep -q "AcceptEnv" $sshd_config; then
-				$sudo sed -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
+				$sudo $SED -i '/^AcceptEnv/ s/$/ IHAVEPATCHEDFONTS/' $sshd_config
 			else
 				echo "AcceptEnv IHAVEPATCHEDFONTS" | $sudo tee -a $sshd_config >/dev/null
 			fi
