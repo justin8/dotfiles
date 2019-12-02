@@ -45,9 +45,7 @@ if [[ -e /home/linuxbrew/.linuxbrew ]]; then
 fi
 
 # Use NVM if it is installed
-READLINK=readlink
-which greadlink &>/dev/null && READLINK=greadlink
-export NVM_DIR="$($READLINK -f "$HOME/.nvm")"
+export NVM_DIR="$(realpath "$HOME/.nvm")"
 
 if [[ -e $NVM_DIR ]]; then
 	load_nvm(){
