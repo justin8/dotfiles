@@ -49,33 +49,31 @@ export NVM_DIR="$(realpath "$HOME/.nvm")"
 
 if [[ -e $NVM_DIR ]]; then
 	load_nvm(){
-		echo "nvm not loaded! Loading now..." >&2
+		unset -f nvm
 		[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 	}
 
 	nvm(){
 		if [[ $(type nvm) =~ "load_nvm" ]] || [[ $(type nvm) =~ "sharedrc" ]]; then
-			unset -f nvm
 			load_nvm
 		fi
 		nvm "$@"
 	}
 
-	node(){
-		unset -f node
-		if [[ $(type nvm) =~ "load_nvm" ]] || [[ $(type nvm) =~ "sharedrc" ]]; then
-			load_nvm
-		fi
-		node "$@"
-	}
-
-	npm(){
-		unset -f npm
-		if [[ $(type nvm) =~ "load_nvm" ]] || [[ $(type nvm) =~ "sharedrc" ]]; then
-			load_nvm
-		fi
-		npm "$@"
-	}
+	node_version="$(cat $HOME/.nvm/alias/default)"
+	eval "$(
+	for i in $NVM_DIR/versions/node/*${node_version}*/bin/*; do
+		binary="${i#*bin/}"
+		cat <<-EOF
+		$binary() {
+			if [[ \$(type nvm) =~ "load_nvm" ]] || [[ \$(type nvm) =~ "sharedrc" ]]; then
+				load_nvm
+			fi
+			unset -f $binary
+			$binary \$@
+		}
+		EOF
+	done)"
 fi
 
 # Enable python virtualenvs
@@ -85,7 +83,6 @@ if [[ -e $HOME/.pyenv ]]; then
 	export WORKON_HOME=$HOME/.virtualenvs
 
 	pyenv() {
-		echo "pyenv not loaded! Loading now..." >&2
 		unset -f pyenv
 		eval "$(pyenv init -)"
 		pyenv "$@"
