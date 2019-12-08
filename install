@@ -67,6 +67,7 @@ systemctl() {
 install_extra_fonts() {
 	install_powerline_fonts
 	install_sf_mono_fonts
+	install_custom_fonts
 }
 
 install_powerline_fonts() {
@@ -82,6 +83,16 @@ install_sf_mono_fonts() {
 	if [[ $RELEASE == Mac ]]; then
 		rsync -r "$DOTFILES/.SF-Mono-Powerline"/*.otf "$HOME/Library/Fonts/"
 	fi
+	ok
+}
+
+install_custom_fonts() {
+	echo -n "Installing custom fonts..."
+	FONT_DIR="$HOME/.local/share/fonts"
+	if [[ $RELEASE == "Mac" ]]; then
+		FONT_DIR="$HOME/Library/Fonts"
+	fi
+	rsync -a "$DOTFILES/install-files/fonts/" "$FONT_DIR/"
 	ok
 }
 

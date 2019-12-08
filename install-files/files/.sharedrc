@@ -136,3 +136,7 @@ NIX_PATH="$HOME/.nix-profile/etc/profile.d/nix.sh"
 if [[ -e $NIX_PATH ]]; then
 	. $NIX_PATH
 fi
+
+# tabtab source for packages
+# uninstall by removing these lines
+[ -f ~/.config/tabtab/__tabtab.bash ] && . ~/.config/tabtab/__tabtab.bash || true
