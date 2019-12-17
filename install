@@ -357,7 +357,7 @@ configure_sudoers() {
 	if [[ -d /etc/sudoers.d ]]; then
 		if ! sudo test -f /etc/sudoers.d/patched-fonts; then
 			echo -n "Applying sudoers config... "
-			echo -e 'Defaults\tenv_keep += "SSH_TTY"\nDefaults\tenv_keep += "IHAVEPATCHEDFONTS"' | $sudo tee /etc/sudoers.d/patched-fonts >/dev/null
+			sudo bash -c "echo -e 'Defaults\tenv_keep += \"SSH_TTY\"\nDefaults\tenv_keep += \"IHAVEPATCHEDFONTS\"' > /etc/sudoers.d/patched-fonts"
 			ok
 		fi
 	fi
