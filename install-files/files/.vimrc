@@ -80,6 +80,9 @@ if has('autocmd')
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
+" Disable mouse selection
+set mouse-=a
+
 " Make vim work on a mac
 nmap <Esc>b <S-Left>
 nmap <Esc>f <S-Right>
