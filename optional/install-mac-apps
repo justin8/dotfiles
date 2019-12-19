@@ -1,16 +1,20 @@
 #!/bin/bash
 
 apps=(
-	iterm2
-	fantastical
 	authy
-	spectacle
-	spotify
+	caprine
 	copyclip
+	fantastical
 	firefox
 	google-drive-file-stream
-	visual-studio-code
+	iterm2
 	notion
+	omnifocus
+	spectacle
+	spotify
+	slack
+	sublime-text
+	visual-studio-code
 )
 
 work_apps=(
