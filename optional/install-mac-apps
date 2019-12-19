@@ -10,6 +10,7 @@ apps=(
 	firefox
 	google-drive-file-stream
 	visual-studio-code
+	notion
 )
 
 work_apps=(
