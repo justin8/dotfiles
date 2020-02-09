@@ -3,9 +3,7 @@ cmake
 ctags
 curl
 git
-golang
 jq
-jruby
 libbz2-dev
 libncurses5-dev
 libncursesw5-dev
@@ -14,7 +12,6 @@ libsqlite3-dev
 libssl-dev
 llvm
 make
-mercurial
 python
 python-flake8
 python-pip
