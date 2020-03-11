@@ -119,6 +119,13 @@ update_scripts() {
 	ok
 }
 
+update_fzf() {
+	echo -n "Updating fzf... "
+	git_update https://github.com/junegunn/fzf.git "$DOTFILES/.fzf"
+	"$DOTFILES/.fzf/install" --all &>/dev/null
+	ok
+}
+
 install_scripts() {
 	echo -n "Configuring scripts... "
 	mkdir -p "$HOME/.local/bin"
@@ -512,6 +519,7 @@ install_extra_fonts
 configure_gitconfig
 install_nvm
 install_dotfiles
+update_fzf
 update_scripts
 install_scripts
 install_pyenv
