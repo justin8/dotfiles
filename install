@@ -102,6 +102,12 @@ install_dotfiles() {
 	ok
 }
 
+init_ipython_profile() {
+	echo -n "Initializing iPython profile... "
+	ipython profile create &>/dev/null
+	ok
+}
+
 install_nvm() {
 	echo -n "Installing nvm... "
 	if [[ ! -e $HOME/.nvm ]]; then
@@ -518,6 +524,7 @@ configure_ssh_client
 install_extra_fonts
 configure_gitconfig
 install_nvm
+init_ipython_profile
 install_dotfiles
 update_fzf
 update_scripts
