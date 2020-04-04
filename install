@@ -136,7 +136,7 @@ install_scripts() {
 	echo -n "Configuring scripts... "
 	mkdir -p "$HOME/.local/bin"
 	mkdir -p "$HOME/.zsh-completion"
-	link_scripts scripts
+	link_scripts
 	ok
 }
 
@@ -146,7 +146,7 @@ link_scripts() {
 	while read -r script; do
 		script_path="$DOTFILES/.scripts/$script"
 		ln -sf "$script_path" "$HOME/.local/bin/${script##*/}"
-	done <"$DOTFILES/install-files/$1"
+	done <"$DOTFILES/install-files/scripts"
 }
 
 configure_gitconfig() {
