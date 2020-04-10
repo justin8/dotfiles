@@ -103,9 +103,18 @@ install_dotfiles() {
 }
 
 init_ipython_profile() {
+	install_ipython
 	echo -n "Initializing iPython profile... "
 	ipython profile create &>/dev/null
 	ok
+}
+
+install_ipython() {
+	if ! which ipython &>/dev/null; then
+		echo -n "Installing iPython... "
+		pip install ipython &>/dev/null
+		ok
+	fi
 }
 
 install_nvm() {
