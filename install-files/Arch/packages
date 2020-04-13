@@ -3,12 +3,8 @@ cmake
 ctags
 flake8
 git
-go
 jq
-jruby
-keybase
 llvm
-mercurial
 perl-yaml
 python-pip
 python-virtualenvwrapper

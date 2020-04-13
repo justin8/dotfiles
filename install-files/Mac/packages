@@ -14,14 +14,12 @@ gnu-sed
 gnu-tar
 gnu-which
 gnutls
-go
 gpg
 grep
 gzip
 jq
 less
 make
-mercurial
 node
 openssh
 python
