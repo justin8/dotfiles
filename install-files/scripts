@@ -1,9 +1,0 @@
-assume-role
-create-chart
-gh
-jsoncurl
-proton
-proton-winetricks
-quickfix
-ssh-clean
-vcat
