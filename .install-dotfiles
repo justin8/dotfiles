@@ -1,0 +1,20 @@
+#!/bin/bash
+
+REPO="https://github.com/justin8/dotfiles.git"
+
+git_update() {
+    repo="$1"
+    dest="$2"
+    if [[ -d "$dest" ]]; then
+        cd "$dest"
+        git reset --hard origin/master >/dev/null 2>&1
+        git pull >/dev/null 2>&1
+    else
+        git clone "$repo" "$dest" >/dev/null 2>&1
+    fi
+}
+
+git_update "https://github.com/TheLocehiliosan/yadm.git" "$HOME/.yadm"
+mkdir -p "$HOME/.local/bin"
+ln -sf "$HOME/.yadm/yadm" "$HOME/.local/bin"
+"$HOME/.local/bin/yadm" clone "$REPO" --bootstrap

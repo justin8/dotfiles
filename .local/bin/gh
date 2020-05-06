@@ -1,0 +1,22 @@
+#!/bin/bash
+https=''
+
+if [[ $1 =~ --https? ]]; then
+	shift
+	https=1
+fi
+
+if [[ -z $1 ]]; then
+	echo -e '\e[31;1mError\e[0m: No github URL provided'
+	exit 1
+fi
+
+if [[ -n $https ]]; then
+	url="https://github.com/$1"
+else
+	url="git@github.com:$1"
+fi
+
+shift
+
+git clone "$url" $@

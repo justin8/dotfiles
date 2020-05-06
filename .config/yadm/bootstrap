@@ -1,0 +1,234 @@
+#!/bin/bash
+
+cd "$HOME"
+
+# This works correctly when called via 'yadm bootstrap' but not when used directly
+DOTFILES=$(
+    cd "$(dirname "$0")"
+    pwd
+)
+
+# OS Detection / OS Specific variables
+if [[ -f /etc/os-release ]]; then
+    RELEASE=$(grep '^NAME="' /etc/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
+elif [[ -f /usr/lib/os-release ]]; then
+    RELEASE=$(grep '^NAME="' /usr/lib/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
+elif uname -a | grep -qi darwin >/dev/null 2>&1; then
+    RELEASE="Mac"
+else
+    RELEASE="false"
+    echo "Unable to detect OS correctly, assuming some sort of Linux..."
+fi
+
+if [[ ! -d $DOTFILES ]]; then
+    echo "An error has occured while determining the current path. Exiting."
+    exit 1
+fi
+
+ok() {
+    if [[ $RELEASE == "Mac" ]]; then
+        if which gecho &>/dev/null; then
+            gecho -e "[ \e[1;32mOK\e[00m ]"
+        else
+            echo "[ OK ]"
+        fi
+    else
+        echo -e "[ \e[1;32mOK\e[00m ]"
+    fi
+}
+
+git_update() {
+    repo="$1"
+    dest="$2"
+    if [[ -d "$dest" ]]; then
+        cd "$dest"
+        git reset --hard origin/master >/dev/null 2>&1
+        git pull >/dev/null 2>&1
+    else
+        git clone "$repo" "$dest" >/dev/null 2>&1
+    fi
+}
+
+install_pyenv() {
+    echo -n "Installing pyenv... "
+    git_update "https://github.com/pyenv/pyenv.git" "$HOME/.pyenv"
+    git_update "https://github.com/yyuu/pyenv-virtualenvwrapper.git" "$HOME/.pyenv/plugins/pyenv-virtualenvwrapper"
+    git_update "https://github.com/pyenv/pyenv-doctor.git" "$HOME/.pyenv/plugins/pyenv-doctor"
+
+    # Put virtualenvwrapper on the path for pyenv
+    if [[ -e /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]; then
+        cp /usr/share/virtualenvwrapper/virtualenvwrapper_lazy.sh ~/.local/bin
+        cp /usr/share/virtualenvwrapper/virtualenvwrapper.sh ~/.local/bin
+        chmod +x ~/.local/bin/virtualenvwrapper*
+    fi
+
+    ok
+}
+
+install_packages_meta() {
+    echo "Verifying required packages are installed."
+    case $RELEASE in
+    'Debian' | 'Ubuntu' | 'Raspbian') install_command=install_packages_debian ;;
+    'Mac') install_command=install_packages_mac ;;
+    *)
+        cat <<-EOF
+			You are not using a supported distro; package installation has been enabled, but cannot proceed.
+			
+			Press enter to continue anyway, or ctrl+c to cancel
+		EOF
+        read -r
+        return
+        ;;
+    esac
+
+    $install_command
+}
+
+create_package_list() {
+    PACINST=$(cat "???")
+}
+
+install_packages_debian() {
+    echo "OS appears to be Debian/Ubuntu..."
+    PACINST=$(cat "$DOTFILES/packages.debian")
+
+    echo -n "Installing required packages..."
+    create_package_list
+    sudo apt-get install -y $PACINST &>/dev/null
+    ok
+}
+
+install_packages_mac() {
+    if ! which brew &>/dev/null; then
+        echo "Installing brew... "
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        sudo xcodebuild -license accept
+        brew doctor
+        brew bundle
+    fi
+}
+
+configure_iterm() {
+    if [[ -e "/Applications/iTerm.app" ]]; then
+        defaults write com.googlecode.iterm2 AlternateMouseScroll -bool true
+        defaults write com.googlecode.iterm2 FocusFollowsMouse -bool true
+    fi
+}
+
+update_submodules() {
+    yadm submodule update --recursive --init
+}
+
+install_fzf() {
+    "$DOTFILES/fzf/install" --all
+}
+
+install_nvm() {
+    echo -n "Installing nvm... "
+    if [[ ! -e $HOME/.nvm ]]; then
+        NVM_DIR_TEMP="$NVM_DIR"
+        unset NVM_DIR
+        curl -sSo- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash &>/dev/null
+        export NVM_DIR="$NVM_DIR_TEMP"
+    fi
+    ok
+}
+
+install_ipython() {
+    if ! which ipython &>/dev/null; then
+        echo -n "Installing iPython... "
+        pip install ipython &>/dev/null
+        ok
+    fi
+}
+
+install_fonts() {
+    echo -n "Installing SF-Mono-Powerline fonts..."
+    FONT_DIR="$HOME/.local/share/fonts/"
+    [[ $RELEASE == Mac ]] && FONT_DIR="$HOME/Library/Fonts/"
+    rsync -r "$DOTFILES/SF-Mono-Powerline"/*.otf "$RELEASE"
+    ok
+}
+
+configure_gitconfig() {
+    echo -n "Configuring gitconfig... "
+    git config --global push.default current
+    git config --global color.ui auto
+    git config --global merge.conflictstyle diff3
+    git config --global core.editor vim
+    git config --global pull.rebase true
+    git config --global pull.autostash true
+    git config --global rebase.autostash true
+
+    # CodeCommit support
+    git config --global credential.helper '!aws codecommit credential-helper $@'
+    git config --global credential.UseHttpPath true
+    ok
+}
+
+configure_vim() {
+    mkdir -p ~/.local/tmp
+    install_vimplug
+    install_vim_plugins
+}
+
+install_vimplug() {
+    echo -n "Installing/updating vimplug... "
+    if [[ -f ~/.vim/autoload/plug.vim ]]; then
+        # Vim always seems to have a return of 1...
+        vim -esu ~/.vimrc +PlugUpgrade +qa || true
+    else
+        mkdir -p ~/.vim/autoload
+        curl -sSfLo ~/.vim/autoload/plug.vim \
+            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    fi
+    ok
+}
+
+install_vim_plugins() {
+    echo -n "Installing vim plugins... "
+    # Vim always seems to have a return of 1...
+    vim -esu ~/.vimrc +PlugClean! +PlugUpdate +qa || true
+    ok
+}
+
+configure_rc_addon() {
+    touch ~/.{zsh,shared}rc-addon
+}
+
+configure_oh_my_zsh() {
+    ln -s "$DOTFILES/oh-my-zsh/custom/themes/powerlevel10k" "$DOTFILES/powerlevel10k"
+}
+
+change_shell() {
+    local setshell=0
+    local newshell=zsh
+    echo -n "Changing shell to $newshell "
+    if [[ $RELEASE == 'Mac' ]]; then
+        if ! finger "$USER" | grep -q "Shell.*$newshell"; then
+            setshell=1
+        fi
+    else
+        if ! getent passwd "$USER" | grep -q $newshell; then
+            setshell=1
+        fi
+    fi
+
+    if [[ $setshell == 1 ]]; then
+        if which $newshell >/dev/null; then
+            $sudo chsh -s "$(which $newshell)" "$USER"
+        fi
+    fi
+    ok
+}
+
+install_packages_meta
+update_submodules
+install_fonts
+configure_gitconfig
+install_nvm
+install_fzf
+install_pyenv
+configure_vim
+configure_rc_addon
+change_shell

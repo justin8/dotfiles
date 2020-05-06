@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [ -z "$STEAMDIR" ]; then
+  STEAMDIR="/storage/SteamLibrary/steamapps"
+fi
+if [ -z "$PROTON_VERSION" ]; then
+  PROTON_VERSION="Proton 4.11"
+fi
+
+
+PROTON_DIR="${STEAMDIR}/common/${PROTON_VERSION}"
+PROTON_WINE_PATH="${PROTON_DIR}/dist/bin/wine64"
+
+if [[ ! -z "$KILL_WINE" ]]; then
+  # A bit hardcore, but whatever
+  wineserver -k; killall -9 wine wineserver; pkill -9 '.*\.exe'
+fi
+
+if [[ -z "$1" ]]; then
+  PROTON_PFX="${PROTON_DIR}/dist/share/default_pfx"
+  echo -e "\e[32m\e[1mUSING proton default environment\e[0m"
+else
+  PROTON_PFX="${STEAMDIR}/compatdata/${1}/pfx"
+  echo -e "\e[32m\e[1mUSING app specific environment for APPID: $1\e[0m"
+fi
+
+shift
+WINEESYNC=1 env WINEPREFIX="$PROTON_PFX" WINEPATH="$PROTON_WINE_PATH" "$PROTON_WINE_PATH" "$@"
