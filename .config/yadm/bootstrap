@@ -100,11 +100,13 @@ install_packages_debian() {
 
 install_packages_mac() {
     if ! which brew &>/dev/null; then
-        echo "Installing brew... "
+        echo "Installing brew..."
         ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         sudo xcodebuild -license accept
         brew doctor
-        brew bundle
+
+        echo "Installing brew packages..."
+        brew bundle --global
     fi
 }
 
