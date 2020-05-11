@@ -14,7 +14,7 @@ git_update() {
     fi
 }
 
-git_update "https://github.com/TheLocehiliosan/yadm.git" "$HOME/.yadm"
+git_update "https://github.com/TheLocehiliosan/yadm.git" "$HOME/.yadm-project"
 mkdir -p "$HOME/.local/bin"
-ln -sf "$HOME/.yadm/yadm" "$HOME/.local/bin"
+ln -sf "$HOME/.yadm-project/yadm" "$HOME/.local/bin"
 "$HOME/.local/bin/yadm" clone "$REPO" --bootstrap
