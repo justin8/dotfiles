@@ -62,6 +62,9 @@ install_pyenv() {
         chmod +x ~/.local/bin/virtualenvwrapper*
     fi
 
+    # Configure poetry while we're at it
+    poetry config virtualenvs.in-project true
+
     ok
 }
 
