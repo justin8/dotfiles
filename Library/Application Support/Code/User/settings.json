@@ -1,0 +1,24 @@
+{
+  "editor.formatOnSave": true,
+  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "editor.fontFamily": "MesloLGS NF",
+  "workbench.iconTheme": "vscode-icons",
+  "tslint.jsEnable": true,
+  "tslint.packageManager": "yarn",
+  "vsicons.dontShowNewVersionMessage": true,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "aws.samcli.location": "/usr/local/bin/sam",
+  "aws.profile": "justin",
+  "python.testing.nosetestsEnabled": true,
+  "python.linting.flake8Enabled": true,
+  "git.autofetch": true,
+  "python.linting.lintOnSave": true,
+  "python.jediEnabled": false,
+  "python.formatting.autopep8Args": [
+    "--max-line-length",
+    "120",
+    "--experimental"
+  ],
+  "python.formatting.provider": "autopep8"
+}
