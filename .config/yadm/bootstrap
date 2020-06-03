@@ -88,15 +88,14 @@ install_packages_meta() {
 }
 
 create_package_list() {
-    PACINST=$(cat "???")
+    PACINST=$(cat "$DOTFILES/packages.$1")
 }
 
 install_packages_debian() {
     echo "OS appears to be Debian/Ubuntu..."
-    PACINST=$(cat "$DOTFILES/packages.debian")
 
     echo -n "Installing required packages..."
-    create_package_list
+    create_package_list debian
     sudo apt-get install -y $PACINST &>/dev/null
     ok
 }
