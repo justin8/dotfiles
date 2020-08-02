@@ -62,8 +62,8 @@ install_pyenv() {
         chmod +x ~/.local/bin/virtualenvwrapper*
     fi
 
-    # Configure poetry while we're at it
-    poetry config virtualenvs.in-project true
+    # init pyenv
+    eval "$(pyenv init -)"
 
     ok
 }
@@ -138,12 +138,22 @@ install_nvm() {
     ok
 }
 
-install_ipython() {
+install_python_dev_dependencies() {
+    install_pyenv
     if ! which ipython &>/dev/null; then
         echo -n "Installing iPython... "
         pip install ipython &>/dev/null
         ok
     fi
+    if ! which poetry &>/dev/null; then
+        echo -n "Installing poetry... "
+        pip install poetry &>/dev/null
+        # Configure poetry while we're at it
+        poetry config virtualenvs.in-project true
+
+        ok
+    fi
+
 }
 
 install_fonts() {
@@ -232,7 +242,7 @@ install_fonts
 configure_gitconfig
 install_nvm
 install_fzf
-install_pyenv
+install_python_dev_dependencies
 configure_vim
 configure_rc_addon
 change_shell
