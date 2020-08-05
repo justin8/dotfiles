@@ -57,6 +57,7 @@ cask "spectacle"
 cask "spotify"
 cask "sublime-text"
 cask "visual-studio-code"
+cask "finicky"
 
 # App Store things
 brew "mas"
