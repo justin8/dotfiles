@@ -131,6 +131,20 @@ if [[ -e $HOME/.pyenv ]]; then
 
 fi
 
+# CDK helpers
+cdk-add() {
+	packages=""
+	for target in "$@"; do
+		packages+=" @aws-cdk/aws-$target"
+	done
+	echo "Adding: $packages"
+	if [[ $SHELL =~ zsh ]]; then
+		yarn add ${=packages}
+	else
+		yarn add $packages
+	fi
+}
+
 # Add ~/.bin to path
 export PATH=$HOME/.local/bin:$PATH
 
