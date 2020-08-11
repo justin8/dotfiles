@@ -119,6 +119,10 @@ configure_iterm() {
     fi
 }
 
+update_yadm() {
+    git_update "https://github.com/TheLocehiliosan/yadm.git" "$HOME/.yadm-project"
+}
+
 update_submodules() {
     yadm submodule update --recursive --init
 }
@@ -236,6 +240,7 @@ change_shell() {
     ok
 }
 
+update_yadm
 install_packages_meta
 update_submodules
 install_fonts
