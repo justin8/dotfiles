@@ -4,7 +4,7 @@
   "editor.fontFamily": "MesloLGS NF",
   "editor.suggestSelection": "first",
   "terminal.integrated.fontFamily": "MesloLGS NF",
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 0,
   "editor.formatOnSave": true,
   "python.linting.enabled": true,
   "python.formatting.provider": "black",
@@ -28,6 +28,7 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "tslint.jsEnable": true,
   "tslint.packageManager": "yarn",
+  "aws.samcli.location": "/usr/local/bin/sam",
   "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

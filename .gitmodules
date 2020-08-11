@@ -13,6 +13,3 @@
 [submodule ".config/yadm/fzf"]
 	path = .config/yadm/fzf
 	url = https://github.com/junegunn/fzf.git
-[submodule ".config/yadm/omz-plugins/powerlevel10k"]
-	path = .config/yadm/omz-plugins/powerlevel10k
-	url = https://github.com/romkatv/powerlevel10k.git
