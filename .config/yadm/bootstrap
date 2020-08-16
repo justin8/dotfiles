@@ -239,7 +239,7 @@ configure_rc_addon() {
 }
 
 configure_oh_my_zsh() {
-    ln -s "$DOTFILES/oh-my-zsh/custom/themes/powerlevel10k" "$DOTFILES/powerlevel10k"
+    ln -s "$DOTFILES/powerlevel10k" "$DOTFILES/oh-my-zsh/custom/themes/powerlevel10k"
 }
 
 change_shell() {
@@ -274,4 +274,5 @@ install_fzf
 install_python_dev_dependencies
 configure_vim
 configure_rc_addon
+configure_oh_my_zsh
 change_shell
