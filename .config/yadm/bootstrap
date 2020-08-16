@@ -100,6 +100,27 @@ create_package_list() {
     PACINST=$(cat "$DOTFILES/packages.$1")
 }
 
+install_aws_cli() {
+    echo "Installing AWS CLI..."
+
+    if ! which aws &>/dev/null; then
+        case $RELEASE in
+            'Mac')
+                (cd /tmp
+                curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+                sudo installer -pkg AWSCLIV2.pkg -target /)
+                ;;
+            *)
+                (cd /tmp
+                curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                unzip awscliv2.zip
+                sudo ./aws/install)
+                ;;
+        esac
+    fi
+    ok
+}
+
 install_packages_al2() {
     echo "OS appears to be Amazon Linux 2..."
 

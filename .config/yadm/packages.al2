@@ -4,6 +4,7 @@ cmake
 curl
 git
 jq
+libffi-devel
 llvm
 make
 openssl-devel
