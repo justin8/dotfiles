@@ -11,6 +11,14 @@ DOTFILES=$(
 # OS Detection / OS Specific variables
 if [[ -f /etc/os-release ]]; then
     RELEASE=$(grep '^NAME="' /etc/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
+    if [[ $RELEASE == Amazon ]]; then
+        VERSION=$(grep '^VERSION="' /etc/os-release | sed -E 's/VERSION="([0-9.]+)"/\1/')
+        if [[ $VERSION == 2 ]]; then
+            RELEASE=AL2
+        else
+            RELEASE=AL1
+        fi
+    fi
 elif [[ -f /usr/lib/os-release ]]; then
     RELEASE=$(grep '^NAME="' /usr/lib/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
 elif uname -a | grep -qi darwin >/dev/null 2>&1; then
@@ -72,6 +80,7 @@ install_packages_meta() {
     echo "Verifying required packages are installed."
     case $RELEASE in
     'Debian' | 'Ubuntu' | 'Raspbian') install_command=install_packages_debian ;;
+    'AL2') install_command=install_packages_al2 ;;
     'Mac') install_command=install_packages_mac ;;
     *)
         cat <<-EOF
@@ -89,6 +98,21 @@ install_packages_meta() {
 
 create_package_list() {
     PACINST=$(cat "$DOTFILES/packages.$1")
+}
+
+install_packages_al2() {
+    echo "OS appears to be Amazon Linux 2..."
+
+    echo -n "Installing required packages..."
+    create_package_list al2
+    sudo yum install -y $PACINST
+    install_package_groups_al2
+}
+
+install_package_groups_al2() {
+    echo -n "Installing required package groups..."
+    create_package_list al2-groups
+    IFS=$'\n' command eval 'for group in $PACINST; do sudo yum groupinstall -y $group; done'
 }
 
 install_packages_debian() {
