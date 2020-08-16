@@ -8,6 +8,7 @@ tap 'aws/tap'
 
 
 brew "aws/tap/aws-sam-cli"
+brew "awscurl"
 brew "bash"
 brew "cmake"
 brew "coreutils"
