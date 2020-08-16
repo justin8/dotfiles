@@ -11,6 +11,7 @@ openssl-libs
 readline-devel
 rsync
 sqlite-devel
+tmux
 vim-enhanced
 wget
 xz
