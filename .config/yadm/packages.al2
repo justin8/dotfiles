@@ -1,0 +1,11 @@
+cmake
+curl
+git
+jq
+llvm
+make
+rsync
+vim-enhanced
+wget
+xz
+zsh
