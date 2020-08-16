@@ -5,6 +5,7 @@ cask_args appdir: '/Applications'
 # taps
 tap 'homebrew/cask'
 tap 'aws/tap'
+tap 'homebrew/cask-versions'
 
 
 brew "aws/tap/aws-sam-cli"
@@ -57,7 +58,7 @@ cask "omnifocus"
 cask "spectacle"
 cask "spotify"
 cask "sublime-text"
-cask "visual-studio-code"
+cask "visual-studio-code-insiders"
 cask "finicky"
 
 # App Store things
