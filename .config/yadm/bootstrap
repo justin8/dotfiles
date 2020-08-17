@@ -151,10 +151,10 @@ install_packages_mac() {
         ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         sudo xcodebuild -license accept
         brew doctor
-
-        echo "Installing brew packages..."
-        brew bundle --global
     fi
+
+    echo "Installing brew packages..."
+    brew bundle --global
 }
 
 configure_iterm() {
