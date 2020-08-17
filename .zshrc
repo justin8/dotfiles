@@ -1,9 +1,16 @@
+# Uncomment to enable profiling to debug startup time issues. Make sure to uncomment 'zprof' at the end of the file too
+#zmodload zsh/zprof
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block, everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+# Enable bash completion (This doesn't seem to work? and is super slow)
+#autoload bashcompinit && bashcompinit
+#autoload -U +X compinit && compinit
 
 # Source per-machine overrides
 source ~/.sharedrc
@@ -41,7 +48,10 @@ DISABLE_AUTO_UPDATE="true"
 # DISABLE_CORRECTION="true"
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
+
+# Disable additional calls to compinit
+ZSH_DISABLE_COMPFIX="true"
 
 # Uncomment following line if you want to disable marking untracked files under
 # VCS as dirty. This makes repository status check for large repositories much,
@@ -78,9 +88,10 @@ else
 fi
 
 if [[ $zcomp_timestamp < $yesterday ]]; then
-	compinit
+	compinit -i -d "${ZSH_COMPDUMP}"
+	compdump
 else
-	compinit -C
+	compinit -C -i -d "${ZSH_COMPDUMP}"
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -89,3 +100,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Uncomment along with the first line to enable profiling of zsh startup
+#zprof
