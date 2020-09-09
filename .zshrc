@@ -73,6 +73,10 @@ source $ZSH/oh-my-zsh.sh
 setopt auto_cd
 cdpath=($HOME/git)
 
+# Increase history size
+export HISTFILESIZE=1000000000
+export HISTSIZE=1000000000
+
 # Export ZDOTDIR to allow sudo and keeping the same zsh dot files (still requires changing to zsh or having root's shell set to zsh)
 export ZDOTDIR=$HOME
 
