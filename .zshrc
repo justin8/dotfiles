@@ -1,5 +1,5 @@
 # Uncomment to enable profiling to debug startup time issues. Make sure to uncomment 'zprof' at the end of the file too
-#zmodload zsh/zprof
+# zmodload zsh/zprof
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -61,7 +61,7 @@ ZSH_DISABLE_COMPFIX="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git history-substring-search fabric gem)
+plugins=(docker docker-compose aws nvm npm yarn)
 
 if [[ ! -e /etc/redhat-release ]]; then
 	plugin+=(zsh-syntax-highlighting)
@@ -106,4 +106,4 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Uncomment along with the first line to enable profiling of zsh startup
-#zprof
+# zprof
