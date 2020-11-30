@@ -4,6 +4,9 @@
 # Add ~/.bin to path
 export PATH=$HOME/.yadm-project:$HOME/.local/bin:$HOME/.local/gnubin:$PATH
 
+# Add yarn binaries to path
+export PATH=$HOME/.yarn/bin:$PATH
+
 # Force Gnome keyring usage if it is enabled
 keyring_path="/run/user/${EUID}/keyring/ssh"
 if [[ -e $keyring_path ]]
@@ -65,7 +68,7 @@ if [[ -e $NVM_DIR ]]; then
 
 	node_version="$(cat $HOME/.nvm/alias/default)"
 	eval "$(
-	for i in $NVM_DIR/versions/node/*${node_version}*/bin/*; do
+	for i in $NVM_DIR/versions/node/*${node_version}*/bin/* $HOME/.yarn/bin/*; do
 		binary="${i#*bin/}"
 		cat <<-EOF
 		$binary() {
