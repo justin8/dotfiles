@@ -1,0 +1,12 @@
+app-editors/vim
+app-misc/jq
+app-shells/zsh
+dev-lang/python
+dev-python/pip
+dev-util/cmake
+dev-vcs/git
+net-misc/curl
+net-misc/rsync
+net-misc/wget
+sys-apps/the_silver_searcher
+sys-devel/llvm
