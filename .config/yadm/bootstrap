@@ -237,6 +237,9 @@ install_python_dev_dependencies() {
 
 install_fonts() {
     echo -n "Installing Meslo Nerd Fonts..."
+    FONT_DIR="$HOME/.local/share/fonts/"
+    [[ $RELEASE == Mac ]] && FONT_DIR="$HOME/Library/Fonts/"
+
     file_download "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip" "$DOTFILES/Meslo.zip"
     unzip -nd "$FONT_DIR" "$DOTFILES/Meslo.zip"
     ok
