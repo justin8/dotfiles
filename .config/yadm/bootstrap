@@ -83,6 +83,9 @@ install_pyenv() {
     # init pyenv
     eval "$(pyenv init -)"
 
+    # There's no 'latest' command
+    pyenv install 3.9.1
+
     ok
 }
 
@@ -212,6 +215,9 @@ install_nvm() {
         unset NVM_DIR
         curl -sSo- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash &>/dev/null
         export NVM_DIR="$NVM_DIR_TEMP"
+        . $NVM_DIR/nvm.sh
+        nvm install --lts
+        npm install --global yarn
     fi
     ok
 }

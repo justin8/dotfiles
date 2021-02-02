@@ -85,6 +85,10 @@ fpath=(~/.zsh-completion $fpath)
 autoload -Uz compinit
 today=$(date '+%s')
 yesterday=$(($today - 60 * 60 * 24))
+if ! [[ -e ~/.zcompdump ]]; then
+	compinit
+fi
+
 if [[ $(uname -s) == "Darwin" ]]; then
 	zcomp_timestamp=$(stat -f '%Sm' -t '%s' ~/.zcompdump)
 else
