@@ -4,12 +4,6 @@
 [submodule ".config/yadm/powerlevel10k"]
 	path = .config/yadm/powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k.git
-[submodule ".config/yadm/fonts"]
-	path = .config/yadm/fonts
-	url = https://github.com/powerline/fonts.git
-[submodule ".config/yadm/SF-Mono-Powerline"]
-	path = .config/yadm/SF-Mono-Powerline
-	url = https://github.com/Twixes/SF-Mono-Powerline
 [submodule ".config/yadm/fzf"]
 	path = .config/yadm/fzf
 	url = https://github.com/junegunn/fzf.git
