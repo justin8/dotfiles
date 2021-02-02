@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 cd "$HOME"
 
@@ -10,7 +11,7 @@ DOTFILES=$(
 
 # OS Detection / OS Specific variables
 if [[ -f /etc/os-release ]]; then
-    RELEASE=$(grep '^NAME="' /etc/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
+    RELEASE=$(grep '^NAME=' /etc/os-release | sed -E 's/NAME="?([a-zA-Z]+).*/\1/')
     if [[ $RELEASE == Amazon ]]; then
         VERSION=$(grep '^VERSION="' /etc/os-release | sed -E 's/VERSION="([0-9.]+)"/\1/')
         if [[ $VERSION == 2 ]]; then
@@ -91,9 +92,10 @@ install_packages_meta() {
     'Debian' | 'Ubuntu' | 'Raspbian') install_command=install_packages_debian ;;
     'AL2') install_command=install_packages_al2 ;;
     'Mac') install_command=install_packages_mac ;;
+    'Gentoo') install_command=install_packages_gentoo ;;
     *)
         cat <<-EOF
-			You are not using a supported distro; package installation has been enabled, but cannot proceed.
+			You are not using a supported distro; package installation will be skipped. Make sure the required packages have been installed.
 			
 			Press enter to continue anyway, or ctrl+c to cancel
 		EOF
@@ -143,6 +145,24 @@ install_package_groups_al2() {
     echo -n "Installing required package groups..."
     create_package_list al2-groups
     IFS=$'\n' command eval 'for group in $PACINST; do sudo yum groupinstall -y $group; done'
+}
+
+install_packages_gentoo() {
+    echo "OS appears to be Gentoo..."
+
+    echo -n "Installing required packages..."
+    create_package_list gentoo
+
+    # This is faster than using --noreplace which needs to compute dependencies
+    FILTERED_PACINST=""
+    for package in $PACINST; do
+        if ! qlist -Iv $package > /dev/null; then
+            FILTERED_PACINST+="$package"
+        fi
+    done
+    if [[ $FILTERED_PACINST ]]; then
+        sudo emerge $FILTERED_PACINST
+    fi
 }
 
 install_packages_debian() {
@@ -200,12 +220,12 @@ install_python_dev_dependencies() {
     install_pyenv
     if ! which ipython &>/dev/null; then
         echo -n "Installing iPython... "
-        pip install ipython &>/dev/null
+        pip install --user ipython &>/dev/null
         ok
     fi
     if ! which poetry &>/dev/null; then
         echo -n "Installing poetry... "
-        pip install poetry &>/dev/null
+        pip install --user poetry &>/dev/null
         # Configure poetry while we're at it
         poetry config virtualenvs.in-project true
 
@@ -274,7 +294,7 @@ configure_rc_addon() {
 }
 
 configure_oh_my_zsh() {
-    ln -s "$DOTFILES/powerlevel10k" "$DOTFILES/oh-my-zsh/custom/themes/powerlevel10k"
+    ln -sf "$DOTFILES/powerlevel10k" "$DOTFILES/oh-my-zsh/custom/themes/powerlevel10k"
 }
 
 change_shell() {
