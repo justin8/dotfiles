@@ -57,6 +57,15 @@ git_update() {
     fi
 }
 
+file_download() {
+    source="$1"
+    dest="$2"
+
+    if ! [[ -e "$dest" ]]; then
+        curl -Lo "$dest" "$source"
+    fi
+}
+
 install_pyenv() {
     echo -n "Installing pyenv... "
     git_update "https://github.com/pyenv/pyenv.git" "$HOME/.pyenv"
@@ -209,7 +218,12 @@ install_fonts() {
     echo -n "Installing SF-Mono-Powerline fonts..."
     FONT_DIR="$HOME/.local/share/fonts/"
     [[ $RELEASE == Mac ]] && FONT_DIR="$HOME/Library/Fonts/"
-    rsync -r "$DOTFILES/SF-Mono-Powerline"/*.otf "$RELEASE"
+    rsync -r "$DOTFILES/SF-Mono-Powerline"/*.otf "$FONT_DIR"
+    ok
+
+    echo -n "Installing Meslo Nerd Fonts..."
+    file_download "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip" "$DOTFILES/Meslo.zip"
+    unzip -nd "$FONT_DIR" "$DOTFILES/Meslo.zip"
     ok
 }
 
