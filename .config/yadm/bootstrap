@@ -73,18 +73,16 @@ install_pyenv() {
     git_update "https://github.com/yyuu/pyenv-virtualenvwrapper.git" "$HOME/.pyenv/plugins/pyenv-virtualenvwrapper"
     git_update "https://github.com/pyenv/pyenv-doctor.git" "$HOME/.pyenv/plugins/pyenv-doctor"
 
-    # Put virtualenvwrapper on the path for pyenv
-    if [[ -e /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]; then
-        cp /usr/share/virtualenvwrapper/virtualenvwrapper_lazy.sh ~/.local/bin
-        cp /usr/share/virtualenvwrapper/virtualenvwrapper.sh ~/.local/bin
-        chmod +x ~/.local/bin/virtualenvwrapper*
-    fi
-
     # init pyenv
+    export PATH=$PATH:$HOME/.pyenv/bin:$HOME/.local/bin
     eval "$(pyenv init -)"
 
     # There's no 'latest' command
-    pyenv install 3.9.1
+    PYTHON_VERSION=3.9.1
+    if ! [[ -e "$HOME/.pyenv/versions/$PYTHON_VERSION" ]]; then
+        pyenv install 3.9.1
+        pyenv global 3.9.1
+    fi
 
     ok
 }
@@ -211,10 +209,9 @@ install_fzf() {
 install_nvm() {
     echo -n "Installing nvm... "
     if [[ ! -e $HOME/.nvm ]]; then
-        NVM_DIR_TEMP="$NVM_DIR"
         unset NVM_DIR
         curl -sSo- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash &>/dev/null
-        export NVM_DIR="$NVM_DIR_TEMP"
+        export NVM_DIR="$HOME/.nvm"
         . $NVM_DIR/nvm.sh
         nvm install --lts
         npm install --global yarn
@@ -225,17 +222,15 @@ install_nvm() {
 install_python_dev_dependencies() {
     install_pyenv
     if ! which ipython &>/dev/null; then
-        echo -n "Installing iPython... "
-        pip install --user ipython &>/dev/null
-        ok
+        echo "Installing iPython... "
+        pip install --user ipython
     fi
     if ! which poetry &>/dev/null; then
-        echo -n "Installing poetry... "
-        pip install --user poetry &>/dev/null
+        echo "Installing poetry... "
+        pip install --user poetry
         # Configure poetry while we're at it
         poetry config virtualenvs.in-project true
 
-        ok
     fi
 
 }
