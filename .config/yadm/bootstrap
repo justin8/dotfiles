@@ -213,7 +213,7 @@ install_nvm() {
         curl -sSo- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash &>/dev/null
         export NVM_DIR="$HOME/.nvm"
         . $NVM_DIR/nvm.sh
-        nvm install --lts
+        nvm install 14 # Using --lts breaks the version mapping for my nvm speedups :(
         npm install --global yarn
     fi
     ok
