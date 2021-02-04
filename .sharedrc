@@ -68,7 +68,7 @@ if [[ -e $NVM_DIR ]]; then
 
 	node_version="$(cat $HOME/.nvm/alias/default)"
 	eval "$(
-	for i in $NVM_DIR/versions/node/*${node_version}*/bin/* $HOME/.yarn/bin/*; do
+	for i in $NVM_DIR/versions/node/*${node_version}*/bin/* $HOME/.config/yarn/global/node_modules/.bin/*; do
 		binary="${i#*bin/}"
 		cat <<-EOF
 		$binary() {
