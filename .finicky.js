@@ -7,11 +7,11 @@ module.exports = {
     checkForUpdate: true,
   },
   rewrite: [
-    {
-      // Redirect all urls to use https
-      match: ({ url }) => url.protocol === "http",
-      url: { protocol: "https" },
-    },
+//    {
+//      // Redirect all urls to use https
+//      match: ({ url }) => url.protocol === "http",
+//      url: { protocol: "https" },
+//    },
     {
       // rewrite http[s]://chime.aws/<meetingID> to chime://meeting?pin=meetingId>
       match: finicky.matchHostnames(["chime.aws"]),
@@ -23,20 +23,20 @@ module.exports = {
         protocol: "chime",
       }),
     },
-    {
-      // rewrite http[s]://quip.com/<documentID>/* to quip://<documentID>
-      match: finicky.matchHostnames(["quip-amazon.com"]),
-      url: ({ url }) => ({
-        ...url,
-        host: "",
-        search: "",
-        pathname:
-          url.pathname.split("/")[1] == "email"
-            ? decodeURIComponent(url.search).split("/")[2].split("&")[0]
-            : url.pathname.split("/")[1],
-        protocol: "quip",
-      }),
-    },
+//    {
+//      // rewrite http[s]://quip.com/<documentID>/* to quip://<documentID>
+//      match: finicky.matchHostnames(["quip-amazon.com"]),
+//      url: ({ url }) => ({
+//        ...url,
+//        host: "",
+//        search: "",
+//        pathname:
+//          url.pathname.split("/")[1] == "email"
+//            ? decodeURIComponent(url.search).split("/")[2].split("&")[0]
+//            : url.pathname.split("/")[1],
+//        protocol: "quip",
+//      }),
+//    },
   ],
   handlers: [
     {
