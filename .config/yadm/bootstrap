@@ -200,6 +200,9 @@ update_yadm() {
 
 update_submodules() {
     yadm submodule update --recursive --init
+
+    # Auto-checkout latest version of scripts instead of pinning
+    yadm submodule update --init --remote --rebase $HOME/.config/yadm/scripts
 }
 
 install_fzf() {
