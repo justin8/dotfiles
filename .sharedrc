@@ -164,3 +164,6 @@ fi
 # Disable homebrew auto-updating and cleaning and stuff all the time
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
+
+# Don't use goproxy, doesn't work on certain networks
+export GOPROXY=direct
