@@ -13,7 +13,6 @@ brew "mas"
 # Casks
 cask "alfred"
 cask "authy"
-cask "caprine"
 cask "copyclip"
 cask "finicky"
 cask "firefox"
