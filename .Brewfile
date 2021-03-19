@@ -11,9 +11,11 @@ tap 'homebrew/cask-versions'
 brew "mas"
 
 # Casks
+cask "alfred"
 cask "authy"
 cask "caprine"
 cask "copyclip"
+cask "finicky"
 cask "firefox"
 cask "google-drive-file-stream"
 cask "iterm2"
@@ -22,7 +24,6 @@ cask "spectacle"
 cask "spotify"
 cask "sublime-text"
 cask "visual-studio-code-insiders"
-cask "finicky"
 
 # General packages
 brew "aws/tap/aws-sam-cli"
