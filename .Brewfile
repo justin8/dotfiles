@@ -22,6 +22,7 @@ cask "omnifocus"
 cask "spectacle"
 cask "spotify"
 cask "sublime-text"
+cask "syncthing"
 cask "visual-studio-code-insiders"
 
 # General packages
