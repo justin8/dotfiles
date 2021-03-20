@@ -4,7 +4,3 @@
 [submodule ".config/yadm/fzf"]
 	path = .config/yadm/fzf
 	url = https://github.com/junegunn/fzf.git
-[submodule ".config/yadm/scripts"]
-	path = .config/yadm/scripts
-	url = https://github.com/justin8/scripts.git
-	branch = master
