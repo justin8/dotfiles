@@ -234,6 +234,7 @@ install_nvm() {
     echo -n "Installing yarn... "
     if ! which yarn &>/dev/null; then
         npm install --global yarn
+        yarn config set prefix ~/.yarn
         yarn global add npm-check-updates
     fi
     ok
