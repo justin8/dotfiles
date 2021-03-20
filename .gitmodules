@@ -1,15 +1,9 @@
 [submodule ".config/yadm/oh-my-zsh"]
 	path = .config/yadm/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
-[submodule ".config/yadm/powerlevel10k"]
-	path = .config/yadm/powerlevel10k
-	url = https://github.com/romkatv/powerlevel10k.git
 [submodule ".config/yadm/fzf"]
 	path = .config/yadm/fzf
 	url = https://github.com/junegunn/fzf.git
-[submodule "/Users/jdray/.config/yadm/scripts"]
-	path = /Users/jdray/.config/yadm/scripts
-	url = https://github.com/justin8/scripts.git
 [submodule ".config/yadm/scripts"]
 	path = .config/yadm/scripts
 	url = https://github.com/justin8/scripts.git

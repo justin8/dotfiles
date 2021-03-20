@@ -166,13 +166,6 @@ install_packages_gentoo() {
     fi
 }
 
-install_starship() {
-    echo "Installing Starship..."
-    if ! which starship &>/dev/null; then
-        curl -fsSL https://starship.rs/install.sh | bash -s -- --force
-    fi
-}
-
 install_packages_debian() {
     echo "OS appears to be Debian/Ubuntu..."
 
@@ -304,6 +297,13 @@ configure_rc_addon() {
 
 configure_oh_my_zsh() {
     install_starship
+}
+
+install_starship() {
+    echo "Installing Starship..."
+    if ! which starship &>/dev/null; then
+        curl -fsSL https://starship.rs/install.sh | bash -s -- --force
+    fi
 }
 
 change_shell() {
