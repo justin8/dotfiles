@@ -1,0 +1,30 @@
+[aws]
+format = '[$symbol$profile(\($region\))]($style) '
+symbol = "🅰 "
+[aws.region_aliases]
+ap-southeast-2 = "SYD"
+us-east-1 = "IAD"
+us-west-2 = "PDX"
+ap-southeast-1 = "SIN"
+ap-northeast-1 = "NRT"
+eu-west-1 = "DUB"
+us-east-2 = "CMH"
+us-west-1 = "PDX"
+
+[[battery.display]]
+threshold = 30
+style = "bold red"
+
+[directory]
+truncation_length = 3
+truncation_symbol = ".../"
+
+[status]
+style = "bg:red"
+symbol = ""
+format = '[\[$symbol $common_meaning$signal_name $int\]]($style) '
+map_symbol = true
+disabled = false
+
+[time]
+disabled = false
