@@ -200,9 +200,11 @@ update_yadm() {
 
 update_submodules() {
     yadm submodule update --recursive --init
+}
 
-    # Auto-checkout latest version of scripts instead of pinning
-    yadm submodule update --init --remote --rebase $HOME/.config/yadm/scripts
+update_scripts() {
+    echo "Updating scripts..."
+    git_update "https://github.com/justin8/scripts.git" "$HOME/.scripts"
 }
 
 install_fzf() {
@@ -331,6 +333,7 @@ change_shell() {
 update_yadm
 install_packages_meta
 update_submodules
+update_scripts
 install_fonts
 configure_gitconfig
 install_nvm
