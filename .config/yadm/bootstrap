@@ -261,7 +261,8 @@ install_fonts() {
     [[ $RELEASE == Mac ]] && FONT_DIR="$HOME/Library/Fonts/"
 
     file_download "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip" "$DOTFILES/Meslo.zip"
-    unzip -nd "$FONT_DIR" "$DOTFILES/Meslo.zip"
+    unzip -nd "$FONT_DIR" "$DOTFILES/Meslo.zip" &>/dev/null
+    ok
 }
 
 configure_gitconfig() {
@@ -339,7 +340,7 @@ change_shell() {
 
     if [[ $setshell == 1 ]]; then
         if which $newshell >/dev/null; then
-            $sudo chsh -s "$(which $newshell)" "$USER"
+            sudo chsh -s "$(which $newshell)" "$USER"
         fi
     fi
     ok
