@@ -208,17 +208,31 @@ update_scripts() {
 }
 
 install_fzf() {
-    "$DOTFILES/fzf/install" --all
+    echo -n "Installing fzf... "
+    "$DOTFILES/fzf/install" --all &>/dev/null
+    ok
 }
 
 install_nvm() {
+    node_version=14
     echo -n "Installing nvm... "
     if [[ ! -e $HOME/.nvm ]]; then
         unset NVM_DIR
         curl -sSo- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash &>/dev/null
         export NVM_DIR="$HOME/.nvm"
-        . $NVM_DIR/nvm.sh
-        nvm install 14 # Using --lts breaks the version mapping for my nvm speedups :(
+    fi
+    . $NVM_DIR/nvm.sh # Source nvm before continuing, the on-demand loading doesn't behave well inside of scripts
+    ok
+
+    echo -n "Installing node... "
+    if ! which node &>/dev/null; then
+        nvm install $node_version || nvm use --delete-prefix $node_version # Using --lts breaks the version mapping for my nvm speedups :(
+        nvm alias default $node_version
+    fi
+    ok
+
+    echo -n "Installing yarn... "
+    if ! which yarn &>/dev/null; then
         npm install --global yarn
         yarn global add npm-check-updates
     fi
@@ -297,10 +311,11 @@ configure_rc_addon() {
 }
 
 configure_oh_my_zsh() {
-    install_starship
+    ln -sf "$DOTFILES/powerlevel10k" "$DOTFILES/oh-my-zsh/custom/themes/powerlevel10k"
 }
 
 install_starship() {
+    # Still used by bash
     echo -n "Installing Starship..."
     if ! which starship &>/dev/null; then
         curl -fsSL https://starship.rs/install.sh | bash -s -- --force
@@ -342,4 +357,5 @@ install_python_dev_dependencies
 configure_vim
 configure_rc_addon
 configure_oh_my_zsh
+install_starship
 change_shell

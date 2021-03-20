@@ -1,6 +1,13 @@
 # Uncomment to enable profiling to debug startup time issues. Make sure to uncomment 'zprof' at the end of the file too
 # zmodload zsh/zprof
 
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Enable bash completion (This doesn't seem to work? and is super slow)
 #autoload bashcompinit && bashcompinit
 #autoload -U +X compinit && compinit
@@ -16,7 +23,7 @@ ZSH=$HOME/.config/yadm/oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-#ZSH_THEME="powerlevel10k/powerlevel10k" # Disabled as we're using starship now
+ZSH_THEME="powerlevel10k/powerlevel10k" # Disabled as we're using starship now
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -54,7 +61,7 @@ ZSH_DISABLE_COMPFIX="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=()
+plugins=(aws yarn)
 
 if [[ ! -e /etc/redhat-release ]]; then
 	plugin+=(zsh-syntax-highlighting)
@@ -74,9 +81,10 @@ fpath=(~/.zsh-completion $fpath)
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-eval "$(starship init zsh)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Uncomment along with the first line to enable profiling of zsh startup
 # zprof
