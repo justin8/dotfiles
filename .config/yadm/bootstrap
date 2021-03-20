@@ -225,6 +225,7 @@ install_nvm() {
         . $NVM_DIR/nvm.sh
         nvm install 14 # Using --lts breaks the version mapping for my nvm speedups :(
         npm install --global yarn
+        yarn global add npm-check-updates
     fi
     ok
 }
