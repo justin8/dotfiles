@@ -1,6 +1,14 @@
 #!/bin/bash
 
-REPO="https://github.com/justin8/dotfiles.git"
+
+HTTPS_REPO="https://github.com/justin8/dotfiles.git"
+GIT_REPO="git@github.com:justin8/dotfiles.git"
+
+if [[ $1 == git ]]; then
+	REPO=$GIT_REPO
+else
+	REPO=$HTTPS_REPO
+fi
 
 git_update() {
     repo="$1"
