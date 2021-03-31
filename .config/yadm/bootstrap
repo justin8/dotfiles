@@ -348,8 +348,9 @@ change_shell() {
 }
 
 update_yadm
-install_packages_meta
 update_submodules
+configure_oh_my_zsh
+install_packages_meta
 update_scripts
 install_fonts
 configure_gitconfig
@@ -358,6 +359,5 @@ install_fzf
 install_python_dev_dependencies
 configure_vim
 configure_rc_addon
-configure_oh_my_zsh
 install_starship
 change_shell
