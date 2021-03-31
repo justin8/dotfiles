@@ -148,9 +148,6 @@ cdk-add() {
 	fi
 }
 
-# Use AWS CLI from docker container
-alias aws='docker run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
-
 # Source nix if it is available
 NIX_PATH="$HOME/.nix-profile/etc/profile.d/nix.sh"
 if [[ -e $NIX_PATH ]]; then
