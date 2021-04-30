@@ -1,0 +1,83 @@
+{
+  "vsicons.dontShowNewVersionMessage": true,
+  "workbench.iconTheme": "vscode-icons",
+  "editor.fontFamily": "MesloLGS NF",
+  "editor.suggestSelection": "first",
+  "editor.tabSize": 2,
+  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "editor.formatOnSave": true,
+  "python.pythonPath": "/$HOME/.pyenv/shims/python3",
+  "python.linting.enabled": true,
+  "python.formatting.provider": "black",
+  "python.linting.lintOnSave": true,
+  "python.languageServer": "Pylance",
+  "python.testing.nosetestsEnabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.testing.autoTestDiscoverOnSaveEnabled": true,
+  "python.formatting.autopep8Args": [
+    "--max-line-length",
+    "120",
+    "--experimental"
+  ],
+  "typescript.format.enable": true,
+  "git.autofetch": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "tslint.jsEnable": true,
+  "tslint.packageManager": "yarn",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "terminal.integrated.shell.linux": "/usr/bin/zsh",
+  "extensions.ignoreRecommendations": false,
+  "[python]": {"editor.tabSize": 4},
+  "[yaml]": {
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    }
+  },
+  "workbench.editorAssociations": [
+    {
+      "viewType": "jupyter-notebook",
+      "filenamePattern": "*.ipynb"
+    }
+  ],
+"python.showStartPage": false,
+  "yaml.customTags": [
+    "!And",
+    "!And sequence",
+    "!If",
+    "!If sequence",
+    "!Not",
+    "!Not sequence",
+    "!Equals",
+    "!Equals sequence",
+    "!Or",
+    "!Or sequence",
+    "!FindInMap",
+    "!FindInMap sequence",
+    "!Base64",
+    "!Join",
+    "!Join sequence",
+    "!Cidr",
+    "!Ref",
+    "!Sub",
+    "!Sub sequence",
+    "!GetAtt",
+    "!GetAZs",
+    "!ImportValue",
+    "!ImportValue sequence",
+    "!Select",
+    "!Select sequence",
+    "!Split",
+    "!Split sequence"
+  ],
+  "yaml.validate": false,
+  "cfnLint.path": "/$HOME/.pyenv/shims/cfn-lint",
+  "window.zoomLevel": 1
+}
