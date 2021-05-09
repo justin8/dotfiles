@@ -16,6 +16,7 @@ python3-pip
 rsync
 silversearcher-ag
 tk-dev
+unzip
 vim
 wget
 xz-utils
