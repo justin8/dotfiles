@@ -91,6 +91,7 @@ if [[ -e $HOME/.pyenv ]]; then
 	pyenv() {
 		unset -f pyenv
 		eval "$(pyenv init -)"
+		eval "$(pyenv init --path)"
 		pyenv "$@"
 	}
 

@@ -76,6 +76,7 @@ install_pyenv() {
     # init pyenv
     export PATH=$PATH:$HOME/.pyenv/bin:$HOME/.local/bin
     eval "$(pyenv init -)"
+    eval "$(pyenv init --path)"
 
     # There's no 'latest' command
     PYTHON_VERSION=3.9.1
