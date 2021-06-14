@@ -24,6 +24,8 @@ git_update() {
 
 git_update "https://github.com/TheLocehiliosan/yadm.git" "$HOME/.yadm-project"
 mkdir -p "$HOME/.local/bin"
-ln -sf "$HOME/.yadm-project/yadm" "$HOME/.local/bin"
-export PATH="$HOME/.local/bin:$PATH"
-"$HOME/.local/bin/yadm" clone "$REPO" --bootstrap
+ln -sf "../../.yadm-project/yadm" "$HOME/.local/bin"
+
+echo 'Run the following in your shell to install:' >&2
+echo 'export PATH="$HOME/.local/bin:$PATH"'
+echo ""$HOME/.local/bin/yadm" clone "$REPO" --bootstrap -f"

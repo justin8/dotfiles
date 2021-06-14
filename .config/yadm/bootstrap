@@ -199,6 +199,10 @@ update_yadm() {
     git_update "https://github.com/TheLocehiliosan/yadm.git" "$HOME/.yadm-project"
 }
 
+reset_dotfiles() {
+    yadm restore $HOME 
+}
+
 update_submodules() {
     yadm submodule update --recursive --init
 }
@@ -349,6 +353,7 @@ change_shell() {
 }
 
 update_yadm
+reset_dotfiles
 update_submodules
 configure_oh_my_zsh
 install_packages_meta
