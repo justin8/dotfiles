@@ -14,7 +14,7 @@ brew "mas"
 cask "alfred"
 cask "authy"
 cask "bitwarden"
-cask "copyclip"
+#cask "copyclip" # The installer for this has been broken for a while
 cask "finicky"
 cask "firefox"
 cask "google-drive"
