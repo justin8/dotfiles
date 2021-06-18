@@ -88,29 +88,10 @@ if [[ -e $HOME/.pyenv ]]; then
 	export PATH="$PYENV_ROOT/bin:$PATH"
 	export WORKON_HOME=$HOME/.virtualenvs
 
-	pyenv() {
-		unset -f pyenv
-		eval "$(pyenv init -)"
-		eval "$(pyenv init --path)"
-		pyenv "$@"
-	}
-
-	eval "$(
-	for i in git $PYENV_ROOT/shims/*; do
-		binary="${i#*pyenv/shims/}"
-		cat <<-EOF
-		$binary() {
-			if [[ \$(type pyenv) =~ "Loading now" ]] || [[ \$(type pyenv) =~ "sharedrc" ]]; then
-				eval "\$(pyenv init -)"
-			fi
-			unset -f $binary
-			$binary \$@
-		}
-		EOF
-	done)"
+	eval "$(pyenv init --path)"
+	eval "$(pyenv init -)"
 
 	init_virtualenvwrapper() {
-		eval "$(pyenv init -)"
 		pyenv virtualenvwrapper_lazy
 	}
 
