@@ -1,0 +1,6 @@
+#!/bin/bash
+
+apt install -y nvidia-cuda-toolkit build-essentials steam
+
+git config --global user.email "justin@dray.be"
+git config --global user.name "Justin Dray"
