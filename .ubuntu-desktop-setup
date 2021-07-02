@@ -6,7 +6,7 @@ set -euo pipefail
 # Install latest nvidia driver
 sudo apt-get install -y $(apt-cache search nvidia-driver|grep -oP '^nvidia-driver-\d+'|sort|tail -n1)
 
-sudo apt-get install -y nvidia-cuda-toolkit build-essential steam firefox terminology apt-transport-https ca-certificates curl gnupg lsb-release
+sudo apt-get install -y nvidia-cuda-toolkit build-essential steam firefox terminology apt-transport-https ca-certificates curl gnupg lsb-release screen
 
 echo STEP: Syncthing
 sudo apt-get install -y syncthing
@@ -63,6 +63,21 @@ fi
 echo STEP: Netdata
 if ! which netdata &>/dev/null; then
 	bash <(curl -Ss https://my-netdata.io/kickstart.sh) --dont-wait
+fi
+
+echo STEP: Miner
+if ! which PhoenixMiner &>/dev/null; then
+	(
+		cd /tmp
+		curl -Lo phoenixminer.tar.gz https://phoenixminer.info/downloads/PhoenixMiner_5.6d_Linux.tar.gz
+		tar xf phoenixminer.tar.gz
+		cd PhoenixMiner_*
+		chmod +x PhoenixMiner
+		sudo mv PhoenixMiner /usr/local/bin
+		git clone https://github.com/justin8/idle-miner
+		cd idle-miner
+		./install.sh 0xd809cD2e2e2655599C2b1DbCdCa50401579854a0
+	)
 fi
 
 echo STEP: Updates
