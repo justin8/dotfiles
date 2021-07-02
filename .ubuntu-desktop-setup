@@ -1,6 +1,71 @@
 #!/bin/bash
+set -euo pipefail
 
-apt install -y nvidia-cuda-toolkit build-essentials steam
 
+
+# Install latest nvidia driver
+sudo apt-get install -y $(apt-cache search nvidia-driver|grep -oP '^nvidia-driver-\d+'|sort|tail -n1)
+
+sudo apt-get install -y nvidia-cuda-toolkit build-essential steam firefox terminology apt-transport-https ca-certificates curl gnupg lsb-release
+
+echo STEP: Syncthing
+sudo apt-get install -y syncthing
+sudo systemctl enable --now syncthing@$USER
+
+
+echo STEP: Git config
 git config --global user.email "justin@dray.be"
 git config --global user.name "Justin Dray"
+
+
+echo STEP: Install Obsidian
+if ! which obsidian &>/dev/null; then
+	(cd /tmp
+	curl -Lo obsidian $(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest \
+	| grep "browser_download_url.*AppImage" \
+	| cut -d '"' -f 4)
+	chmod +x obsidian
+	./obsidian --appimage-extract
+	sudo mv obsidian /usr/local/bin
+	sudo rsync -r squashfs-root/usr/share/icons/ /usr/share/icons/
+	sudo cp squashfs-root/obsidian.desktop /usr/share/application
+	sed 's|AppRun.*|/usr/local/bin/obsidian|' squashfs-root/obsidian.desktop | sudo tee /usr/share/applications/obsidian.desktop &>/dev/null
+	)
+fi
+
+echo STEP: Change backgrounds
+if ! crontab -l | grep -q change-background; then
+	(crontab -l 2>/dev/null; echo "*/2 * * * * $HOME/.scripts/change-background") | crontab -
+fi
+
+
+echo STEP: Docker
+if ! which docker &>/dev/null; then
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+	echo \
+	  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+	  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+	sudo apt-get update
+	sudo apt-get install-y docker-ce docker-ce-cli containerd.io
+
+	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+	sudo chmod +x /usr/local/bin/docker-compose
+fi
+
+echo STEP: Discord
+if ! which discord &>/dev/null; then
+	curl -Lo /tmp/discord.deb https://discord.com/api/download?platform=linux&format=deb
+	sudo apt-get install -y /tmp/discord.deb
+fi
+
+echo STEP: Netdata
+if ! which netdata &>/dev/null; then
+	bash <(curl -Ss https://my-netdata.io/kickstart.sh) --dont-wait
+fi
+
+echo STEP: Updates
+sudo apt-get update
+sudo apt-get dist-upgrade -y
+sudo apt-get autoremove -y
