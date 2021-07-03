@@ -5,10 +5,12 @@ set -euo pipefail
 sudo apt-get install -y $(apt-cache search nvidia-driver | grep -oP '^nvidia-driver-\d+' | sort | tail -n1)
 
 sudo apt-get install -y \
-	nvidia-cuda-toolkit build-essential steam firefox terminology apt-transport-https ca-certificates
-curl gnupg lsb-release screen gnome-tweaks gnome-tweak-tool gnome-sushi shellcheck
+	nvidia-cuda-toolkit build-essential steam firefox terminology apt-transport-https ca-certificates \
+	curl gnupg lsb-release screen gnome-tweaks gnome-tweak-tool gnome-sushi shellcheck
 
-sudo snap install shfmt spotify
+for package in spotify shfmt; do
+	sudo snap install $package
+done
 
 echo STEP: Syncthing
 sudo apt-get install -y syncthing
@@ -86,6 +88,21 @@ if ! which code-insiders &>/dev/null; then
 	rm -f packages.microsoft.gpg
 	sudo apt update
 	sudo apt install code-insiders
+fi
+
+echo STEP: MangoHUD
+if ! which mangohud &>/dev/null; then
+	(
+		set +o pipefail
+		cd /tmp
+		git clone --recurse-submodules https://github.com/flightlessmango/MangoHud.git
+		cd MangoHud
+		pip install mako
+		yes | ./build.sh build
+		./build.sh package
+		./build.sh install
+		set -o pipefail
+	)
 fi
 
 echo STEP: Updates
