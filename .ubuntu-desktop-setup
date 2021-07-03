@@ -1,51 +1,54 @@
 #!/bin/bash
 set -euo pipefail
 
-
-
 # Install latest nvidia driver
-sudo apt-get install -y $(apt-cache search nvidia-driver|grep -oP '^nvidia-driver-\d+'|sort|tail -n1)
+sudo apt-get install -y $(apt-cache search nvidia-driver | grep -oP '^nvidia-driver-\d+' | sort | tail -n1)
 
-sudo apt-get install -y nvidia-cuda-toolkit build-essential steam firefox terminology apt-transport-https ca-certificates curl gnupg lsb-release screen
+sudo apt-get install -y \
+	nvidia-cuda-toolkit build-essential steam firefox terminology apt-transport-https ca-certificates
+curl gnupg lsb-release screen gnome-tweaks gnome-tweak-tool gnome-sushi shellcheck
+
+sudo snap install shfmt spotify
 
 echo STEP: Syncthing
 sudo apt-get install -y syncthing
 sudo systemctl enable --now syncthing@$USER
 
-
 echo STEP: Git config
 git config --global user.email "justin@dray.be"
 git config --global user.name "Justin Dray"
 
-
 echo STEP: Install Obsidian
 if ! which obsidian &>/dev/null; then
-	(cd /tmp
-	curl -Lo obsidian $(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest \
-	| grep "browser_download_url.*AppImage" \
-	| cut -d '"' -f 4)
-	chmod +x obsidian
-	./obsidian --appimage-extract
-	sudo mv obsidian /usr/local/bin
-	sudo rsync -r squashfs-root/usr/share/icons/ /usr/share/icons/
-	sudo cp squashfs-root/obsidian.desktop /usr/share/application
-	sed 's|AppRun.*|/usr/local/bin/obsidian|' squashfs-root/obsidian.desktop | sudo tee /usr/share/applications/obsidian.desktop &>/dev/null
+	(
+		cd /tmp
+		curl -Lo obsidian $(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest |
+			grep "browser_download_url.*AppImage" |
+			cut -d '"' -f 4)
+		chmod +x obsidian
+		./obsidian --appimage-extract
+		sudo mv obsidian /usr/local/bin
+		sudo rsync -r squashfs-root/usr/share/icons/ /usr/share/icons/
+		sudo cp squashfs-root/obsidian.desktop /usr/share/application
+		sed 's|AppRun.*|/usr/local/bin/obsidian|' squashfs-root/obsidian.desktop | sudo tee /usr/share/applications/obsidian.desktop &>/dev/null
 	)
 fi
 
 echo STEP: Change backgrounds
 if ! crontab -l | grep -q change-background; then
-	(crontab -l 2>/dev/null; echo "*/2 * * * * $HOME/.scripts/change-background") | crontab -
+	(
+		crontab -l 2>/dev/null
+		echo "*/2 * * * * $HOME/.scripts/change-background"
+	) | crontab -
 fi
-
 
 echo STEP: Docker
 if ! which docker &>/dev/null; then
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 	echo \
-	  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-	  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+		"deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+	  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
 	sudo apt-get update
 	sudo apt-get install-y docker-ce docker-ce-cli containerd.io
@@ -56,7 +59,8 @@ fi
 
 echo STEP: Discord
 if ! which discord &>/dev/null; then
-	curl -Lo /tmp/discord.deb https://discord.com/api/download?platform=linux&format=deb
+	curl -Lo /tmp/discord.deb https://discord.com/api/download?platform=linux &
+	format=deb
 	sudo apt-get install -y /tmp/discord.deb
 fi
 
@@ -66,18 +70,22 @@ if ! which netdata &>/dev/null; then
 fi
 
 echo STEP: Miner
-if ! which PhoenixMiner &>/dev/null; then
+if ! which ethminer &>/dev/null; then
 	(
 		cd /tmp
-		curl -Lo phoenixminer.tar.gz https://phoenixminer.info/downloads/PhoenixMiner_5.6d_Linux.tar.gz
-		tar xf phoenixminer.tar.gz
-		cd PhoenixMiner_*
-		chmod +x PhoenixMiner
-		sudo mv PhoenixMiner /usr/local/bin
-		git clone https://github.com/justin8/idle-miner
 		cd idle-miner
 		./install.sh 0xd809cD2e2e2655599C2b1DbCdCa50401579854a0
 	)
+fi
+
+echo STEP: VSCode
+if ! which code-insiders &>/dev/null; then
+	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor >packages.microsoft.gpg
+	sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+	sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+	rm -f packages.microsoft.gpg
+	sudo apt update
+	sudo apt install code-insiders
 fi
 
 echo STEP: Updates
