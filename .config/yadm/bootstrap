@@ -79,10 +79,10 @@ install_pyenv() {
     eval "$(pyenv init --path)"
 
     # There's no 'latest' command
-    PYTHON_VERSION=3.9.1
+    PYTHON_VERSION=3.9.6
     if ! [[ -e "$HOME/.pyenv/versions/$PYTHON_VERSION" ]]; then
-        pyenv install 3.9.1
-        pyenv global 3.9.1
+        pyenv install $PYTHON_VERSION
+        pyenv global $PYTHON_VERSION
     fi
 
     ok

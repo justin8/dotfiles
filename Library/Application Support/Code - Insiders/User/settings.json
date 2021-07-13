@@ -6,7 +6,7 @@
   "editor.tabSize": 2,
   "terminal.integrated.fontFamily": "MesloLGS NF",
   "editor.formatOnSave": true,
-  "python.pythonPath": "/$HOME/.pyenv/shims/python3",
+  "python.pythonPath": "${env:HOME}/.pyenv/shims/python",
   "python.linting.enabled": true,
   "python.formatting.provider": "black",
   "python.linting.lintOnSave": true,
@@ -41,12 +41,9 @@
       "strings": true
     }
   },
-  "workbench.editorAssociations": [
-    {
-      "viewType": "jupyter-notebook",
-      "filenamePattern": "*.ipynb"
-    }
-  ],
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  },
 "python.showStartPage": false,
   "yaml.customTags": [
     "!And",
@@ -78,6 +75,13 @@
     "!Split sequence"
   ],
   "yaml.validate": false,
-  "cfnLint.path": "/$HOME/.pyenv/shims/cfn-lint",
+"cfnLint.path": "/$HOME/.pyenv/shims/cfn-lint",
+  "notebook.cellToolbarLocation": {
+    "default": "right",
+    "jupyter-notebook": "left"
+  },
+  "security.workspace.trust.untrustedFiles": "open",
+  "python.defaultInterpreterPath": "${env:HOME}/.pyenv/shims/python",
+  "redhat.telemetry.enabled": false,
   "window.zoomLevel": 1
 }
