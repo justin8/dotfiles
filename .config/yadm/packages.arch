@@ -1,4 +1,5 @@
 cmake
+cronie
 curl
 git
 jq

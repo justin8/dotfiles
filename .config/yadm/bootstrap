@@ -119,17 +119,21 @@ install_aws_cli() {
 
     if ! which aws &>/dev/null; then
         case $RELEASE in
-            'Mac')
-                (cd /tmp
+        'Mac')
+            (
+                cd /tmp
                 curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-                sudo installer -pkg AWSCLIV2.pkg -target /)
-                ;;
-            *)
-                (cd /tmp
+                sudo installer -pkg AWSCLIV2.pkg -target /
+            )
+            ;;
+        *)
+            (
+                cd /tmp
                 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
                 unzip awscliv2.zip
-                sudo ./aws/install)
-                ;;
+                sudo ./aws/install
+            )
+            ;;
         esac
     fi
     ok
@@ -159,7 +163,7 @@ install_packages_gentoo() {
     # This is faster than using --noreplace which needs to compute dependencies
     FILTERED_PACINST=""
     for package in $PACINST; do
-        if ! qlist -Iv $package > /dev/null; then
+        if ! qlist -Iv $package >/dev/null; then
             FILTERED_PACINST+="$package"
         fi
     done
@@ -180,10 +184,23 @@ install_packages_debian() {
 install_packages_arch() {
     echo "OS appears to be Arch..."
 
+    if ! which yay &>/dev/null; then
+        echo "Installing Yay..."
+        (
+            cd /tmp
+            git clone https://aur.archlinux.org/yay.git
+            cd yay
+            makepkg -si --noconfirm
+        )
+    fi
+
+    pyenv shell system &>/dev/null || :
     echo -n "Installing required packages..."
     create_package_list arch
-    sudo pacman -S --noconfirm --needed $PACINST &>/dev/null
+    yay -S --noconfirm --needed $PACINST &>/dev/null
     ok
+
+    sudo systemctl enable --now cronie
 }
 
 install_packages_mac() {
@@ -358,6 +375,86 @@ change_shell() {
     ok
 }
 
+full_config() {
+    echo "Do you want to set up personal configs? (git user/email, etc)"
+    select choice in "Yes" "No"; do
+        case $choice in
+        Yes)
+            break
+            ;;
+        No)
+            return
+            ;;
+        esac
+    done
+
+    if ! git config --global --list | grep -q user.name; then
+        git config --global user.name "Justin Dray"
+        git config --global user.email "justin@dray.be"
+    fi
+}
+
+install_desktop_meta() {
+    echo "Do you want to install desktop-only packages?"
+    select choice in "Yes" "No"; do
+        case $choice in
+        Yes)
+            break
+            ;;
+        No)
+            return
+            ;;
+        esac
+    done
+
+    case $RELEASE in
+    'Arch') install_command=install_desktop_arch ;;
+    *)
+        cat <<-EOF
+			You are not using a supported distro; package installation will be skipped. Make sure the required packages have been installed.
+			
+			Press enter to continue anyway, or ctrl+c to cancel
+		EOF
+        read -r
+        return
+        ;;
+    esac
+
+    $install_command
+}
+
+install_desktop_arch() {
+    if ! grep -qP "^\[multilib\]" /etc/pacman.conf; then
+        echo -n "Enabling multilib..."
+        echo '[multilib]' | sudo tee /etc/pacman >/dev/null
+        echo 'Include = /etc/pacman.d/mirrorlist' | sudo tee /etc/pacman >/dev/null
+        ok
+    fi
+
+    pyenv shell system &>/dev/null || :
+    echo "Installing desktop packages..."
+    create_package_list arch-desktop
+    # yay -S --noconfirm --needed $PACINST
+
+    systemctl --user enable --now syncthing
+    systemctl --user enable --now gamemoded
+    sudo systemctl enable --now docker
+    sudo usermod -a -G docker $USER
+
+    desktop_configure_background_changer
+}
+
+desktop_configure_background_changer() {
+    echo -n "Configuring background changer... "
+    if ! crontab -l | grep -q change-background; then
+        (
+            crontab -l 2>/dev/null || :
+            echo "*/2 * * * * $HOME/.scripts/change-background"
+        ) | crontab -
+    fi
+    ok
+}
+
 update_yadm
 configure_gitconfig
 update_submodules
@@ -372,3 +469,5 @@ configure_vim
 configure_rc_addon
 install_starship
 change_shell
+full_config
+install_desktop_meta
