@@ -182,7 +182,7 @@ install_packages_arch() {
 
     echo -n "Installing required packages..."
     create_package_list arch
-    sudo pacman -S --noconfirm $PACINST &>/dev/null
+    sudo pacman -S --noconfirm --needed $PACINST &>/dev/null
     ok
 }
 
