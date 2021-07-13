@@ -1,0 +1,15 @@
+cmake
+curl
+git
+jq
+llvm
+make
+man-db
+python
+rsync
+the_silver_searcher
+unzip
+vim
+wget
+xz
+zsh

@@ -95,6 +95,7 @@ install_packages_meta() {
     'AL2') install_command=install_packages_al2 ;;
     'Mac') install_command=install_packages_mac ;;
     'Gentoo') install_command=install_packages_gentoo ;;
+    'Arch') install_command=install_packages_arch ;;
     *)
         cat <<-EOF
 			You are not using a supported distro; package installation will be skipped. Make sure the required packages have been installed.
@@ -173,6 +174,15 @@ install_packages_debian() {
     echo -n "Installing required packages..."
     create_package_list debian
     sudo apt-get install -y $PACINST &>/dev/null
+    ok
+}
+
+install_packages_arch() {
+    echo "OS appears to be Arch..."
+
+    echo -n "Installing required packages..."
+    create_package_list arch
+    sudo pacman -S --noconfirm $PACINST &>/dev/null
     ok
 }
 

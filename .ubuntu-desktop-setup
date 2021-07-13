@@ -39,7 +39,7 @@ fi
 echo STEP: Change backgrounds
 if ! crontab -l | grep -q change-background; then
 	(
-		crontab -l 2>/dev/null
+		crontab -l 2>/dev/null || :
 		echo "*/2 * * * * $HOME/.scripts/change-background"
 	) | crontab -
 fi
@@ -53,7 +53,7 @@ if ! which docker &>/dev/null; then
 	  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
 	sudo apt-get update
-	sudo apt-get install-y docker-ce docker-ce-cli containerd.io
+	sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
 	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 	sudo chmod +x /usr/local/bin/docker-compose
