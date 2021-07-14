@@ -5,7 +5,7 @@ set -euo pipefail
 sudo apt-get install -y $(apt-cache search nvidia-driver | grep -oP '^nvidia-driver-\d+' | sort | tail -n1)
 
 sudo apt-get install -y \
-	nvidia-cuda-toolkit build-essential steam firefox terminology apt-transport-https ca-certificates \
+	nvidia-cuda-toolkit build-essential steam firefox apt-transport-https ca-certificates \
 	curl gnupg lsb-release screen gnome-tweaks gnome-tweak-tool gnome-sushi shellcheck v4l2loopback-dkms
 
 for package in spotify shfmt; do
