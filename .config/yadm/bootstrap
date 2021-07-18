@@ -437,7 +437,7 @@ install_desktop_arch() {
     # yay -S --noconfirm --needed $PACINST
 
     systemctl --user enable --now gamemoded syncthing
-    sudo systemctl enable --now docker bluetooth
+    sudo systemctl enable --now docker bluetooth netdata
     sudo usermod -a -G docker $USER
 
     desktop_configure_background_changer
