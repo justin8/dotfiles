@@ -90,6 +90,10 @@ nmap <Esc>f <S-Right>
 " Add ctrl+a/ctrl+e like in bash for 10keyless
 nmap <C-a> <Home>
 nmap <C-e> <End>
+
+" Add W command to save as root
+command W :execute ':silent w !sudo tee % > /dev/null' <bar> :edit!
+
 " }}}
 
 " Per-plugin configs
