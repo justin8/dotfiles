@@ -253,7 +253,7 @@ install_nvm() {
     ok
 
     echo -n "Installing node... "
-    if ! which node &>/dev/null; then
+    if ! which node &>/dev/null || which node | grep -q "/usr/local"  || node --version | grep       -q $node_version; then
         nvm install $node_version || nvm use --delete-prefix $node_version # Using --lts breaks the version mapping for my nvm speedups :(
         nvm alias default $node_version
     fi
