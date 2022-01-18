@@ -395,6 +395,7 @@ full_config() {
 }
 
 install_desktop_meta() {
+    [[ $RELEASE == "Mac" ]] && return
     echo "Do you want to install desktop-only packages?"
     select choice in "Yes" "No"; do
         case $choice in
