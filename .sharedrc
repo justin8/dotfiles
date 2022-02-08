@@ -151,3 +151,7 @@ export HOMEBREW_NO_INSTALL_CLEANUP=1
 
 # Don't use goproxy, doesn't work on certain networks
 export GOPROXY=direct
+
+# Amazon Toolbox
+export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
+export PATH=$PATH:$HOME/.toolbox/bin
