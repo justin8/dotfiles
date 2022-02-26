@@ -20,6 +20,7 @@ alias less='less -R'
 alias rsync='rsync --info=progress2'
 alias grep='grep --color=auto'
 alias ta='tmux -CC attach'
+alias dev-dsk="ssh -XY dev-dsk -Ct 'sh -l -c \"exec tmux -CC -u new-session -AD -s remote\"'"
 
 if [[ $(uname) == Linux ]]
 then
@@ -68,7 +69,7 @@ if [[ -e $NVM_DIR ]]; then
 
 	node_version="$(cat $HOME/.nvm/alias/default)"
 	eval "$(
-	for i in $NVM_DIR/versions/node/*${node_version}*/bin/* $HOME/.yarn/bin/*; do
+	for i in $NVM_DIR/versions/node/*${node_version}*/bin/*; do
 		binary="${i#*bin/}"
 		cat <<-EOF
 		$binary() {
