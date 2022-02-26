@@ -344,14 +344,6 @@ configure_oh_my_zsh() {
     ln -sf "$DOTFILES/powerlevel10k" "$DOTFILES/oh-my-zsh/custom/themes/powerlevel10k"
 }
 
-install_starship() {
-    # Still used by bash
-    echo -n "Installing Starship..."
-    if ! which starship &>/dev/null; then
-        curl -fsSL https://starship.rs/install.sh | bash -s -- --force
-    fi
-    ok
-}
 
 change_shell() {
     local setshell=0
@@ -467,7 +459,6 @@ install_fzf
 install_python_dev_dependencies
 configure_vim
 configure_rc_addon
-install_starship
 change_shell
 full_config
 install_desktop_meta
