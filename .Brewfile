@@ -25,7 +25,7 @@ cask "spectacle"
 cask "spotify"
 cask "sublime-text"
 cask "syncthing"
-cask "visual-studio-code-insiders"
+cask "visual-studio-code"
 
 # General packages
 brew "aws/tap/aws-sam-cli"
