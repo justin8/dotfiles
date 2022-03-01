@@ -307,6 +307,10 @@ configure_gitconfig() {
     # CodeCommit support
     git config --global credential.helper '!aws codecommit credential-helper $@'
     git config --global credential.UseHttpPath true
+
+    # Brazil CLI recommendations
+    git config --global core.pager "less -FMRiX"
+    git config --global alias.dag "log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)"%an" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order"
     ok
 }
 
