@@ -21,7 +21,6 @@ alias rsync='rsync --info=progress2'
 alias grep='grep --color=auto'
 alias ta='tmux -CC attach'
 alias kmonday='kinit -f -l 7d -r 30d'
-alias dev-dsk="ssh -XY dev-dsk -Ct 'sh -l -c \"exec tmux -CC -u new-session -AD -s remote\"'"
 
 if [[ $(uname) == Linux ]]
 then
