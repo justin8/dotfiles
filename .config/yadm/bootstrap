@@ -35,15 +35,16 @@ if [[ ! -d $DOTFILES ]]; then
 fi
 
 ok() {
+    echo=echo
     if [[ $RELEASE == "Mac" ]]; then
-        if which gecho &>/dev/null; then
-            gecho -e "[ \e[1;32mOK\e[00m ]"
+        if ! which gecho &>/dev/null; then
+            echo " [ OK ]"
+            return
         else
-            echo "[ OK ]"
+            echo=gecho
         fi
-    else
-        echo -e "[ \e[1;32mOK\e[00m ]"
     fi
+    $echo -e " [ \e[1;32mOK\e[00m ]"
 }
 
 git_update() {
@@ -68,7 +69,7 @@ file_download() {
 }
 
 install_pyenv() {
-    echo -n "Installing pyenv... "
+    echo -n "Installing pyenv..."
     git_update "https://github.com/pyenv/pyenv.git" "$HOME/.pyenv"
     git_update "https://github.com/yyuu/pyenv-virtualenvwrapper.git" "$HOME/.pyenv/plugins/pyenv-virtualenvwrapper"
     git_update "https://github.com/pyenv/pyenv-doctor.git" "$HOME/.pyenv/plugins/pyenv-doctor"
@@ -236,14 +237,14 @@ update_scripts() {
 }
 
 install_fzf() {
-    echo -n "Installing fzf... "
+    echo -n "Installing fzf..."
     "$DOTFILES/fzf/install" --all &>/dev/null
     ok
 }
 
 install_nvm() {
     node_version=14
-    echo -n "Installing nvm... "
+    echo -n "Installing nvm..."
     if [[ ! -e $HOME/.nvm ]]; then
         unset NVM_DIR
         curl -sSo- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash &>/dev/null
@@ -252,14 +253,14 @@ install_nvm() {
     . $NVM_DIR/nvm.sh # Source nvm before continuing, the on-demand loading doesn't behave well inside of scripts
     ok
 
-    echo -n "Installing node... "
+    echo -n "Installing node..."
     if ! which node &>/dev/null || which node | grep -q "/usr/local"  || node --version | grep       -q $node_version; then
         nvm install $node_version || nvm use --delete-prefix $node_version # Using --lts breaks the version mapping for my nvm speedups :(
         nvm alias default $node_version
     fi
     ok
 
-    echo -n "Installing yarn... "
+    echo -n "Installing yarn..."
     if ! which yarn &>/dev/null; then
         npm install --global yarn
         yarn config set prefix ~/.yarn
@@ -285,7 +286,7 @@ install_python_dev_dependencies() {
 }
 
 install_fonts() {
-    echo -n "Installing Meslo Nerd Fonts... "
+    echo -n "Installing Meslo Nerd Fonts..."
     FONT_DIR="$HOME/.local/share/fonts/"
     [[ $RELEASE == Mac ]] && FONT_DIR="$HOME/Library/Fonts/"
 
@@ -295,7 +296,7 @@ install_fonts() {
 }
 
 configure_gitconfig() {
-    echo -n "Configuring gitconfig... "
+    echo -n "Configuring gitconfig..."
     git config --global push.default current
     git config --global color.ui auto
     git config --global merge.conflictstyle diff3
@@ -321,7 +322,7 @@ configure_vim() {
 }
 
 install_vimplug() {
-    echo -n "Installing/updating vimplug... "
+    echo -n "Installing/updating vimplug..."
     if [[ -f ~/.vim/autoload/plug.vim ]]; then
         # Vim always seems to have a return of 1...
         vim -esu ~/.vimrc +PlugUpgrade +qa || true
@@ -334,7 +335,7 @@ install_vimplug() {
 }
 
 install_vim_plugins() {
-    echo -n "Installing vim plugins... "
+    echo -n "Installing vim plugins..."
     # Vim always seems to have a return of 1...
     vim -esu ~/.vimrc +PlugClean! +PlugUpdate +qa || true
     ok
@@ -352,7 +353,7 @@ configure_oh_my_zsh() {
 change_shell() {
     local setshell=0
     local newshell=zsh
-    echo -n "Changing shell to $newshell "
+    echo -n "Changing shell to $newshell..."
     if [[ $RELEASE == 'Mac' ]]; then
         if ! finger "$USER" | grep -q "Shell.*$newshell"; then
             setshell=1
@@ -379,15 +380,18 @@ full_config() {
             break
             ;;
         No)
+            echo "Skipping personal configurations setup"
             return
             ;;
         esac
     done
 
+    echo -n "Setting up personal configurations..."
     if ! git config --global --list | grep -q user.name; then
         git config --global user.name "Justin Dray"
         git config --global user.email "justin@dray.be"
     fi
+    ok
 }
 
 install_desktop_meta() {
@@ -441,7 +445,7 @@ install_desktop_arch() {
 }
 
 desktop_configure_background_changer() {
-    echo -n "Configuring background changer... "
+    echo -n "Configuring background changer..."
     if ! crontab -l | grep -q change-background; then
         (
             crontab -l 2>/dev/null || :
