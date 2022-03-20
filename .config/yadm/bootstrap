@@ -189,6 +189,7 @@ install_packages_arch() {
         echo "Installing Yay..."
         (
             cd /tmp
+            rm -rf /ymp/yay
             git clone https://aur.archlinux.org/yay.git
             cd yay
             makepkg -si --noconfirm
