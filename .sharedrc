@@ -22,6 +22,8 @@ alias grep='grep --color=auto'
 alias ta='tmux -CC attach'
 alias kmonday='kinit -f -l 7d -r 30d'
 
+alias bb='brazil-build'
+
 if [[ $(uname) == Linux ]]
 then
 	alias copy='copy --reflink=auto'
