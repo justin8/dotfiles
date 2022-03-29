@@ -72,7 +72,9 @@ source $ZSH/oh-my-zsh.sh
 # Configure history settings
 export HISTFILESIZE=1000000000
 export HISTSIZE=1000000000
-setopt share_history
+setopt    appendhistory     #Append history to the history file (no overwriting)
+setopt    sharehistory      #Share history across terminals
+setopt    incappendhistory  #Immediately append to the history file, not just when a term is killed
 
 # Export ZDOTDIR to allow sudo and keeping the same zsh dot files (still requires changing to zsh or having root's shell set to zsh)
 export ZDOTDIR=$HOME
