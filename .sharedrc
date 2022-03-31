@@ -22,7 +22,6 @@ alias vi=vim
 alias less='less -R'
 alias rsync='rsync --info=progress2'
 alias grep='grep --color=auto'
-alias ta='tmux -CC attach'
 alias kmonday='kinit -f -l 7d -r 30d'
 
 alias bb='brazil-build'
