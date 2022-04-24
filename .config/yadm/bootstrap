@@ -436,7 +436,7 @@ install_desktop_arch() {
     pyenv shell system &>/dev/null || :
     echo "Installing desktop packages..."
     create_package_list arch-desktop
-    # yay -S --noconfirm --needed $PACINST
+    yay -S --noconfirm --needed $PACINST
 
     systemctl --user enable --now gamemoded syncthing
     sudo systemctl enable --now docker bluetooth netdata
