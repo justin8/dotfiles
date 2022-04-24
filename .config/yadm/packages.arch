@@ -6,6 +6,7 @@ jq
 llvm
 make
 man-db
+ncdu
 python
 rsync
 the_silver_searcher

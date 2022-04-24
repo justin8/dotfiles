@@ -7,6 +7,7 @@ jq
 libffi-devel
 llvm
 make
+ncdu
 openssl-devel
 openssl-libs
 readline-devel
