@@ -1,0 +1,8 @@
+[$Version]
+update_info=kwinrules.upd:replace-placement-string-to-enum,kwinrules.upd:use-virtual-desktop-ids
+
+[1]
+desktop[$d]
+desktoprule[$d]
+desktops=
+desktopsrule=2

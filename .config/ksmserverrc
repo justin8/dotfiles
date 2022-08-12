@@ -1,0 +1,23 @@
+[$Version]
+update_info=ksmserver_update_loginMode_value.upd:ksmserver_update_loginMode_value_default_enum
+
+[General]
+loginMode=emptySession
+
+[LegacySession: saved at previous logout]
+clientMachine1=localhost
+command1=tilix
+count=1
+
+[Session: saved at previous logout]
+clientId1=10e2d46e74000165995882300000013610005
+clientId2=10e2d46e74000165995884000000013610006
+count=2
+program1=/usr/lib/DiscoverNotifier
+program2=firefox
+restartCommand1=/usr/lib/DiscoverNotifier,-session,10e2d46e74000165995882300000013610005_1659959858_747501
+restartCommand2=/usr/lib/firefox/firefox,--sm-client-id,10e2d46e74000165995884000000013610006
+restartStyleHint1=0
+restartStyleHint2=0
+userId1=justin
+userId2=justin
