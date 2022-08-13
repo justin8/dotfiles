@@ -1,0 +1,9 @@
+--- PKGBUILD	2022-08-13 11:48:52.434353482 +1000
++++ PKGBUILD.custom	2022-08-13 11:58:08.997662604 +1000
+@@ -25,5 +25,6 @@
+     install -Dm644 "${srcdir}/usr/share/doc/${pkgname}/copyright" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+     rm "${srcdir}/usr/share/doc/${pkgname}/copyright"
+     cp -r "${srcdir}/usr/" "${pkgdir}"
++    sed -i '/^Exec/s/$/ --no-sandbox/' "${pkgdir}/usr/share/applications/hakuneko-desktop.desktop"
+     install -Dm755 "./${pkgname}.sh" "${pkgdir}/usr/bin/${pkgname}"
+ }
