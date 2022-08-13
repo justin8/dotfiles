@@ -83,7 +83,6 @@ install_pyenv() {
     PYTHON_VERSION=3.9.6
     if ! [[ -e "$HOME/.pyenv/versions/$PYTHON_VERSION" ]]; then
         pyenv install $PYTHON_VERSION
-        pyenv global $PYTHON_VERSION
     fi
 
     ok
@@ -193,6 +192,7 @@ install_packages_arch() {
             git clone https://aur.archlinux.org/yay.git
             cd yay
             makepkg -si --noconfirm
+            yay --save --makepkg $HOME/.local/bin/customize-makepkg
         )
     fi
 
