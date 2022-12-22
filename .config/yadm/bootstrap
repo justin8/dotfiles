@@ -244,7 +244,7 @@ install_fzf() {
 }
 
 install_nvm() {
-    node_version=14
+    node_version=18
     echo -n "Installing nvm..."
     if [[ ! -e $HOME/.nvm ]]; then
         unset NVM_DIR
