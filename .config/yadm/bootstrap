@@ -244,18 +244,18 @@ install_fzf() {
 }
 
 install_nvm() {
-    node_version=18
+    node_version=16
     echo -n "Installing nvm..."
     if [[ ! -e $HOME/.nvm ]]; then
         unset NVM_DIR
-        curl -sSo- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash &>/dev/null
+        curl -sSo- https://raw.githubusercontent.com/creationix/nvm/v0.39.2/install.sh | bash &>/dev/null
         export NVM_DIR="$HOME/.nvm"
     fi
     . $NVM_DIR/nvm.sh # Source nvm before continuing, the on-demand loading doesn't behave well inside of scripts
     ok
 
     echo -n "Installing node..."
-    if ! which node &>/dev/null || which node | grep -q "/usr/local"  || node --version | grep       -q $node_version; then
+    if ! which node &>/dev/null || which node | grep -q "/usr/local" || node --version | grep -q $node_version; then
         nvm install $node_version || nvm use --delete-prefix $node_version # Using --lts breaks the version mapping for my nvm speedups :(
         nvm alias default $node_version
     fi
@@ -349,7 +349,6 @@ configure_rc_addon() {
 configure_oh_my_zsh() {
     ln -sf "$DOTFILES/powerlevel10k" "$DOTFILES/oh-my-zsh/custom/themes/powerlevel10k"
 }
-
 
 change_shell() {
     local setshell=0
