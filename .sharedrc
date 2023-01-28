@@ -40,7 +40,9 @@ then
 	alias copy='copy --reflink=auto'
 	alias mwinit="mwinit --aea -s -o"
 fi
+
 export EDITOR="vim"
+export PAGER="" # I don't like paging by default, it's annoying
 
 # Fix to make vim work with color themes
 if [[ $TERM != linux ]]
