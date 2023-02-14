@@ -53,6 +53,9 @@ COMPLETION_WAITING_DOTS="true"
 # Disable additional calls to compinit
 ZSH_DISABLE_COMPFIX="true"
 
+# Disable magic functions like auto-escaping URLs when you paste them in the terminal (See https://github.com/ohmyzsh/ohmyzsh/issues/7632)
+DISABLE_MAGIC_FUNCTIONS="true"
+
 # Uncomment following line if you want to disable marking untracked files under
 # VCS as dirty. This makes repository status check for large repositories much,
 # much faster.
