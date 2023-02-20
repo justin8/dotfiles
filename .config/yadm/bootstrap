@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+PYTHON_VERSION=3.9.6
+
+
 cd "$HOME"
 
 # This works correctly when called via 'yadm bootstrap' but not when used directly
@@ -80,7 +83,6 @@ install_pyenv() {
     eval "$(pyenv init --path)"
 
     # There's no 'latest' command
-    PYTHON_VERSION=3.9.6
     if ! [[ -e "$HOME/.pyenv/versions/$PYTHON_VERSION" ]]; then
         pyenv install $PYTHON_VERSION
     fi
@@ -249,8 +251,8 @@ install_nvm() {
     if [[ ! -e $HOME/.nvm ]]; then
         unset NVM_DIR
         curl -sSo- https://raw.githubusercontent.com/creationix/nvm/v0.39.2/install.sh | bash &>/dev/null
-        export NVM_DIR="$HOME/.nvm"
     fi
+    export NVM_DIR="$HOME/.nvm"
     . $NVM_DIR/nvm.sh # Source nvm before continuing, the on-demand loading doesn't behave well inside of scripts
     ok
 
@@ -272,6 +274,13 @@ install_nvm() {
 
 install_python_dev_dependencies() {
     install_pyenv
+    pyenv shell $PYTHON_VERSION
+
+    # init pyenv
+    export PATH=$PATH:$HOME/.pyenv/bin:$HOME/.local/bin
+    eval "$(pyenv init -)"
+    eval "$(pyenv init --path)"
+
     if ! which ipython &>/dev/null; then
         echo "Installing iPython... "
         pip install --user ipython
