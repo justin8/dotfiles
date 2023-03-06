@@ -351,10 +351,6 @@ install_vim_plugins() {
     ok
 }
 
-configure_rc_addon() {
-    touch ~/.{zsh,shared}rc-addon
-}
-
 configure_oh_my_zsh() {
     ln -sf "$DOTFILES/powerlevel10k" "$DOTFILES/oh-my-zsh/custom/themes/powerlevel10k"
 }
@@ -475,7 +471,6 @@ install_nvm
 install_fzf
 install_python_dev_dependencies
 configure_vim
-configure_rc_addon
 change_shell
 full_config
 install_desktop_meta

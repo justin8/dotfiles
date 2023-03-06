@@ -172,3 +172,4 @@ export GOPROXY=direct
 # Amazon Toolbox
 export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
 export PATH=$PATH:$HOME/.toolbox/bin
+[[ -e $HOME/.sharedrc-addon-late ]] && source $HOME/.sharedrc-addon-late

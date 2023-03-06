@@ -14,7 +14,7 @@ fi
 
 # Source per-machine overrides
 source ~/.sharedrc
-source ~/.zshrc-addon
+[[ -e $HOME/.zshrc-addon ]] && source ~/.zshrc-addon
 
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.config/yadm/oh-my-zsh
@@ -56,6 +56,7 @@ ZSH_DISABLE_COMPFIX="true"
 # Disable magic functions like auto-escaping URLs when you paste them in the terminal (See https://github.com/ohmyzsh/ohmyzsh/issues/7632)
 DISABLE_MAGIC_FUNCTIONS="true"
 
+
 # Uncomment following line if you want to disable marking untracked files under
 # VCS as dirty. This makes repository status check for large repositories much,
 # much faster.
@@ -94,4 +95,4 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 # Uncomment along with the first line to enable profiling of zsh startup
 # zprof
-
+[[ -e $HOME/.zshrc-addon-late ]] && source ~/.zshrc-addon-late
