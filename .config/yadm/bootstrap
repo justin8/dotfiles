@@ -3,7 +3,6 @@ set -e
 
 PYTHON_VERSION=3.9.6
 
-
 cd "$HOME"
 
 # This works correctly when called via 'yadm bootstrap' but not when used directly
@@ -250,7 +249,7 @@ install_nvm() {
     echo -n "Installing nvm..."
     if [[ ! -e $HOME/.nvm ]]; then
         unset NVM_DIR
-        curl -sSo- https://raw.githubusercontent.com/creationix/nvm/v0.39.2/install.sh | bash &>/dev/null
+        curl -sSo- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash &>/dev/null
     fi
     export NVM_DIR="$HOME/.nvm"
     . $NVM_DIR/nvm.sh # Source nvm before continuing, the on-demand loading doesn't behave well inside of scripts
@@ -314,6 +313,7 @@ configure_gitconfig() {
     git config --global pull.rebase true
     git config --global pull.autostash true
     git config --global rebase.autostash true
+    git config --global init.defaultBranch main
 
     # CodeCommit support
     git config --global credential.helper '!aws codecommit credential-helper $@'
