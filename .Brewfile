@@ -19,6 +19,7 @@ cask "finch"
 cask "finicky"
 cask "firefox"
 cask "google-drive"
+cask "hiddenbar"
 cask "iterm2"
 cask "obsidian"
 #cask "omnifocus" # Latest omnifocus needs macOS 11+; commenting out until everything is updated
