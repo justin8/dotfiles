@@ -23,7 +23,7 @@ cask "hiddenbar"
 cask "iterm2"
 cask "obsidian"
 #cask "omnifocus" # Latest omnifocus needs macOS 11+; commenting out until everything is updated
-cask "spectacle"
+cask "rectangle"
 cask "spotify"
 cask "sublime-text"
 cask "syncthing"
