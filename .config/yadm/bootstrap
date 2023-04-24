@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 PYTHON_VERSION=3.10.3
 
@@ -178,6 +178,7 @@ install_packages_debian() {
 
     echo -n "Installing required packages..."
     create_package_list debian
+    sudo apt-get update
     sudo apt-get install -y $PACINST &>/dev/null
     ok
 }
