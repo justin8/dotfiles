@@ -67,6 +67,11 @@ if [[ -e /home/linuxbrew/.linuxbrew ]]; then
 	eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 fi
 
+# Add mac brew to path
+if [[ -e /opt/homebrew/bin/brew ]]; then
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # Use NVM if it is installed
 export NVM_DIR="$(realpath "$HOME/.nvm")"
 

@@ -11,18 +11,18 @@ tap 'homebrew/cask-versions'
 brew "mas"
 
 # Casks
-cask "alfred"
+cask "alfred4"
 cask "authy"
 cask "bitwarden"
-cask "copyclip"
 cask "finch"
 cask "finicky"
 cask "firefox"
 cask "google-drive"
 cask "hiddenbar"
 cask "iterm2"
+cask "maccy"
 cask "obsidian"
-#cask "omnifocus" # Latest omnifocus needs macOS 11+; commenting out until everything is updated
+cask "omnifocus"
 cask "rectangle"
 cask "spotify"
 cask "sublime-text"
