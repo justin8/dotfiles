@@ -30,8 +30,6 @@ cask "syncthing"
 cask "visual-studio-code"
 
 # General packages
-brew "aws/tap/aws-sam-cli"
-brew "awscli"
 brew "awscurl"
 brew "bash"
 brew "cmake"
