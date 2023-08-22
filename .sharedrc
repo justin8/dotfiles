@@ -42,6 +42,7 @@ then
 fi
 
 export EDITOR="vim"
+export AWS_PAGER="" # Disable pagination in AWS CLI by default
 
 # Fix to make vim work with color themes
 if [[ $TERM != linux ]]
