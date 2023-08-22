@@ -124,6 +124,7 @@ install_aws_cli() {
             (
                 cd /tmp
                 curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+                echo "Installing AWS CLI, you may be required to enter your password for sudo"
                 sudo installer -pkg AWSCLIV2.pkg -target /
             )
             ;;
@@ -132,6 +133,7 @@ install_aws_cli() {
                 cd /tmp
                 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
                 unzip awscliv2.zip
+                echo "Installing AWS CLI, you may be required to enter your password for sudo"
                 sudo ./aws/install
             )
             ;;
@@ -471,6 +473,7 @@ install_fonts
 install_nvm
 install_fzf
 install_python_dev_dependencies
+install_aws_cli
 configure_vim
 change_shell
 full_config
