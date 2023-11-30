@@ -31,7 +31,7 @@ alias kmonday='kinit -f -l 7d -r 30d'
 alias bb='brazil-build'
 alias check_endpoints="python $HOME/src/VAPTPublic/tools/tls_checking/check_endpoints.py"
 
-alias mwinit="mwinit --aea -s"
+alias mwinit="mwinit -s"
 alias mwcurl='curl --location-trusted --negotiate -u : -b ~/.midway/cookie -c ~/.midway/cookie'
 alias update_internal_certs='mkdir -p $HOME/.local/ssl; security find-certificate -a -p /System/Library/Keychains/SystemRootCertificates.keychain /Library/Keychains/System.keychain > $HOME/.local/ssl/cert.pem'
 
