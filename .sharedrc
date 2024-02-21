@@ -38,7 +38,7 @@ alias update_internal_certs='mkdir -p $HOME/.local/ssl; security find-certificat
 if [[ $(uname) == Linux ]]
 then
 	alias copy='copy --reflink=auto'
-	alias mwinit="mwinit --aea -s -o"
+	alias mwinit="mwinit -s -o"
 fi
 
 export EDITOR="vim"
