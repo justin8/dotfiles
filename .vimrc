@@ -9,10 +9,9 @@ Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-unimpaired'
-Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
+Plug 'thinca/dockerfile-vim'
 Plug 'Keithbsmiley/rspec.vim', { 'for': 'ruby' }
 Plug 'kien/ctrlp.vim'
-Plug 'rodjek/vim-puppet'
 Plug 'maralla/completor.vim'
 Plug 'hashivim/vim-terraform'
 Plug 'hashivim/vim-consul'
