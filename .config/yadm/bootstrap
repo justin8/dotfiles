@@ -288,6 +288,7 @@ configure_vim() {
     mkdir -p ~/.local/tmp
     install_vimplug
     install_vim_plugins
+    install_vim_plugin_dependencies
 }
 
 install_vimplug() {
@@ -307,6 +308,13 @@ install_vim_plugins() {
     echo -n "Installing vim plugins..."
     # Vim always seems to have a return of 1...
     vim -esu ~/.vimrc +PlugClean! +PlugUpdate +qa || true
+    ok
+}
+
+install_vim_plugin_dependencies() {
+    echo -n "Installing dependencies for vim plugins..."
+    pip install python-lsp-server python-lsp-black python-lsp-isort pylsp-mypy
+    npm i -g bash-language-server typescript-language-server typescript
     ok
 }
 

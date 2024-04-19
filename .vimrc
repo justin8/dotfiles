@@ -4,6 +4,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'yegappan/lsp'
 Plug 'lambdalisue/vim-pyenv',
 Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
@@ -52,6 +53,7 @@ set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.i
 " }}}
 " Syntax {{{
 syntax on
+filetype plugin indent on
 " Recognize exact file names as file types
 au BufRead,BufNewFile {Gemfile,Vagrantfile,Berksfile} set ft=ruby
 au BufRead,BufNewFile *.sls set ft=yaml
@@ -130,8 +132,27 @@ nmap <F9> :TagbarToggle<CR>
 " signify {{{
 let g:signify_vcs_list = ['git'] " Ignore other VCS; improves load speed on non-VCS files being edited
 " }}}
-" C9 {{{
-    autocmd BufRead,BufNewFile ~/git/newclient/* set expandtab
-" }}}
+" LSP {{{
+let g:lspServers = [
+   \ {
+        \ 'name': 'pylsp',
+        \ 'filetype': ['python'],
+        \ 'path': '/usr/bin/pylsp',
+        \ 'args': []
+    \ },
+    \ {
+        \ 'name': 'tsserver',
+        \ 'filetype': ['javascript', 'typescript'],
+        \ 'path': '/usr/local/bin/typescript-language-server',
+        \ 'args': ['stdio']
+    \ },
+    \ {
+        \ 'name': 'bashls',
+        \ 'filetype': 'sh',
+        \ 'path': '/usr/local/bin/bash-language-server',
+        \ 'args': ['start']
+    \ }
+\]
+autocmd! BufReadPre * g:LspAddServer(g:lspServers)
 
 " vim:foldmethod=marker:foldlevel=0
