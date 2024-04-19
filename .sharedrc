@@ -29,7 +29,6 @@ alias grep='grep --color=auto'
 alias kmonday='kinit -f -l 7d -r 30d'
 
 alias bb='brazil-build'
-alias check_endpoints="python $HOME/src/VAPTPublic/tools/tls_checking/check_endpoints.py"
 
 alias mwinit="mwinit -s"
 alias mwcurl='curl --location-trusted --negotiate -u : -b ~/.midway/cookie -c ~/.midway/cookie'
@@ -72,71 +71,6 @@ if [[ -e /opt/homebrew/bin/brew ]]; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# Use NVM if it is installed
-export NVM_DIR="$(realpath "$HOME/.nvm")"
-
-if [[ -e $NVM_DIR ]]; then
-	load_nvm(){
-		unset -f nvm
-		[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-	}
-
-	nvm(){
-		if [[ $(type nvm) =~ "load_nvm" ]] || [[ $(type nvm) =~ "sharedrc" ]]; then
-			load_nvm
-		fi
-		nvm "$@"
-	}
-
-	node_version="$(cat $HOME/.nvm/alias/default)"
-	eval "$(
-	for i in $NVM_DIR/versions/node/*${node_version}*/bin/*; do
-		binary="${i#*bin/}"
-		cat <<-EOF
-		$binary() {
-			if [[ \$(type nvm) =~ "load_nvm" ]] || [[ \$(type nvm) =~ "sharedrc" ]]; then
-				load_nvm
-			fi
-			unset -f $binary
-			$binary \$@
-		}
-		EOF
-	done)"
-fi
-
-# Enable python virtualenvs
-if [[ -e $HOME/.pyenv ]]; then
-	export PYENV_ROOT="$HOME/.pyenv"
-	export PATH="$PYENV_ROOT/bin:$PATH"
-	export WORKON_HOME=$HOME/.virtualenvs
-
-	eval "$(pyenv init --path)"
-	eval "$(pyenv init -)"
-
-	init_virtualenvwrapper() {
-		pyenv virtualenvwrapper_lazy
-	}
-
-	# Wrappers for virtualenv wrapper to load on-demand only
-	mkvirtualenv() {
-		unset -f mkvirtualenv
-		init_virtualenvwrapper
-		mkvirtualenv "$@"
-	}
-
-	rmvirtualenv() {
-		unset -f rmvirtualenv
-		init_virtualenvwrapper
-		rmvirtualenv "$@"
-	}
-
-	workon() {
-		unset -f workon
-		init_virtualenvwrapper
-		workon "$@"
-	}
-
-fi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!

@@ -1,6 +1,9 @@
 " Plugins {{{
 filetype off " required
 call plug#begin('~/.vim/plugged')
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-easy-align'
 Plug 'lambdalisue/vim-pyenv',
 Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'

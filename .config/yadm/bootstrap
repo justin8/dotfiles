@@ -247,41 +247,18 @@ install_fzf() {
     ok
 }
 
-install_nvm() {
-    node_version=16
-    echo -n "Installing nvm..."
-    if [[ ! -e $HOME/.nvm ]]; then
-        unset NVM_DIR
-        curl -sSo- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash &>/dev/null
+install_mise() {
+    echo -n "Installing mise..."
+    if [[ ! -e $HOME/.local/bin/mise ]]; then
+        curl https://mise.run | sh
+        mise use --global node
+        mise use --global python
     fi
-    export NVM_DIR="$HOME/.nvm"
-    . $NVM_DIR/nvm.sh # Source nvm before continuing, the on-demand loading doesn't behave well inside of scripts
-    ok
-
-    echo -n "Installing node..."
-    if ! which node &>/dev/null || which node | grep -q "/usr/local" || node --version | grep -q $node_version; then
-        nvm install $node_version || nvm use --delete-prefix $node_version # Using --lts breaks the version mapping for my nvm speedups :(
-        nvm alias default $node_version
-    fi
-    ok
-
-    echo -n "Installing yarn..."
-    if ! which yarn &>/dev/null; then
-        npm install --global yarn
-        yarn config set prefix ~/.yarn
-        yarn global add npm-check-updates
-    fi
-    ok
 }
 
-install_python_dev_dependencies() {
-    install_pyenv
-    pyenv shell $PYTHON_VERSION
 
-    # init pyenv
-    export PATH=$PATH:$HOME/.pyenv/bin:$HOME/.local/bin
-    eval "$(pyenv init -)"
-    eval "$(pyenv init --path)"
+install_python_dev_dependencies() {
+    ~/.local/bin/mise activate bash
 
     if ! which ipython &>/dev/null; then
         echo "Installing iPython... "
@@ -294,7 +271,6 @@ install_python_dev_dependencies() {
         poetry config virtualenvs.in-project true
 
     fi
-
 }
 
 install_fonts() {
@@ -470,7 +446,7 @@ configure_oh_my_zsh
 install_packages_meta
 update_scripts
 install_fonts
-install_nvm
+install_mise
 install_fzf
 install_python_dev_dependencies
 install_aws_cli
