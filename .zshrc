@@ -93,9 +93,11 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-eval "$(~/.local/bin/mise activate zsh)"
+# Set up mise for runtime management
+eval "$(mise activate zsh)"
 
 [[ -e $HOME/.zshrc-addon-late ]] && source ~/.zshrc-addon-late
 
 # Uncomment along with the first line to enable profiling of zsh startup
 # zprof
+

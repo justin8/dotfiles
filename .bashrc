@@ -16,5 +16,4 @@ fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-eval "$(~/.local/bin/mise activate bash)"
-
+eval "$(mise activate bash)"
