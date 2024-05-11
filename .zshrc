@@ -67,8 +67,8 @@ DISABLE_MAGIC_FUNCTIONS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(aws yarn)
 
-if [[ ! -e /etc/redhat-release ]]; then
-	plugin+=(zsh-syntax-highlighting)
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
 fi
 
 source $ZSH/oh-my-zsh.sh
