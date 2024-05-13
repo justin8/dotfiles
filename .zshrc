@@ -98,6 +98,8 @@ eval "$(mise activate zsh)"
 
 [[ -e $HOME/.zshrc-addon-late ]] && source ~/.zshrc-addon-late
 
+# if you wish to use IMDS set AWS_EC2_METADATA_DISABLED=false
+export AWS_EC2_METADATA_DISABLED=true
+
 # Uncomment along with the first line to enable profiling of zsh startup
 # zprof
-
