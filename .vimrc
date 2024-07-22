@@ -5,7 +5,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'yegappan/lsp'
-Plug 'lambdalisue/vim-pyenv',
 Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
