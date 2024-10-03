@@ -23,6 +23,7 @@ fi
 
 # Aliases
 alias vi=vim
+alias cat=bat
 alias less='less -R'
 alias rsync='rsync --info=progress2'
 alias grep='grep --color=auto'

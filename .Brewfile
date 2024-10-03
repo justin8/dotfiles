@@ -32,6 +32,7 @@ cask "visual-studio-code"
 
 # General packages
 brew "awscurl"
+brew "bat"
 brew "bash"
 brew "cmake"
 brew "coreutils"
