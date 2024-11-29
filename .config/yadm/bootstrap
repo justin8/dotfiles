@@ -213,6 +213,7 @@ update_yadm() {
 
 update_submodules() {
     yadm submodule update --recursive --init
+    yadm lfs pull
 }
 
 update_scripts() {
@@ -257,14 +258,22 @@ install_python_dev_dependencies() {
 
 install_fonts() {
     echo
-    echo "Installing Meslo Nerd Fonts..."
+    echo "Installing Nerd Fonts..."
     FONT_DIR="$HOME/.local/share/fonts/"
     [[ $RELEASE == Mac ]] && FONT_DIR="$HOME/Library/Fonts/"
-    FONT_FILE="$FONT_DIR/Meslo LG S Regular Nerd Font Complete.ttf"
+    MESLO_FONT_FILE="$FONT_DIR/Meslo LG S Regular Nerd Font Complete.ttf"
+    JETBRAINS_FONT_FILE="$FONT_DIR/JetBrainsMonoNerdFont-Regular.ttf"
 
-    if ! [[ -f "$FONT_FILE" ]]; then
-        file_download "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip" "$DOTFILES/Meslo.zip"
+    if ! [[ -f "$MESLO_FONT_FILE" ]]; then
+        echo "Downloading Meslo Nerd Fonts..."
+        file_download "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Meslo.zip" "$DOTFILES/Meslo.zip"
         unzip -nd "$FONT_DIR" "$DOTFILES/Meslo.zip"
+    fi
+
+    if ! [[ -f "$JETBRAINS_FONT_FILE" ]]; then
+        echo "Downloading JetBrainsMono Nerd Fonts..."
+        file_download "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.zip" "$DOTFILES/JetBrainsMono.zip"
+        unzip -nd "$FONT_DIR" "$DOTFILES/JetBrainsMono.zip"
     fi
 }
 

@@ -1,0 +1,105 @@
+{
+  "layer": "top",
+  "position": "left",
+  "width": 80,
+  "margin-left": 5,
+  "margin-right": 5,
+  "margin-top": 5,
+  "margin-bottom": 0,
+  "spacing": 1,
+  "reload_style_on_change": true,
+  "modules-left": ["hyprland/workspaces"],
+  "modules-right": [
+    "network",
+    "custom/cpu",
+    "custom/memory",
+    "custom/disk",
+    "clock",
+    "custom/separator",
+    "tray",
+    "custom/power"
+  ],
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "all-outputs": true,
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10"
+    }
+  },
+
+  "network": {
+    "interval": 2,
+    "format": "{bandwidthDownBytes:>2}\n{bandwidthUpBytes:>2}"
+  },
+
+  "custom/cpu": {
+    "exec": "~/.config/waybar/scripts/cpu",
+    "interval": 1,
+    "return-type": "json",
+    "format": "{}"
+  },
+  "custom/memory": {
+    "exec": "~/.config/waybar/scripts/memory",
+    "interval": 1,
+    "return-type": "json",
+    "format": "{}"
+  },
+
+  "custom/disk": {
+    "exec": "~/.config/waybar/scripts/disk",
+    "interval": 30,
+    "format": "{}",
+    "return-type": "json"
+  },
+  // "cpu": {
+  //   "interval": 2,
+  //   "format": " {usage:>2}%",
+  //   "tooltip": false,
+  //   "on-click": "gnome-system-monitor -r"
+  // },
+  // "memory": {
+  //   "interval": 2,
+  //   "format": " {:>2}%",
+  //   "on-click": "gnome-system-monitor -r"
+  // },
+  // "disk": {
+  //   "interval": 15,
+  //   "format": "󰋊 {percentage_used:>2}%",
+  //   "on-click": "gnome-system-monitor -f"
+  // },
+  "clock": {
+    "interval": 60,
+    "format": " {:%H:%M}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format-alt": "{:%Y-%m-%d %H:%M:%S  }"
+  },
+  "custom/separator": {
+    "format": "{icon}",
+    "format-icons": "━━━━━━━",
+    "tooltip": false
+  },
+  "tray": {
+    "icon-size": 22,
+    "spacing": 5,
+    "show-passive-items": false
+  },
+
+  "custom/power": {
+    "format": "{icon}",
+
+    "format-icons": " ", //  
+    "exec-on-event": "true",
+    "on-click": "~/.config/hypr/scripts/wlogout",
+    "tooltip-format": "Power Menu"
+  }
+}

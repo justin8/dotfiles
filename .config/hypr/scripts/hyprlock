@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# probably breaks on dual monitors but I don't have a setup to test on right now
+ln -s $(hyprctl hyprpaper listloaded) /tmp/current-wallpaper
+hyprlock

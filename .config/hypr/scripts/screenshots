@@ -1,0 +1,12 @@
+#!/bin/bash
+
+SCREENSHOT_NAME="Screenshot - $(date --iso-8601=seconds).png"
+SCREENSHOT_PATH="$HOME/Pictures/$SCREENSHOT_NAME"
+
+if [[ $1 == "screen" ]]; then
+  grimblast copysave screen "$SCREENSHOT_PATH"
+elif [[ $1 == "window" ]]; then
+  grimblast copysave active "$SCREENSHOT_PATH"
+elif [[ $1 == "area" ]]; then
+  grimblast copysave area "$SCREENSHOT_PATH"
+fi

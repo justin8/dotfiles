@@ -1,0 +1,2 @@
+#!/bin/bash
+wlogout -b 5 -L 1900 -R 1900 -T 520 -B 520

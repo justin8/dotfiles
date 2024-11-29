@@ -1,0 +1,2 @@
+#!/bin/bash
+cliphist list | wofi --show dmenu --matching fuzzy | cliphist decode | wl-copy

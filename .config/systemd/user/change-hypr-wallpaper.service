@@ -1,0 +1,6 @@
+[Unit]
+Description=Change Hyprpaper Wallpaper
+
+[Service]
+Type=oneshot
+ExecStart=%h/.config/hypr/scripts/change-wallpaper

@@ -1,0 +1,16 @@
+#!/bin/bash
+set -x
+WALLPAPER_DIR="$HOME/Backgrounds"
+MONITORS=$(hyprctl monitors -j | jq -r '.[].name')
+
+hyprctl hyprpaper unload all
+
+for MONITOR in $MONITORS; do
+  # Pick a random wallpaper
+  RANDOM_WALLPAPER=$(find "$WALLPAPER_DIR" -type f | shuf -n 1)
+
+  hyprctl hyprpaper preload "$RANDOM_WALLPAPER"
+
+  # Apply the wallpaper to the current monitor
+  hyprctl hyprpaper wallpaper "$MONITOR,$RANDOM_WALLPAPER"
+done

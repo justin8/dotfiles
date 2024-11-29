@@ -1,0 +1,11 @@
+#!/bin/bash
+
+generate_bar() {
+  local usage=$1
+  local width=7
+  local filled=$(awk "BEGIN {printf \"%.0f\", $usage * $width / 100}")
+  local empty=$((width - filled))
+
+  [[ $filled -gt 0 ]] && printf '█%.0s' $(seq 1 "$filled")
+  [[ $empty -gt 0 ]] && printf '▒%.0s' $(seq 1 $empty)
+}
