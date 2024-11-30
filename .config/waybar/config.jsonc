@@ -46,12 +46,14 @@
     "exec": "~/.config/waybar/scripts/cpu",
     "interval": 1,
     "return-type": "json",
+    "on-click": "gnome-system-monitor -r",
     "format": "{}"
   },
   "custom/memory": {
     "exec": "~/.config/waybar/scripts/memory",
     "interval": 1,
     "return-type": "json",
+    "on-click": "gnome-system-monitor -r",
     "format": "{}"
   },
 
@@ -59,6 +61,7 @@
     "exec": "~/.config/waybar/scripts/disk",
     "interval": 30,
     "format": "{}",
+    "on-click": "gnome-system-monitor -f",
     "return-type": "json"
   },
   // "cpu": {

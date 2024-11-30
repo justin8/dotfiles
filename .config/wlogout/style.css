@@ -14,7 +14,7 @@ button {
     text-shadow: none;
     border-radius: 20px 20px 20px 20px;
     background-color: rgba(1, 121, 111, 0);
-    margin: 5px;
+    margin: 10px;
     transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
@@ -26,34 +26,19 @@ button:hover {
     background-image: image(url("icons/lock.png"));
     background-size: 70%;
 }
-#lock:focus {
-    background-image: image(url("icons/lock-hover.png"));
-}
 
 #logout {
     background-image: image(url("icons/logout.png"));
-}
-#logout:focus {
-    background-image: image(url("icons/logout-hover.png"));
 }
 
 #suspend {
     background-image: image(url("icons/sleep.png"));
 } 
-#suspend:focus {
-    background-image: image(url("icons/sleep-hover.png"));
-}
 
 #shutdown {
     background-image: image(url("icons/power.png"));
 }
-#shutdown:focus {
-    background-image: image(url("icons/power-hover.png"));
-}
 
 #reboot {
     background-image: image(url("icons/restart.png"));
-}
-#reboot:focus {
-    background-image: image(url("icons/restart-hover.png"));
 }
