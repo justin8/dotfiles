@@ -1,0 +1,143 @@
+* {
+    selected-active-foreground:  rgba ( 249, 249, 249, 100 % );
+    lightfg:                     rgba ( 88, 104, 117, 100 % );
+    separatorcolor:              rgba ( 29, 31, 33, 100 % );
+    urgent-foreground:           rgba ( 204, 102, 102, 100 % );
+    lightbg:                     rgba ( 238, 232, 213, 100 % );
+    background-color:            transparent;
+    border-color:                rgba ( 124, 131, 137, 100 % );
+    normal-background:           var(background);
+    selected-urgent-background:  rgba ( 165, 66, 66, 100 % );
+    spacing:                     2;
+    urgent-background:           rgba ( 29, 31, 33, 17 % );
+    selected-normal-foreground:  rgba ( 249, 249, 249, 100 % );
+    active-foreground:           rgba ( 101, 172, 255, 100 % );
+    background:                  rgba ( 45, 48, 59, 95 % );
+    selected-normal-background:  rgba ( 64, 132, 214, 100 % );
+    selected-active-background:  rgba ( 68, 145, 237, 100 % );
+    active-background:           rgba ( 29, 31, 33, 17 % );
+    foreground:                  rgba ( 201, 203, 255, 100 % );
+    selected-urgent-foreground:  rgba ( 249, 249, 249, 100 % );
+    normal-foreground:           var(foreground);
+    highlight-gradient: linear-gradient(45deg, rgba(201, 203, 255, 1),rgba(245, 224, 220, 1), rgba(242, 205, 205, 1));
+    background-gradient: linear-gradient(45deg, rgba(30,30,46,1), rgba(26,24,38,1), rgba(22,19,32,1)); 
+    search-border: rgba(242, 205, 205, 1);
+}
+window {
+    padding:          5;
+    background-color: var(background);
+    background-image: var(background-gradient);
+    border: 0px;
+    border-radius: 20px;
+    width: 1300px;
+    height: 720px;
+}
+mainbox {
+    padding: 0;
+    border:  0;
+}
+message {
+    padding:      1px ;
+    border-color: var(separatorcolor);
+    border:       2px 0px 0px ;
+}
+textbox {
+    text-color: var(foreground);
+}
+listview {
+    padding:      2px 0px 0px ;
+    scrollbar:    true;
+    border-color: var(separatorcolor);
+    spacing:      2px ;
+    fixed-height: 0;
+    border:       2px 0px 0px ;
+}
+element {
+    padding: 8px ;
+    border:  0;
+    children: [element-icon, element-text];
+}
+element normal.normal {
+    text-color: var(normal-foreground);
+}
+element alternate.normal {
+    text-color: var(normal-foreground);
+}
+
+element normal.active {
+    background-color: var(active-background);
+    text-color: var(normal-foreground);
+}
+element selected {
+    background-image: var(highlight-gradient);
+    border: 0px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+element selected.active {
+    text-color: rgba(0,0,0,1);
+}
+
+
+element-text {
+    background-color: inherit;
+    text-color: inherit;
+}
+element-icon {
+  size: 1em;
+  padding: 5px;
+}
+scrollbar {
+    width:        4px ;
+    padding:      0;
+    handle-width: 8px ;
+    border:       0;
+    handle-color: var(normal-foreground);
+}
+mode-switcher {
+    border-color: var(separatorcolor);
+    border:       2px 0px 0px ;
+}
+button {
+    spacing:    0;
+    text-color: var(normal-foreground);
+}
+button selected {
+    background-color: var(selected-normal-background);
+    text-color:       var(selected-normal-foreground);
+}
+inputbar {
+    padding:    3px ;
+    spacing:    0;
+    text-color: var(normal-foreground);
+    border: 0px;
+    border-radius: 15px;
+        background-image: var(highlight-gradient);
+    children:   [ "entry","case-indicator" ];
+}
+
+case-indicator {
+    spacing:    0;
+    text-color: var(normal-foreground);
+}
+entry {
+    text-color: var(normal-foreground);
+    placeholder: "Search...";
+    cursor-color: var(normal-foreground);
+    border: 0px;
+    padding: 10px;
+    border-radius: 12px;
+    background-image: var(background-gradient);
+}
+prompt {
+    spacing:    0;
+    padding: 5px;
+    text-color: var(normal-foreground);
+}
+textbox-prompt-colon {
+    margin:     0px 0.3000em 0.0000em 0.0000em ;
+    expand:     false;
+    str:        ":";
+    text-color: var(normal-foreground);
+}

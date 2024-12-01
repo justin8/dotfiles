@@ -1,4 +1,4 @@
 #!/bin/bash
 
-pkill wofi
-cliphist list | wofi --show dmenu --matching fuzzy | cliphist decode | wl-copy
+pkill rofi
+cliphist list | rofi -dmenu | cliphist decode | wl-copy
