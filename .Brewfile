@@ -6,6 +6,7 @@ cask_args appdir: '/Applications'
 tap 'homebrew/cask'
 tap 'aws/tap'
 tap 'homebrew/cask-versions'
+tap 'FelixKratz/formulae'
 
 # Enable app store installations
 brew "mas"
@@ -17,6 +18,7 @@ cask "bitwarden"
 cask "easy-move-plus-resize"
 cask "finicky"
 cask "firefox"
+cask "floorp"
 cask "google-drive"
 cask "hiddenbar"
 cask "iterm2"
@@ -35,7 +37,7 @@ brew "bat"
 brew "bash"
 brew "cmake"
 brew "coreutils"
-brew install --cask easy-move-plus-resizebrew "ctags"
+brew "ctags"
 brew "diffutils"
 brew "ed"
 brew "findutils"
@@ -60,6 +62,8 @@ brew "ripgrep"
 brew "rsync"
 brew "screen"
 brew "shellcheck"
+brew "sketchybar"
+brew "spicetify"
 brew "the_silver_searcher"
 brew "tmux"
 brew "vim"
