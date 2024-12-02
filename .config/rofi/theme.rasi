@@ -35,6 +35,7 @@ window {
 mainbox {
     padding: 0;
     border:  0;
+    // children: [inputbar, listview ];
 }
 message {
     padding:      1px ;
@@ -53,7 +54,7 @@ listview {
     border:       2px 0px 0px ;
 }
 element {
-    padding: 8px ;
+    padding: 8px;
     border:  0;
     children: [element-icon, element-text];
 }
@@ -79,8 +80,8 @@ element selected.active {
     text-color: rgba(0,0,0,1);
 }
 
-
 element-text {
+    padding: 3px;
     background-color: inherit;
     text-color: inherit;
 }
@@ -114,7 +115,7 @@ inputbar {
     border: 0px;
     border-radius: 15px;
         background-image: var(highlight-gradient);
-    children:   [ "entry","case-indicator" ];
+    children:   [ "entry" ];
 }
 
 case-indicator {
