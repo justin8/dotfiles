@@ -1,5 +1,5 @@
 configuration {
-	modes: "window,drun,ssh,combi";
+	modes: "combi,calc";
 	font: "JetBrains Mono Regular Nerd Font Complete 14";
 /*	location: 0;*/
 /*	yoffset: 0;*/
@@ -15,7 +15,7 @@ configuration {
 /*	window-command: "wmctrl -i -R {window}";*/
 /*	window-match-fields: "all";*/
 /*	icon-theme: ;*/
-/*	drun-match-fields: "name,generic,exec,categories,keywords";*/
+	drun-match-fields: "all";
 /*	drun-categories: ;*/
 /*	drun-show-actions: false;*/
 /*	drun-display-format: "{name} [<span weight='light' size='small'><i>({generic})</i></span>]";*/
@@ -32,7 +32,7 @@ configuration {
 /*	auto-select: false;*/
 /*	parse-hosts: false;*/
 /*	parse-known-hosts: true;*/
-	combi-modes: "window,drun,ssh";
+	combi-modes: "window,drun";
 	matching: "fuzzy";
 /*	tokenize: true;*/
 /*	m: "-5";*/
@@ -45,7 +45,7 @@ configuration {
 /*	global-kb: false;*/
 /*	max-history-size: 25;*/
 /*	combi-hide-mode-prefix: false;*/
-/*	combi-display-format: "{mode} {text}";*/
+	combi-display-format: "{text}";
 /*	matching-negate-char: '-' /* unsupported */;*/
 /*	cache-dir: ;*/
 /*	window-thumbnail: false;*/

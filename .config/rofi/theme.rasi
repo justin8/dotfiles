@@ -84,6 +84,8 @@ element-text {
     padding: 3px;
     background-color: inherit;
     text-color: inherit;
+    // expand: true;
+    // vertical-align: 0.5;
 }
 element-icon {
   size: 1em;
