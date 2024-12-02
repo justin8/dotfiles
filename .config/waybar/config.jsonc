@@ -39,7 +39,8 @@
 
   "network": {
     "interval": 2,
-    "format": "{bandwidthDownBytes:>2}\n{bandwidthUpBytes:>2}"
+    "format": "{bandwidthDownBytes:>2}\n{bandwidthUpBytes:>2}",
+    "on-click": "gnome-system-monitor -r"
   },
 
   "custom/cpu": {
