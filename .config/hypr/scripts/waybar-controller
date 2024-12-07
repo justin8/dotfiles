@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+hidden_on_workspace=3
+
+hide() {
+  if [[ ! -f /tmp/waybar_is_hidden ]]; then
+    killall -SIGUSR1 waybar && touch /tmp/waybar_is_hidden
+  fi
+}
+
+show() {
+  if [[ -f /tmp/waybar_is_hidden ]]; then
+    killall -SIGUSR1 waybar && rm /tmp/waybar_is_hidden >>/dev/null 2>&1
+  fi
+}
+
+if [[ $1 ]]; then
+	eval "$1"
+	exit 0
+fi
+
+killall waybar
+rm /tmp/waybar_is_hidden
+waybar &
+
+socket="$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock"
+socat "$socket" STDOUT | while read -r event; do
+  case $event in
+  "workspace>>$hidden_on_workspace")
+    echo Hiding waybar...
+    hide
+    ;;
+  "workspace>>"*)
+    echo Showing waybar...
+    show
+    ;;
+  esac
+done
