@@ -3,7 +3,6 @@
 cask_args appdir: '/Applications'
 
 # taps
-tap 'homebrew/cask'
 tap 'aws/tap'
 tap 'homebrew/cask-versions'
 tap 'FelixKratz/formulae'
@@ -15,7 +14,6 @@ brew "mas"
 cask "authy"
 cask "bitwarden"
 cask "easy-move-plus-resize"
-cask "finicky"
 cask "firefox"
 cask "floorp"
 cask "google-drive"
@@ -40,7 +38,6 @@ brew "diffutils"
 brew "ed"
 brew "findutils"
 brew "gawk"
-brew "gcal"
 brew "git"
 brew "git-lfs"
 brew "gnu-indent"
@@ -61,8 +58,6 @@ brew "ripgrep"
 brew "rsync"
 brew "screen"
 brew "shellcheck"
-brew "sketchybar"
-brew "spicetify-cli"
 brew "the_silver_searcher"
 brew "tmux"
 brew "vim"
