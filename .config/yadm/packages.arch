@@ -10,6 +10,8 @@ man-db
 ncdu
 python
 rsync
+shellcheck
+shfmt
 the_silver_searcher
 unzip
 vim
