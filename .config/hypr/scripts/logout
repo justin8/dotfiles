@@ -1,5 +1,12 @@
 #!/bin/bash
 
 if ! pgrep wlogout &>/dev/null; then
-  wlogout -b 5 -L 1900 -R 1900 -T 520 -B 520
+
+  monitors="$(hyprctl monitors -j)"
+  width="$(echo "$monitors" | jq '.[0].width')"
+  height="$(echo "$monitors" | jq '.[0].height')"
+  horizontal_margin=$(((width - 1320) / 2))
+  vertical_margin=$(((height - 400) / 2))
+
+  wlogout -b 5 -L $horizontal_margin -R $horizontal_margin -T $vertical_margin -B $vertical_margin
 fi
