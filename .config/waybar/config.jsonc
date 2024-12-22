@@ -85,7 +85,7 @@
     "interval": 60,
     "format": " {:%H:%M}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "format-alt": "{:%Y-%m-%d %H:%M:%S  }"
+    "format-alt": "{:%Y-%m-%d\n %H:%M:%S}"
   },
   "custom/separator": {
     "format": "{icon}",
