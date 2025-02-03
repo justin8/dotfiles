@@ -359,6 +359,11 @@ change_shell() {
     fi
 }
 
+reload_bat_cache() {
+    bat cache --clear
+    bat cache --build
+}
+
 full_config() {
     echo
     echo "Do you want to set up personal configs? (git user/email, etc)"
@@ -392,6 +397,7 @@ install_mise
 install_fzf
 install_python_dev_dependencies
 install_aws_cli
+reload_bat_cache
 configure_vim
 change_shell
 full_config
