@@ -6,7 +6,7 @@ exec > >(tee /tmp/output.log) 2>&1
 
 if [[ $1 == reset ]]; then
   echo "Resetting monitor config..."
-  echo 'monitor = DP-3,highrr,auto,auto' >$CONFIG_FILE
+  echo 'monitor = DP-3,5120x1440@120,auto,auto' >$CONFIG_FILE
   echo 'monitor = HDMI-A-1,disable' >>$CONFIG_FILE
 fi
 
@@ -14,6 +14,8 @@ if [[ $1 == sunshine ]]; then
   echo "Setting sunshine monitor config..."
   echo 'monitor = DP-3,1920x1080@119.88Hz,auto,auto' >$CONFIG_FILE
   echo 'monitor = HDMI-A-1,disable' >>$CONFIG_FILE
+  HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch dpms on
 fi
 
 sleep 2
+
