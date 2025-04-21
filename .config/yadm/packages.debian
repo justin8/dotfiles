@@ -1,6 +1,7 @@
 build-essential
 cmake
 curl
+fd-find
 git
 jq
 libbz2-dev
@@ -11,9 +12,11 @@ libsqlite3-dev
 libssl-dev
 llvm
 make
+neovim
 ncdu
 python3
 python3-pip
+ripgrep
 rsync
 silversearcher-ag
 tk-dev

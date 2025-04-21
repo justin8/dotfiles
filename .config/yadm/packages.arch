@@ -2,13 +2,16 @@ bat
 cmake
 cronie
 curl
+fd
 git
 jq
 llvm
 make
 man-db
+neovim
 ncdu
 python
+ripgrep
 rsync
 shellcheck
 shfmt

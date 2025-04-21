@@ -23,6 +23,7 @@ fi
 
 # Aliases
 alias vi=vim
+alias vim=nvim
 alias cat=bat
 alias less=bat
 alias rsync='rsync --info=progress2'
