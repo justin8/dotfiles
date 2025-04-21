@@ -1,389 +1,354 @@
 #!/bin/bash
-set -ex
+set -e
 
 cd "$HOME"
 
 # This works correctly when called via 'yadm bootstrap' but not when used directly
 DOTFILES=$(
-	cd "$(dirname "$0")"
-	pwd
+  cd "$(dirname "$0")"
+  pwd
 )
 
 # OS Detection / OS Specific variables
 if [[ -f /etc/os-release ]]; then
-	RELEASE=$(grep '^NAME=' /etc/os-release | sed -E 's/NAME="?([a-zA-Z]+).*/\1/')
-	if [[ $RELEASE == Amazon ]]; then
-		VERSION=$(grep '^VERSION="' /etc/os-release | sed -E 's/VERSION="([0-9.]+)"/\1/')
-		if [[ $VERSION == 2 ]]; then
-			RELEASE=AL2
-		else
-			RELEASE=AL1
-		fi
-	fi
+  RELEASE=$(grep '^NAME=' /etc/os-release | sed -E 's/NAME="?([a-zA-Z]+).*/\1/')
+  if [[ $RELEASE == Amazon ]]; then
+    VERSION=$(grep '^VERSION="' /etc/os-release | sed -E 's/VERSION="([0-9.]+)"/\1/')
+    if [[ $VERSION == 2 ]]; then
+      RELEASE=AL2
+    else
+      RELEASE=AL1
+    fi
+  fi
 elif [[ -f /usr/lib/os-release ]]; then
-	RELEASE=$(grep '^NAME="' /usr/lib/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
+  RELEASE=$(grep '^NAME="' /usr/lib/os-release | sed -E 's/NAME="([a-zA-Z]+).*/\1/')
 elif uname -a | grep -qi darwin >/dev/null 2>&1; then
-	RELEASE="Mac"
+  RELEASE="Mac"
 else
-	RELEASE="false"
-	echo "Unable to detect OS correctly, assuming some sort of Linux..."
+  RELEASE="false"
+  echo "Unable to detect OS correctly, assuming some sort of Linux..."
 fi
 
 if [[ ! -d $DOTFILES ]]; then
-	echo "An error has occured while determining the current path. Exiting."
-	exit 1
+  echo "An error has occured while determining the current path. Exiting."
+  exit 1
 fi
 
 git_update() {
-	repo="$1"
-	dest="$2"
-	if [[ -d "$dest" ]]; then
-		cd "$dest"
-		git reset --hard origin/master
-		git pull
-	else
-		git clone "$repo" "$dest"
-	fi
+  repo="$1"
+  dest="$2"
+  if [[ -d "$dest" ]]; then
+    cd "$dest"
+    git reset --hard origin/master
+    git pull
+  else
+    git clone "$repo" "$dest"
+  fi
 }
 
 file_download() {
-	source="$1"
-	dest="$2"
+  source="$1"
+  dest="$2"
 
-	if ! [[ -e "$dest" ]]; then
-		curl -Lo "$dest" "$source"
-	fi
+  if ! [[ -e "$dest" ]]; then
+    curl -Lo "$dest" "$source"
+  fi
 }
 
 install_packages_meta() {
-	echo
-	echo "Verifying required packages are installed."
-	case $RELEASE in
-	'Debian' | 'Ubuntu' | 'Raspbian') install_command=install_packages_debian ;;
-	'AL2') install_command=install_packages_al2 ;;
-	'Mac') install_command=install_packages_mac ;;
-	'Gentoo') install_command=install_packages_gentoo ;;
-	'Arch') install_command=install_packages_arch ;;
-	'Fedora') install_command=install_packages_fedora ;;
-	*)
-		cat <<-EOF
+  echo
+  echo "Verifying required packages are installed."
+  case $RELEASE in
+  'Debian' | 'Ubuntu' | 'Raspbian') install_command=install_packages_debian ;;
+  'AL2') install_command=install_packages_al2 ;;
+  'Mac') install_command=install_packages_mac ;;
+  'Gentoo') install_command=install_packages_gentoo ;;
+  'Arch') install_command=install_packages_arch ;;
+  'Fedora') install_command=install_packages_fedora ;;
+  *)
+    cat <<-EOF
 			You are not using a supported distro; package installation will be skipped. Make sure the required packages have been installed.
 
 			Press enter to continue anyway, or ctrl+c to cancel
 		EOF
-		read -r
-		return
-		;;
-	esac
+    read -r
+    return
+    ;;
+  esac
 
-	$install_command
+  $install_command
 }
 
 create_package_list() {
-	PACINST=$(cat "$DOTFILES/packages.$1")
+  PACINST=$(cat "$DOTFILES/packages.$1")
 }
 
 install_aws_cli() {
-	echo
-	echo "Installing AWS CLI..."
+  echo
+  echo "Installing AWS CLI..."
 
-	if ! which aws &>/dev/null; then
-		case $RELEASE in
-		'Mac')
-			(
-				cd /tmp
-				curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-				echo "Installing AWS CLI, you may be required to enter your password for sudo"
-				sudo installer -pkg AWSCLIV2.pkg -target /
-			)
-			;;
-		*)
-			(
-				cd /tmp
-				curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-				unzip awscliv2.zip
-				echo "Installing AWS CLI, you may be required to enter your password for sudo"
-				sudo ./aws/install
-			)
-			;;
-		esac
-	fi
+  if ! which aws &>/dev/null; then
+    case $RELEASE in
+    'Mac')
+      (
+        cd /tmp
+        curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+        echo "Installing AWS CLI, you may be required to enter your password for sudo"
+        sudo installer -pkg AWSCLIV2.pkg -target /
+      )
+      ;;
+    *)
+      (
+        cd /tmp
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        echo "Installing AWS CLI, you may be required to enter your password for sudo"
+        sudo ./aws/install
+      )
+      ;;
+    esac
+  fi
 }
 
 install_packages_al2() {
-	echo "OS appears to be Amazon Linux 2..."
+  echo "OS appears to be Amazon Linux 2..."
 
-	echo "Installing required packages..."
-	create_package_list al2
-	# shellcheck disable=SC2086
-	sudo yum install -y $PACINST
-	install_package_groups_al2
+  echo "Installing required packages..."
+  create_package_list al2
+  # shellcheck disable=SC2086
+  sudo yum install -y $PACINST
+  install_package_groups_al2
 }
 
 install_package_groups_al2() {
-	echo "Installing required package groups..."
-	create_package_list al2-groups
-	IFS=$'\n' command eval 'for group in $PACINST; do sudo yum groupinstall -y $group; done'
+  echo "Installing required package groups..."
+  create_package_list al2-groups
+  IFS=$'\n' command eval 'for group in $PACINST; do sudo yum groupinstall -y $group; done'
 }
 
 install_packages_gentoo() {
-	echo "OS appears to be Gentoo..."
+  echo "OS appears to be Gentoo..."
 
-	echo "Installing required packages..."
-	create_package_list gentoo
+  echo "Installing required packages..."
+  create_package_list gentoo
 
-	# This is faster than using --noreplace which needs to compute dependencies
-	FILTERED_PACINST=""
-	for package in $PACINST; do
-		# shellcheck disable=SC2086
-		if ! qlist -Iv $package >/dev/null; then
-			FILTERED_PACINST+="$package"
-		fi
-	done
-	if [[ $FILTERED_PACINST ]]; then
-		# shellcheck disable=SC2086
-		sudo emerge $FILTERED_PACINST
-	fi
+  # This is faster than using --noreplace which needs to compute dependencies
+  FILTERED_PACINST=""
+  for package in $PACINST; do
+    # shellcheck disable=SC2086
+    if ! qlist -Iv $package >/dev/null; then
+      FILTERED_PACINST+="$package"
+    fi
+  done
+  if [[ $FILTERED_PACINST ]]; then
+    # shellcheck disable=SC2086
+    sudo emerge $FILTERED_PACINST
+  fi
 }
 
 install_packages_debian() {
-	echo "OS appears to be Debian/Ubuntu..."
+  echo "OS appears to be Debian/Ubuntu..."
 
-	echo "Installing required packages..."
-	create_package_list debian
-	sudo apt-get update
-	# shellcheck disable=SC2086
-	sudo apt-get install -y $PACINST
+  echo "Installing required packages..."
+  create_package_list debian
+  sudo apt-get update
+  # shellcheck disable=SC2086
+  sudo apt-get install -y $PACINST
 }
 
 install_packages_fedora() {
-	echo "OS appears to be Fedora..."
-	create_package_list fedora
+  echo "OS appears to be Fedora..."
+  create_package_list fedora
 
-	echo "Installing required packages..."
-	# shellcheck disable=SC2086
-	sudo rpm-ostree install -y --idempotent $PACINST
+  echo "Installing required packages..."
+  # shellcheck disable=SC2086
+  sudo rpm-ostree install -y --idempotent $PACINST
 }
 
 install_packages_arch() {
-	echo "OS appears to be Arch..."
+  echo "OS appears to be Arch..."
 
-	if ! which yay &>/dev/null; then
-		echo "Installing Yay..."
-		(
-			cd /tmp
-			rm -rf /ymp/yay
-			git clone https://aur.archlinux.org/yay.git
-			cd yay
-			makepkg -si --noconfirm
-			yay --save --makepkg "$HOME"/.local/bin/customize-makepkg
-		)
-	fi
+  if ! which yay &>/dev/null; then
+    echo "Installing Yay..."
+    (
+      cd /tmp
+      rm -rf /ymp/yay
+      git clone https://aur.archlinux.org/yay.git
+      cd yay
+      makepkg -si --noconfirm
+      yay --save --makepkg "$HOME"/.local/bin/customize-makepkg
+    )
+  fi
 
-	echo "Installing required packages..."
-	create_package_list arch
-	# shellcheck disable=SC2086
-	yay -S --noconfirm --needed $PACINST
+  echo "Installing required packages..."
+  create_package_list arch
+  # shellcheck disable=SC2086
+  yay -S --noconfirm --needed $PACINST
 
-	sudo systemctl enable --now cronie
+  sudo systemctl enable --now cronie
 }
 
 install_packages_mac() {
-	if ! which brew &>/dev/null; then
-		echo "Installing brew..."
-		ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-		sudo xcodebuild -license accept
-		brew doctor
-	fi
+  if ! which brew &>/dev/null; then
+    echo "Installing brew..."
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    sudo xcodebuild -license accept
+    brew doctor
+  fi
 
-	echo "Installing brew packages..."
-	brew bundle --global
+  echo "Installing brew packages..."
+  brew bundle --global
 }
 
 configure_iterm() {
-	if [[ -e "/Applications/iTerm.app" ]]; then
-		defaults write com.googlecode.iterm2 AlternateMouseScroll -bool true
-		defaults write com.googlecode.iterm2 FocusFollowsMouse -bool true
-	fi
+  if [[ -e "/Applications/iTerm.app" ]]; then
+    defaults write com.googlecode.iterm2 AlternateMouseScroll -bool true
+    defaults write com.googlecode.iterm2 FocusFollowsMouse -bool true
+  fi
 }
 
 update_yadm() {
-	git_update "https://github.com/TheLocehiliosan/yadm.git" "$HOME/.yadm-project"
+  git_update "https://github.com/TheLocehiliosan/yadm.git" "$HOME/.yadm-project"
 }
 
 update_submodules() {
-	yadm submodule update --recursive --init
-	yadm lfs pull
+  yadm submodule update --recursive --init
+  yadm lfs pull
 }
 
 update_scripts() {
-	echo
-	echo "Updating scripts..."
-	git_update "https://github.com/justin8/scripts.git" "$HOME/.scripts"
+  echo
+  echo "Updating scripts..."
+  git_update "https://github.com/justin8/scripts.git" "$HOME/.scripts"
 }
 
 install_fzf() {
-	echo
-	echo "Installing fzf..."
-	"$DOTFILES/fzf/install" --all
+  echo
+  echo "Installing fzf..."
+  "$DOTFILES/fzf/install" --all
 }
 
 install_mise() {
-	echo
-	echo -n "Installing mise..."
-	if [[ ! -e $HOME/.local/bin/mise ]]; then
-		curl https://mise.run | sh
-		mise use --global node
-		mise use --global python
-	fi
+  echo
+  echo -n "Installing mise..."
+  if [[ ! -e $HOME/.local/bin/mise ]]; then
+    curl https://mise.run | sh
+    mise use --global node
+    mise use --global python
+  fi
 }
 
 install_python_dev_dependencies() {
-	eval "$(~/.local/bin/mise activate bash)"
+  eval "$(~/.local/bin/mise activate bash)"
 
-	if ! which ipython &>/dev/null; then
-		echo
-		echo "Installing iPython... "
-		pip install --user ipython
-	fi
-	if ! which poetry &>/dev/null; then
-		echo
-		echo "Installing poetry... "
-		pip install --user poetry
-		# Configure poetry while we're at it
-		poetry config virtualenvs.in-project true
+  if ! which ipython &>/dev/null; then
+    echo
+    echo "Installing iPython... "
+    pip install --user ipython
+  fi
+  if ! which poetry &>/dev/null; then
+    echo
+    echo "Installing poetry... "
+    pip install --user poetry
+    # Configure poetry while we're at it
+    poetry config virtualenvs.in-project true
 
-	fi
+  fi
 }
 
 install_fonts() {
-	echo
-	echo "Installing Nerd Fonts..."
-	FONT_DIR="$HOME/.local/share/fonts/"
-	[[ $RELEASE == Mac ]] && FONT_DIR="$HOME/Library/Fonts/"
-	MESLO_FONT_FILE="$FONT_DIR/Meslo LG S Regular Nerd Font Complete.ttf"
-	JETBRAINS_FONT_FILE="$FONT_DIR/JetBrainsMonoNerdFont-Regular.ttf"
+  echo
+  echo "Installing Nerd Fonts..."
+  FONT_DIR="$HOME/.local/share/fonts/"
+  [[ $RELEASE == Mac ]] && FONT_DIR="$HOME/Library/Fonts/"
+  MESLO_FONT_FILE="$FONT_DIR/Meslo LG S Regular Nerd Font Complete.ttf"
+  JETBRAINS_FONT_FILE="$FONT_DIR/JetBrainsMonoNerdFont-Regular.ttf"
 
-	if ! [[ -f "$MESLO_FONT_FILE" ]]; then
-		echo "Downloading Meslo Nerd Fonts..."
-		file_download "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Meslo.zip" "$DOTFILES/Meslo.zip"
-		unzip -nd "$FONT_DIR" "$DOTFILES/Meslo.zip"
-	fi
+  if ! [[ -f "$MESLO_FONT_FILE" ]]; then
+    echo "Downloading Meslo Nerd Fonts..."
+    file_download "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Meslo.zip" "$DOTFILES/Meslo.zip"
+    unzip -nd "$FONT_DIR" "$DOTFILES/Meslo.zip"
+  fi
 
-	if ! [[ -f "$JETBRAINS_FONT_FILE" ]]; then
-		echo "Downloading JetBrainsMono Nerd Fonts..."
-		file_download "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.zip" "$DOTFILES/JetBrainsMono.zip"
-		unzip -nd "$FONT_DIR" "$DOTFILES/JetBrainsMono.zip"
-	fi
+  if ! [[ -f "$JETBRAINS_FONT_FILE" ]]; then
+    echo "Downloading JetBrainsMono Nerd Fonts..."
+    file_download "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.zip" "$DOTFILES/JetBrainsMono.zip"
+    unzip -nd "$FONT_DIR" "$DOTFILES/JetBrainsMono.zip"
+  fi
 }
 
 configure_gitconfig() {
-	echo
-	echo "Configuring gitconfig..."
-	git config --global push.default current
-	git config --global color.ui auto
-	git config --global merge.conflictstyle diff3
-	git config --global core.editor vim
-	git config --global pull.rebase true
-	git config --global pull.autostash true
-	git config --global rebase.autostash true
-	git config --global init.defaultBranch main
+  echo
+  echo "Configuring gitconfig..."
+  git config --global push.default current
+  git config --global color.ui auto
+  git config --global merge.conflictstyle diff3
+  git config --global core.editor vim
+  git config --global pull.rebase true
+  git config --global pull.autostash true
+  git config --global rebase.autostash true
+  git config --global init.defaultBranch main
 
-	# CodeCommit support
-	git config --global credential.helper '!aws codecommit credential-helper $@'
-	git config --global credential.UseHttpPath true
+  # CodeCommit support
+  git config --global credential.helper '!aws codecommit credential-helper $@'
+  git config --global credential.UseHttpPath true
 
-	# Brazil CLI recommendations
-	git config --global core.pager "less -FMRiX"
-	git config --global alias.dag "log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)"%an" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order"
-}
-
-configure_vim() {
-	mkdir -p ~/.local/tmp
-	install_vimplug
-	install_vim_plugins
-	install_vim_plugin_dependencies
-}
-
-install_vimplug() {
-	echo
-	echo "Installing/updating vimplug..."
-	if [[ -f ~/.vim/autoload/plug.vim ]]; then
-		# Vim always seems to have a return of 1...
-		vim -esu ~/.vimrc +PlugUpgrade +qa || true
-	else
-		mkdir -p ~/.vim/autoload
-		curl -sSfLo ~/.vim/autoload/plug.vim \
-			https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	fi
-}
-
-install_vim_plugins() {
-	echo
-	echo "Installing/updating vim plugins..."
-	# Vim always seems to have a return of 1...
-	vim -esu ~/.vimrc +PlugClean! +PlugUpdate +qa || true
-}
-
-install_vim_plugin_dependencies() {
-	echo
-	echo "Installing dependencies for vim plugins..."
-	eval "$(~/.local/bin/mise activate bash)"
-	pip install python-lsp-server python-lsp-black python-lsp-isort pylsp-mypy
-	npm i -g bash-language-server typescript-language-server typescript
+  # Brazil CLI recommendations
+  git config --global core.pager "less -FMRiX"
+  git config --global alias.dag "log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)"%an" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order"
 }
 
 configure_oh_my_zsh() {
-	ln -sf "$DOTFILES/powerlevel10k" "$DOTFILES/oh-my-zsh/custom/themes/powerlevel10k"
+  ln -sf "$DOTFILES/powerlevel10k" "$DOTFILES/oh-my-zsh/custom/themes/powerlevel10k"
 }
 
 change_shell() {
-	local setshell=0
-	local newshell=zsh
-	echo
-	echo "Setting shell to $newshell..."
-	if [[ $RELEASE == 'Mac' ]]; then
-		if ! finger "$USER" | grep -q "Shell.*$newshell"; then
-			setshell=1
-		fi
-	else
-		if ! getent passwd "$USER" | grep -q $newshell; then
-			setshell=1
-		fi
-	fi
+  local setshell=0
+  local newshell=zsh
+  echo
+  echo "Setting shell to $newshell..."
+  if [[ $RELEASE == 'Mac' ]]; then
+    if ! finger "$USER" | grep -q "Shell.*$newshell"; then
+      setshell=1
+    fi
+  else
+    if ! getent passwd "$USER" | grep -q $newshell; then
+      setshell=1
+    fi
+  fi
 
-	if [[ $setshell == 1 ]]; then
-		if which $newshell >/dev/null; then
-			sudo chsh -s "$(which $newshell)" "$USER"
-		fi
-	fi
+  if [[ $setshell == 1 ]]; then
+    if which $newshell >/dev/null; then
+      sudo chsh -s "$(which $newshell)" "$USER"
+    fi
+  fi
 }
 
 reload_bat_cache() {
-	bat cache --clear
-	bat cache --build
+  bat cache --clear
+  bat cache --build
 }
 
 full_config() {
-	echo
-	echo "Do you want to set up personal configs? (git user/email, etc)"
-	select choice in "Yes" "No"; do
-		case $choice in
-		Yes)
-			break
-			;;
-		No)
-			echo "Skipping personal configurations setup"
-			return
-			;;
-		esac
-	done
+  echo
+  echo "Do you want to set up personal configs? (git user/email, etc)"
+  select choice in "Yes" "No"; do
+    case $choice in
+    Yes)
+      break
+      ;;
+    No)
+      echo "Skipping personal configurations setup"
+      return
+      ;;
+    esac
+  done
 
-	echo "Setting up personal configurations..."
-	if ! git config --global --list | grep -q user.name; then
-		git config --global user.name "Justin Dray"
-		git config --global user.email "justin@dray.be"
-	fi
+  echo "Setting up personal configurations..."
+  if ! git config --global --list | grep -q user.name; then
+    git config --global user.name "Justin Dray"
+    git config --global user.email "justin@dray.be"
+  fi
 }
 
 update_yadm
@@ -398,6 +363,5 @@ install_fzf
 install_python_dev_dependencies
 install_aws_cli
 reload_bat_cache
-configure_vim
 change_shell
 full_config
