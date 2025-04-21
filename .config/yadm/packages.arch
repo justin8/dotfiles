@@ -4,6 +4,7 @@ cronie
 curl
 fd
 git
+git-lfs
 jq
 llvm
 make
