@@ -37,9 +37,10 @@ fi
 git_update() {
   repo="$1"
   dest="$2"
+  branch="$3"
   if [[ -d "$dest" ]]; then
     cd "$dest"
-    git reset --hard origin/master
+    git reset --hard "$branch"
     git pull
   else
     git clone "$repo" "$dest"
@@ -208,7 +209,7 @@ configure_iterm() {
 }
 
 update_yadm() {
-  git_update "https://github.com/TheLocehiliosan/yadm.git" "$HOME/.yadm-project"
+  git_update "https://github.com/TheLocehiliosan/yadm.git" "$HOME/.yadm-project" "origin/master"
 }
 
 update_submodules() {
@@ -219,7 +220,15 @@ update_submodules() {
 update_scripts() {
   echo
   echo "Updating scripts..."
-  git_update "https://github.com/justin8/scripts.git" "$HOME/.scripts"
+  git_update "https://github.com/justin8/scripts.git" "$HOME/.scripts" "origin/master"
+}
+
+configure_tmux() {
+  echo
+  echo "Configuring tmux..."
+  mkdir -p "$HOME/.tmux/plugins"
+  git_update "https://github.com/tmux-plugins/tpm" "$HOME/.tmux/plugins/tpm" "origin/master"
+  $HOME/.tmux/plugins/tpm/bin/install_plugins
 }
 
 install_fzf() {
@@ -357,6 +366,7 @@ configure_gitconfig
 update_submodules
 configure_oh_my_zsh
 update_scripts
+configure_tmux
 install_fonts
 install_mise
 install_fzf
