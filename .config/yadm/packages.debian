@@ -3,6 +3,7 @@ cmake
 curl
 fd-find
 git
+git-lfs
 jq
 llvm
 make

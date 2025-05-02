@@ -3,6 +3,7 @@ bzip2-libs
 cmake
 curl
 git
+git-lfs
 jq
 libffi-devel
 llvm
