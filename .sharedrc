@@ -24,6 +24,9 @@ fi
 # Aliases
 alias vi=vim
 alias vim=nvim
+if $(which batcat &>/dev/null); then
+  alias bat=batcat
+fi
 alias cat=bat
 alias less=bat
 alias rsync='rsync --info=progress2'
