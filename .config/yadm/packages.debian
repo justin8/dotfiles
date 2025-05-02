@@ -12,6 +12,7 @@ neovim
 ncdu
 ripgrep
 rsync
+tmux
 unzip
 vim
 wget

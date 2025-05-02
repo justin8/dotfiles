@@ -334,8 +334,12 @@ change_shell() {
 }
 
 reload_bat_cache() {
-  bat cache --clear
-  bat cache --build
+  BAT=bat
+  if $(which batcat &>/dev/null); then
+    BAT=batcat
+  fi
+  $BAT cache --clear
+  $BAT cache --build
 }
 
 full_config() {
