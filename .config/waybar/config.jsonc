@@ -1,6 +1,7 @@
 {
   "layer": "top",
   "position": "left",
+  "output": "DP-3",
   "width": 80,
   "margin-left": 5,
   "margin-right": 5,
@@ -8,7 +9,9 @@
   "margin-bottom": 0,
   "spacing": 1,
   "reload_style_on_change": true,
-  "modules-left": ["hyprland/workspaces"],
+  "modules-left": [
+    "hyprland/workspaces"
+  ],
   "modules-right": [
     "network",
     "custom/cpu",
@@ -22,7 +25,7 @@
   "hyprland/workspaces": {
     "format": "{icon}",
     "on-click": "activate",
-    "all-outputs": true,
+    "all-outputs": false,
     "format-icons": {
       "1": "1",
       "2": "2",
@@ -36,13 +39,11 @@
       "10": "10"
     }
   },
-
   "network": {
     "interval": 2,
     "format": "{bandwidthDownBytes:>2}\n{bandwidthUpBytes:>2}",
     "on-click": "gnome-system-monitor -r"
   },
-
   "custom/cpu": {
     "exec": "~/.config/waybar/scripts/cpu",
     "interval": 1,
@@ -57,7 +58,6 @@
     "on-click": "gnome-system-monitor -r",
     "format": "{}"
   },
-
   "custom/disk": {
     "exec": "~/.config/waybar/scripts/disk",
     "interval": 30,
@@ -97,10 +97,8 @@
     "spacing": 5,
     "show-passive-items": false
   },
-
   "custom/power": {
     "format": "{icon}",
-
     "format-icons": " ", //  
     "exec-on-event": "true",
     "on-click": "~/.config/hypr/scripts/logout",

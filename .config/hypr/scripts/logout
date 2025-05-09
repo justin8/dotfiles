@@ -3,8 +3,8 @@
 if ! pgrep wlogout &>/dev/null; then
 
   monitors="$(hyprctl monitors -j)"
-  width="$(echo "$monitors" | jq '.[0].width')"
-  height="$(echo "$monitors" | jq '.[0].height')"
+  width="$(echo "$monitors" | jq '.[1].width')"
+  height="$(echo "$monitors" | jq '.[1].height')"
   horizontal_margin=$(((width - 1320) / 2))
   vertical_margin=$(((height - 400) / 2))
 
