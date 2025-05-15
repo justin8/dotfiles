@@ -2,9 +2,10 @@
 
 if ! pgrep wlogout &>/dev/null; then
 
+  primary_monitor="$(hyprctl workspaces -j | jq '. | map(select(.id == 1)) | .[].id')"
   monitors="$(hyprctl monitors -j)"
-  width="$(echo "$monitors" | jq '.[1].width')"
-  height="$(echo "$monitors" | jq '.[1].height')"
+  width="$(echo "$monitors" | jq ".[$primary_monitor].width")"
+  height="$(echo "$monitors" | jq ".[$primary_monitor].height")"
   horizontal_margin=$(((width - 1320) / 2))
   vertical_margin=$(((height - 400) / 2))
 
