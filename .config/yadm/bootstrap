@@ -214,7 +214,6 @@ update_yadm() {
 
 update_submodules() {
   yadm submodule update --recursive --init
-  yadm lfs pull
 }
 
 update_scripts() {
