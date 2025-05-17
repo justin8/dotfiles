@@ -78,6 +78,7 @@ install_packages_meta() {
   esac
 
   $install_command
+  install_packages_nix
 }
 
 create_package_list() {
@@ -199,6 +200,40 @@ install_packages_mac() {
 
   echo "Installing brew packages..."
   brew bundle --global
+}
+
+install_packages_nix() {
+  if [[ $RELEASE == Mac ]]; then
+    if ! which nix &>/dev/null; then
+      echo "Installing nix..."
+      sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --yes
+      source /etc/bashrc
+    fi
+  else
+    sudo systemctl enable --now nix-daemon.service
+  fi
+
+  nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+  nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+  nix-channel --update
+
+  if ! which home-manager &>/dev/null; then
+    echo "Installing nix home-manager..."
+    nix-shell '<home-manager>' -A install
+  fi
+
+  generate_home_manager_config
+
+  echo "Installing nix pacakges..."
+  home-manager switch
+}
+
+generate_home_manager_config() {
+  awk -v user=$USER -v home=$HOME '{
+    gsub("{{user}}", user)
+    gsub("{{home}}", home)
+    print
+  }' "$HOME/.config/home-manager/flake.nix.template" >"$HOME/.config/home-manager/flake.nix"
 }
 
 configure_iterm() {

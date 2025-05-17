@@ -137,4 +137,9 @@ export GOPROXY=direct
 # Amazon Toolbox
 export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
 export PATH=$PATH:$HOME/.toolbox/bin
+
+# Nix config
+[[ -f $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh ]] && . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+[[ -f /etc/profile.d/nix-daemon.sh ]] && . /etc/profile.d/nix-daemon.sh
+
 [[ -e $HOME/.sharedrc-addon-late ]] && source $HOME/.sharedrc-addon-late

@@ -1,0 +1,47 @@
+{
+  description = "Home Manager configuration of justin";
+
+  inputs = {
+    # Specify the source of Home Manager and Nixpkgs.
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+
+outputs = { self, nixpkgs, flake-utils, home-manager, ... }:
+  flake-utils.lib.eachDefaultSystem (system:
+    let
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
+      username = "{{user}}";
+      homeDirectory = "{{home}}";
+
+    in {
+      # This generates the attribue packages.${system}.homeConfigurations.${username} through some black magic.
+      # You can import the flake in `nix repl` using `:lf .config/home-manager` and inspect the variables manually
+      packages.homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+
+        # Specify your home configuration modules here, for example,
+        # the path to your home.nix.
+        modules = [
+        ./home.nix
+        {
+          home.username = username;
+          home.homeDirectory = homeDirectory;
+        }
+        ];
+
+        # Optionally use extraSpecialArgs
+        # to pass through arguments to home.nix
+      };
+    }
+  );
+}
