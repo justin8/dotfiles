@@ -31,9 +31,14 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
 
+    awscli2
     bat
+    gawk
     git
     git-lfs
+    gnugrep
+    gnused
+    gzip
     jq
     ncdu
     neovim
@@ -45,6 +50,8 @@
     silver-searcher
     tmux
     unzip
+    watch
+    wget
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
