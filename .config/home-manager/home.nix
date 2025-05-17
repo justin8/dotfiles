@@ -33,6 +33,7 @@
 
     awscli2
     bat
+    fzf
     gawk
     git
     git-lfs
@@ -40,6 +41,7 @@
     gnused
     gzip
     jq
+    mise
     ncdu
     neovim
     nix-search
