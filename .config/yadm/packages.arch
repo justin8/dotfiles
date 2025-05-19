@@ -1,15 +1,3 @@
-cmake
-cronie
-fd
-git
-git-lfs
-llvm
-make
-man-db
 nix
-python
 rsync
-unzip
-wget
-xz
 zsh

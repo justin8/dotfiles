@@ -1,9 +1,2 @@
 app-shells/zsh
-dev-lang/python
-dev-python/pip
-dev-util/cmake
-dev-vcs/git
-net-misc/curl
 net-misc/rsync
-net-misc/wget
-sys-devel/llvm

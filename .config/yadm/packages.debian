@@ -1,12 +1,2 @@
-build-essential
-cmake
-curl
-fd-find
-git
-git-lfs
-llvm
-make
 rsync
-unzip
-wget
 zsh
