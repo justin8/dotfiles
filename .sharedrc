@@ -48,7 +48,7 @@ then
 	alias mwinit="mwinit -s -o"
 fi
 
-export EDITOR="vim"
+export EDITOR="nvim"
 export AWS_PAGER="" # Disable pagination in AWS CLI by default
 
 # Fix to make vim work with color themes

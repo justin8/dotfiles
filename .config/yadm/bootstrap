@@ -278,7 +278,7 @@ configure_gitconfig() {
   git config --global push.default current
   git config --global color.ui auto
   git config --global merge.conflictstyle diff3
-  git config --global core.editor vim
+  git config --global core.editor nvim
   git config --global pull.rebase true
   git config --global pull.autostash true
   git config --global rebase.autostash true
