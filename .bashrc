@@ -19,3 +19,5 @@ fi
 source "$HOME/.nix-profile/share/fzf/key-bindings.zsh"
 
 eval "$(mise activate bash)"
+
+eval "$(direnv hook bash)"

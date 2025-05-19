@@ -4,14 +4,12 @@ cask_args appdir: '/Applications'
 
 # taps
 tap 'aws/tap'
-tap 'homebrew/cask-versions'
 tap 'FelixKratz/formulae'
 
 # Enable app store installations
 brew "mas"
 
 # Casks
-cask "authy"
 cask "bitwarden"
 cask "easy-move-plus-resize"
 cask "firefox"
@@ -30,7 +28,5 @@ cask "zen-browser"
 # General packages
 brew "awscurl"
 brew "bash"
-brew "cmake"
-brew "make"
 brew "zsh"
 brew "zsh-completions"

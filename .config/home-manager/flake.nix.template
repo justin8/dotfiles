@@ -33,11 +33,12 @@ outputs = { self, nixpkgs, flake-utils, home-manager, ... }:
         # the path to your home.nix.
         modules = [
         ./home.nix
+        ./packages.nix
         {
           home.username = username;
           home.homeDirectory = homeDirectory;
         }
-        ];
+        ] ++ (nixpkgs.lib.mkIf ( system == "aarch64-darwin" ) [./packages-mac.nix]).content;
 
         # Optionally use extraSpecialArgs
         # to pass through arguments to home.nix
