@@ -8,12 +8,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Enable bash completion (This doesn't seem to work? and is super slow)
-#autoload bashcompinit && bashcompinit
-#autoload -U +X compinit && compinit
+source ~/.sharedrc
 
 # Source per-machine overrides
-source ~/.sharedrc
 [[ -e $HOME/.zshrc-addon ]] && source ~/.zshrc-addon
 
 # Path to your oh-my-zsh configuration.
@@ -83,8 +80,6 @@ setopt    incappendhistory  #Immediately append to the history file, not just wh
 # Export ZDOTDIR to allow sudo and keeping the same zsh dot files (still requires changing to zsh or having root's shell set to zsh)
 export ZDOTDIR=$HOME
 
-# Custom ZSH Completions
-fpath=(~/.zsh-completion $fpath)
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -102,6 +97,27 @@ eval "$(mise activate zsh)"
 
 # if you wish to use IMDS set AWS_EC2_METADATA_DISABLED=false
 export AWS_EC2_METADATA_DISABLED=true
+
+# Custom ZSH Completions
+fpath=(~/.nix-profile/share/zsh/site-functions $fpath)
+
+# Enable bash completion (This doesn't seem to work? and is super slow)
+#autoload bashcompinit && bashcompinit
+
+# On slow systems, checking the cached .zcompdump file to see if it must be 
+# regenerated adds a noticable delay to zsh startup.  This little hack restricts 
+# it to once a day.  It should be pasted into your own completion file.
+#
+# The globbing is a little complicated here:
+# - '#q' is an explicit glob qualifier that makes globbing work within zsh's [[ ]] construct.
+# - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
+# - '.' matches "regular files"
+# - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+	compinit
+else
+	compinit -C
+fi
 
 # Uncomment along with the first line to enable profiling of zsh startup
 # zprof
