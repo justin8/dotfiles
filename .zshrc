@@ -91,7 +91,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 source "$HOME/.nix-profile/share/fzf/key-bindings.zsh"
 
 # Set up mise for runtime management
-eval "$(mise activate zsh)"
+#eval "$(mise activate zsh)"
 
 [[ -e $HOME/.zshrc-addon-late ]] && source ~/.zshrc-addon-late
 

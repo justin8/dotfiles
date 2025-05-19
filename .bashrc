@@ -18,6 +18,6 @@ fi
 [[ $- == *i* ]] && source "$HOME/.nix-profile/share/fzf/completion.zsh" 2>/dev/null
 source "$HOME/.nix-profile/share/fzf/key-bindings.zsh"
 
-eval "$(mise activate bash)"
+#eval "$(mise activate bash)"
 
 eval "$(direnv hook bash)"

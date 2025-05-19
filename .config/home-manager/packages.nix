@@ -20,7 +20,8 @@
     # '')
 
     # Language tooling
-    python314
+    (python313.withPackages(ps: with ps; [ ]))
+    uv
     poetry
     nodejs_22
 

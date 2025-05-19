@@ -328,28 +328,6 @@ reload_bat_cache() {
   $BAT cache --build
 }
 
-full_config() {
-  echo
-  echo "Do you want to set up personal configs? (git user/email, etc)"
-  select choice in "Yes" "No"; do
-    case $choice in
-    Yes)
-      break
-      ;;
-    No)
-      echo "Skipping personal configurations setup"
-      return
-      ;;
-    esac
-  done
-
-  echo "Setting up personal configurations..."
-  if ! git config --global --list | grep -q user.name; then
-    git config --global user.name "Justin Dray"
-    git config --global user.email "justin@dray.be"
-  fi
-}
-
 update_yadm
 install_packages_meta
 configure_gitconfig
@@ -361,4 +339,3 @@ install_fonts
 install_python_dev_dependencies
 reload_bat_cache
 change_shell
-full_config
