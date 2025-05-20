@@ -28,6 +28,7 @@
     # Other packages
     awscli2
     bat
+    coreutils # Things like modern ls
     direnv
     fzf
     gawk
