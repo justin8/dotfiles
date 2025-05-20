@@ -32,6 +32,7 @@ alias less=bat
 alias rsync='rsync --info=progress2'
 alias grep='grep --color=auto'
 alias kmonday='kinit -f -l 7d -r 30d'
+alias ls='ls --color=auto'
 
 alias bb='brazil-build'
 

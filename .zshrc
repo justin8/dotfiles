@@ -93,8 +93,6 @@ source "$HOME/.nix-profile/share/fzf/key-bindings.zsh"
 # Set up mise for runtime management
 #eval "$(mise activate zsh)"
 
-[[ -e $HOME/.zshrc-addon-late ]] && source ~/.zshrc-addon-late
-
 # if you wish to use IMDS set AWS_EC2_METADATA_DISABLED=false
 export AWS_EC2_METADATA_DISABLED=true
 
@@ -118,6 +116,8 @@ if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
 else
 	compinit -C
 fi
+
+[[ -e $HOME/.zshrc-addon-late ]] && source ~/.zshrc-addon-late
 
 # Uncomment along with the first line to enable profiling of zsh startup
 # zprof
