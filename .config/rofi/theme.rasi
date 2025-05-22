@@ -29,7 +29,7 @@ window {
     background-image: var(background-gradient);
     border: 0px;
     border-radius: 20px;
-    width: 1300px;
+    width: 1200px;
     height: 720px;
 }
 mainbox {
