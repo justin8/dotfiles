@@ -22,6 +22,7 @@
     # Language tooling
     (python313.withPackages(ps: with ps; [ ]))
     uv
+    pipx
     poetry
     nodejs_22
 
