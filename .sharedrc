@@ -121,7 +121,11 @@ export HOMEBREW_NO_INSTALL_CLEANUP=1
 export GOPROXY=direct
 
 # Nix config
-[[ -f /etc/profile.d/nix-daemon.sh ]] && . /etc/profile.d/nix-daemon.sh
+if [[ -f /etc/profile.d/nix-daemon.sh ]]; then
+  . /etc/profile.d/nix-daemon.sh
+elif [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
+  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+fi
 [[ -f $HOME/.nix-profile/etc/profile.d/nix.sh ]] && . $HOME/.nix-profile/etc/profile.d/nix.sh
 [[ -f $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh ]] && . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
 
