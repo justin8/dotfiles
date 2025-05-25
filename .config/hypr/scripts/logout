@@ -2,7 +2,10 @@
 
 if ! pgrep wlogout &>/dev/null; then
 
-  primary_monitor="$(hyprctl workspaces -j | jq '. | map(select(.id == 1)) | .[].id')"
+  primary_monitor="$(hyprctl workspaces -j | jq '. | map(select(.id == 1)) | .[].monitorID')"
+  if ! [[ $primary_monitor ]]; then
+    primary_monitor="$(hyprctl workspaces -j | jq '. | map(select(.id == 2)) | .[].monitorID')"
+  fi
   monitors="$(hyprctl monitors -j)"
   width="$(echo "$monitors" | jq ".[$primary_monitor].width")"
   height="$(echo "$monitors" | jq ".[$primary_monitor].height")"

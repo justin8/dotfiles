@@ -24,6 +24,7 @@
     uv
     pipx
     poetry
+    ruff
     nodejs_22
 
     # Other packages

@@ -7,7 +7,7 @@ hyprctl hyprpaper unload all
 
 for MONITOR in $MONITORS; do
   # Pick a random wallpaper
-  RANDOM_WALLPAPER=$(find "$WALLPAPER_DIR" -type f | shuf -n 1)
+  RANDOM_WALLPAPER=$(find "$WALLPAPER_DIR" -type f ! -name ".*" | shuf -n 1)
 
   hyprctl hyprpaper preload "$RANDOM_WALLPAPER"
 
