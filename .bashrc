@@ -16,7 +16,7 @@ fi
 
 # Configure fzf
 [[ $- == *i* ]] && source "$HOME/.nix-profile/share/fzf/completion.zsh" 2>/dev/null
-source "$HOME/.nix-profile/share/fzf/key-bindings.zsh"
+source "$HOME/.nix-profile/share/fzf/key-bindings.bash"
 
 #eval "$(mise activate bash)"
 
