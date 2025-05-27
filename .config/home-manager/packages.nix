@@ -26,6 +26,7 @@
     poetry
     ruff
     nodejs_22
+    yarn
 
     # Other packages
     awscli2
