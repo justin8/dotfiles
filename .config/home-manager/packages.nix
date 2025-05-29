@@ -20,11 +20,15 @@
     # '')
 
     # Language tooling
+    # Python
     (python313.withPackages(ps: with ps; [ ]))
     uv
     pipx
     poetry
+    basedpyright
     ruff
+
+    # Nodejs
     nodejs_22
     yarn
 
