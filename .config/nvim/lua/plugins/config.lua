@@ -102,13 +102,11 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        "stylua",
         "shellcheck",
         "shfmt",
         "basedpyright",
         "cfn-lint",
         "ruff",
-        "ruff-lsp",
       },
     },
   },
