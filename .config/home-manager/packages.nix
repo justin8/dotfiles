@@ -40,6 +40,7 @@
     gnugrep
     gnused
     gzip
+    imagemagick
     jq
     mise
     ncdu

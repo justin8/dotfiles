@@ -8,6 +8,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Support for single-user nix environments if we're running in one
+if [ -e /home/$USER/.nix-profile/etc/profile.d/nix.sh ]; then . /home/$USER/.nix-profile/etc/profile.d/nix.sh; fi
+
 source ~/.sharedrc
 
 # Source per-machine overrides
@@ -121,3 +124,4 @@ fi
 
 # Uncomment along with the first line to enable profiling of zsh startup
 # zprof
+

@@ -78,7 +78,6 @@ install_packages_meta() {
   esac
 
   $install_command
-  install_packages_nix
 }
 
 create_package_list() {
@@ -175,16 +174,35 @@ install_packages_mac() {
   brew bundle --global
 }
 
-install_packages_nix() {
-  if [[ $RELEASE == Mac ]]; then
-    if ! which nix &>/dev/null; then
-      echo "Installing nix..."
-      sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --yes
-    fi
-  else
-    sudo systemctl enable --now nix-daemon.service
+install_nix() {
+  if ! which nix &>/dev/null; then
+    echo "No nix installation found, installing nix..."
+    exit 1
+    case $RELEASE in
+    'AL2')
+      sudo mkdir /nix
+      sudo chown $USER /nix
+      curl -o /tmp/nix-install --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install
+      if [[ -e /etc/pki/tls/certs/ca-bundle.crt ]] && grep -q NIX_SSL_CERT_FILE= /etc/environment; then
+        echo 'export NIX_SSL_CERT_FILE=/etc/pki/tls/certs/ca-bundle.crt' | sudo tee -a /etc/environment
+      fi
+      sh /tmp/nix-install --no-daemon --yes
+      ;;
+    'Mac') sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --yes ;;
+    'Arch')
+      pacman -Sy nix
+      sudo systemctl enable --now nix-daemon.service
+      ;;
+    *)
+      echo "Setup of Nix is untested on this OS; install it manually and try to run this again"
+      exit 1
+      ;;
+    esac
   fi
+  echo "Nix is installed"
+}
 
+install_packages_nix() {
   export PATH=$PATH:$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin
   nix-channel --add https://nixos.org/channels/nixpkgs-unstable
   nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
@@ -231,24 +249,6 @@ configure_tmux() {
   mkdir -p "$HOME/.tmux/plugins"
   git_update "https://github.com/tmux-plugins/tpm" "$HOME/.tmux/plugins/tpm" "origin/master"
   $HOME/.tmux/plugins/tpm/bin/install_plugins
-}
-
-install_python_dev_dependencies() {
-  eval "$(mise activate bash)"
-
-  if ! which ipython &>/dev/null; then
-    echo
-    echo "Installing iPython... "
-    pip install --user ipython
-  fi
-  if ! which poetry &>/dev/null; then
-    echo
-    echo "Installing poetry... "
-    pip install --user poetry
-    # Configure poetry while we're at it
-    poetry config virtualenvs.in-project true
-
-  fi
 }
 
 install_fonts() {
@@ -330,12 +330,13 @@ reload_bat_cache() {
 
 update_yadm
 install_packages_meta
+install_nix
+install_packages_nix
 configure_gitconfig
 update_submodules
 configure_oh_my_zsh
 update_scripts
 configure_tmux
 install_fonts
-install_python_dev_dependencies
 reload_bat_cache
 change_shell

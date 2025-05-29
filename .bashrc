@@ -5,6 +5,9 @@ if [[ -f /etc/bashrc ]]; then
   . /etc/bashrc
 fi
 
+# Support for single-user nix environments if we're running in one
+if [ -e /home/$USER/.nix-profile/etc/profile.d/nix.sh ]; then . /home/$USER/.nix-profile/etc/profile.d/nix.sh; fi
+
 source ~/.sharedrc
 
 # Cool prompt and shit
