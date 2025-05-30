@@ -120,6 +120,11 @@ else
 	compinit -C
 fi
 
+# Fix for cline shell integration
+if [[ "$TERM_PROGRAM" == "vscode" ]]; then
+  . "$(code --locate-shell-integration-path zsh)"
+fi
+
 [[ -e $HOME/.zshrc-addon-late ]] && source ~/.zshrc-addon-late
 
 # Uncomment along with the first line to enable profiling of zsh startup
