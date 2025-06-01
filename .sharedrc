@@ -39,6 +39,7 @@ alias bb='brazil-build'
 alias mwinit="mwinit -s"
 alias mwcurl='curl --location-trusted --negotiate -u : -b ~/.midway/cookie -c ~/.midway/cookie'
 alias update_internal_certs='mkdir -p $HOME/.local/ssl; security find-certificate -a -p /System/Library/Keychains/SystemRootCertificates.keychain /Library/Keychains/System.keychain > $HOME/.local/ssl/cert.pem'
+alias yay='PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin yay'
 
 
 export SEMGREP_SEND_METRICS=off
