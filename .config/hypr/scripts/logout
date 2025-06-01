@@ -2,15 +2,13 @@
 
 if ! pgrep wlogout &>/dev/null; then
 
-  primary_monitor="$(hyprctl workspaces -j | jq '. | map(select(.id == 1)) | .[].monitorID')"
-  if ! [[ $primary_monitor ]]; then
-    primary_monitor="$(hyprctl workspaces -j | jq '. | map(select(.id == 2)) | .[].monitorID')"
-  fi
+  current_monitor="$(hyprctl activeworkspace -j | jq '.monitorID')"
   monitors="$(hyprctl monitors -j)"
-  width="$(echo "$monitors" | jq ".[] | select(.id == $primary_monitor).width")"
-  height="$(echo "$monitors" | jq ".[] | select(.id == $primary_monitor).height")"
+  width="$(echo "$monitors" | jq ".[] | select(.id == $current_monitor).width")"
+  height="$(echo "$monitors" | jq ".[] | select(.id == $current_monitor).height")"
   horizontal_margin=$(((width - 1320) / 2))
   vertical_margin=$(((height - 400) / 2))
 
+  # Note that the '-P' option for wlogout seems to use it's own monitor ordering that doesn't always match up to hyprland's view, so it is useless
   wlogout -b 5 -L $horizontal_margin -R $horizontal_margin -T $vertical_margin -B $vertical_margin
 fi
