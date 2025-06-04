@@ -12,9 +12,9 @@ fi
 
 if [[ $1 == sunshine ]]; then
   echo "Setting sunshine monitor config..."
+  HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch dpms on
   echo 'monitor = DP-3,1920x1080@119.88Hz,0x0,auto' >$CONFIG_FILE
   echo 'monitor = DP-1,disable' >>$CONFIG_FILE
-  HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch dpms on
 fi
 
 sleep 2
