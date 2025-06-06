@@ -1,9 +1,0 @@
-#!/bin/bash
-
-source ~/.config/waybar/scripts/generate-bar
-
-mem_info=$(free | awk '/Mem:/ {printf "%.1f", $3/$2 * 100.0}')
-mem_usage=${mem_info%.*}
-
-bar=$(generate_bar "$mem_usage")
-echo "{\"text\": \" $bar\", \"tooltip\": \"Memory usage: ${mem_usage}%\"}"

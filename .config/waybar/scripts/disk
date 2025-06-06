@@ -1,8 +1,0 @@
-#!/bin/bash
-
-source ~/.config/waybar/scripts/generate-bar
-
-disk_usage=$(df -h / | awk '/\// {print $(NF-1)}' | sed 's/%//')
-
-bar=$(generate_bar "$disk_usage")
-echo "{\"text\": \"󰋊 $bar\", \"tooltip\": \"Disk usage: ${disk_usage}%\"}"

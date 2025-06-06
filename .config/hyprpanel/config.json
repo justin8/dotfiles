@@ -1,0 +1,89 @@
+{
+  "bar.customModules.storage.paths": [
+    "/"
+  ],
+  "theme.font.size": "1.1rem",
+  "theme.font.weight": 600,
+  "menus.transition": "crossfade",
+  "theme.bar.menus.shadowMargins": "8px 8px",
+  "scalingPriority": "gdk",
+  "bar.layouts": {
+    "0": {
+      "left": [],
+      "middle": [],
+      "right": []
+    },
+    "1": {
+      "left": [
+        "dashboard",
+        "workspaces",
+        "media"
+      ],
+      "middle": [],
+      "right": [
+        "network",
+        "bluetooth",
+        "systray",
+        "clock",
+        "notifications",
+        "power"
+      ]
+    }
+  },
+  "theme.bar.buttons.enableBorders": false,
+  "theme.bar.location": "top",
+  "bar.autoHide": "never",
+  "theme.bar.buttons.workspaces.enableBorder": false,
+  "bar.workspaces.monitorSpecific": true,
+  "bar.workspaces.show_icons": false,
+  "bar.workspaces.show_numbered": false,
+  "bar.workspaces.workspaceMask": false,
+  "bar.workspaces.showWsIcons": true,
+  "bar.workspaces.showApplicationIcons": true,
+  "theme.bar.buttons.workspaces.smartHighlight": true,
+  "bar.workspaces.numbered_active_indicator": "highlight",
+  "bar.network.showWifiInfo": false,
+  "bar.bluetooth.label": true,
+  "bar.systray.ignore": [
+    "udiskie",
+    "chrome_status_icon_1",
+    "spotify-client",
+    "tray-id"
+  ],
+  "bar.media.truncation": true,
+  "notifications.timeout": 5000,
+  "theme.osd.enable": true,
+  "theme.osd.location": "bottom",
+  "theme.osd.orientation": "horizontal",
+  "menus.clock.time.hideSeconds": false,
+  "menus.clock.weather.location": "Brisbane, Australia",
+  "menus.clock.weather.unit": "metric",
+  "menus.clock.weather.enabled": false,
+  "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Zen",
+  "menus.dashboard.shortcuts.left.shortcut1.command": "zen-browser",
+  "menus.dashboard.shortcuts.left.shortcut1.icon": "",
+  "menus.dashboard.shortcuts.enabled": true,
+  "menus.dashboard.directories.enabled": true,
+  "menus.dashboard.directories.left.directory1.command": "nautilus Downloads",
+  "menus.dashboard.directories.left.directory2.command": "nautilus Videos",
+  "menus.dashboard.directories.left.directory3.command": "nautilus src",
+  "menus.dashboard.directories.left.directory2.label": "󰉏  Videos",
+  "menus.dashboard.directories.left.directory1.label": "󰉍  Downloads",
+  "menus.dashboard.directories.left.directory3.label": "󰚝  src",
+  "menus.dashboard.directories.right.directory1.label": "󱧶  Documents",
+  "menus.dashboard.directories.right.directory1.command": "nautilus Documents",
+  "menus.dashboard.directories.right.directory2.command": "nautilus Pictures",
+  "menus.dashboard.directories.right.directory2.label": "󰉏  Pictures",
+  "menus.dashboard.directories.right.directory3.label": "󱂵  Home",
+  "menus.dashboard.directories.right.directory3.command": "nautilus",
+  "menus.dashboard.stats.enable_gpu": true,
+  "menus.dashboard.shortcuts.left.shortcut3.command": "kitty",
+  "menus.dashboard.shortcuts.left.shortcut2.command": "nautilus",
+  "menus.dashboard.shortcuts.left.shortcut2.icon": "󱂵",
+  "menus.dashboard.shortcuts.left.shortcut2.tooltip": "Home",
+  "menus.dashboard.shortcuts.left.shortcut3.icon": "󰄛",
+  "menus.dashboard.shortcuts.left.shortcut3.tooltip": "Terminal",
+  "bar.customModules.ram.labelType": "used/total",
+  "bar.customModules.cpuTemp.sensor": "auto",
+  "theme.bar.buttons.modules.cpuTemp.enableBorder": false
+}
