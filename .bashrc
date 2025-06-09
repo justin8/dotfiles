@@ -21,6 +21,7 @@ fi
 [[ $- == *i* ]] && source "$HOME/.nix-profile/share/fzf/completion.zsh" 2>/dev/null
 source "$HOME/.nix-profile/share/fzf/key-bindings.bash"
 
+[[ -e $HOME/.brazil_completion/bash_completion ]] && source $HOME/.brazil_completion/bash_completion
 #eval "$(mise activate bash)"
 
 eval "$(direnv hook bash)"

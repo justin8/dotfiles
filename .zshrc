@@ -73,6 +73,9 @@ fi
 
 source $ZSH/oh-my-zsh.sh
 
+# Overwrite aliases defined in oh-my-zsh
+alias ls='ls --color=auto' # It defaults to 'ls -G' which doesn't work on all zsh versions
+
 # Configure history settings
 export HISTFILESIZE=1000000000
 export HISTSIZE=1000000000
@@ -101,6 +104,7 @@ export AWS_EC2_METADATA_DISABLED=true
 
 # Custom ZSH Completions
 fpath=(~/.nix-profile/share/zsh/site-functions $fpath)
+[[ -e $HOME/.brazil_completion/zsh_completion ]] && source $HOME/.brazil_completion/zsh_completion
 
 # Enable bash completion (This doesn't seem to work? and is super slow)
 #autoload bashcompinit && bashcompinit
@@ -130,3 +134,4 @@ fi
 # Uncomment along with the first line to enable profiling of zsh startup
 # zprof
 
+source /Users/jdray/.brazil_completion/zsh_completion
