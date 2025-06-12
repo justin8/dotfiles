@@ -31,15 +31,17 @@ alias cat=bat
 alias less=bat
 alias rsync='rsync --info=progress2'
 alias grep='grep --color=auto'
-alias kmonday='kinit -f -l 7d -r 30d'
 alias ls='ls --color=auto'
-
-alias bb='brazil-build'
-
-alias mwinit="mwinit -s"
-alias mwcurl='curl --location-trusted --negotiate -u : -b ~/.midway/cookie -c ~/.midway/cookie'
+alias dc='docker compose'
 alias update_internal_certs='mkdir -p $HOME/.local/ssl; security find-certificate -a -p /System/Library/Keychains/SystemRootCertificates.keychain /Library/Keychains/System.keychain > $HOME/.local/ssl/cert.pem'
 alias yay='PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin yay'
+
+alias kmonday='kinit -f -l 7d -r 30d'
+alias bb='brazil-build'
+alias bre='brazil-runtime-exec'
+alias mwinit="mwinit -s"
+alias mwcurl='curl --location-trusted --negotiate -u : -b ~/.midway/cookie -c ~/.midway/cookie'
+
 
 
 export SEMGREP_SEND_METRICS=off
