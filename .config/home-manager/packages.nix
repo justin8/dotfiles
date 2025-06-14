@@ -50,6 +50,7 @@
     mise
     ncdu
     neovim
+    nixfmt
     nix-search
     ripgrep
     rsync
