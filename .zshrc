@@ -134,4 +134,4 @@ fi
 # Uncomment along with the first line to enable profiling of zsh startup
 # zprof
 
-source /Users/jdray/.brazil_completion/zsh_completion
+[[ -e $HOME/.brazil_completion/zsh_completion]] && source $HOME/.brazil_completion/zsh_completion
