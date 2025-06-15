@@ -51,6 +51,7 @@
     ncdu
     neovim
     nixfmt
+    nix-direnv
     nix-search
     ripgrep
     rsync
