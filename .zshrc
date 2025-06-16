@@ -133,5 +133,3 @@ fi
 
 # Uncomment along with the first line to enable profiling of zsh startup
 # zprof
-
-[[ -e $HOME/.brazil_completion/zsh_completion]] && source $HOME/.brazil_completion/zsh_completion
