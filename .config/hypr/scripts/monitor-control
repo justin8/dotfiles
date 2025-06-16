@@ -7,7 +7,7 @@ exec > >(tee /tmp/output.log) 2>&1
 if [[ $1 == reset ]]; then
   echo "Resetting monitor config..."
   echo 'monitor = DP-3,5120x1440@120,0x0,auto' >$CONFIG_FILE
-  echo 'monitor = DP-1,1920x1080@60,1750x1440,1.2' >>$CONFIG_FILE
+  echo 'monitor = DP-1,1920x1080@60,1750x1440,1' >>$CONFIG_FILE
 fi
 
 if [[ $1 == sunshine ]]; then
