@@ -118,6 +118,7 @@ fpath=(~/.nix-profile/share/zsh/site-functions $fpath)
 # - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
 # - '.' matches "regular files"
 # - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
+fpath=($fpath /usr/share/zsh/site-functions)
 if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
 	compinit
 else
