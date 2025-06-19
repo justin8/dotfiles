@@ -46,6 +46,7 @@
     gnused
     gzip
     imagemagick
+    jujutsu
     jq
     mise
     ncdu
