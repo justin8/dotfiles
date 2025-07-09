@@ -25,3 +25,5 @@ source "$HOME/.nix-profile/share/fzf/key-bindings.bash"
 #eval "$(mise activate bash)"
 
 eval "$(direnv hook bash)"
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"

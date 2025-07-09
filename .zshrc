@@ -134,3 +134,5 @@ fi
 
 # Uncomment along with the first line to enable profiling of zsh startup
 # zprof
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
