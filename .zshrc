@@ -97,7 +97,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 source "$HOME/.nix-profile/share/fzf/key-bindings.zsh"
 
 # Set up mise for runtime management
-#eval "$(mise activate zsh)"
+eval "$(mise activate zsh)"
 
 # if you wish to use IMDS set AWS_EC2_METADATA_DISABLED=false
 export AWS_EC2_METADATA_DISABLED=true
