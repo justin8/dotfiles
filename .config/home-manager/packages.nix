@@ -48,6 +48,8 @@
     imagemagick
     jujutsu
     jq
+    libmediainfo
+    mediainfo
     mise
     ncdu
     neovim
