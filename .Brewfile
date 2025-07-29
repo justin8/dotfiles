@@ -4,7 +4,6 @@ cask_args appdir: '/Applications'
 
 # taps
 tap 'aws/tap'
-tap 'FelixKratz/formulae'
 
 # Enable app store installations
 brew "mas"

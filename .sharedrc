@@ -1,5 +1,5 @@
 #!/bin/bash
-[[ -e $HOME/.sharedrc-addon ]] && source $HOME/.sharedrc-addon
+[[ -e $HOME/.sharedrc-addon ]] && source "$HOME"/.sharedrc-addon
 
 # Add ~/.bin to path
 export PATH=$HOME/.yadm-project:$HOME/.local/bin:$HOME/.local/gnubin:$PATH
@@ -13,12 +13,12 @@ export PATH=$HOME/.toolbox/bin:$PATH
 # Force Gnome keyring usage if it is enabled
 keyring_path="/run/user/${EUID}/keyring/ssh"
 if [[ -e $keyring_path ]]; then
-	export SSH_AUTH_SOCK="$keyring_path"
+  export SSH_AUTH_SOCK="$keyring_path"
 fi
 
 # Use custom certs file for python requests if it exists
 if [[ -e $HOME/.local/ssl/cert.pem ]]; then
-	export REQUESTS_CA_BUNDLE=$HOME/.local/ssl/cert.pem
+  export REQUESTS_CA_BUNDLE=$HOME/.local/ssl/cert.pem
 fi
 
 # Aliases
@@ -43,23 +43,19 @@ alias bre='brazil-runtime-exec'
 alias mwinit="mwinit -s"
 alias mwcurl='curl --location-trusted --negotiate -u : -b ~/.midway/cookie -c ~/.midway/cookie'
 
-
-
 export SEMGREP_SEND_METRICS=off
 
-if [[ $(uname) == Linux ]]
-then
-	alias copy='copy --reflink=auto'
-	alias mwinit="mwinit -s -o"
+if [[ $(uname) == Linux ]]; then
+  alias copy='copy --reflink=auto'
+  alias mwinit="mwinit -s -o"
 fi
 
 export EDITOR="nvim"
 export AWS_PAGER="" # Disable pagination in AWS CLI by default
 
 # Fix to make vim work with color themes
-if [[ $TERM != linux ]]
-then
-	export TERM=xterm-256color
+if [[ $TERM != linux ]]; then
+  export TERM=xterm-256color
 fi
 
 # Path fix for RHEL/Debian
@@ -76,46 +72,30 @@ export PATH="$HOME/go/bin:$PATH"
 
 # Add linuxbrew to path
 if [[ -e /home/linuxbrew/.linuxbrew ]]; then
-	eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+  eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 fi
 
 # Add mac brew to path
 if [[ -e /opt/homebrew/bin/brew ]]; then
-	eval "$(/opt/homebrew/bin/brew shellenv)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
-
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 if $(which conda &>/dev/null); then
-	__conda_setup="$('/usr/bin/conda' "shell.${SHELL##*/}" 'hook' 2> /dev/null)"
-	if [ $? -eq 0 ]; then
-		eval "$__conda_setup"
-	else
-		if [ -f "/usr/etc/profile.d/conda.sh" ]; then
-			. "/usr/etc/profile.d/conda.sh"
-		else
-			export PATH="/usr/bin:$PATH"
-		fi
-	fi
-	unset __conda_setup
+  __conda_setup="$('/usr/bin/conda' "shell.${SHELL##*/}" 'hook' 2>/dev/null)"
+  if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+  else
+    if [ -f "/usr/etc/profile.d/conda.sh" ]; then
+      . "/usr/etc/profile.d/conda.sh"
+    else
+      export PATH="/usr/bin:$PATH"
+    fi
+  fi
+  unset __conda_setup
 fi
 # <<< conda initialize <<<
-
-
-# CDK helpers
-cdk-add() {
-	packages=""
-	for target in "$@"; do
-		packages+=" @aws-cdk/aws-$target"
-	done
-	echo "Adding: $packages"
-	if [[ $SHELL =~ zsh ]]; then
-		yarn add ${=packages}
-	else
-		yarn add $packages
-	fi
-}
 
 # Disable homebrew auto-updating and cleaning and stuff all the time
 export HOMEBREW_NO_AUTO_UPDATE=1
@@ -130,10 +110,10 @@ if [[ -f /etc/profile.d/nix-daemon.sh ]]; then
 elif [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
-[[ -f $HOME/.nix-profile/etc/profile.d/nix.sh ]] && . $HOME/.nix-profile/etc/profile.d/nix.sh
-[[ -f $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh ]] && . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+[[ -f $HOME/.nix-profile/etc/profile.d/nix.sh ]] && . "$HOME"/.nix-profile/etc/profile.d/nix.sh
+[[ -f $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh ]] && . "$HOME"/.nix-profile/etc/profile.d/hm-session-vars.sh
 
 # Ensure nix path is before homebrew - this doesn't work well out of the box on macos as /etc/zshrc is sourced before this, which results in homebrew that only runs in the user-specific config files to run later and prepend itself
 PATH=$HOME/.nix-profile/bin:$PATH
 
-[[ -e $HOME/.sharedrc-addon-late ]] && source $HOME/.sharedrc-addon-late
+[[ -e $HOME/.sharedrc-addon-late ]] && source "$HOME"/.sharedrc-addon-late
