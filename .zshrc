@@ -123,6 +123,95 @@ else
 	compinit -C
 fi
 
+############################################################################
+# Some hacky shit to get compinit working in direnv/nix shells dynamically #
+############################################################################
+autoload -Uz compinit add-zsh-hook
+
+# Store the original fpath before any direnv modifications
+typeset -gA __direnv_saved_states
+typeset -g __direnv_baseline_fpath
+typeset -g __direnv_nix_fpaths=()
+
+if [[ -z "$__direnv_baseline_fpath" ]]; then
+  __direnv_baseline_fpath=("${fpath[@]}")
+fi
+
+# Helper: detect nix-related site-functions dirs in $PATH
+function __direnv_collect_nix_completions() {
+  local p compdir
+  local collected=()
+  for p in ${(s/:/)PATH}; do
+    compdir="$p/../share/zsh/site-functions"
+    if [[ -d $compdir ]]; then
+      collected+=$compdir
+    fi
+  done
+  echo $collected
+}
+
+# Apply the nix completions paths (add them to fpath, avoiding duplicates)
+function __direnv_add_nix_fpaths() {
+  local new_paths=("$@")
+  local added=()
+
+  for p in $new_paths; do
+    if [[ ${fpath:#$p} == $fpath ]]; then
+      fpath=($p $fpath)
+      added+=$p
+    fi
+  done
+
+  # Store added nix paths so we can remove them later
+  __direnv_nix_fpaths=(${added[@]})
+}
+
+# Remove nix completions paths from fpath
+function __direnv_remove_nix_fpaths() {
+  local p
+  for p in "${__direnv_nix_fpaths[@]}"; do
+    fpath=(${fpath:#$p})
+  done
+  __direnv_nix_fpaths=()
+}
+
+# Detect if direnv is currently active with nix environment loaded
+function __direnv_is_active() {
+  # Heuristic: DIRENV_WATCHES is present and NIX_* variables set
+  [[ -n "$DIRENV_WATCHES" ]] && return 0
+  return 1
+}
+
+# Main precmd hook: detect direnv activation/deactivation
+function __direnv_fpath_manager() {
+  if __direnv_is_active; then
+    # Direnv active: add nix completions paths if not already added
+    if [[ -z "$__direnv_saved_states[active]" ]]; then
+      # Save current baseline fpath just in case
+      __direnv_baseline_fpath=("${fpath[@]}")
+      local nix_paths=( $(__direnv_collect_nix_completions) )
+      __direnv_add_nix_fpaths "${nix_paths[@]}"
+      __direnv_saved_states[active]=1
+      echo "[direnv] activated: added zsh completions for nix env"
+      compinit -i
+    fi
+  else
+    # Direnv inactive: remove nix completions paths if previously added
+    if [[ -n "$__direnv_saved_states[active]" ]]; then
+      __direnv_remove_nix_fpaths
+      __direnv_saved_states[active]=""
+      echo "[direnv] deactivated: removed nix completions"
+      compinit -i
+    fi
+  fi
+}
+
+add-zsh-hook precmd __direnv_fpath_manager
+
+#################################
+# End hacky shit for direnv/nix #
+#################################
+
 # Fix for cline shell integration
 if [[ "$TERM_PROGRAM" == "vscode" ]]; then
   . "$(code --locate-shell-integration-path zsh)"
