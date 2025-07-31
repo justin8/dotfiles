@@ -9,6 +9,11 @@
   "scalingPriority": "gdk",
   "bar.layouts": {
     "0": {
+      "left": [],
+      "middle": [],
+      "right": []
+    },
+    "1": {
       "left": [
         "dashboard",
         "workspaces",
@@ -23,11 +28,6 @@
         "notifications",
         "power"
       ]
-    },
-    "1": {
-      "left": [],
-      "middle": [],
-      "right": []
     }
   },
   "theme.bar.buttons.enableBorders": false,
