@@ -293,9 +293,6 @@ configure_gitconfig() {
   git config --global alias.dag "log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)"%an" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order"
 }
 
-configure_oh_my_zsh() {
-  ln -sf "$DOTFILES/powerlevel10k" "$DOTFILES/oh-my-zsh/custom/themes/powerlevel10k"
-}
 
 change_shell() {
   local setshell=0
@@ -334,7 +331,6 @@ install_nix
 install_packages_nix
 configure_gitconfig
 update_submodules
-configure_oh_my_zsh
 update_scripts
 configure_tmux
 install_fonts

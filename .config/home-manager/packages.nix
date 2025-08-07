@@ -56,6 +56,7 @@
     nixfmt
     nix-direnv
     nix-search
+    oh-my-posh
     ripgrep
     rsync
     shellcheck
