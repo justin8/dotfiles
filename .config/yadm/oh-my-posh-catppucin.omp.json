@@ -35,7 +35,8 @@
           "properties": {
             "folder_icon": "..\ue5fe..",
             "home_icon": "~",
-            "style": "agnoster_short"
+            "style": "agnoster_short",
+            "max_depth": 2
           },
           "powerline_symbol": "\ue0b4",
           "style": "powerline",
