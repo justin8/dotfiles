@@ -64,10 +64,6 @@ DISABLE_MAGIC_FUNCTIONS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(aws direnv)
 
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-        [ -e /etc/profile.d/vte.sh] && source /etc/profile.d/vte.sh
-fi
-
 source $ZSH/oh-my-zsh.sh
 
 # Overwrite aliases defined in oh-my-zsh
