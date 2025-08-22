@@ -1,12 +1,19 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "palette": {
-        "os": "#ACB0BE",
-        "pink": "#F5BDE6",
-        "lavender": "#B7BDF8",
-        "blue":  "#8AADF4",
-        "wight": "#FFFFFF",
-        "text": "#494D64"
+    "os": "#ACB0BE",
+    "pink": "#F5BDE6",
+    "peach": "#FAB387",
+    "lavender": "#B7BDF8",
+    "flamingo": "#F2CDCD",
+    "maroon": "#EBA0AC",
+    "sky": "#89DCEB",
+    "yellow": "#F9E2AF",
+    "blue": "#8AADF4",
+    "wight": "#FFFFFF",
+    "text": "#494D64",
+    "green": "#A6E3A1",
+    "red": "#F38BA8"
   },
   "blocks": [
     {
@@ -44,8 +51,6 @@
           "type": "path"
         },
         {
-          "background": "p:lavender",
-          "foreground": "p:text",
           "style": "powerline",
           "properties": {
             "display_status": true,
@@ -64,8 +69,31 @@
             "tag_icon": "\uf412 "
           },
           "powerline_symbol": "\ue0b4",
-          "template": " {{ .HEAD }}",
+          "foreground": "p:text",
+          "background": "p:lavender",
+          "background_templates": [
+            "{{ if (.Working.Changed) }}p:yellow{{ end }}",
+            "{{ if (.Staging.Changed) }}p:green{{ end }}",
+            "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:red{{ end }}",
+            "{{ if gt .Ahead 0 }}p:green{{ end }}",
+            "{{ if gt .Behind 0 }}p:sky{{ end }}"
+          ],
+          "template": "{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}",
           "type": "git"
+        },
+        {
+          "type": "status",
+          "style": "diamond",
+          "foreground": "p:text",
+          "background": "p:green",
+          "background_templates": [
+            "{{ if .Error }}p:red{{ end }}"
+          ],
+          "trailing_diamond": "",
+          "template": "<p:text></> {{ .Code }} ",
+          "properties": {
+            "always_enabled": false
+          }
         }
       ],
       "type": "prompt"
