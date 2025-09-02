@@ -165,7 +165,7 @@ install_packages_arch() {
 install_packages_mac() {
   if ! which brew &>/dev/null; then
     echo "Installing brew..."
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     sudo xcodebuild -license accept
     brew doctor
   fi
@@ -292,7 +292,6 @@ configure_gitconfig() {
   git config --global core.pager "less -FMRiX"
   git config --global alias.dag "log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)"%an" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order"
 }
-
 
 change_shell() {
   local setshell=0
