@@ -177,7 +177,6 @@ install_packages_mac() {
 install_nix() {
   if ! which nix &>/dev/null; then
     echo "No nix installation found, installing nix..."
-    exit 1
     case $RELEASE in
     'AL2')
       sudo mkdir /nix
