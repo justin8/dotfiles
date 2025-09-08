@@ -119,6 +119,9 @@ else
 	compinit -C
 fi
 
+# Extra manual completion files
+[[ -e $HOME/.brazil_completion/zsh_completion ]] && source $HOME/.brazil_completion/zsh_completion
+
 ############################################################################
 # Some hacky shit to get compinit working in direnv/nix shells dynamically #
 ############################################################################
@@ -219,3 +222,4 @@ fi
 # zprof
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+

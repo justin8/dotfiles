@@ -20,3 +20,6 @@ source "$HOME/.nix-profile/share/fzf/key-bindings.bash"
 eval "$(direnv hook bash)"
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"
+
+# Extra manual completion files
+[[ -e $HOME/.brazil_completion/bash_completion ]] && source $HOME/.brazil_completion/bash_completion
