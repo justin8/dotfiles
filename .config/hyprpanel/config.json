@@ -25,9 +25,20 @@
       ]
     },
     "1": {
-      "left": [],
+      "left": [
+        "dashboard",
+        "workspaces",
+        "media"
+      ],
       "middle": [],
-      "right": []
+      "right": [
+        "network",
+        "bluetooth",
+        "systray",
+        "clock",
+        "notifications",
+        "power"
+      ]
     }
   },
   "theme.bar.buttons.enableBorders": false,
