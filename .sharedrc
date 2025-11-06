@@ -124,6 +124,7 @@ fi
 # Ensure nix path is before homebrew - this doesn't work well out of the box on macos as /etc/zshrc is sourced before this, which results in homebrew that only runs in the user-specific config files to run later and prepend itself
 PATH=$HOME/.nix-profile/bin:$PATH
 
-eval "$(oh-my-posh init $(basename $SHELL) --config $HOME/.config/yadm/oh-my-posh-catppucin.omp.json)"
+OMP_SHELL="$(basename $SHELL 2>/dev/null)" # In rare circumstances, $SHELL isn't set (e.g. Kiro ssh remotes)
+eval "$(oh-my-posh init ${OMP_SHELL:-zsh} --config $HOME/.config/yadm/oh-my-posh-catppucin.omp.json)"
 
 [[ -e $HOME/.sharedrc-addon-late ]] && source "$HOME"/.sharedrc-addon-late
