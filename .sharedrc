@@ -40,6 +40,7 @@ alias nix-shell=cached-nix-shell
 alias kmonday='kinit -f -l 7d -r 30d'
 alias bb='brazil-build'
 alias bre='brazil-runtime-exec'
+alias bte='brazil-test-exec'
 alias mwinit="mwinit -s"
 alias mwcurl='curl --location-trusted --negotiate -u : -b ~/.midway/cookie -c ~/.midway/cookie'
 alias k='kubectl'
