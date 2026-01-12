@@ -35,6 +35,7 @@ alias ls='ls --color=auto'
 alias dc='docker compose'
 alias update_internal_certs='mkdir -p $HOME/.local/ssl; security find-certificate -a -p /System/Library/Keychains/SystemRootCertificates.keychain /Library/Keychains/System.keychain > $HOME/.local/ssl/cert.pem'
 alias yay='PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin yay'
+alias makepkg='PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin makepkg'
 alias nix-shell=cached-nix-shell
 
 alias kmonday='kinit -f -l 7d -r 30d'
