@@ -4,18 +4,22 @@ CONFIG_FILE=~/.config/hypr/conf.d/monitors.conf
 
 exec > >(tee /tmp/output.log) 2>&1
 
-if [[ $1 == reset ]]; then
-  echo "Resetting monitor config..."
-  echo '# Config file maintained by monitor-control script. Do not edit'
-  echo 'monitor = DP-3,5120x1440@239.76,0x0,auto' >$CONFIG_FILE
-  echo 'monitor = DP-1,1920x1080@60,1750x1440,1' >>$CONFIG_FILE
+DP1=1920x1080@60,1750x1440,1
+DP3=5120x1440@239.76,0x0,auto
+
+if [[ $1 =~ 1080 ]]; then
+  echo "Setting single-monitor 1080p..."
+  DP1=disable
+  DP3=1920x1080@239.76,0x0,auto
+elif [[ $1 =~ 1440 ]]; then
+  echo "Setting single-monitor 1080p..."
+  DP1=disable
+  DP3=2560x1440@240,0x0,auto
 fi
 
-if [[ $1 == sunshine ]]; then
-  echo "Setting sunshine monitor config..."
-  HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch dpms on
-  echo 'monitor = DP-3,1920x1080@239.76Hz,0x0,auto' >$CONFIG_FILE
-  echo 'monitor = DP-1,disable' >>$CONFIG_FILE
-fi
+HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch dpms on
+echo '# Config file maintained by monitor-control script. Do not edit' >$CONFIG_FILE
+echo "monitor = DP-3,$DP3" >>$CONFIG_FILE
+echo "monitor = DP-1,$DP1" >>$CONFIG_FILE
 
 sleep 2
