@@ -4,17 +4,18 @@ CONFIG_FILE=~/.config/hypr/conf.d/monitors.conf
 
 exec > >(tee /tmp/output.log) 2>&1
 
-DP1=1920x1080@60,1750x1440,1
-DP3=5120x1440@239.76,0x0,auto
+# Default to 1080p
+DP1=disable
+DP3=1920x1080@239.76,0x0,auto
 
-if [[ $1 =~ 1080 ]]; then
-  echo "Setting single-monitor 1080p..."
-  DP1=disable
-  DP3=1920x1080@239.76,0x0,auto
-elif [[ $1 =~ 1440 ]]; then
-  echo "Setting single-monitor 1080p..."
+if [[ $1 =~ 1440 ]]; then
+  echo "Setting single-monitor 1440p..."
   DP1=disable
   DP3=2560x1440@240,0x0,auto
+elif [[ $1 =~ reset ]]; then
+  echo "Resetting monitor settings..."
+  DP1=1920x1080@60,1750x1440,1
+  DP3=5120x1440@239.76,0x0,auto
 fi
 
 HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch dpms on
