@@ -51,6 +51,7 @@
     libmediainfo
     mediainfo
     mise
+    mtr
     ncdu
     neovim
     nixfmt

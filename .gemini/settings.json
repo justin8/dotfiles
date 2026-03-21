@@ -2,6 +2,21 @@
   "security": {
     "auth": {
       "selectedType": "oauth-personal"
+    },
+    "folderTrust": {
+      "enabled": true
     }
+  },
+  "general": {
+    "defaultApprovalMode": "auto_edit",
+    "enableNotifications": true
+  },
+  "ui": {
+    "inlineThinkingMode": "full",
+    "dynamicWindowTitle": true,
+    "showMemoryUsage": true
+  },
+  "model": {
+    "maxSessionTurns": -1
   }
 }

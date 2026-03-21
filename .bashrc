@@ -1,5 +1,8 @@
 # .bashrc
 
+# Kiro CLI pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/bashrc.pre.bash" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/bashrc.pre.bash"
+
 # Source global definitions
 if [[ -f /etc/bashrc ]]; then
   . /etc/bashrc
@@ -23,3 +26,7 @@ eval "$(direnv hook bash)"
 
 # Extra manual completion files
 [[ -e $HOME/.brazil_completion/bash_completion ]] && source $HOME/.brazil_completion/bash_completion
+. "$HOME/.cargo/env"
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/bashrc.post.bash" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/bashrc.post.bash"
