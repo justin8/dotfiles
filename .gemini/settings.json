@@ -18,5 +18,9 @@
   },
   "model": {
     "maxSessionTurns": -1
+  },
+  "ide": {
+    "hasSeenNudge": true,
+    "enabled": true
   }
 }

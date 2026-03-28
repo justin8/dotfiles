@@ -5,7 +5,7 @@ priority = 100
 
 [[rule]]
 toolName = "run_shell_command"
-commandPrefix = ["ls", "pwd", "cat", "echo", "printf", "grep", "find", "mkdir", "rm", "mv", "cp", "touch", "chmod", "sed", "awk", "jq", "sort", "uniq", "head", "tail", "wc", "diff"]
+commandPrefix = ["ls", "pwd", "cat", "echo", "printf", "grep", "find", "mkdir", "rm", "mv", "cp", "touch", "chmod", "sed", "awk", "jq", "sort", "uniq", "head", "tail", "wc", "diff", "talosctl", "talhelper", "which"]
 decision = "allow"
 priority = 100
 
