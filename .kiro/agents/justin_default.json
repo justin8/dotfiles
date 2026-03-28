@@ -1,0 +1,43 @@
+{
+  "name": "justin_default",
+  "description": "This is an example agent config (and will not be loaded unless you change it to have .json extension)",
+  "prompt": null,
+  "mcpServers": {},
+  "tools": [
+    "code",
+    "shell",
+    "read",
+    "write",
+    "glob",
+    "introspect",
+    "report",
+    "session",
+    "aws",
+    "subagent",
+    "web_fetch",
+    "web_search",
+    "knowledge",
+    "thinking"
+  ],
+  "toolAliases": {},
+  "allowedTools": [
+    "code",
+    "shell",
+    "read",
+    "write",
+    "glob",
+    "introspect",
+    "report",
+    "session",
+    "aws",
+    "subagent",
+    "web_fetch",
+    "web_search",
+    "knowledge",
+    "thinking"
+  ],
+  "resources": ["file://README.md"],
+  "hooks": {},
+  "toolsSettings": {},
+  "useLegacyMcpJson": true
+}
