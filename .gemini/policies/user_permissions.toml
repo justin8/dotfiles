@@ -5,7 +5,12 @@ priority = 100
 
 [[rule]]
 toolName = "run_shell_command"
-commandPrefix = ["ls", "pwd", "cat", "echo", "printf", "grep", "find", "mkdir", "rm", "mv", "cp", "touch", "chmod", "sed", "awk", "jq", "sort", "uniq", "head", "tail", "wc", "diff", "talosctl", "talhelper", "which"]
+commandPrefix = [
+  "ls", "pwd", "cat", "echo", "printf", "grep", "find", "mkdir", "rm", "mv", "cp", "touch", "chmod", "sed", "awk", "jq", "sort", "uniq", "head", "tail", "wc", "diff", "talosctl", "talhelper", "which", "sops", "age", "dig", "nslookup", "curl",
+  "kubectl get", "kubectl describe", "kubectl logs", "kubectl cluster-info", "kubectl top", "kubectl api-resources", "kubectl api-versions", "kubectl explain", "kubectl auth can-i", "kubectl config get-contexts", "kubectl config current-context",
+  "git status", "git log", "git diff", "git show", "git branch", "git remote -v", "git rev-parse", "git ls-files",
+  "helm list", "helm ls", "helm status", "helm get", "helm history", "helm search", "helm show", "helm version", "go test"
+]
 decision = "allow"
 priority = 100
 
