@@ -187,7 +187,7 @@ install_nix() {
       fi
       sh /tmp/nix-install --no-daemon --yes
       ;;
-    'Mac') sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --yes ;;
+    'Mac' | 'Ubuntu') sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --yes ;;
     'Arch')
       pacman -Sy nix
       sudo systemctl enable --now nix-daemon.service
