@@ -290,6 +290,12 @@ configure_gitconfig() {
   # Brazil CLI recommendations
   git config --global core.pager "less -FMRiX"
   git config --global alias.dag "log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)"%an" <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order"
+
+  # Automatic signing using SSH keys
+  git config --global commit.gpgsign true
+  git config --global gpg.format ssh
+  git config --global user.signingkey ~/.ssh/id_ed25519.pub
+
 }
 
 change_shell() {
