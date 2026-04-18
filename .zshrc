@@ -49,6 +49,8 @@ ZSH_DISABLE_COMPFIX="true"
 # Disable magic functions like auto-escaping URLs when you paste them in the terminal (See https://github.com/ohmyzsh/ohmyzsh/issues/7632)
 DISABLE_MAGIC_FUNCTIONS="true"
 
+# Fix unreadable world-writable directories
+zstyle ':completion:*:default' list-colors 'ow=01;34' 'tw=01;34'
 
 # Uncomment following line if you want to disable marking untracked files under
 # VCS as dirty. This makes repository status check for large repositories much,
