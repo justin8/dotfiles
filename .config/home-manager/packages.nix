@@ -44,6 +44,7 @@
     git-lfs
     gnugrep
     gnused
+    gnupg
     gzip
     imagemagick
     jujutsu
