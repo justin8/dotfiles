@@ -129,6 +129,7 @@ elif [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
 fi
 [[ -f $HOME/.nix-profile/etc/profile.d/nix.sh ]] && . "$HOME"/.nix-profile/etc/profile.d/nix.sh
 [[ -f $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh ]] && . "$HOME"/.nix-profile/etc/profile.d/hm-session-vars.sh
+export NIX_CONFIG="fallback = true" # Build from source if pre-compiled packages fail
 
 # Ensure nix path is before homebrew - this doesn't work well out of the box on macos as /etc/zshrc is sourced before this, which results in homebrew that only runs in the user-specific config files to run later and prepend itself
 PATH=$HOME/.nix-profile/bin:$PATH

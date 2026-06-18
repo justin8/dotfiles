@@ -14,7 +14,9 @@ if [[ -f /etc/os-release ]]; then
   RELEASE=$(grep '^NAME=' /etc/os-release | sed -E 's/NAME="?([a-zA-Z]+).*/\1/')
   if [[ $RELEASE == Amazon ]]; then
     VERSION=$(grep '^VERSION="' /etc/os-release | sed -E 's/VERSION="([0-9.]+)"/\1/')
-    if [[ $VERSION == 2 ]]; then
+    if [[ $VERSION == 2023 ]]; then
+      RELEASE=AL2023
+    elif [[ $VERSION == 2 ]]; then
       RELEASE=AL2
     else
       RELEASE=AL1
@@ -62,6 +64,7 @@ install_packages_meta() {
   case $RELEASE in
   'Debian' | 'Ubuntu' | 'Raspbian') install_command=install_packages_debian ;;
   'AL2') install_command=install_packages_al2 ;;
+  'AL2023') install_command=install_packages_al2 ;;
   'Mac') install_command=install_packages_mac ;;
   'Gentoo') install_command=install_packages_gentoo ;;
   'Arch') install_command=install_packages_arch ;;
@@ -178,7 +181,7 @@ install_nix() {
   if ! which nix &>/dev/null; then
     echo "No nix installation found, installing nix..."
     case $RELEASE in
-    'AL2')
+    'AL2' | 'AL2023')
       sudo mkdir /nix
       sudo chown $USER /nix
       curl -o /tmp/nix-install --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install

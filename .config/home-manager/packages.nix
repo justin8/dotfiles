@@ -62,7 +62,6 @@
     rsync
     shellcheck
     shfmt
-    silver-searcher
     tmux
     unzip
     watch
