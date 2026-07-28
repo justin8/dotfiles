@@ -10,7 +10,7 @@ brew "mas"
 
 # Casks
 cask "bitwarden"
-cask "easy-move-plus-resize"
+cask "easy-move+resize"
 cask "firefox"
 cask "google-drive"
 cask "iterm2"
@@ -21,9 +21,9 @@ cask "raycast"
 cask "rectangle"
 cask "spotify"
 cask "sublime-text"
-cask "syncthing"
+cask "syncthing-app"
 cask "visual-studio-code"
-cask "zen-browser"
+cask "zen"
 
 # General packages
 brew "awscurl"
