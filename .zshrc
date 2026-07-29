@@ -70,6 +70,7 @@ alias ls='ls --color=auto' # It defaults to 'ls -G' which doesn't work on all zs
 # Configure history settings
 export HISTFILESIZE=1000000000
 export HISTSIZE=1000000000
+export SAVEHIST=1000000000
 setopt    appendhistory     #Append history to the history file (no overwriting)
 setopt    sharehistory      #Share history across terminals
 setopt    incappendhistory  #Immediately append to the history file, not just when a term is killed
