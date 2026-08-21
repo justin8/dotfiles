@@ -1,434 +1,427 @@
 ---@module 'hl'
---#############################
---## WINDOWS AND WORKSPACES ###
---#############################
-
+-- #############################
+-- ## WINDOWS AND WORKSPACES ###
+-- #############################
 -- Floats
 hl.window_rule({
-    name  = "float-nautilus",
+    name = "float-nautilus",
     match = {
-        class = "org.gnome.Nautilus",
+        class = "org.gnome.Nautilus"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-nautilus-previewer",
+    name = "float-nautilus-previewer",
     match = {
-        class = "org.gnome.NautilusPreviewer",
+        class = "org.gnome.NautilusPreviewer"
     },
-    float = true,
+    float = true
 })
 
 -- windowrulev2 = float,title:^(About Mozilla Firefox)$
 hl.window_rule({
-    name  = "float-floorp-pip",
+    name = "float-floorp-pip",
     match = {
         class = "floorp",
-        title = "Picture-in-Picture",
+        title = "Picture-in-Picture"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-floorp-library",
+    name = "float-floorp-library",
     match = {
         class = "floorp",
-        title = "Library",
+        title = "Library"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-floorp-extension",
+    name = "float-floorp-extension",
     match = {
         class = "floorp",
-        title = "Extension",
+        title = "Extension"
     },
-    float = true, -- this doesn't work.. not sure why yet
+    float = true -- this doesn't work.. not sure why yet
 })
 
 hl.window_rule({
-    name  = "float-qt5ct",
+    name = "float-qt5ct",
     match = {
-        class = "qt5ct",
+        class = "qt5ct"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-qt6ct",
+    name = "float-qt6ct",
     match = {
-        class = "qt6ct",
+        class = "qt6ct"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-pavucontrol",
+    name = "float-pavucontrol",
     match = {
-        class = "org.pulseaudio.pavucontrol",
+        class = "org.pulseaudio.pavucontrol"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-blueman-manager",
+    name = "float-blueman-manager",
     match = {
-        class = "blueman-manager",
+        class = "blueman-manager"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-nm-applet",
+    name = "float-nm-applet",
     match = {
-        class = "nm-applet",
+        class = "nm-applet"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-nm-connection-editor",
+    name = "float-nm-connection-editor",
     match = {
-        class = "nm-connection-editor",
+        class = "nm-connection-editor"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-system-monitor",
+    name = "float-system-monitor",
     match = {
-        class = "org.gnome.SystemMonitor",
+        class = "org.gnome.SystemMonitor"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-obsidian",
+    name = "float-obsidian",
     match = {
-        class = "obsidian",
+        class = "md.obsidian.Obsidian"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-calculator",
+    name = "float-calculator",
     match = {
-        class = "org.gnome.Calculator",
+        class = "org.gnome.Calculator"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-easyeffects",
+    name = "float-easyeffects",
     match = {
-        class = "com.github.wwmm.easyeffects",
+        class = "com.github.wwmm.easyeffects"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-picture-in-picture",
+    name = "float-picture-in-picture",
     match = {
-        class = "Picture-in-Picture",
+        class = "Picture-in-Picture"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "float-wayle-settings",
+    name = "float-wayle-settings",
     match = {
-        class = "com.wayle.settings",
+        class = "com.wayle.settings"
     },
-    float = true,
+    float = true
 })
 
 -- Mappings
 
-
 hl.window_rule({
-    name  = "workspace-spotify",
+    name = "workspace-spotify",
     match = {
-        class = "^(Spotify)$",
+        class = "^(Spotify)$"
     },
-    workspace = "10 silent",
+    workspace = "10 silent"
 })
 
 hl.window_rule({
-    name  = "workspace-youtube-music",
+    name = "workspace-youtube-music",
     match = {
-        title = "^(YouTube Music)$",
+        title = "^(YouTube Music)$"
     },
-    workspace = "10 silent",
+    workspace = "10 silent"
 })
 
 hl.window_rule({
-    name  = "workspace-discord",
+    name = "workspace-discord",
     match = {
-        class = "^(discord)$",
+        class = "^(discord)$"
     },
-    workspace = "9 silent",
+    workspace = "9 silent"
 })
 
 hl.window_rule({
-    name  = "workspace-vesktop",
+    name = "workspace-vesktop",
     match = {
-        class = "^(vesktop)$",
+        class = "^(vesktop)$"
     },
-    workspace = "9 silent",
+    workspace = "9 silent"
 })
 
 hl.window_rule({
-    name  = "workspace-obs-studio",
+    name = "workspace-obs-studio",
     match = {
-        class = "^(com.obsproject.Studio)$",
+        class = "^(com.obsproject.Studio)$"
     },
-    workspace = 10,
+    workspace = 10
 })
-
 
 -- Games
 hl.window_rule({
-    name  = "workspace-steam-client",
+    name = "workspace-steam-client",
     match = {
         class = "steam",
-        title = "(Steam|Friends List)",
+        title = "(Steam|Friends List)"
     },
-    workspace = 2,
+    workspace = 2
 })
 
 hl.window_rule({
-    name  = "workspace-heroic-launcher",
+    name = "workspace-heroic-launcher",
     match = {
-        class = "com.heroicgameslauncher.hgl",
+        class = "com.heroicgameslauncher.hgl"
     },
-    workspace = 2,
+    workspace = 2
 })
 
 hl.window_rule({
-    name  = "float-protonfixes",
+    name = "float-protonfixes",
     match = {
-        title = "ProtonFixes",
+        title = "ProtonFixes"
     },
-    float = true,
+    float = true
 })
 
 hl.window_rule({
-    name  = "fullscreen-no-rounding-border",
+    name = "fullscreen-no-rounding-border",
     match = {
-        fullscreen = true,
+        fullscreen = true
     },
-    rounding    = 0,
-    border_size = 0,
+    rounding = 0,
+    border_size = 0
 })
 
 hl.window_rule({
-    name  = "workspace-steam-big-picture",
+    name = "workspace-steam-big-picture",
     match = {
-        title = "Steam Big Picture Mode",
+        title = "Steam Big Picture Mode"
+    },
+    workspace = 3
+})
+
+hl.window_rule({
+    name = "game-steam-app",
+    match = {
+        class = "steam_app_.*"
     },
     workspace = 3,
-})
-
-hl.window_rule({
-    name  = "game-steam-app",
-    match = {
-        class = "steam_app_.*",
-    },
-    workspace  = 3,
     fullscreen = true,
-    immediate  = true,
+    immediate = true
 })
 
 hl.window_rule({
-    name  = "game-gamescope",
+    name = "game-gamescope",
     match = {
-        class = "gamescope.*",
-    },
-    workspace  = 3,
-    fullscreen = true,
-})
-
-hl.window_rule({
-    name  = "game-factorio",
-    match = {
-        class = "factorio",
+        class = "gamescope.*"
     },
     workspace = 3,
+    fullscreen = true
 })
 
 hl.window_rule({
-    name  = "game-soulstone-survivors",
+    name = "game-factorio",
     match = {
-        class = "Soulstone-Survivors.x86_64",
+        class = "factorio"
     },
-    workspace = 3,
+    workspace = 3
 })
 
 hl.window_rule({
-    name  = "game-guild-wars-2",
+    name = "game-soulstone-survivors",
     match = {
-        title = "Guild Wars 2",
+        class = "Soulstone-Survivors.x86_64"
     },
-    no_blur     = true,
-    border_size = 0,
+    workspace = 3
 })
 
 hl.window_rule({
-    name  = "game-necesse",
+    name = "game-guild-wars-2",
     match = {
-        class      = "Necesse.*",
-        fullscreen = true,
+        title = "Guild Wars 2"
     },
-    workspace = 3,
+    no_blur = true,
+    border_size = 0
 })
 
 hl.window_rule({
-    name  = "game-geforce-now",
+    name = "game-necesse",
     match = {
-        class = "GeForce NOW",
+        class = "Necesse.*",
+        fullscreen = true
     },
-    workspace = 3,
+    workspace = 3
 })
 
 hl.window_rule({
-    name  = "game-megabonk",
+    name = "game-geforce-now",
     match = {
-        class = "Megabonk.x86_64",
+        class = "GeForce NOW"
     },
-    workspace = 3,
+    workspace = 3
+})
+
+hl.window_rule({
+    name = "game-megabonk",
+    match = {
+        class = "Megabonk.x86_64"
+    },
+    workspace = 3
 })
 
 hl.window_rule({
     -- ARC Raiders
-    name  = "game-arc-raiders",
+    name = "game-arc-raiders",
     match = {
-        class = "pioneergame.exe",
+        class = "pioneergame.exe"
     },
-    workspace = 3,
+    workspace = 3
 })
 
 hl.window_rule({
     -- ARC Radiers EAC setup
-    name  = "game-arc-raiders-eac",
+    name = "game-arc-raiders-eac",
     match = {
-        class = "steam_app_1808500",
+        class = "steam_app_1808500"
     },
     workspace = "7 silent",
-    size      = "100 100",
+    size = "100 100"
 })
 
 hl.window_rule({
-    name  = "game-terraria",
+    name = "game-terraria",
     match = {
-        class = "Terraria.bin.x86_64",
-    },
-    workspace   = 3,
-    float       = true,
-    border_size = 0,
-    size        = "3440 1440",
-})
-
-hl.window_rule({
-    name  = "float-ubisoft-connect",
-    match = {
-        title = "Ubisoft Connect",
-    },
-    float = true,
-})
-
-hl.window_rule({
-    name  = "game-moonlight",
-    match = {
-        class = "com.moonlight_stream.Moonlight",
-    },
-    workspace  = 3,
-    fullscreen = true,
-})
-
-hl.window_rule({
-    name  = "workspace-godot",
-    match = {
-        title = "Godot",
+        class = "Terraria.bin.x86_64"
     },
     workspace = 3,
+    float = true,
+    border_size = 0,
+    size = "3440 1440"
 })
 
 hl.window_rule({
-    name  = "game-spiderman-miles-morales",
+    name = "float-ubisoft-connect",
     match = {
-        title = "Marvel's Spider-Man: Miles Morales",
+        title = "Ubisoft Connect"
     },
-    workspace  = 3,
-    float      = true,
-    fullscreen = false,
+    float = true
 })
 
+hl.window_rule({
+    name = "game-moonlight",
+    match = {
+        class = "com.moonlight_stream.Moonlight"
+    },
+    workspace = 3,
+    fullscreen = true
+})
+
+hl.window_rule({
+    name = "workspace-godot",
+    match = {
+        title = "Godot"
+    },
+    workspace = 3
+})
+
+hl.window_rule({
+    name = "game-spiderman-miles-morales",
+    match = {
+        title = "Marvel's Spider-Man: Miles Morales"
+    },
+    workspace = 3,
+    float = true,
+    fullscreen = false
+})
 
 -- Plex
 hl.window_rule({
-    name  = "app-plex",
+    name = "app-plex",
     match = {
-        class = "Plex",
+        class = "Plex"
     },
     fullscreen = true,
-    workspace  = 8,
+    workspace = 8
 })
-
 
 -- Transparency
 hl.window_rule({
-    name  = "opacity-code",
+    name = "opacity-code",
     match = {
-        class = "code-url-handler",
+        class = "code-url-handler"
     },
-    opacity = 0.90,
+    opacity = 0.90
 })
 
 hl.window_rule({
-    name  = "opacity-steam",
+    name = "opacity-steam",
     match = {
-        class = "steam",
+        class = "steam"
     },
-    opacity = 0.85,
+    opacity = 0.85
 })
 
 hl.window_rule({
-    name  = "opacity-spotify",
+    name = "opacity-spotify",
     match = {
-        class = "Spotify",
+        class = "Spotify"
     },
-    opacity = 0.80,
+    opacity = 0.80
 })
-
 
 -- Other rules
 hl.window_rule({
     -- Don't idle during full screen
-    name  = "idle-inhibit-fullscreen",
+    name = "idle-inhibit-fullscreen",
     match = {
-        fullscreen_state_client = 2,
+        fullscreen_state_client = 2
     },
-    idle_inhibit = "fullscreen",
+    idle_inhibit = "fullscreen"
 })
-
 
 -- Wlogout
 hl.window_rule({
-    name  = "app-wlogout",
+    name = "app-wlogout",
     match = {
-        class = "Wlogout",
+        class = "Wlogout"
     },
     fullscreen = true,
-    float      = true,
-    no_anim    = true,
+    float = true,
+    no_anim = true
 })
 
 hl.layer_rule({
-    name  = "blur-logout-dialog",
+    name = "blur-logout-dialog",
     match = {
-        namespace = "logout_dialog",
+        namespace = "logout_dialog"
     },
-    blur = true,
+    blur = true
 })

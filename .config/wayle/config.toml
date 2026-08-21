@@ -20,5 +20,8 @@ label-show = false
 [modules.bluetooth]
 label-show = false
 
+[modules.hyprland-workspaces]
+show-special = false
+
 [modules.clock]
 format = "%H:%M:%S"

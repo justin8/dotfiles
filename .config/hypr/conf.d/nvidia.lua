@@ -1,5 +1,4 @@
 ---@module 'hl'
-
 hl.env("LIBVA_DRIVER_NAME", "nvidia")
 
 -- HW acceleration
@@ -12,7 +11,7 @@ hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 
 -- Fix electron apps
 hl.config({
-	cursor = {
-		no_hardware_cursors = true,
-	},
+    cursor = {
+        no_hardware_cursors = true
+    }
 })

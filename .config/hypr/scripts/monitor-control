@@ -53,9 +53,7 @@ HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprc
 
 {
   echo "---@module 'hl'"
-  echo ""
   echo "-- Config file maintained by monitor-control script. Do not edit"
-  echo ""
   format_monitor "DP-3" "$DP3"
   echo ""
   format_monitor "DP-1" "$DP1"
