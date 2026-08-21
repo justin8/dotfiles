@@ -1,6 +1,6 @@
 #!/bin/bash
 set -x
-CONFIG_FILE=~/.config/hypr/conf.d/monitors.conf
+CONFIG_FILE=~/.config/hypr/conf.d/monitors.lua
 
 exec > >(tee /tmp/output.log) 2>&1
 
@@ -20,9 +20,45 @@ else
   DP3=1920x1080@239.76,0x0,auto
 fi
 
+format_monitor() {
+  local output="$1"
+  local spec="$2"
+  if [[ "$spec" == "disable" ]]; then
+    cat <<EOF
+hl.monitor({
+	output = "$output",
+	disabled = true,
+})
+EOF
+  else
+    IFS=',' read -r mode pos scale <<< "$spec"
+    local scale_val
+    if [[ "$scale" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+      scale_val="$scale"
+    else
+      scale_val="\"$scale\""
+    fi
+    cat <<EOF
+hl.monitor({
+	output = "$output",
+	mode = "$mode",
+	position = "$pos",
+	scale = $scale_val,
+})
+EOF
+  fi
+}
+
 HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch dpms on
-echo '# Config file maintained by monitor-control script. Do not edit' >$CONFIG_FILE
-echo "monitor = DP-3,$DP3" >>$CONFIG_FILE
-echo "monitor = DP-1,$DP1" >>$CONFIG_FILE
+
+{
+  echo "---@module 'hl'"
+  echo ""
+  echo "-- Config file maintained by monitor-control script. Do not edit"
+  echo ""
+  format_monitor "DP-3" "$DP3"
+  echo ""
+  format_monitor "DP-1" "$DP1"
+} > "$CONFIG_FILE"
 
 sleep 2

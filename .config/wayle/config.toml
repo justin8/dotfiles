@@ -1,0 +1,24 @@
+[bar]
+location = "top"
+scale = 1
+
+[[bar.layout]]
+monitor = "*"
+left = []
+center = []
+right = []
+
+[[bar.layout]]
+monitor = "DP-3"
+left = ["dashboard", "hyprland-workspaces"]
+center = ["clock"]
+right = ["systray", "network", "bluetooth", "volume"]
+
+[modules.network]
+label-show = false
+
+[modules.bluetooth]
+label-show = false
+
+[modules.clock]
+format = "%H:%M:%S"

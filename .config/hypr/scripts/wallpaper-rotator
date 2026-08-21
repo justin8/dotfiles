@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+# Wallpaper directory
+WP_FOLDER=~/Backgrounds
+
+# Time in seconds to change wallpaper
+WAIT_TIME=60
+
+while true; do
+  PID=$(pidof swaybg)
+  FILE=$(find "$WP_FOLDER" -type f -name '*.png' -o -name '*.jpg' | shuf -n1)
+  ln -sf "$FILE" /tmp/current-wallpaper
+  swaybg -i "$FILE" -m fill &
+  sleep 1
+  kill "$PID"
+  sleep "$WAIT_TIME"
+done
