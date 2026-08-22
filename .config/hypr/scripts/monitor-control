@@ -8,16 +8,16 @@ HEIGHT=$1
 
 if [[ $HEIGHT =~ reset ]]; then
   echo "Resetting monitor settings to maximum resolution with secondary screen..."
-  DP1=1920x1080@60,1750x1440,1
-  DP3=5120x1440@239.76,0x0,auto
+  DP1=5120x1440@239.76,0x0,auto
+  DP3=1920x1080@60,1750x1440,1
 elif [[ $HEIGHT -ge 1440 ]]; then
   echo "Setting single-monitor 1440p..."
-  DP1=disable
-  DP3=2560x1440@240,0x0,auto
+  DP1=2560x1440@240,0x0,auto
+  DP3=disable
 else
   echo "Setting single-monitor 1080p..."
-  DP1=disable
-  DP3=1920x1080@239.76,0x0,auto
+  DP1=1920x1080@239.76,0x0,auto
+  DP3=disable
 fi
 
 format_monitor() {
@@ -31,7 +31,7 @@ hl.monitor({
 })
 EOF
   else
-    IFS=',' read -r mode pos scale <<< "$spec"
+    IFS=',' read -r mode pos scale <<<"$spec"
     local scale_val
     if [[ "$scale" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
       scale_val="$scale"
@@ -57,6 +57,6 @@ HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprc
   format_monitor "DP-3" "$DP3"
   echo ""
   format_monitor "DP-1" "$DP1"
-} > "$CONFIG_FILE"
+} >"$CONFIG_FILE"
 
 sleep 2
