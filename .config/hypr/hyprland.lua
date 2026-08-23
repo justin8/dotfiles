@@ -12,7 +12,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("sleep 2 && ~/.config/hypr/scripts/monitor-control reset")
     hl.exec_cmd("wayle panel start")
     hl.exec_cmd("udiskie --automount --smart-tray")
-    hl.exec_cmd("hypridle &> ~/.hypridle.log")
+    -- hl.exec_cmd("hypridle &> ~/.hypridle.log")
     hl.exec_cmd("~/.config/hypr/scripts/wallpaper-rotator &> ~/.swaybg.log")
     hl.exec_cmd("wl-paste --watch cliphist store")
     hl.exec_cmd("sunshine")
@@ -71,4 +71,3 @@ hl.config({
 })
 
 require("~/.config/hypr/conf.d/*.lua")
-
