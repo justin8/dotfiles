@@ -8,55 +8,53 @@ HEIGHT=$1
 
 if [[ $HEIGHT =~ reset ]]; then
   echo "Resetting monitor settings to maximum resolution with secondary screen..."
-  DP1=5120x1440@239.76,0x0,auto
-  DP3=1920x1080@60,1750x1440,1
+  DP1_MODE="5120x1440@239.76"
+  DP3_DISABLE=false
 elif [[ $HEIGHT -ge 1440 ]]; then
   echo "Setting single-monitor 1440p..."
-  DP1=2560x1440@240,0x0,auto
-  DP3=disable
+  DP1_MODE="2560x1440@240"
+  DP3_DISABLE=true
 else
   echo "Setting single-monitor 1080p..."
-  DP1=1920x1080@239.76,0x0,auto
-  DP3=disable
+  DP1_MODE="1920x1080@239.76"
+  DP3_DISABLE=true
 fi
-
-format_monitor() {
-  local output="$1"
-  local spec="$2"
-  if [[ "$spec" == "disable" ]]; then
-    cat <<EOF
-hl.monitor({
-	output = "$output",
-	disabled = true,
-})
-EOF
-  else
-    IFS=',' read -r mode pos scale <<<"$spec"
-    local scale_val
-    if [[ "$scale" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
-      scale_val="$scale"
-    else
-      scale_val="\"$scale\""
-    fi
-    cat <<EOF
-hl.monitor({
-	output = "$output",
-	mode = "$mode",
-	position = "$pos",
-	scale = $scale_val,
-})
-EOF
-  fi
-}
 
 HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch dpms on
 
-{
-  echo "---@module 'hl'"
-  echo "-- Config file maintained by monitor-control script. Do not edit"
-  format_monitor "DP-3" "$DP3"
-  echo ""
-  format_monitor "DP-1" "$DP1"
-} >"$CONFIG_FILE"
+if [ "$DP3_DISABLE" = true ]; then
+  DP3_BLOCK='hl.monitor({
+	output = "DP-3",
+	disabled = true,
+})'
+else
+  DP3_BLOCK='hl.monitor({
+	output = "DP-3",
+	mode = "1920x1080@60",
+	position = "1750x1440",
+	scale = 1,
+})'
+fi
+
+cat <<EOF >"$CONFIG_FILE"
+---@module 'hl'
+-- Config file maintained by monitor-control script. Do not edit
+hl.monitor({
+	output = "DP-1",
+	mode = "$DP1_MODE",
+	position = "0x0",
+	scale = "auto",
+	supports_hdr = 1,
+	supports_wide_color = 1,
+	cm = "auto",
+	sdrbrightness = 5.0,
+	sdrsaturation = 1.0,
+	sdr_min_luminance = 0.4,
+	sdr_eotf = "srgb",
+	bitdepth = 10,
+})
+
+$DP3_BLOCK
+EOF
 
 sleep 2
