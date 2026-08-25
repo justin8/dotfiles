@@ -9,7 +9,7 @@ center = []
 right = []
 
 [[bar.layout]]
-monitor = "DP-3"
+monitor = "DP-1"
 left = ["dashboard", "hyprland-workspaces"]
 center = ["clock"]
 right = ["systray", "network", "bluetooth", "volume"]
