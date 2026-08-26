@@ -44,14 +44,6 @@ hl.monitor({
 	mode = "$DP1_MODE",
 	position = "0x0",
 	scale = "auto",
-	supports_hdr = 1,
-	supports_wide_color = 1,
-	cm = "auto",
-	sdrbrightness = 5.0,
-	sdrsaturation = 1.0,
-	sdr_min_luminance = 0.4,
-	sdr_eotf = "srgb",
-	bitdepth = 10,
 })
 
 $DP3_BLOCK
