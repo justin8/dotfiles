@@ -1,26 +1,8 @@
 ---@module 'hl'
 -- ##################
--- ## MY PROGRAMS ###
--- ##################
--- See https://wiki.hyprland.org/Configuring/Keywords/
--- Set programs that you use
-local terminal = "kitty"
-local fileManager = "nautilus"
-local menu = "pkill rofi; rofi -show combi"
-local run = "pkill rofi; rofi -show run"
-local lock = "~/.config/hypr/scripts/hyprlock"
-local logoutMenu = "~/.config/hypr/scripts/logout"
-local clipboard = "~/.config/hypr/scripts/clipboard"
-local screenshots = "~/.config/hypr/scripts/screenshots"
-local kill = "~/.config/hypr/scripts/kill"
-local monitorreset = "~/.config/hypr/scripts/monitor-control reset"
-local emoji = "bemoji -c"
-
--- ##################
 -- ## KEYBINDINGS ###
 -- ##################
 -- See https://wiki.hyprland.org/Configuring/Keywords/
-
 hl.bind("SUPER + T", hl.dsp.exec_cmd("kitty"))
 hl.bind("SUPER + Q", hl.dsp.window.close(), {
     description = "Window: Close"
