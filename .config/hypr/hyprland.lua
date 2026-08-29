@@ -23,6 +23,12 @@ hl.on("hyprland.start", function()
         "[workspace 10 silent] flatpak 'run' '--command=/app/bin/chrome' 'com.google.Chrome' '--profile-directory=Default' '--app-id=cinhimbnkkaeohfgghhklpknlkffjgod'")
     hl.exec_cmd("[workspace 2 silent] steam -nochatui -nofriendsui -silent")
     hl.exec_cmd("[workspace special:magic silent] obsidian")
+    hl.exec_cmd("xrandr --output DP-1 --primary")
+    hl.exec_cmd("systemctl --user start hyprland-session.target")
+end)
+
+hl.on("hyprland.shutdown", function()
+    hl.exec_cmd("systemctl --user stop hyprland-session.target")
 end)
 
 -- ############################
