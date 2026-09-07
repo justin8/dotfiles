@@ -107,10 +107,10 @@ hl.window_rule({
 hl.window_rule({
     name = "app-plex",
     match = {
-        class = "Plex"
+        title = "Plex"
     },
     fullscreen = true,
-    workspace = 8
+    workspace = 10
 })
 
 -- Transparency
