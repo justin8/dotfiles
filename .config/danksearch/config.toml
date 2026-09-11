@@ -1,0 +1,18 @@
+# DankSearch Configuration
+# See https://github.com/AvengeMedia/danksearch for documentation
+
+index_path = "/home/justin/.cache/danksearch/index"
+listen_addr = "127.0.0.1:43654"
+max_file_bytes = 2097152
+worker_count = 8
+text_extensions = [".txt", ".md", ".go", ".py", ".js", ".ts", ".jsx", ".tsx", ".json", ".yaml", ".yml", ".toml", ".html", ".css", ".rs", ".c", ".cpp", ".h", ".java", ".rb", ".php", ".sh"]
+index_all_files = true
+index_xattr_tags = true
+max_depth = 0
+
+[[index_paths]]
+  path = "/home/justin"
+  max_depth = 6
+  exclude_hidden = true
+  exclude_dirs = [".git", ".hg", ".svn", "node_modules", "bower_components", ".npm", ".yarn", "site-packages", "__pycache__", ".venv", "venv", ".tox", ".pytest_cache", ".eggs", "dist", "build", "out", "bin", "obj", "target", "vendor", ".gradle", ".m2", "bundle", ".cache", ".parcel-cache", ".next", ".nuxt", ".serverless", "Library", ".Trash-1000", ".postgresql", ".postgres", ".mysql", ".mongodb", ".redis", "pgdata", "pg_data", "go", ".cargo", ".pyenv", ".rbenv", ".nvm", ".rustup", ".composer", ".gem", ".idea", ".vscode"]
+  extract_xattr_tags = false

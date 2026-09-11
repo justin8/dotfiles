@@ -67,5 +67,6 @@
     unzip
     watch
     wget
+    whois
   ];
 }
