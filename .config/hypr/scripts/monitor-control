@@ -4,49 +4,72 @@ CONFIG_FILE=~/.config/hypr/conf.d/monitors.lua
 
 exec > >(tee /tmp/output.log) 2>&1
 
-HEIGHT=$1
+ARG=$1
 
-if [[ $HEIGHT =~ reset ]]; then
+if [[ "$ARG" =~ reset ]]; then
   echo "Resetting monitor settings to maximum resolution with secondary screen..."
-  DP1_MODE="5120x1440@239.76"
-  DP3_DISABLE=false
-elif [[ $HEIGHT -ge 1440 ]]; then
-  echo "Setting single-monitor 1440p..."
-  DP1_MODE="2560x1440@240"
-  DP3_DISABLE=true
+  STREAM_MODE=false
+elif [[ "$ARG" =~ 4k|2160 ]] || { [[ "$ARG" =~ ^[0-9]+$ ]] && [ "$ARG" -ge 2160 ]; }; then
+  echo "Setting single-monitor streaming 4K 120..."
+  HDMI_MODE="3840x2160@120"
+  STREAM_MODE=true
+elif [[ "$ARG" =~ 1440 ]] || { [[ "$ARG" =~ ^[0-9]+$ ]] && [ "$ARG" -ge 1440 ]; }; then
+  echo "Setting single-monitor streaming 1440p 120Hz..."
+  HDMI_MODE="2560x1440@120"
+  STREAM_MODE=true
 else
-  echo "Setting single-monitor 1080p..."
-  DP1_MODE="1920x1080@239.76"
-  DP3_DISABLE=true
+  echo "Setting single-monitor streaming 1080p 120Hz..."
+  HDMI_MODE="1920x1080@120"
+  STREAM_MODE=true
 fi
 
-HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch dpms on
-
-if [ "$DP3_DISABLE" = true ]; then
-  DP3_BLOCK='hl.monitor({
-	output = "DP-3",
-	disabled = true,
-})'
-else
-  DP3_BLOCK='hl.monitor({
-	output = "DP-3",
-	mode = "1920x1080@60",
-	position = "1750x1440",
-	scale = 1,
-})'
-fi
-
-cat <<EOF >"$CONFIG_FILE"
+if [ "$STREAM_MODE" = true ]; then
+  cat <<EOF >"$CONFIG_FILE"
 ---@module 'hl'
 -- Config file maintained by monitor-control script. Do not edit
 hl.monitor({
-	output = "DP-1",
-	mode = "$DP1_MODE",
+	output = "HDMI-A-1",
+	mode = "$HDMI_MODE",
 	position = "0x0",
 	scale = "auto",
 })
 
-$DP3_BLOCK
+hl.monitor({
+	output = "DP-1",
+	disabled = true,
+})
+
+hl.monitor({
+	output = "DP-3",
+	disabled = true,
+})
+EOF
+else
+  cat <<EOF >"$CONFIG_FILE"
+---@module 'hl'
+-- Config file maintained by monitor-control script. Do not edit
+hl.monitor({
+	output = "DP-1",
+	mode = "5120x1440@240",
+	position = "0x0",
+	scale = "auto",
+})
+
+hl.monitor({
+	output = "DP-3",
+	mode = "1920x1080@60",
+	position = "1750x1440",
+	scale = 1,
+})
+
+hl.monitor({
+	output = "HDMI-A-1",
+	disabled = true,
+})
 EOF
 
-sleep 2
+  # Force DPMS toggle on reset to wake DP-1 (Samsung Odyssey) from hardware deep sleep
+  HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch 'hl.dsp.dpms({ action = "disable" })'
+  sleep 1
+  HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch 'hl.dsp.dpms({ action = "enable" })'
+fi

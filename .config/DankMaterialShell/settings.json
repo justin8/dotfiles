@@ -2,6 +2,38 @@
   "calendarBackend": "dankcal",
   "useFahrenheit": true,
   "barElevationEnabled": false,
+  "controlCenterWidgets": [
+    {
+      "id": "volumeSlider",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "brightnessSlider",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "wifi",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "bluetooth",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "builtin_vpn",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "builtin_tailscale",
+      "enabled": true,
+      "width": 50
+    }
+  ],
   "showWorkspaceIndex": true,
   "dashTabs": [
     {
