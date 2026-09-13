@@ -17,10 +17,15 @@
       "command(makepkg)",
       "command(find)",
       "command(pacman -Q)",
+      "command(pacman -Ql)",
+      "command(pacman -Qo)",
+      "command(pacman -Qs)",
+      "command(pacman -Ss)",
       "command(pacman -F)",
       "command(grep)",
       "command(ls)",
       "command(cat)",
+      "command(lsof)",
       "command(systemctl --user)",
       "command(systemctl status)",
       "command(systemctl show)",
@@ -121,6 +126,7 @@
     "/home/justin",
     "/home/justin/src/hack",
     "/home/justin/src/apicache",
-    "/home/justin/Downloads"
+    "/home/justin/Downloads",
+    "/home/justin/.config"
   ]
 }
