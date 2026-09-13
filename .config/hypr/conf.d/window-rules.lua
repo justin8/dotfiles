@@ -92,6 +92,7 @@ hl.window_rule({
     match = {
         title = "Steam Big Picture Mode"
     },
+    fullscreen = true,
     workspace = 3
 })
 
