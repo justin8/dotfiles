@@ -12,8 +12,9 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("easyeffects --gapplication-service")
     hl.exec_cmd("[workspace 1 silent] zen-browser")
     hl.exec_cmd(
-        "[workspace 10 silent] flatpak 'run' '--command=/app/bin/chrome' 'com.google.Chrome' '--profile-directory=Default' '--app-id=cinhimbnkkaeohfgghhklpknlkffjgod'")
-    hl.exec_cmd("[workspace 2 silent] env PATH=/usr/bin:/bin:$PATH steam -nochatui -nofriendsui")
+        "[workspace 10 silent] flatpak 'run' '--command=/app/bin/chrome' 'com.google.Chrome' '--profile-directory=Default' '--app-id=cinhimbnkkaeohfgghhklpknlkffjgod'"
+    )
+    hl.exec_cmd("[workspace 2 silent] env PATH=/usr/bin:/bin:$PATH steam -nochatui -nofriendsui -silent")
     hl.exec_cmd("[workspace special:magic silent] obsidian")
     hl.exec_cmd("xrandr --output DP-1 --primary")
     hl.exec_cmd("dbus-update-activation-environment --systemd --all")

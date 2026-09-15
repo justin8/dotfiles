@@ -112,7 +112,9 @@
       "command(helm version)",
       "command(go test)",
       "command(dmidecode)",
-      "command(lscpu)"
+      "command(lscpu)",
+      "command(unzip)",
+      "command(sha256sum)"
     ]
   },
   "trustedWorkspaces": [
@@ -127,6 +129,7 @@
     "/home/justin/src/hack",
     "/home/justin/src/apicache",
     "/home/justin/Downloads",
-    "/home/justin/.config"
+    "/home/justin/.config",
+    "/home/justin/src/arch-packages/volt-gui"
   ]
 }
