@@ -5,9 +5,9 @@
 hl.window_rule({
     name = "floats",
     match = {
-        initial_class = "^(org\\.gnome\\.Nautilus.*|qt5ct|qt6ct|org\\.pulseaudio\\.pavucontrol|blueman-manager|nm-applet|nm-connection-editor|org\\.gnome\\.SystemMonitor|md\\.obsidian\\.Obsidian|org\\.gnome\\.Calculator|com\\.github\\.wwmm\\.easyeffects|Picture-in-Picture|com\\.wayle\\.settings)$"
+        initial_class = "^(org\\.gnome\\.Nautilus.*|qt5ct|qt6ct|org\\.pulseaudio\\.pavucontrol|blueman-manager|nm-applet|nm-connection-editor|org\\.gnome\\.SystemMonitor|md\\.obsidian\\.Obsidian|org\\.gnome\\.Calculator|com\\.github\\.wwmm\\.easyeffects|Picture-in-Picture|com\\.wayle\\.settings)$",
     },
-    float = true
+    float = true,
 })
 
 -- Mappings
@@ -15,41 +15,41 @@ hl.window_rule({
 hl.window_rule({
     name = "workspace-spotify",
     match = {
-        class = "^(Spotify)$"
+        class = "^(Spotify)$",
     },
-    workspace = "10 silent"
+    workspace = "10 silent",
 })
 
 hl.window_rule({
     name = "workspace-youtube-music",
     match = {
-        title = "^(YouTube Music)$"
+        title = "^(YouTube Music)$",
     },
-    workspace = "10 silent"
+    workspace = "10 silent",
 })
 
 hl.window_rule({
     name = "workspace-discord",
     match = {
-        class = "^(discord)$"
+        class = "^(discord)$",
     },
-    workspace = "9"
+    workspace = "9",
 })
 
 hl.window_rule({
     name = "workspace-vesktop",
     match = {
-        class = "^(vesktop)$"
+        class = "^(vesktop)$",
     },
-    workspace = "9"
+    workspace = "9",
 })
 
 hl.window_rule({
     name = "workspace-obs-studio",
     match = {
-        class = "^(com.obsproject.Studio)$"
+        class = "^(com.obsproject.Studio)$",
     },
-    workspace = 10
+    workspace = 10,
 })
 
 -- Games
@@ -57,86 +57,94 @@ hl.window_rule({
     name = "workspace-steam-client",
     match = {
         class = "steam",
-        title = "(Steam|Friends List)"
+        title = "(Steam|Friends List)",
     },
-    workspace = 2
+    workspace = 2,
 })
 
 hl.window_rule({
     name = "workspace-heroic-launcher",
     match = {
-        class = "com.heroicgameslauncher.hgl"
+        class = "com.heroicgameslauncher.hgl",
     },
-    workspace = 2
+    workspace = 2,
 })
 
 hl.window_rule({
     name = "float-protonfixes",
     match = {
-        title = "ProtonFixes"
+        title = "ProtonFixes",
     },
-    float = true
+    float = true,
 })
 
 hl.window_rule({
     name = "fullscreen-no-rounding-border",
     match = {
-        fullscreen = true
+        fullscreen = true,
     },
     rounding = 0,
-    border_size = 0
+    border_size = 0,
 })
 
 hl.window_rule({
     name = "workspace-steam-big-picture",
     match = {
-        title = "Steam Big Picture Mode"
+        title = "Steam Big Picture Mode",
     },
     fullscreen = true,
-    workspace = 3
+    workspace = 3,
 })
 
 hl.window_rule({
     name = "games",
     match = {
-        initial_class = "^(steam_app_.*|gamescope.*|factorio|Soulstone-Survivors.*|Necesse.*|GeForce NOW|Megabonk.*|TPH.*|pioneergame.*|Terraria.*|com\\.moonlight_stream\\.Moonlight)$"
+        initial_class = "^(steam_app_.*|gamescope.*|factorio|Soulstone-Survivors.*|Necesse.*|GeForce NOW|Megabonk.*|TPH.*|pioneergame.*|Terraria.*|com\\.moonlight_stream\\.Moonlight)$",
     },
-    workspace = 3
+    workspace = 3,
+})
+
+hl.window_rule({
+    name = "games-proton",
+    match = {
+        xdg_tag = "proton-game",
+    },
+    workspace = 3,
 })
 
 -- Plex
 hl.window_rule({
     name = "app-plex",
     match = {
-        title = "Plex"
+        title = "Plex",
     },
     fullscreen = true,
-    workspace = 10
+    workspace = 10,
 })
 
 -- Transparency
 hl.window_rule({
     name = "opacity-code",
     match = {
-        class = "code-url-handler"
+        class = "code-url-handler",
     },
-    opacity = 0.90
+    opacity = 0.90,
 })
 
 hl.window_rule({
     name = "opacity-steam",
     match = {
-        class = "steam"
+        class = "steam",
     },
-    opacity = 0.85
+    opacity = 0.85,
 })
 
 hl.window_rule({
     name = "opacity-spotify",
     match = {
-        class = "Spotify"
+        class = "Spotify",
     },
-    opacity = 0.80
+    opacity = 0.80,
 })
 
 -- Other rules
@@ -144,26 +152,26 @@ hl.window_rule({
     -- Don't idle during full screen
     name = "idle-inhibit-fullscreen",
     match = {
-        fullscreen_state_client = 2
+        fullscreen_state_client = 2,
     },
-    idle_inhibit = "fullscreen"
+    idle_inhibit = "fullscreen",
 })
 
 -- Wlogout
 hl.window_rule({
     name = "app-wlogout",
     match = {
-        class = "Wlogout"
+        class = "Wlogout",
     },
     fullscreen = true,
     float = true,
-    no_anim = true
+    no_anim = true,
 })
 
 hl.layer_rule({
     name = "blur-logout-dialog",
     match = {
-        namespace = "logout_dialog"
+        namespace = "logout_dialog",
     },
-    blur = true
+    blur = true,
 })
