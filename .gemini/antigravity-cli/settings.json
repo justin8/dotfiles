@@ -14,6 +14,19 @@
       "command(git remote -v)",
       "command(git rev-parse)",
       "command(git ls-files)",
+      "command(git add)",
+      "command(yadm restore)",
+      "command(yadm status)",
+      "command(yadm diff)",
+      "command(yadm clone)",
+      "command(yadm mv)",
+      "command(yadm log)",
+      "command(yadm show)",
+      "command(yadm branch)",
+      "command(yadm remote -v)",
+      "command(yadm rev-parse)",
+      "command(yadm ls-files)",
+      "command(yadm add)",
       "command(makepkg)",
       "command(find)",
       "command(pacman -Q)",
@@ -114,7 +127,9 @@
       "command(dmidecode)",
       "command(lscpu)",
       "command(unzip)",
-      "command(sha256sum)"
+      "command(sha256sum)",
+      "command(id)",
+      "command(du)"
     ]
   },
   "trustedWorkspaces": [
