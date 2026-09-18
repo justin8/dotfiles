@@ -214,6 +214,8 @@ install_packages_nix() {
 
   echo "Installing nix packages..."
   nix run home-manager switch
+
+  nix-collect-garbage
 }
 
 generate_home_manager_config() {
