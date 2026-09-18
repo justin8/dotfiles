@@ -59,7 +59,6 @@
   ],
   "networkPreference": "ethernet",
   "acMonitorTimeout": 300,
-  "acSuspendTimeout": 1200,
   "acPostLockMonitorTimeout": 30,
   "screenPreferences": {
     "wallpaper": []
