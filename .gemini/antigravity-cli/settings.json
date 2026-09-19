@@ -129,7 +129,8 @@
       "command(unzip)",
       "command(sha256sum)",
       "command(id)",
-      "command(du)"
+      "command(du)",
+      "command(pstree)"
     ]
   },
   "trustedWorkspaces": [

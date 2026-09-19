@@ -5,7 +5,7 @@
 hl.window_rule({
     name = "floats",
     match = {
-        initial_class = "^(org\\.gnome\\.Nautilus.*|qt5ct|qt6ct|org\\.pulseaudio\\.pavucontrol|blueman-manager|nm-applet|nm-connection-editor|org\\.gnome\\.SystemMonitor|md\\.obsidian\\.Obsidian|org\\.gnome\\.Calculator|com\\.github\\.wwmm\\.easyeffects|Picture-in-Picture|com\\.wayle\\.settings)$",
+        initial_class = "^(org\\.gnome\\.Nautilus.*|qt5ct|qt6ct|org\\.pulseaudio\\.pavucontrol|blueman-manager|nm-applet|nm-connection-editor|org\\.gnome\\.SystemMonitor|md\\.obsidian\\.Obsidian|org\\.gnome\\.Calculator|com\\.github\\.wwmm\\.easyeffects|Picture-in-Picture|com\\.wayle\\.settings|io\\.github\\.Faugus\\.faugus-launcher|New Game/App)$",
     },
     float = true,
 })
@@ -110,6 +110,23 @@ hl.window_rule({
         xdg_tag = "proton-game",
     },
     workspace = 3,
+})
+
+hl.window_rule({
+    name = "workspace-battlenet",
+    match = {
+        class = "battle.net.exe",
+        title = ".*[Bb]attle\\.[Nn]et.*|New Game/App",
+    },
+    workspace = 2,
+})
+
+hl.window_rule({
+    name = "workspace-faugus",
+    match = {
+        title = "io.github.Faugus.faugus-launcher",
+    },
+    workspace = 2,
 })
 
 -- Plex

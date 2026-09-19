@@ -10,7 +10,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("cliphist list | head -n 1 | cliphist decode | wl-copy")
     hl.exec_cmd("MoonDeckBuddy")
     hl.exec_cmd("easyeffects --gapplication-service")
-    hl.exec_cmd("[workspace 1 silent] zen-browser")
+    hl.exec_cmd("[workspace 1 silent] firefox")
     hl.exec_cmd(
         "[workspace 10 silent] flatpak 'run' '--command=/app/bin/chrome' 'com.google.Chrome' '--profile-directory=Default' '--app-id=cinhimbnkkaeohfgghhklpknlkffjgod'"
     )
