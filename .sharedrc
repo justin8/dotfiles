@@ -43,7 +43,7 @@ alias update_internal_certs='mkdir -p $HOME/.local/ssl; security find-certificat
 alias yay='PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin yay'
 alias makepkg='PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin makepkg'
 alias nix-shell=cached-nix-shell
-alias nix-update=(nix-channel --update && nix run home-manager switch && nix-collect-garbage)
+alias nix-update='nix-channel --update && nix run home-manager switch && nix-collect-garbage'
 
 alias kmonday='kinit -f -l 7d -r 30d'
 alias bb='brazil-build'
