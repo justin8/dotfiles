@@ -35,6 +35,7 @@
     # Other packages
     awscli2
     bat
+    cacert
     cached-nix-shell
     coreutils # Things like modern ls
     direnv

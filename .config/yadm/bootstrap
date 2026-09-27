@@ -192,7 +192,11 @@ install_nix() {
       ;;
     'Mac' | 'Ubuntu') sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --yes ;;
     'Arch')
-      pacman -Sy nix
+      sudo systemctl enable --now nix-daemon.service
+      ;;
+    'Fedora')
+      sudo restorecon -R -v /nix
+      sudo systemctl daemon-reload
       sudo systemctl enable --now nix-daemon.service
       ;;
     *)
@@ -305,7 +309,7 @@ configure_gitconfig() {
 
 change_shell() {
   local setshell=0
-  local newshell=zsh
+  local newshell=$(PATH=/bin:/usr/bin which zsh)
   echo
   echo "Setting shell to $newshell..."
   if [[ $RELEASE == 'Mac' ]]; then
@@ -319,9 +323,7 @@ change_shell() {
   fi
 
   if [[ $setshell == 1 ]]; then
-    if which $newshell >/dev/null; then
-      sudo chsh -s "$(which $newshell)" "$USER"
-    fi
+    sudo chsh -s "$newshell" "$USER"
   fi
 }
 

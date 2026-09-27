@@ -135,6 +135,11 @@ fi
 [[ -f $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh ]] && . "$HOME"/.nix-profile/etc/profile.d/hm-session-vars.sh
 export NIX_CONFIG="fallback = true" # Build from source if pre-compiled packages fail
 
+if [ -f /etc/pki/tls/certs/ca-bundle.crt ]; then
+  # Fedora likes to have it's own ca certs path that breaks nix
+  export SSL_CERT_FILE=/etc/pki/tls/certs/ca-bundle.crt
+fi
+
 # Ensure nix path is before homebrew - this doesn't work well out of the box on macos as /etc/zshrc is sourced before this, which results in homebrew that only runs in the user-specific config files to run later and prepend itself
 PATH=$HOME/.nix-profile/bin:$PATH
 
