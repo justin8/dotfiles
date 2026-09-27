@@ -139,7 +139,7 @@ install_packages_fedora() {
 
   echo "Installing required packages..."
   # shellcheck disable=SC2086
-  sudo rpm-ostree install -y --idempotent $PACINST
+  sudo dnf install -y $PACINST
 }
 
 install_packages_arch() {
