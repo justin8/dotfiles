@@ -60,6 +60,8 @@
   "networkPreference": "ethernet",
   "acMonitorTimeout": 300,
   "acPostLockMonitorTimeout": 30,
+  "notificationTimeoutNormal": 10000,
+  "notificationTimeoutCritical": 60000,
   "screenPreferences": {
     "wallpaper": []
   },

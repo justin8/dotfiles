@@ -116,7 +116,7 @@ hl.window_rule({
     name = "workspace-battlenet",
     match = {
         class = "battle.net.exe",
-        title = ".*[Bb]attle\\.[Nn]et.*|New Game/App",
+        title = ".*[Bb]attle\\.[Nn]et.*|New Game/App|Battle.net",
     },
     workspace = 2,
 })

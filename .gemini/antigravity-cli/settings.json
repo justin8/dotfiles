@@ -146,8 +146,10 @@
     "/home/justin/src/apicache",
     "/home/justin/Downloads",
     "/home/justin/.config",
-    "/home/justin/src/arch-packages/volt-gui",
     "/Users/justindray/src/home-cluster",
-    "/Volumes/media/books"
+    "/Volumes/media/books",
+    "/home/justin/src/arch-packages/volt-gui",
+    "/home/justin/src/Amethyst-Mod-Manager",
+    "/home/justin/src/faugus-launcher"
   ]
 }
