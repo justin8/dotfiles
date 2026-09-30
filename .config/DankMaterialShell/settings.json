@@ -58,6 +58,8 @@
     }
   ],
   "networkPreference": "ethernet",
+  "acMonitorTimeout": 300,
+  "acSuspendTimeout": 1800,
   "acPostLockMonitorTimeout": 30,
   "notificationTimeoutNormal": 10000,
   "notificationTimeoutCritical": 60000,

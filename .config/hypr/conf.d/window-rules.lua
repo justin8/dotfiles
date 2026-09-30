@@ -5,7 +5,7 @@
 hl.window_rule({
     name = "floats",
     match = {
-        initial_class = "^(org\\.gnome\\.Nautilus.*|qt5ct|qt6ct|org\\.pulseaudio\\.pavucontrol|blueman-manager|nm-applet|nm-connection-editor|org\\.gnome\\.SystemMonitor|md\\.obsidian\\.Obsidian|org\\.gnome\\.Calculator|com\\.github\\.wwmm\\.easyeffects|Picture-in-Picture|com\\.wayle\\.settings|io\\.github\\.Faugus\\.faugus-launcher|New Game/App)$",
+        initial_class = "^(org\\.gnome\\.Nautilus.*|qt5ct|qt6ct|org\\.pulseaudio\\.pavucontrol|blueman-manager|nm-applet|nm-connection-editor|org\\.gnome\\.SystemMonitor|md\\.obsidian\\.Obsidian|org\\.gnome\\.Calculator|com\\.github\\.wwmm\\.easyeffects|Picture-in-Picture|com\\.wayle\\.settings|io\\.github\\.Faugus\\.faugus-launcher|New Game/App|chrome-nngceckbapebfimnlniiiahkandclblb-Default)$",
     },
     float = true,
 })
@@ -129,13 +129,12 @@ hl.window_rule({
     workspace = 2,
 })
 
--- Plex
 hl.window_rule({
-    name = "app-plex",
+    name = "app-plezy",
     match = {
-        title = "Plex",
+        title = "Plezy",
     },
-    fullscreen = true,
+    --fullscreen = true,
     workspace = 10,
 })
 
