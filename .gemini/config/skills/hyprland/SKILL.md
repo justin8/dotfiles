@@ -109,9 +109,8 @@ When asked to modify Hyprland settings or rules:
    - `hyprctl monitors` — Check active monitor names, resolutions, and scaling.
    - `hyprctl workspaces` — View active workspaces and current monitor assignments.
 3. **Edit Configurations**: Make targeted edits preserving user conventions and formatting.
-4. **Reload & Validate**:
+4. **Validate**: Hyprland automatically detects changes and reloads on file writes, so manual reload commands (`hyprctl reload`) are never needed. Simply verify that there are no config errors:
    ```bash
-   hyprctl reload config-only
    hyprctl configerrors
    ```
    Ensure `hyprctl configerrors` returns empty/no errors.
