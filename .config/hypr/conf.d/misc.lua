@@ -5,6 +5,8 @@ hl.env("XCURSOR_SIZE", 24)
 hl.env("HYPRCURSOR_SIZE", 24)
 hl.env("PROTON_ENABLE_WAYLAND", 1)
 
+hl.bind("SUPER + CTRL + R", hl.dsp.exec_cmd("~/.config/hypr/scripts/monitor-control reset"))
+
 hl.config({
     misc = {
         force_default_wallpaper = 0,
