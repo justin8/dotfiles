@@ -55,5 +55,12 @@
         enable = true;
         nix-direnv.enable = true;
       };
+
+    gh = {
+      enable = true;
+      settings = {
+        git_protocol = "ssh";
+      };
+    };
   };
 }
