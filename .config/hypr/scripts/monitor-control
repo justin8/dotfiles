@@ -9,27 +9,27 @@ HEIGHT=$1
 if [[ $HEIGHT =~ reset ]]; then
   echo "Resetting monitor settings to maximum resolution with secondary screen..."
   DP1_MODE="5120x1440@239.76"
-  DP3_DISABLE=false
+  DP2_DISABLE=false
 elif [[ $HEIGHT -ge 1440 ]]; then
   echo "Setting single-monitor 1440p..."
   DP1_MODE="2560x1440@240"
-  DP3_DISABLE=true
+  DP2_DISABLE=true
 else
   echo "Setting single-monitor 1080p..."
   DP1_MODE="1920x1080@239.76"
-  DP3_DISABLE=true
+  DP2_DISABLE=true
 fi
 
 HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch dpms on
 
-if [ "$DP3_DISABLE" = true ]; then
-  DP3_BLOCK='hl.monitor({
-	output = "DP-3",
+if [ "$DP2_DISABLE" = true ]; then
+  DP2_BLOCK='hl.monitor({
+	output = "DP-2",
 	disabled = true,
 })'
 else
-  DP3_BLOCK='hl.monitor({
-	output = "DP-3",
+  DP2_BLOCK='hl.monitor({
+	output = "DP-2",
 	mode = "1920x1080@60",
 	position = "1750x1440",
 	scale = 1,
@@ -46,7 +46,7 @@ hl.monitor({
 	scale = "auto",
 })
 
-$DP3_BLOCK
+$DP2_BLOCK
 EOF
 
 sleep 2
