@@ -1,8 +1,7 @@
 -- DMS default keybinds (Hyprland 0.55+ Lua)
 
--- Launch kitty hidden initially so Hyprland computes the tiled layout split before
--- mapping the window, preventing kitty from mapping full screen over existing windows on Wayland.
-hl.bind("SUPER + T", hl.dsp.exec_cmd("kitty --start-as=hidden"))
+-- === Application Launchers ===
+hl.bind("SUPER + T", hl.dsp.exec_cmd("kitty"))
 hl.bind("SUPER + space", hl.dsp.exec_cmd("dms ipc call spotlight toggle"))
 hl.bind("ALT + space", hl.dsp.exec_cmd("dms ipc call spotlight-bar toggle"))
 hl.bind("SUPER + V", hl.dsp.exec_cmd("dms ipc call clipboard toggle"))
@@ -32,28 +31,12 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("dms ipc call mpris playPause"), { loc
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("dms ipc call mpris playPause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("dms ipc call mpris previous"), { locked = true })
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("dms ipc call mpris next"), { locked = true })
-hl.bind(
-    "CTRL + XF86AudioRaiseVolume",
-    hl.dsp.exec_cmd("dms ipc call mpris increment 3"),
-    { locked = true, repeating = true }
-)
-hl.bind(
-    "CTRL + XF86AudioLowerVolume",
-    hl.dsp.exec_cmd("dms ipc call mpris decrement 3"),
-    { locked = true, repeating = true }
-)
+hl.bind("CTRL + XF86AudioRaiseVolume", hl.dsp.exec_cmd("dms ipc call mpris increment 3"), { locked = true, repeating = true })
+hl.bind("CTRL + XF86AudioLowerVolume", hl.dsp.exec_cmd("dms ipc call mpris decrement 3"), { locked = true, repeating = true })
 
 -- === Brightness Controls ===
-hl.bind(
-    "XF86MonBrightnessUp",
-    hl.dsp.exec_cmd([[dms ipc call brightness increment 5 ""]]),
-    { locked = true, repeating = true }
-)
-hl.bind(
-    "XF86MonBrightnessDown",
-    hl.dsp.exec_cmd([[dms ipc call brightness decrement 5 ""]]),
-    { locked = true, repeating = true }
-)
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd([[dms ipc call brightness increment 5 ""]]), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd([[dms ipc call brightness decrement 5 ""]]), { locked = true, repeating = true })
 
 -- === Window Management ===
 hl.bind("SUPER + Q", hl.dsp.window.close())
@@ -116,7 +99,7 @@ hl.bind("SUPER + CTRL + U", hl.dsp.window.move({ workspace = "e+1" }))
 hl.bind("SUPER + CTRL + I", hl.dsp.window.move({ workspace = "e-1" }))
 
 -- === Workspace Management ===
---hl.bind("CTRL + SHIFT + R", hl.dsp.exec_cmd("dms ipc call workspace-rename open"))
+hl.bind("CTRL + SHIFT + R", hl.dsp.exec_cmd("dms ipc call workspace-rename open"))
 
 -- === Move Workspaces ===
 hl.bind("SUPER + SHIFT + Page_Down", hl.dsp.window.move({ workspace = "e+1" }))
@@ -167,16 +150,8 @@ hl.bind("SUPER + CTRL + F", hl.dsp.window.fullscreen({ mode = "maximized", actio
 hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true, description = "Move window" })
 hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true, description = "Resize window" })
 
-hl.bind(
-    "SUPER + code:20",
-    hl.dsp.window.resize({ x = -100, y = 0, relative = true }),
-    { description = "Expand window left" }
-)
-hl.bind(
-    "SUPER + code:21",
-    hl.dsp.window.resize({ x = 100, y = 0, relative = true }),
-    { description = "Shrink window left" }
-)
+hl.bind("SUPER + code:20", hl.dsp.window.resize({ x = -100, y = 0, relative = true }), { description = "Expand window left" })
+hl.bind("SUPER + code:21", hl.dsp.window.resize({ x = 100, y = 0, relative = true }), { description = "Shrink window left" })
 
 -- === Manual Sizing ===
 hl.bind("SUPER + minus", hl.dsp.window.resize({ x = -100, y = 0, relative = true }), { repeating = true })
