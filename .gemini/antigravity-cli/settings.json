@@ -130,7 +130,14 @@
       "command(sha256sum)",
       "command(id)",
       "command(du)",
-      "command(pstree)"
+      "command(pstree)",
+      "command(zstd)",
+      "command(lsblk)",
+      "command(findmnt)",
+      "command(getent)",
+      "command(tr)",
+      "command(nmcli)",
+      "read_url(wiki.archlinux.org)"
     ]
   },
   "trustedWorkspaces": [

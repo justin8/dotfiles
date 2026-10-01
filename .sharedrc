@@ -126,6 +126,7 @@ export LS_COLORS=$LS_COLORS:'ow=01;34:tw=01;34:' # Linux
 export LSCOLORS="exfxcxdxbxexexabagacad"         # Mac/BSD
 
 # Nix config
+unset __ETC_PROFILE_NIX_SOURCED
 if [[ -f /etc/profile.d/nix-daemon.sh ]]; then
   . /etc/profile.d/nix-daemon.sh
 elif [[ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then

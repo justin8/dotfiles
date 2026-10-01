@@ -206,6 +206,19 @@ install_nix() {
     esac
   fi
   echo "Nix is installed"
+
+  # Prevent nix from polluting GUI login sessions / non-interactive logins
+  if [[ -d /etc/profile.d ]] && [[ ! -f /etc/profile.d/00-nix-skip.sh ]]; then
+    echo "Installing /etc/profile.d/00-nix-skip.sh to keep Nix in CLI shells only..."
+    sudo tee /etc/profile.d/00-nix-skip.sh >/dev/null <<'EOF'
+# Skip nix-daemon in non-interactive / GUI session logins
+case "$-" in
+  *i*) ;;
+  *) export __ETC_PROFILE_NIX_SOURCED=1 ;;
+esac
+EOF
+    sudo chmod 644 /etc/profile.d/00-nix-skip.sh
+  fi
 }
 
 install_packages_nix() {
