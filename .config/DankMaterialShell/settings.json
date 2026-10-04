@@ -91,7 +91,7 @@
         "memUsage",
         "notificationButton",
         {
-          "id": "dankscale",
+          "id": "idleInhibitor",
           "enabled": true
         },
         "controlCenterButton"

@@ -137,7 +137,12 @@
       "command(getent)",
       "command(tr)",
       "command(nmcli)",
-      "read_url(wiki.archlinux.org)"
+      "read_url(wiki.archlinux.org)",
+      "command(yadm)",
+      "command(sqlite3)",
+      "command(flatpak)",
+      "command(md5sum)",
+      "command(~/.gemini/config/skills/hyprland/scripts/lookup.sh)"
     ]
   },
   "trustedWorkspaces": [
@@ -159,6 +164,7 @@
     "/home/justin/src/Amethyst-Mod-Manager",
     "/home/justin/src/faugus-launcher",
     "/Users/justindray",
-    "/Users/justindray/src/dictate"
+    "/Users/justindray/src/dictate",
+    "/home/justin/src/home-cluster/talos"
   ]
 }
