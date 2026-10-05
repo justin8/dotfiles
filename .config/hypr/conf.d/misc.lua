@@ -11,6 +11,13 @@ hl.config({
     misc = {
         force_default_wallpaper = 0,
         disable_hyprland_logo = true,
+        vrr = 1,
+    },
+    render = {
+        direct_scanout = 1,
+    },
+    cursor = {
+        no_break_fs_vrr = 1,
     },
 })
 
