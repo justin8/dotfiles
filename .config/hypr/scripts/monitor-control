@@ -20,7 +20,7 @@ else
   DP2_DISABLE=true
 fi
 
-HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch 'hl.dsp.dpms("on")'
+HYPRLAND_INSTANCE_SIGNATURE=$(hyprctl instances -j | jq -r '.[].instance') hyprctl dispatch 'hl.dsp.dpms({ action = "enable" })'
 
 if [ "$DP2_DISABLE" = true ]; then
   DP2_BLOCK='hl.monitor({
