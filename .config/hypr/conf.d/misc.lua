@@ -15,6 +15,10 @@ hl.config({
     },
     render = {
         direct_scanout = 1,
+        cm_auto_hdr = 1,
+    },
+    quirks = {
+        prefer_hdr = 2,
     },
     cursor = {
         no_break_fs_vrr = 1,

@@ -45,6 +45,8 @@ hl.monitor({
 	position = "0x0",
 	scale = "auto",
 	vrr = 1,
+	bitdepth = 10,
+	supports_hdr = 1,
 })
 
 $DP2_BLOCK
