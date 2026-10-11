@@ -3,9 +3,17 @@
 -- ## WINDOWS AND WORKSPACES ###
 -- #############################
 hl.window_rule({
-    name = "floats",
+    name = "floats-class",
     match = {
         initial_class = "^(org\\.gnome\\.Nautilus.*|qt5ct|qt6ct|org\\.pulseaudio\\.pavucontrol|blueman-manager|nm-applet|nm-connection-editor|org\\.gnome\\.SystemMonitor|md\\.obsidian\\.Obsidian|org\\.gnome\\.Calculator|com\\.github\\.wwmm\\.easyeffects|Picture-in-Picture|com\\.wayle\\.settings|io\\.github\\.Faugus\\.faugus-launcher|New Game/App|chrome-nngceckbapebfimnlniiiahkandclblb-Default|xdg-desktop-portal-gtk|chrome-nfaecocciihflaoagabpadoaiidbnfek-Default)$",
+    },
+    float = true,
+})
+
+hl.window_rule({
+    name = "floats-title",
+    match = {
+        initial_title = "^(goverlay)$",
     },
     float = true,
 })

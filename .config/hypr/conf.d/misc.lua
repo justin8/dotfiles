@@ -14,7 +14,7 @@ hl.config({
         vrr = 1,
     },
     render = {
-        direct_scanout = 1,
+        --direct_scanout = 1,
         cm_auto_hdr = 1,
     },
     quirks = {
