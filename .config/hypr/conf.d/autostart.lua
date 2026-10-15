@@ -8,13 +8,13 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("~/.config/hypr/scripts/wallpaper-rotator &> ~/.swaybg.log")
     hl.exec_cmd("wl-paste --watch cliphist store")
     hl.exec_cmd("cliphist list | head -n 1 | cliphist decode | wl-copy")
-    -- hl.exec_cmd("MoonDeckBuddy")
     -- hl.exec_cmd("easyeffects --gapplication-service")
-    hl.exec_cmd("[workspace 1 silent] firefox")
+    hl.exec_cmd("[workspace 1 silent] com.google.Chrome --hide-crash-restore-bubble --restore-last-session")
     hl.exec_cmd("[workspace 2 silent] env PATH=/usr/bin:/bin:$PATH steam -nochatui -nofriendsui -silent")
     hl.exec_cmd("[workspace special:magic silent] obsidian")
+    -- hl.exec_cmd("[workspace special:magic silent] t3code")
     hl.exec_cmd(
-        "[workspace special:magic silent] flatpak 'run' '--command=/app/bin/chrome' 'com.google.Chrome' '--profile-directory=Default' '--app-id=nfaecocciihflaoagabpadoaiidbnfek'"
+        "flatpak 'run' '--command=/app/bin/chrome' 'com.google.Chrome' '--profile-directory=Default' '--app-id=nfaecocciihflaoagabpadoaiidbnfek'"
     )
     hl.exec_cmd("xrandr --output DP-1 --primary")
     hl.exec_cmd("dbus-update-activation-environment --systemd --all")
