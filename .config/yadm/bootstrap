@@ -173,6 +173,9 @@ install_packages_mac() {
     brew doctor
   fi
 
+  echo "Disabling brew analytics..."
+  brew analytics off
+
   echo "Installing brew packages..."
   brew bundle --global
 }

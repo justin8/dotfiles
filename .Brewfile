@@ -2,9 +2,6 @@
 # specify a directory to install
 cask_args appdir: '/Applications'
 
-# taps
-tap 'aws/tap'
-
 # Enable app store installations
 brew "mas"
 
