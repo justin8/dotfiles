@@ -51,6 +51,7 @@
     jujutsu
     jq
     libmediainfo
+    mdcat
     mediainfo
     mise
     mtr
