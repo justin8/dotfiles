@@ -116,11 +116,6 @@ export HOMEBREW_NO_INSTALL_CLEANUP=1
 # Don't use goproxy, doesn't work on certain networks
 export GOPROXY=direct
 
-# Claude code config
-export CLAUDE_CODE_USE_BEDROCK=1
-export AWS_REGION=us-west-2
-export ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION=us-west-2
-
 # Fix LS colors to not have unreadable backgrounds with world-execute permissions
 export LS_COLORS=$LS_COLORS:'ow=01;34:tw=01;34:' # Linux
 export LSCOLORS="exfxcxdxbxexexabagacad"         # Mac/BSD
