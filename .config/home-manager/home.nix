@@ -55,14 +55,5 @@
         enable = true;
         nix-direnv.enable = true;
       };
-
-    gh = {
-      enable = true;
-      settings = {
-        git_protocol = "ssh";
-      };
-    };
   };
-
-  xdg.configFile."gh/config.yml".force = true;
 }

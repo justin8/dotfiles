@@ -37,10 +37,12 @@
     bat
     cacert
     cached-nix-shell
+    cloc
     coreutils # Things like modern ls
     direnv
     fzf
     gawk
+    gh
     git
     git-lfs
     gnugrep
@@ -53,6 +55,7 @@
     libmediainfo
     mdcat
     mediainfo
+    mermaid-cli
     mise
     mtr
     ncdu

@@ -224,6 +224,3 @@ fi
 # zprof
 
 if [ -e /home/jdray/.nix-profile/etc/profile.d/nix.sh ]; then . /home/jdray/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-
-# Added by AIM CLI
-export PATH="$HOME/.aim/mcp-servers:$PATH"

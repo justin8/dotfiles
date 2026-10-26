@@ -23,6 +23,7 @@ cask "zen"
 
 # General packages
 brew "awscurl"
+brew "awscli"
 brew "bash"
 brew "zsh"
 brew "zsh-completions"
