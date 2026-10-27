@@ -4,6 +4,7 @@ cask_args appdir: '/Applications'
 
 # Enable app store installations
 brew "mas"
+tap "abue-ammar/tinycast"
 
 # Casks
 cask "bitwarden"
@@ -11,13 +12,12 @@ cask "easy-move+resize"
 cask "firefox"
 cask "google-drive"
 cask "iterm2"
-cask "maccy"
 cask "obsidian"
 cask "omnifocus"
-cask "raycast"
 cask "rectangle"
 cask "sublime-text"
 cask "syncthing-app"
+cask "tinycast"
 cask "visual-studio-code"
 cask "zen"
 
