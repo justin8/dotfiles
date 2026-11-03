@@ -1,7 +1,7 @@
 # .bashrc
 
-# Kiro CLI pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/bashrc.pre.bash" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/bashrc.pre.bash"
+# Added by Kiro CLI
+case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) export PATH="${PATH:+$PATH:}$HOME/.local/bin" ;; esac
 
 # Source global definitions
 if [[ -f /etc/bashrc ]]; then
@@ -28,5 +28,17 @@ eval "$(direnv hook bash)"
 [[ -e $HOME/.brazil_completion/bash_completion ]] && source $HOME/.brazil_completion/bash_completion
 . "$HOME/.cargo/env"
 
+<<<<<<< Updated upstream
 # Kiro CLI post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/bashrc.post.bash" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/bashrc.post.bash"
+||||||| Stash base
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/bashrc.post.bash" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/bashrc.post.bash"
+
+# Added by AIM CLI
+export PATH="$HOME/.aim/mcp-servers:$PATH"
+=======
+
+# Added by AIM CLI
+export PATH="$HOME/.aim/mcp-servers:$PATH"
+>>>>>>> Stashed changes

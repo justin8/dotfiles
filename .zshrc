@@ -1,8 +1,8 @@
 # Uncomment to enable profiling to debug startup time issues. Make sure to uncomment 'zprof' at the end of the file too
 # zmodload zsh/zprof
 
-# Kiro CLI pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
+# Added by Kiro CLI
+case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) export PATH="${PATH:+$PATH:}$HOME/.local/bin" ;; esac
 
 source ~/.sharedrc
 

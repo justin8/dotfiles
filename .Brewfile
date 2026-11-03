@@ -7,7 +7,6 @@ brew "mas"
 tap "abue-ammar/tinycast"
 
 # Casks
-cask "bitwarden"
 cask "easy-move+resize"
 cask "firefox"
 cask "google-drive"
@@ -19,7 +18,6 @@ cask "sublime-text"
 cask "syncthing-app"
 cask "tinycast"
 cask "visual-studio-code"
-cask "zen"
 
 # General packages
 brew "awscurl"
