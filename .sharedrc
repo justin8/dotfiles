@@ -30,8 +30,8 @@ alias vim=nvim
 if $(which batcat &>/dev/null); then
   alias bat=batcat
 fi
-alias cat=bat
-alias less=bat
+alias cat=bat || cat
+alias less=bat || less
 alias rsync='rsync --info=progress2'
 alias grep='grep --color=auto'
 alias ls='ls --color=auto'
